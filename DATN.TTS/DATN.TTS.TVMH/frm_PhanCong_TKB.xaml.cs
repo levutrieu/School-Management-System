@@ -845,25 +845,26 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                       temp + "\n"
+                                temp + "\n"
 
-                                       + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                       + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                       + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
 
-                                       + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                       //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -875,25 +876,26 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                       temp + "\n"
+                                temp + "\n"
 
-                                       + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                       + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                       + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
 
-                                       + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                       //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -905,25 +907,27 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                       temp + "\n"
+                                temp + "\n"
 
-                                       + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                       + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                       + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
 
-                                       + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
+
+                                       //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -935,25 +939,27 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                       temp + "\n"
+                                temp + "\n"
 
-                                       + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                       + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                       + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
 
-                                       + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
+
+                                       //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -965,25 +971,27 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                       temp + "\n"
+                                temp + "\n"
 
-                                       + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                       + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                       + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
 
-                                       + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
+
+                                       //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -995,25 +1003,27 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                        temp + "\n"
+                                temp + "\n"
 
-                                        + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                        + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                        + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
 
-                                        + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
+
+                                        //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -1025,25 +1035,27 @@ namespace DATN.TTS.TVMH
                             int TietBD = int.Parse(r["TIET_BD"].ToString());
                             int TietKT = int.Parse(r["TIET_KT"].ToString());
 
-                            DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
-                            string ngay_bd = x.ToShortDateString();
+                            //DateTime x = Convert.ToDateTime(r["NGAY_BD"].ToString());
+                            //string ngay_bd = x.ToShortDateString();
 
-                            DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
-                            string ngay_kt = x1.ToShortDateString();
+                            //DateTime x1 = Convert.ToDateTime(r["NGAY_KT"].ToString());
+                            //string ngay_kt = x1.ToShortDateString();
 
                             string temp = r["TEN_LOP_HOCPHAN"].ToString();
 
                             string str =
 
-                                        temp + "\n"
+                                temp + "\n"
 
-                                        + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
 
-                                        + "Phòng:" +" "+r["TEN_PHONG"].ToString() + "\n" 
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
 
-                                        + r["TEN_GIANGVIEN"].ToString() + "\n"
+                                + r["TEN_GIANGVIEN"].ToString() + "\n"
 
-                                        + "(" + ngay_bd + "-" + ngay_kt + ")";
+                                + "Tuần" + " " + r["TUAN_BD"] + " Đến" + " " + r["TUAN_KT"].ToString();
+
+                                        //+ "(" + ngay_bd + "-" + ngay_kt + ")";
 
                             //string name = r["ID_LOP_HOCPHAN_CTIET"].ToString();
 
@@ -1064,7 +1076,11 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                
+                if (string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].ToString()))
+                {
+                    CTMessagebox.Show("Chưa chọn lớp học phần để xếp lịch", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                    return;
+                }
                 //Mouse.OverrideCursor = Cursors.Wait;
                 XepTKB.BeginUpdate();
                 iDataXepTKB.Clear();
@@ -1158,6 +1174,11 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                if (string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].ToString()))
+                {
+                    CTMessagebox.Show("Chưa chọn lớp học phần để xếp lịch", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                    return;
+                }
                 //Mouse.OverrideCursor = Cursors.Wait;
                 iDataXepTKB.Clear();
                 XepTKB.BeginUpdate();
@@ -1217,6 +1238,11 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                if (string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].ToString()))
+                {
+                    CTMessagebox.Show("Chưa chọn lớp học phần để xếp lịch", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                    return;
+                }
                 Mouse.OverrideCursor = Cursors.Wait;
                 iDataXepTKB.Clear();
                 XepTKB.BeginUpdate();
