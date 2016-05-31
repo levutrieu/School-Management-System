@@ -100,8 +100,6 @@ namespace DATN.TTS.BUS
                               hp.MA_LOP_HOCPHAN,
                               hp.TEN_LOP_HOCPHAN,
                               hp.SOTIET,
-                              hp.NGAY_BD,
-                              hp.NGAY_KT,
                               hp.TUAN_BD,
                               hp.TUAN_KT,
                               hp.SO_TUAN,
@@ -164,8 +162,8 @@ namespace DATN.TTS.BUS
                         hpct.ID_PHONG,
                         p.TEN_PHONG,
                         h.TEN_LOP_HOCPHAN,
-                        h.NGAY_BD,
-                        h.NGAY_KT,
+                        h.TUAN_BD,
+                        h.TUAN_KT,
                         gv.TEN_GIANGVIEN
                     };
                 dt = TableUtil.LinqToDataTable(lhpct);
