@@ -1,0 +1,44 @@
+﻿<Window x:Class="DATN.TTS.TVMH.frm_DoiMatKhau"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        Title="Đổi mật khẩu" Height="300" Width="310"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.3*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Tài khoản" Style="{StaticResource TextBlockStyle}" />
+        <dxe:TextEdit Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource TextEditStyle}" Text="{Binding account}" Name="AccountTextEdit" IsReadOnly="True"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Mật khẩu" Style="{StaticResource TextBlockStyle}" />
+        <dxe:PasswordBoxEdit Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Mật khẩu mới" Style="{StaticResource TextBlockStyle}" />
+        <dxe:PasswordBoxEdit Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Xác nhận" Style="{StaticResource TextBlockStyle}" />
+        <dxe:PasswordBoxEdit Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+
+        <Button Grid.Row="8" Grid.Column="1" Content="Đổi mật khẩu" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnsave"/>
+        <Button Grid.Row="8" Grid.Column="2" Content="Hủy" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnCancel" />
+
+    </Grid>
+</Window>

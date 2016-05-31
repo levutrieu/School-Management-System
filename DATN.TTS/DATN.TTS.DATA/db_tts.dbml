@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="KhoaLuanTotNghiep" Class="db_ttsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=MINHTHONG;Initial Catalog=KhoaLuanTotNghiep;User ID=sa" SettingsObjectName="DATN.TTS.DATA.Properties.Settings" SettingsPropertyName="KhoaLuanTotNghiepConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_BACDAOTAO" Member="tbl_BACDAOTAOs">
+    <Type Name="tbl_BACDAOTAO">
+      <Column Name="ID_BAC_DAOTAO" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_BAC_DAOTAO" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_BAC_DAOTAO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_HEDAOTAO" Member="tbl_HEDAOTAOs">
+    <Type Name="tbl_HEDAOTAO">
+      <Column Name="ID_HE_DAOTAO" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_BAC_DAOTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_LOAIHINH_DTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_HE_DAOTAO" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_HE_DAOTAO" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SO_NAMHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_KHOAHOC" Member="tbl_KHOAHOCs">
+    <Type Name="tbl_KHOAHOC">
+      <Column Name="ID_KHOAHOC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_HE_DAOTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_KHOAHOC" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_KHOAHOC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NAM_BD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NAM_KT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_HKY_1NAM" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_HKY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KYHIEU" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_NDung_NhomNDungs" Member="tbl_NDung_NhomNDungs">
+    <Type Name="tbl_NDung_NhomNDung">
+      <Column Name="UserName" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaNhomNguoiDung" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_NguoiDung" Member="tbl_NguoiDungs">
+    <Type Name="tbl_NguoiDung">
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HoatDong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_NhanVien" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_NhanSu" Member="tbl_NhanSus">
+    <Type Name="tbl_NhanSu">
+      <Column Name="ID_NHANVIEN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_NHANVIEN" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HOTEN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GIOI_TINH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NGAY_SINH" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DIACHI" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CMND" Type="System.String" DbType="Char(15)" CanBeNull="true" />
+      <Column Name="NGAYCAP" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NOICAP" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DIENTHOAI" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NAM_LAMVIEC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HE_SOLUONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USRER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CHOOHIENTAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LUONGCB" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_NhomNguoiDung" Member="tbl_NhomNguoiDungs">
+    <Type Name="tbl_NhomNguoiDung">
+      <Column Name="MaNhomNguoiDung" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenNhomNguoiDUng" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_KHOA" Member="tbl_KHOAs">
+    <Type Name="tbl_KHOA">
+      <Column Name="ID_KHOA" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_KHOA" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_KHOA" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DIENTHOAI" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_LOAIHINH_DTAO" Member="tbl_LOAIHINH_DTAOs">
+    <Type Name="tbl_LOAIHINH_DTAO">
+      <Column Name="ID_LOAIHINH_DTAO" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_LOAIHINH_DTAO" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_LOAIHINH_DTAO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_HOCKY" Member="tbl_HOCKies">
+    <Type Name="tbl_HOCKY">
+      <Column Name="ID_HOCKY" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_HOCKY" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_HOCKY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_TIETHOC" Member="tbl_TIETHOCs">
+    <Type Name="tbl_TIETHOC">
+      <Column Name="ID_TIETHOC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TEN_TIETHOC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GIO_BD" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="GIO_KT" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CA" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_PHONGHOC" Member="tbl_PHONGHOCs">
+    <Type Name="tbl_PHONGHOC">
+      <Column Name="ID_PHONG" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_PHONG" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_PHONG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SUCCHUA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LOAIPHONG" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="IS_MAYCHIEU" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="IS_MAYTINH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DAY" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TANG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TINHTRANG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_CHUCVU" Member="tbl_CHUCVUs">
+    <Type Name="tbl_CHUCVU">
+      <Column Name="ID_CHUCVU" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_CHUCVU" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_CHUCVU" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_LOAI_MONHOC" Member="tbl_LOAI_MONHOCs">
+    <Type Name="tbl_LOAI_MONHOC">
+      <Column Name="ID_LOAI_MONHOC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_LOAI_MONHOC" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_LOAI_MONHOC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_NGANH" Member="tbl_NGANHs">
+    <Type Name="tbl_NGANH">
+      <Column Name="ID_NGANH" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_KHOA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HE_DAOTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_NGANH" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_NGANH" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="KYHIEU" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CAP_NGANH" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_LOPHOC" Member="tbl_LOPHOCs">
+    <Type Name="tbl_LOPHOC">
+      <Column Name="ID_LOPHOC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_GIANGVIEN_CN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_LOP" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_LOP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SOLUONG_SV" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NGAY_MOLOP" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NGAY_KETTHUC" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ID_KHOAHOC_NGANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_KHOAHOC_NGANH" Member="tbl_KHOAHOC_NGANHs">
+    <Type Name="tbl_KHOAHOC_NGANH">
+      <Column Name="ID_KHOAHOC_NGANH" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_KHOAHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_NGANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_HKY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_SINHVIEN_DK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_LOP" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HOCKY_TRONGKHOA" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_BOMON" Member="tbl_BOMONs">
+    <Type Name="tbl_BOMON">
+      <Column Name="ID_BOMON" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MA_BM" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TEN_BM" Type="System.String" DbType="VarChar(999)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ISDELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_MONHOC_TQ" Member="tbl_MONHOC_TQs">
+    <Type Name="tbl_MONHOC_TQ">
+      <Column Name="ID_MONHOC_TIENQUYET" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_MONHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_MONHOC_TQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ISDELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbL_SINHVIEN" Member="tbL_SINHVIENs">
+    <Type Name="tbL_SINHVIEN">
+      <Column Name="ID_SINHVIEN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_LOPHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MA_SINHVIEN" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="PASSWORD" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TEN_SINHVIEN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PATH_ANH" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GIOITINH" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DIENTHOAI" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="DIENTHOAI_GD" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="DIACHI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CMND" Type="System.String" DbType="Char(15)" CanBeNull="true" />
+      <Column Name="NGAYCAP" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NOICAP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NGAYSINH" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NOISINH" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="THONGTIN_NGOAITRU" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IS_DOANVIEN" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NGAY_VAODOAN" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NGAY_VAOTRUONG" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NGAY_RATRUONG" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_GIANGVIEN" Member="tbl_GIANGVIENs">
+    <Type Name="tbl_GIANGVIEN">
+      <Column Name="ID_GIANGVIEN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HE_SOLUONG" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ID_CHUCVU" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_GIANGVIEN" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_GIANGVIEN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PATH_ANH" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NGAYSINH" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="GIOITINH" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DIACHI" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DIENTHOAI" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CMND" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="NGAYCAP" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NOICAP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NOISINH" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="NAM_LAMVIEC" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NAM_KETTHUC" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ID_KHOA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_KHOAHOC_NGANH_CTIET" Member="tbl_KHOAHOC_NGANH_CTIETs">
+    <Type Name="tbl_KHOAHOC_NGANH_CTIET">
+      <Column Name="ID_KHOAHOC_NGANH_CTIET" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_MONHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HE_DAOTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_KHOAHOC_NGANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_TC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HOCKY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOTIET_LT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOTIET_TH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_MONHOC_TRUOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_MONHOC_SONGHANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MONHOC_TIENQUYET" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_MONHOC" Member="tbl_MONHOCs">
+    <Type Name="tbl_MONHOC">
+      <Column Name="ID_MONHOC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_LOAI_MONHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_BOMON" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_MONHOC" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="TEN_MONHOC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="KY_HIEU" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="SO_TC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_THUHOCPHI" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_THUCHANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_LYTHUYET" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_TINHDIEM" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANGTHAI" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ISBATBUOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_MONHOC_SONGHANH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GHICHU" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_ManHinh" Member="tbl_ManHinhs">
+    <Type Name="tbl_ManHinh">
+      <Column Name="MaManHinh" Type="System.String" DbType="Char(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenManHinh" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_PhanQuyen" Member="tbl_PhanQuyens">
+    <Type Name="tbl_PhanQuyen">
+      <Column Name="MaNhomNguoiDung" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaManHinh" Type="System.String" DbType="Char(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CoQuyen" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_LOP_HOCPHAN" Member="tbl_LOP_HOCPHANs">
+    <Type Name="tbl_LOP_HOCPHAN">
+      <Column Name="ID_LOPHOCPHAN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_KHOAHOC_NGANH_CTIET" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HOCKY_NAMHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_HEDAOTAO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_MONHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_LOPHOC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_GIANGVIEN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MA_LOP_HOCPHAN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TEN_LOP_HOCPHAN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SOTIET" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NGAY_BD" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NGAY_KT" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TUAN_BD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TUAN_KT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_TUAN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOLUONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_LOP_HOCPHAN_CT" Member="tbl_LOP_HOCPHAN_CTs">
+    <Type Name="tbl_LOP_HOCPHAN_CT">
+      <Column Name="ID_LOP_HOCPHAN_CTIET" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID_LOPHOCPHAN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IS_DELETE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="THU" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TIET_BD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TIET_KT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SO_TIET" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID_PHONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="UPDATE_USER" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

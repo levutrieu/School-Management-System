@@ -1,0 +1,386 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
+    xmlns:dxnt="http://schemas.devexpress.com/winfx/2008/xaml/navbar/themekeys"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxcn="clr-namespace:DevExpress.Xpf.Core.Native;assembly=DevExpress.Xpf.Core.v15.2" >
+    <dx:MultiplyConverter x:Key="MultiplyConverter" />
+    <ControlTemplate x:Key="{dxnt:ExplorerBarThemeKey ResourceKey=ExpandButtonTemplate}" TargetType="{x:Type dxn:ExplorerBarExpandButton}">
+        <Border Background="Transparent" Margin="0,4,0,4">
+            <Path x:Name="path" Stretch="Fill" Width="17" Height="17" Fill="White" Margin="0,0,4,0" RenderTransformOrigin="0.5,0.5"
+              Data="F1 M 538.917,386.667C 534.222,386.667 530.417,390.472 530.417,395.167C 530.417,399.861 534.222,403.667 538.917,403.667C 543.611,403.667 547.417,399.861 547.417,395.167C 547.417,390.472 543.611,386.667 538.917,386.667 Z M 543.977,395.227L 539.977,399.227C 539.391,399.813 538.442,399.813 537.856,399.227L 533.856,395.227C 533.27,394.641 533.27,393.692 533.856,393.106C 534.442,392.52 535.391,392.52 535.977,393.106L 538.917,396.046L 541.856,393.106C 542.442,392.521 543.391,392.52 543.977,393.106C 544.563,393.692 544.563,394.642 543.977,395.227 Z ">
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="90" />
+                        <RotateTransform Angle="{Binding Path=(dxn:NavBarAnimationOptions.AnimationProgress), Converter={StaticResource MultiplyConverter}, ConverterParameter=-90}" />
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
+        </Border>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=GroupHeaderTemplate}" TargetType="dxn:NavBarGroupHeader">
+        <Border BorderBrush="Black" BorderThickness="1">
+            <Grid Background="#74aee5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <dxn:ImageAndTextContentPresenter ImageFallbackSize="24" x:Name="groupHeaderLabel" Style="{DynamicResource {dxnt:NavBarGroupControlThemeKey ResourceKey=HeaderStyle}}" Grid.Column="0" Content="{Binding}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                <dxn:ExplorerBarExpandButton Margin="0,0,0,0" x:Name="explorerBarExpandButton" VerticalAlignment="Stretch" Grid.Column="1" dxcn:RoutedCommandHelper.CommandParameter="{Binding}" />
+                <dxn:NavPaneExpandButton Margin="0,0,0,0" x:Name="navPaneExpandButton" VerticalAlignment="Stretch" Grid.Column="1" Visibility="Collapsed" dxcn:RoutedCommandHelper.CommandParameter="{Binding}" />
+            </Grid>
+        </Border>
+    </ControlTemplate>
+    <!--Thong tin Item header menu-->
+    <DataTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=HeaderTemplate}">
+        <DockPanel Margin="2">
+            <Image x:Name="image" Source="{Binding Path=ImageSource}" DockPanel.Dock="Left" Height="20" Width="20"/>
+            <TextBlock Text="{Binding Path=Header}" Foreground="White" VerticalAlignment="Center" Margin="4,0,0,0"/>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=ImageSource}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="image"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <!--Thong tin Item menu-->
+    <DataTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ItemContentTemplate}">
+        <dxn:ImageAndTextDecorator x:Name="itemContent" DockingLeftImageMargin="3,3,0,3" Height="30"
+                                   DockingLeftContentMargin="3" ImageFallbackSize="21" DockingRightImageMargin="0,3,4,3" 
+                                   DockingRightContentMargin="4,2,4,4" DockingBottomImageMargin="4,3,4,4" DockingBottomContentMargin="4,2,4,4" 
+                                   DockingTopImageMargin="4,3,4,4" DockingTopContentMargin="4,2,4,4" DisplayModeImageMargin="3" DisplayModeTextMargin="3" 
+                                   ImageDocking="{Binding Path=(dxn:NavBarViewBase.LayoutSettings).ImageDocking, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   ImageSource="{Binding Path=ImageSource}" ImageStyle="{DynamicResource {dxnt:NavBarItemControlThemeKey ResourceKey=ItemImageStyle}}" 
+                                   ContentSource="{Binding Path=Content}" ContentStyle="{DynamicResource {dxnt:NavBarItemControlThemeKey ResourceKey=ItemTextStyle}}" />
+    </DataTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ItemTemplate}" TargetType="{x:Type dxn:NavBarItemControl}">
+        <Grid x:Name="grid" Background="Transparent" Margin="1,0,1,1">
+            <ContentPresenter x:Name="item"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="LightGray" TargetName="grid"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightGray" TargetName="grid"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                <Setter Property="Background" Value="LightGray" TargetName="grid"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=IsEnabled}" Value="false">
+                <Setter Property="Opacity" Value="0.5"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=SmoothScrollTemplate}" TargetType="ContentControl">
+        <dxn:GroupScrollableContentControl x:Name="scrollableContent" Orientation="{Binding Path=NavBar.View.ItemsPanelOrientation}" dx:FocusHelper2.Focusable="False">
+            <dxn:GroupScrollableContentControl.AllowScrolling>
+                <Binding Path="NavBar.View.NavBarViewKind">
+                    <Binding.Converter>
+                        <dxn:NavBarViewKindToBooleanConverter/>
+                    </Binding.Converter>
+                </Binding>
+            </dxn:GroupScrollableContentControl.AllowScrolling>
+            <ContentPresenter/>
+        </dxn:GroupScrollableContentControl>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=GroupItemsContainerTemplate}" TargetType="dxn:GroupItemsContainer">
+        <Grid>
+            <dx:LayoutTransformPanel Orientation="{Binding Path=NavBar.View.Orientation}">
+                <Border x:Name="border" Background="White" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="1,0,1,0">
+                    <Border HorizontalAlignment="Stretch" x:Name="border2" Width="Auto" Height="Auto" Background="#FFFFFFFF"/>
+                </Border>
+            </dx:LayoutTransformPanel>
+            <dxn:ScrollControl x:Name="scrollControl" ScrollButtonsControlTemplate="{DynamicResource {dxnt:CommonElementsThemeKey ResourceKey=SmoothScrollTemplate}}"
+                ScrollBarControlTemplate="{DynamicResource {dxnt:CommonElementsThemeKey ResourceKey=NormalScrollTemplate}}" dx:FocusHelper2.Focusable="False">
+                <dx:LayoutTransformPanel Orientation="{Binding Path=NavBar.View.Orientation}">
+                    <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="2,1,2,0" />
+                </dx:LayoutTransformPanel>
+            </dxn:ScrollControl>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ScrollUpButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="1">
+            <Path Stretch="Fill" Fill="Black" Data="F1 M 1257,761L 1258,761L 1262,766L 1253,766L 1257,761 Z " Width="9" Height="5" Margin="0,2,0,2" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                <Setter Property="Fill" Value="#FFD4DFF0" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ScrollDownButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="1">
+            <Path Stretch="Fill" Fill="Black" Data="F1 M 1263,769L 1262,769L 1258,764L 1267,764L 1263,769 Z " Margin="0,2,0,2" Width="9" Height="5" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                <Setter Property="Fill" Value="#FFD4DFF0" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ScrollUpGroupButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1">
+            <Path Stretch="Fill" Fill="Black" Data="F1 M 1257,761L 1258,761L 1262,766L 1253,766L 1257,761 Z " Width="9" Height="5" Margin="0,2,0,2" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                <Setter Property="Fill" Value="#FFD4DFF0" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:CommonElementsThemeKey ResourceKey=ScrollDownGroupButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0">
+            <Path Stretch="Fill" Fill="Black" Data="F1 M 1263,769L 1262,769L 1258,764L 1267,764L 1263,769 Z " Margin="0,2,0,2" Width="9" Height="5" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                <Setter Property="Fill" Value="#FFD4DFF0" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolTip}">
+                    <Border Background="LightGray" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="6">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneSplitterThemeKey ResourceKey=SplitterTemplate}" TargetType="{x:Type Thumb}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="1" Height="8"/>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="border" Value="Gray"/>
+            </Trigger>
+            <Trigger Property="IsDragging" Value="True">
+                <Setter Property="Background" TargetName="border" Value="Black"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneButtonPanelThemeKey ResourceKey=GroupTemplate}" TargetType="{x:Type Button}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,1,1">
+            <ContentPresenter x:Name="content" TextElement.Foreground="Black"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Black" TargetName="border"/>
+                <Setter Property="TextElement.Foreground" TargetName="content" Value="White"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding Path=IsActive}" Value="true">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=NavBar.View.IsExpanded}" Value="False">
+                <Setter Property="ToolTip" Value="{Binding Path=Header}"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneHeaderThemeKey ResourceKey=ExpandButtonTemplate}" TargetType="{x:Type Button}">
+        <Border Background="Transparent" Margin="0,4,0,4">
+            <Path x:Name="path" Stretch="Fill" Width="17" Height="17" Fill="White" Margin="0,0,4,0" RenderTransformOrigin="0.5,0.5"
+              Data="F1 M 538.917,386.667C 534.222,386.667 530.417,390.472 530.417,395.167C 530.417,399.861 534.222,403.667 538.917,403.667C 543.611,403.667 547.417,399.861 547.417,395.167C 547.417,390.472 543.611,386.667 538.917,386.667 Z M 543.977,395.227L 539.977,399.227C 539.391,399.813 538.442,399.813 537.856,399.227L 533.856,395.227C 533.27,394.641 533.27,393.692 533.856,393.106C 534.442,392.52 535.391,392.52 535.977,393.106L 538.917,396.046L 541.856,393.106C 542.442,392.521 543.391,392.52 543.977,393.106C 544.563,393.692 544.563,394.642 543.977,395.227 Z ">
+            </Path>
+        </Border>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=NavBar.View.IsExpanded}" Value="False">
+                <Setter Property="RenderTransform" TargetName="path">
+                    <Setter.Value>
+                        <RotateTransform Angle="90"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=OverflowPanelTemplate}" TargetType="{x:Type ContentControl}">
+        <Border Background="LightGray" BorderBrush="Black" BorderThickness="1,0,1,1">
+            <ContentPresenter MinHeight="33"/>
+        </Border>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=DefaultIconTemplate}" TargetType="{x:Type ContentControl}">
+        <Path Stretch="Fill" Fill="Black" Margin="1" Data="F1 M 2,6.00003L 15,6.00003C 16.1046,6.00003 17,6.89548 17,8.00003L 17,21C 17,22.1046 16.1046,23 15,23L 2,23C 0.895416,23 0,22.1046 0,21L 0,8.00003C 0,6.89548 0.895416,6.00003 2,6.00003 Z "/>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=OverflowGroupTemplate}" TargetType="{x:Type Button}">
+        <Border x:Name="border" Background="Transparent" CornerRadius="2" Padding="1" Margin="1">
+            <ContentPresenter/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding Path=IsActive}" Value="true">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=DropDownButtonTemplate}" TargetType="{x:Type dxn:NavPaneDropDownMenuControl}">
+        <Border x:Name="border" Background="Transparent" Margin="2,0,4,0">
+            <Path Fill="Black" Stretch="Fill" x:Name="path" Width="6" Height="7" Data="F1M382,291L376,288 376,295 382,292 382,291z"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Fill" TargetName="path" Value="#FFFFFFFF"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Fill" TargetName="path" Value="#FFFFFFFF"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=ContextMenuTemplate}" TargetType="{x:Type ContextMenu}">
+        <Border Background="White" BorderBrush="Black" BorderThickness="1" SnapsToDevicePixels="True">
+            <ItemsPresenter/>
+        </Border>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneOverflowPanelThemeKey ResourceKey=MenuItemTemplate}" TargetType="{x:Type MenuItem}">
+        <Grid x:Name="grid" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Path x:Name="glyph" Visibility="Collapsed" Fill="Black" Data="M0,2L0,4.8 2.5,7.4 7.1,2.8 7.1,0 2.5,4.6z"
+                                          VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="0"/>
+            <ContentPresenter x:Name="text" Grid.Column="1" ContentSource="Header" Margin="5,3,5,3" TextElement.Foreground="Black" RecognizesAccessKey="True"/>
+
+            <Path x:Name="arrow" Grid.Column="2" Fill="Black" Data="M0,0 L0,8 L4,4 z" Visibility="Collapsed"
+                                      VerticalAlignment="Center" Margin="5,0,5,0"/>
+            <Popup x:Name="popup" IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" Focusable="false">
+                <Border Background="White" BorderBrush="Black" BorderThickness="1">
+                    <StackPanel IsItemsHost="True"/>
+                </Border>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Role" Value="SubMenuHeader">
+                <Setter Property="Visibility" Value="Visible" TargetName="arrow"/>
+            </Trigger>
+
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter Property="Visibility" Value="Hidden" TargetName="glyph"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="glyph"/>
+            </Trigger>
+
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="LightGray" TargetName="grid"/>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextElement.Foreground" Value="#FF9A9A9A" TargetName="text"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPaneGroupClientThemeKey ResourceKey=CollapsedActiveGroupTemplate}" TargetType="{x:Type ToggleButton}">
+        <Border x:Name="border" Background="LightGray" BorderBrush="Black" BorderThickness="1,0">
+            <dxn:ImageAndTextContentPresenter ImageFallbackSize="24" x:Name="content" HorizontalAlignment="Center" ContentTemplateSelector="{Binding Path=ActualHeaderTemplateSelector}" Content="{Binding}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Orientation="{Binding NavBar.View.Orientation}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="border" Value="Gray"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" TargetName="border" Value="Gray"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPanePopupThemeKey ResourceKey=PopupWindowFrameTemplate}" TargetType="{x:Type ContentControl}">
+        <Border Background="White" BorderBrush="Gray" BorderThickness="1" SnapsToDevicePixels="True" Padding="1">
+            <ContentPresenter/>
+        </Border>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPanePopupThemeKey ResourceKey=SizeGripTemplate}" TargetType="{x:Type dxn:NavPanePopupSizeGrip}">
+        <Border Background="Transparent" Width="10" Height="10">
+            <Grid>
+                <Rectangle Fill="Gray" Stretch="Fill" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="2" Height="2"/>
+                <Rectangle Fill="Gray" Stretch="Fill" HorizontalAlignment="Right" Margin="0,4,0,4" VerticalAlignment="Stretch" Width="2"/>
+                <Rectangle Fill="Gray" Stretch="Fill" HorizontalAlignment="Stretch" Margin="4,0,4,0" VerticalAlignment="Bottom" Height="2"/>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPanePopupThemeKey ResourceKey=ScrollUpButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border>
+            <Path Stretch="Fill" Fill="Gray" Data="F1 M 1257,761L 1258,761L 1262,766L 1253,766L 1257,761 Z " Width="9" Height="5" Margin="0,2,0,2" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Fill" Value="#FF000000" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPanePopupThemeKey ResourceKey=ScrollDownButtonTemplate}" TargetType="{x:Type RepeatButton}">
+        <Border>
+            <Path Stretch="Fill" Fill="Gray" Data="F1 M 1263,769L 1262,769L 1258,764L 1267,764L 1263,769 Z " Margin="0,2,0,2" Width="9" Height="5" x:Name="path"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.25" TargetName="path"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Fill" Value="#FF000000" TargetName="path"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{dxnt:NavigationPanePopupThemeKey ResourceKey=PopupWindowContentTemplate}" TargetType="{x:Type ContentControl}">
+        <dxn:NavPanePopupWindowFrame>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="ScrollModeStates">
+                    <VisualState x:Name="Smooth" />
+                    <VisualState x:Name="NormalMode">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="scrollControl" Storyboard.TargetProperty="Template">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource {dxnt:CommonElementsThemeKey ResourceKey=NormalScrollTemplate}}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid Background="{x:Null}">
+                <ContentControl x:Name="scrollControl" Template="{DynamicResource {dxnt:NavigationPanePopupThemeKey ResourceKey=SmoothScrollTemplate}}" dx:FocusHelper2.Focusable="False">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </ContentControl>
+                <dxn:NavPanePopupSizeGrip Template="{DynamicResource {dxnt:NavigationPanePopupThemeKey IsVisibleInBlend=True, ResourceKey=SizeGripTemplate}}" Style="{DynamicResource {dxnt:NavigationPanePopupThemeKey IsVisibleInBlend=True, ResourceKey=SizeGripStyle}}" Grid.Row="1" />
+            </Grid>
+        </dxn:NavPanePopupWindowFrame>
+    </ControlTemplate>
+    <DataTemplate x:Key="{dxnt:NavigationPaneButtonPanelThemeKey ResourceKey=GroupContentTemplate}">
+        <dxn:NavPaneImageAndTextDecorator x:Name="groupButtonContent" DockingLeftImageMargin="4,3,0,3" DockingLeftContentMargin="4,7,4,7" ImageFallbackSize="20" DockingRightImageMargin="0,4,5,3" DockingRightContentMargin="5,6,5,8" DockingBottomImageMargin="5,4,5,3" DockingBottomContentMargin="5,6,5,8" DockingTopImageMargin="5,4,5,3" DockingTopContentMargin="5,6,5,8" DisplayModeImageMargin="4,3,4,3" DisplayModeTextMargin="4,7,4,7" GroupButtonCollapsedImageMargin="4,3,4,3" ImageDocking="{Binding Path=(dxn:NavBarViewBase.LayoutSettings).ImageDocking, RelativeSource={RelativeSource TemplatedParent}}" ImageSource="{Binding Path=ImageSource}" ImageStyle="{DynamicResource {dxnt:NavBarGroupControlThemeKey ResourceKey=GroupImageStyle}}" ContentSource="{Binding Path=Header}" ContentStyle="{DynamicResource {dxnt:NavBarGroupControlThemeKey ResourceKey=GroupTextStyle}}" />
+    </DataTemplate>
+</ResourceDictionary>
+

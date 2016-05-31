@@ -1,0 +1,56 @@
+﻿<Window x:Class="DATN.TTS.TVMH.frm_PhanCongGV_popup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        Title="Chọn giáo viên" Height="600" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button  Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center" Click="BtnSave_OnClick"/>
+                <Button  Content="Hủy" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnCancel" VerticalAlignment="Center" Click="BtnCancel_OnClick"/>
+            </StackPanel>
+        </Border>
+        <!--Controls nhap du lieu-->
+        <Expander Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
+                    <!--Design hiển thị các controls-->
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Tên giảng viên" Style="{StaticResource TextBlockStyle}" />
+                            <dxe:TextEdit  Grid.Column="1" Style="{StaticResource TextEditStyle}" EditValue="{Binding SEARCHGV}"/>
+                            <Button Grid.Column="2" Content="Tìm kiếm" Style="{StaticResource Button_Style_2}" Click="ButtonBase_OnClick"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Expander>
+        <!--Luoi du lieu-->
+        <Grid Grid.Row="2">
+            <dxg:TreeListControl Height="Auto" Name="listGV" dx:ThemeManager.ThemeName="MetropolisLight" MouseDown="TreeListViewMH_OnMouseDown">
+                <dxg:TreeListControl.View >
+                    <dxg:TreeListView  Name="treeListViewMH" AutoWidth="True" AutoExpandAllNodes="True"
+                                  KeyFieldName="ID" ParentFieldName="ID_PARENT" RowStyle="{StaticResource SelectedRowStyle}"/>
+                </dxg:TreeListControl.View>
+            </dxg:TreeListControl>
+        </Grid>
+    </Grid>
+</Window>

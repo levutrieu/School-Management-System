@@ -1,0 +1,124 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
+        x:Class="DATN.TTS.TVMH.Menu"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        dx:ThemeManager.ThemeName="Azeze"
+        Title="Manager" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+    <Window.Resources>
+        <DrawingImage x:Key="groupImage">
+            <DrawingImage.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry Center="24,24" RadiusX="12" RadiusY="12" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="10" Brush="#27415d" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="itemImage">
+            <DrawingImage.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry Center="24,24" RadiusX="12" RadiusY="12" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="24" Brush="#2979ce"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </Window.Resources>
+
+    <Grid>
+        <Grid Name="MainBody">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Row view login-->
+            <Grid Grid.Row="0"  Background="Lavender">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Name="txtThongTin" Foreground="DarkRed" VerticalAlignment="Center" Background="Lavender" Margin="0 0 5 0" FontSize="15" HorizontalAlignment="Right"/>
+                <Button Grid.Column="1" Name="btnUser" Background="Lavender" BorderThickness="0" Click="BtnUser_OnClick" HorizontalContentAlignment="Right" >
+                    <Image Source="Images/user.png" Stretch="Fill"/>
+                </Button>
+            </Grid>
+
+            <!--Row view main-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!--Column menu-->
+                <DockPanel Grid.Column="0">
+                    <dxn:NavBarControl x:Name="navBar" MaxWidth="200" >
+                        <dxn:NavBarControl.Resources>
+                            <ResourceDictionary Source="Resource/StyleMenu.xaml"/>
+                        </dxn:NavBarControl.Resources>
+                        <dxn:NavBarControl.Groups>
+                            <dxn:NavBarGroup Name="MenuGroup" Header="Menu" ImageSource="{StaticResource groupImage}" NavigationPaneVisible="False">
+                                <dxn:NavBarItem Content="Trang chủ"
+                                        ImageSource="Images/home.png"/>
+                            </dxn:NavBarGroup>
+                        </dxn:NavBarControl.Groups>
+                        <dxn:NavBarControl.View>
+                            <dxn:NavigationPaneView IsHitTestVisible="True" IsOverflowPanelVisible="False" IsPopupOpen="True" IsManipulationEnabled="True" IsSplitterVisible="False"></dxn:NavigationPaneView>
+                        </dxn:NavBarControl.View>
+                    </dxn:NavBarControl>
+                </DockPanel>
+
+                <!--Column UI-->
+                <Grid Grid.Column="1" >
+                    <TabControl x:Name="tabMenu" Style="{StaticResource TabControlStyle}">
+                        <TabControl.Visibility>Visible</TabControl.Visibility>
+                    </TabControl>
+                </Grid>
+            </Grid>
+        
+        </Grid>
+
+        <Grid Name="MenuChange" Width="200" Height="120" Background="Lavender" 
+              Visibility="Hidden" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 30 10 0" MouseLeave="MenuChange_OnMouseLeave">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Button Name="btnDangXuat" Grid.Row="0" BorderThickness="0" Background="Lavender" Click="BtnDangXuat_OnClick">
+                <StackPanel Orientation="Horizontal"  Width="200" Margin="5 5 0 5" >
+                    <Image Source="Images/log_out.png" Stretch="Fill" Margin="0 0 5 0" HorizontalAlignment="Left"/>
+                    <Label Margin="0 0 5 0" Padding="0" Content="Đăng xuất" VerticalAlignment="Center" FontSize="15"/>
+                </StackPanel>
+            </Button>
+            <Button Name="btnDoiMK" Grid.Row="1" BorderThickness="0" Background="Lavender" Click="BtnDoiMK_OnClick">
+                <StackPanel Orientation="Horizontal" Width="200" Margin="5 5 0 5">
+                    <Image Source="Images/change_pass.png" Stretch="Fill" Margin="0 0 5 0" HorizontalAlignment="Left"/>
+                    <Label Margin="0 0 5 0" Padding="0" Content="Đổi mật khẩu" VerticalAlignment="Center"  FontSize="15"/>
+                </StackPanel>
+            </Button>
+            <Button Name="btnThoat" Grid.Row="2" BorderThickness="0" Background="Lavender" Click="BtnThoat_OnClick">
+                <StackPanel Orientation="Horizontal" Width="200" Margin="5 5 0 5">
+                    <Image Source="Images/exit.png" Stretch="Fill" Margin="1 1 5 1" HorizontalAlignment="Left"/>
+                    <Label Margin="0 0 5 0" Padding="0" Content="Thoát" VerticalAlignment="Center"  FontSize="15"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+    </Grid>
+
+</Window>

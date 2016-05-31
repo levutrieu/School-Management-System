@@ -1,0 +1,179 @@
+﻿<Page x:Class="DATN.TTS.TVMH.frm_SinhVien"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="1200"
+	Title="frm_SinhVien">
+
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="10"/>-->
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Click="btnAddNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Center"/>
+                <Button Click="btnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
+                <Button Click="btnDelete_OnClick" Content="Xóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnDelete" VerticalAlignment="Center"/>
+                <Button Click="btnRefresh_OnClick" Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <!--Controls nhap du lieu-->
+        <Expander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
+            <!--<StackPanel HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6">-->
+            <!--<Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto" Width="Auto" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6">-->
+                    <!--Design hiển thị các controls-->
+            <!--<StackPanel Background="GhostWhite" FlowDirection="LeftToRight" Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6">-->
+            <Grid Background="GhostWhite" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" FlowDirection="LeftToRight">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã sinh viên:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaSV" Style="{StaticResource TextEditStyle}" 
+                                              EditValue="{Binding MA_SINHVIEN, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Tên sinh viên:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtTenSV" Style="{StaticResource TextEditStyle}" 
+                                              EditValue="{Binding TEN_SINHVIEN, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="5" Text="Giới tính:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:CheckEdit Grid.Row="0" Grid.Column="6" Content="Nam/Nữ" Name="chkGT" EditValue="{Binding GIOITINH}" 
+                                           Style="{StaticResource CheckBoxStyle}" HorizontalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="7" Text="Ngày sinh:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:DateEdit Grid.Row="0" Grid.Column="8" Name="txtNgaySinh" EditValue="{Binding NGAYSINH}" Style="{StaticResource DateEditStyle}"
+                                          Mask="dd/MM/yyyy" DisplayFormatString="dd/MM/yyyy" MaskUseAsDisplayFormat="True"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Nơi sinh:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtNoiSinh" Style="{StaticResource TextEditStyle}" AcceptsReturn="True"
+                                          EditValue="{Binding NOISINH, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Địa chỉ:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="4" Name="txtDCHI" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding DIACHI, UpdateSourceTrigger=PropertyChanged}" MaxLength="255"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Điện thoại:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="6" Name="txtDT" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI}" MaxLength="13" MaskType="Numeric"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Điện thoại nhà:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="8" Name="txtDTGD" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI_GD}" MaxLength="13" MaskType="Numeric"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="CMND:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="4" Grid.Column="2" Name="txtCMND" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding CMND}" MaxLength="13" MaskType="Numeric"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="3" Text="Nơi cấp:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="4" Grid.Column="4" Name="txtNoiCap" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding NOICAP}" MaxLength="13" MaskType="Numeric"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="5" Text="Ngày cấp:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:DateEdit Grid.Row="4" Grid.Column="6" Name="txtNgayCap" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding NGAYCAP}" Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyyy"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="7" Text="E-mail:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="4" Grid.Column="8" Name="txtEmail" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding EMAIL}"/>
+
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="TT ngoại trú:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="6" Grid.Column="2" Name="txtTTNgoaiTru" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding THONGTIN_NGOAITRU}"/>
+
+                            <TextBlock Grid.Row="6" Grid.Column="3" Text="Ngày nhập học:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:DateEdit Grid.Row="6" Grid.Column="4" Name="txtNgayNhapHoc" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding NGAY_VAOTRUONG, UpdateSourceTrigger=PropertyChanged}"
+                                          Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyy"/>
+                            
+                            <TextBlock Grid.Row="6" Grid.Column="5" Text="Ngày ra trường:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:DateEdit Grid.Row="6" Grid.Column="6" Name="txtNgayRaTruong" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding NGAY_RATRUONG, UpdateSourceTrigger=PropertyChanged}"
+                                          Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyy"/>
+
+                            <TextBlock Grid.Row="6" Grid.Column="7" Text="Ngày vào đoàn:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:DateEdit Grid.Row="6" Grid.Column="8" Name="txtNgayVaoDoan" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
+                                          TextWrapping="Wrap" EditValue="{Binding NGAY_VAODOAN, UpdateSourceTrigger=PropertyChanged}"
+                                          Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyy"/>
+
+                            <TextBlock Grid.Row="8" Grid.Column="1" Text="Đoàn viên:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:CheckEdit Grid.Row="8" Grid.Column="2" Name="chkDoanVien" Content="Có( Không)"
+                                           Style="{StaticResource CheckBoxStyle}" HorizontalAlignment="Center"
+                                           EditValue="{Binding IS_DOANVIEN, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="8" Grid.Column="3" Text="Lớp học:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="8" Grid.Column="4" Name="cbbLop" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" 
+                                              EditValue="{Binding ID_LOPHOC, UpdateSourceTrigger=PropertyChanged}" 
+                                              DisplayMember="TEN_LOP" ValueMember="ID_LOPHOC" AutoComplete="True"/>
+
+                            <TextBlock Grid.Row="8" Grid.Column="5" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
+                <dxe:ComboBoxEdit Grid.Row="8" Grid.Column="6" Name="cbbTrangThai" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" AutoComplete="True"
+                                           EditValue="{Binding TRANGTHAI, UpdateSourceTrigger=PropertyChanged}" DisplayMember="NAME_TRANGTHAI" ValueMember="TRANGTHAI"/>
+                            
+                            <TextBlock Grid.Row="8" Grid.Column="7" Text="File Ảnh:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="8" Grid.Column="8" Name="PathAnh" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" 
+                                           EditValue="{Binding PATH_ANH, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+            <!--</StackPanel>-->
+
+                <!--</Border>-->
+            <!--</StackPanel>-->
+        </Expander>
+
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0"/>
+                <ColumnDefinition Width="1150"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>-->
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
+                             dx:ThemeManager.ThemeName="MetropolisLight" >
+                <dxg:GridControl.View>
+                    <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" AllowCellMerge="True"
+                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged"
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+    </Grid>
+</Page>

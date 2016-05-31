@@ -1,0 +1,125 @@
+﻿<Window x:Class="DATN.TTS.TVMH.frm_TimPhongTrong"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        Title="Tìm phòng trống">
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button  Content="Lưu" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Bottom" Click="BtnSave_OnClick"/>
+                <Button  Content="Đóng" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Bottom" Click="BtnAddNew_OnClick"/>
+                </StackPanel>
+        </Border>
+        <!--Controls nhap du lieu-->
+        <Expander Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,1" Height="auto">
+                    <!--Design hiển thị các controls-->
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!--<TextBlock Grid.Row="1" Grid.Column="1" Name="lblNgayBatDau" Text="Ngày bắt đầu:" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Name="lblNgayKetThuc" Text="Ngày kết thúc:" VerticalAlignment="Center"/>
+                            
+                            <dxe:DateEdit Grid.Row="1" Grid.Column="2" MaskType="DateTime" Name="dtpBatDau" MaskUseAsDisplayFormat="True" Style="{StaticResource DateEditStyle}"
+                                          EditValue="{Binding pNgayBatDau}" Mask="dd/MM/yyyy" ShowClearButton="False"/>
+                            
+                            <dxe:DateEdit Grid.Row="1" Grid.Column="4" MaskType="DateTime" Name="dtpKetThuc" MaskUseAsDisplayFormat="True" Style="{StaticResource DateEditStyle}"
+                                          EditValue="{Binding pNgayKetThuc}" Mask="dd/MM/yyyy" ShowClearButton="False"/>-->
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="1" Name="lblTuTuan" Text="Từ tuần:"  VerticalAlignment="Center"/>
+                            
+                            <dxe:SpinEdit Grid.Row="1" Grid.Column="2"  Name="txtTuTuan" EditValue="{Binding TuTuan}" MaskType="Numeric" MinValue="0" 
+                                          Style="{StaticResource SpinEditStyle}" />
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="3" Name="lblDenTu" Text="Đến tuần:" VerticalAlignment="Center"/>
+                            <dxe:SpinEdit Grid.Row="1" Grid.Column="4"  Name="txtDenTu" EditValue="{Binding DenTuan}" MaskType="Numeric" MinValue="0"
+                                          Style="{StaticResource SpinEditStyle}"/>
+                            
+                            <dxe:CheckEdit
+                                Grid.Column="1" Grid.Row="3" x:Name="CheckChonTiet" Content="Chọn tiết" FlowDirection="RightToLeft" 
+                                           Style="{StaticResource CheckBoxStyle}" HorizontalAlignment="Left"  Checked="CheckChonTiet_Checked" Unchecked="CheckChonTiet_Unchecked"/>
+                            <Border x:Name="BorChonTiet" Grid.Row="3"  Grid.Column="2" Grid.ColumnSpan="6" Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,1,1,1" IsEnabled="False">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Name="lblTuTiet" Text="Từ tiết:"  VerticalAlignment="Center"/>
+                                    <dxe:SpinEdit Grid.Column="1" Name="spTietBatDau" EditValue="{Binding TIET_BD, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" MinValue="0" 
+                                                  Style="{StaticResource SpinEditStyle}"/>
+                                    
+                                    <TextBlock Grid.Column="2" Name="lblDenTiet" Text="Đến tiết:"  VerticalAlignment="Center"/>
+                                    <dxe:SpinEdit Grid.Column="3"  Name="spTietKetThuc" EditValue="{Binding TIET_KT, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" MinValue="0" />
+                                </Grid>
+                            </Border>
+
+                            <dxe:CheckEdit 
+                                Grid.Column="1" Grid.Row="5" x:Name="CheckChonThu" Content="Chọn thứ" FlowDirection="RightToLeft" 
+                                           Style="{StaticResource CheckBoxStyle}"
+                                      HorizontalAlignment="Left"  Checked="CheckChonThu_Checked" Unchecked="CheckChonThu_Unchecked"/>
+                            <Border Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="6" Name="bor_ChonThu" Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,1,1,1" IsEnabled="False">
+                                <ListBox Name="lstThu">
+                                    <ListBox.ItemTemplate >
+                                        <HierarchicalDataTemplate >
+                                            <CheckBox x:Name="CheckList" Content="{Binding TheText}" IsChecked="{Binding IsSelected}"/>
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" Background="WhiteSmoke"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </Border>
+
+                            <Border x:Name="bodertim" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="6" Background="GhostWhite" BorderBrush="#27415d" BorderThickness="0,0,0,0">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                                    <Button  Content="Tìm phòng" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnTim" 
+                                             VerticalAlignment="Bottom" Click="BtnTim_OnClick"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Expander>
+        <dxg:GridControl Grid.Row="2" Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" CellValueChanging="GrdView_OnCellValueChanging"
+                                   ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdView_OnFocusedRowChanged"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </Grid>
+</Window>

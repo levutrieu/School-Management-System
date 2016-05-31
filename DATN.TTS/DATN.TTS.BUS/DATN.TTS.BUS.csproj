@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{799D0078-989D-47E6-A56B-5C06ECF0000B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DATN.TTS.BUS</RootNamespace>
+    <AssemblyName>DATN.TTS.BUS</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="bus_BacDaotao.cs" />
+    <Compile Include="bus_bomon.cs" />
+    <Compile Include="bus_CauHinhNguoiDung.cs" />
+    <Compile Include="bus_CauHinhNhom.cs" />
+    <Compile Include="bus_ChucVu.cs" />
+    <Compile Include="bus_GiangVien.cs" />
+    <Compile Include="bus_HeDaoTao.cs" />
+    <Compile Include="bus_HeSoLuong.cs" />
+    <Compile Include="bus_HocKy.cs" />
+    <Compile Include="bus_Khoa.cs" />
+    <Compile Include="bus_KhoaHoc.cs" />
+    <Compile Include="bus_KhoaHoc_Nganh.cs" />
+    <Compile Include="bus_LoaiHinhDaoTao.cs" />
+    <Compile Include="bus_loaimonhoc.cs" />
+    <Compile Include="bus_login.cs" />
+    <Compile Include="bus_LopHoc.cs" />
+    <Compile Include="bus_MonHoc.cs" />
+    <Compile Include="bus_Nganh.cs" />
+    <Compile Include="bus_NhanSu.cs" />
+    <Compile Include="bus_phanconggiaovien.cs" />
+    <Compile Include="bus_PhanCong_TKB.cs" />
+    <Compile Include="bus_PhongHoc.cs" />
+    <Compile Include="bus_SinhVien.cs" />
+    <Compile Include="bus_TietHoc.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\TableUtil.cs" />
+    <Compile Include="Resource\UserCommon.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DATN.TTS.DATA\DATN.TTS.DATA.csproj">
+      <Project>{0c1f0b24-f457-4944-bcb5-0c53ff5ceb21}</Project>
+      <Name>DATN.TTS.DATA</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

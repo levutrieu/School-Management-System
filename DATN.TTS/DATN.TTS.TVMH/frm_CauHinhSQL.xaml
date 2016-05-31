@@ -1,0 +1,43 @@
+﻿<Window x:Class="DATN.TTS.TVMH.frm_CauHinhSQL"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        Title="Cấu hình dữ liệu" Height="240" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Tên Server:" Style="{StaticResource TextBlockStyle}" />
+        <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource ComboBoxEditStyle}" Name="cbo_servername" DisplayMember="SERVER_NAME" ValueMember="SERVER_NAME_FULL" EditValue="{Binding SERVER_NAME}"/>
+        <Button Grid.Row="1" Grid.Column="4" Style="{StaticResource Button_Style}" HorizontalAlignment="Left" Width="35" Name="btnRefresh" Click="BtnRefresh_OnClick">
+            <Image Source="Images/refresh-icon.png" Stretch="Fill"/>
+        </Button>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Tên đăng nhập:" Style="{StaticResource TextBlockStyle}" />
+        <dxe:TextEdit Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource TextEditStyle}" Text="{Binding USER}"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Mật khẩu:" Style="{StaticResource TextBlockStyle}" />
+        <dxe:PasswordBoxEdit Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding PASS}"/>
+        <TextBlock Grid.Row="7" Grid.Column="1" Text="Database:" Style="{StaticResource TextBlockStyle}" />
+        <dxe:ComboBoxEdit Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource ComboBoxEditStyle}" Name="cbo_database" DisplayMember="name" ValueMember="name" EditValue="{Binding DATABASE}" DefaultButtonClick="Cbo_database_OnDefaultButtonClick"/>
+        <Button Grid.Row="9" Grid.Column="2" Content="Đồng ý" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnOK" Click="BtnOK_OnClick"/>
+        <Button Grid.Row="9" Grid.Column="3" Content="Hủy" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnHuy" Click="btnHuy_Click"/>
+    </Grid>
+</Window>
