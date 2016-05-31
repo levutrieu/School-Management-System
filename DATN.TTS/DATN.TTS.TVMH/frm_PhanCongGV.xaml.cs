@@ -85,8 +85,8 @@ namespace DATN.TTS.TVMH
                 xcolumn.Visible = false;
                 grd.Columns.Add(xcolumn);
 
-                xcolumn = new GridColumn() {CellTemplate = (DataTemplate) this.Resources["btn"]};
-                xcolumn.HorizontalHeaderContentAlignment=HorizontalAlignment.Center;
+                xcolumn = new GridColumn() { CellTemplate = (DataTemplate)this.Resources["btn"] };
+                xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.Header = "Xóa GV";
                 xcolumn.Width = 90;
                 xcolumn.AllowEditing = DefaultBoolean.False;
@@ -142,6 +142,24 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.FieldName = "SOLUONG";
                 xcolumn.Header = "Số sinh viên";
+                xcolumn.Width = 50;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                xcolumn.FieldName = "TUAN_BD";
+                xcolumn.Header = "Tuần bắt đầu";
+                xcolumn.Width = 50;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                xcolumn.FieldName = "TUAN_KT";
+                xcolumn.Header = "Tuần kết thúc";
                 xcolumn.Width = 50;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
@@ -247,7 +265,7 @@ namespace DATN.TTS.TVMH
                     break;
                 }
             }
-            if (rowHandle != -1 )
+            if (rowHandle != -1)
             {
                 frm_PhanCongGV_popup popup = new frm_PhanCongGV_popup();
                 popup.ShowDialog();
@@ -312,7 +330,7 @@ namespace DATN.TTS.TVMH
             {
                 DataRow RowSelGb = null;
                 if (this.grd.GetFocusedRow() == null) return;
-                RowSelGb = ((DataRowView) this.grd.GetFocusedRow()).Row;
+                RowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
                 for (int i = 0; i < iGridDataSource.Rows.Count; i++)
                 {
                     if (string.IsNullOrEmpty(iGridDataSource.Rows[i]["ID_LOPHOCPHAN"].ToString())) continue;
