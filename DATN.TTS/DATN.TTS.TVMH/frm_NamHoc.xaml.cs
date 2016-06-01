@@ -400,7 +400,7 @@ namespace DATN.TTS.TVMH
                     }
                     else
                     {
-                        CTMessagebox.Show("Đặt năm học hiện tại thành công", "Thành công", "", CTICON.Error, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Đặt năm học hiện tại thành công", "Thành công", "", CTICON.Information, CTBUTTON.YesNo);
                         GetGrid();
                     }
                 }
