@@ -14,7 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
+using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 
 namespace DATN.TTS.TVMH
@@ -34,7 +36,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure = TableSchemabinding();
             this.DataContext = iDataSoure;
 
-            this.iDataSoure.Rows[0]["USER"] = "Admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             InitGrid();
             SetComBo();
         }
@@ -107,6 +109,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -127,6 +131,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
             col = new GridColumn();

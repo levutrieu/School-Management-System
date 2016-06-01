@@ -19,16 +19,8 @@
             <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="50*"/>
-        </Grid.ColumnDefinitions>
         <!--Button thuc hien chuc nang-->
-        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
                 <Button Click="btnAddNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Center"/>
                 <Button Click="btnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
@@ -41,7 +33,7 @@
             <StackPanel HorizontalAlignment="Stretch">
                 <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
                     <!--Design hiển thị các controls-->
-                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
@@ -52,16 +44,16 @@
                                 <RowDefinition Height="*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="5"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="0.1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã khoa:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaKhoa" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_KHOA}" MaxLength="50"/>
@@ -76,7 +68,7 @@
                             <dxe:TextEdit Grid.Row="0" Grid.Column="8" Name="txtMail" EditValue="{Binding EMAIL}" Style="{StaticResource TextEditStyle}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtGhiChu" Grid.ColumnSpan="7" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtGhiChu" Grid.ColumnSpan="3" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
                                           TextWrapping="Wrap" EditValue="{Binding GHICHU}" MaxLength="255"/>
                         </Grid>
                     </StackPanel>
@@ -85,12 +77,10 @@
             </StackPanel>
         </Expander>
 
-        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="1050"/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
             <dxg:GridControl Grid.Column="1" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>

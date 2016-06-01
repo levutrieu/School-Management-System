@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.LayoutControl;
@@ -35,7 +36,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSoure = TableSchemaBinding();
             DataContext = this.iDataSoure;
-            this.iDataSoure.Rows[0]["USER"] = "admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             InitGrid();
             SetCombo();
             GetComboTrangThai();

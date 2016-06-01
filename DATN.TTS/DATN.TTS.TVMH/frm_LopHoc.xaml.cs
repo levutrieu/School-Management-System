@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
@@ -37,7 +38,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
 
-            this.iDataSoure.Rows[0]["USER"] = "admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             SetComBo();
             InitGrid();
 
@@ -86,6 +87,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -104,9 +107,12 @@ namespace DATN.TTS.TVMH
             col.Width = 40;
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             col.EditSettings = new TextEditSettings {DisplayFormat = "dd/MM/yyyy"};
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -115,9 +121,12 @@ namespace DATN.TTS.TVMH
             col.Width = 40;
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             col.EditSettings = new TextEditSettings {DisplayFormat = "dd/MM/yyyy"};
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+           
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -128,6 +137,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
             col = new GridColumn();

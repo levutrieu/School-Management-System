@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
@@ -35,7 +36,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
 
-            this.iDataSoure.Rows[0]["USER"] = "Admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
 
             
             InitGrid();

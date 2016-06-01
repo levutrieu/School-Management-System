@@ -19,16 +19,8 @@
             <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="50*"/>
-        </Grid.ColumnDefinitions>
         <!--Button thuc hien chuc nang-->
-        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
                 <Button Click="btnAddNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Center"/>
                 <Button Click="btnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
@@ -38,30 +30,30 @@
         </Border>
         <!--Controls nhap du lieu-->
         <Expander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
-            <StackPanel HorizontalAlignment="Stretch">
+            <!--<StackPanel HorizontalAlignment="Stretch">-->
                 <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
                     <!--Design hiển thị các controls-->
-                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="25"/>
                                 <RowDefinition Height="0.2*"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="25"/>
                                 <RowDefinition Height="0.1*"/>
                                 <!--<RowDefinition Height="25"/>
                                 <RowDefinition Height="*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="0.1*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.9*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.9*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.9*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Name="cbbKhoa" Style="{StaticResource ComboBoxEditStyle}" 
@@ -99,16 +91,14 @@
                     </StackPanel>
 
                 </Border>
-            </StackPanel>
+            <!--</StackPanel>-->
         </Expander>
 
-        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="1050"/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
-            <dxg:GridControl Grid.Column="1" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" >
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" AllowCellMerge="True"

@@ -124,6 +124,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = false;
                 xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -134,6 +135,8 @@ namespace DATN.TTS.TVMH
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
                 xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                xcolumn.EditSettings = new TextEditSettings();
+                xcolumn.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
                 grdUI.Columns.Add(xcolumn);
 
                 iGridDataSoureUI = client.GetAllManHinh();

@@ -64,6 +64,8 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.AllowEditing = DefaultBoolean.False;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.Visible = true;
                 grd.Columns.Add(col);
 
@@ -74,6 +76,8 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.AllowEditing = DefaultBoolean.False;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.Visible = true;
                 grd.Columns.Add(col);
 
@@ -94,6 +98,8 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.AllowEditing = DefaultBoolean.False;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.Visible = true;
                 grd.Columns.Add(col);
 
@@ -104,6 +110,8 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.AllowEditing = DefaultBoolean.False;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.Visible = true;
                 grd.Columns.Add(col);
 

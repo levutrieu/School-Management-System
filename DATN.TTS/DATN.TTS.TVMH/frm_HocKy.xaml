@@ -19,15 +19,6 @@
             <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="50*"/>
-        </Grid.ColumnDefinitions>
         <!--Button thuc hien chuc nang-->
         <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -42,7 +33,7 @@
             <StackPanel HorizontalAlignment="Stretch">
                 <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
                     <!--Design hiển thị các controls-->
-                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
@@ -51,17 +42,16 @@
                                 <RowDefinition Height="*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="01"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.6*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.6*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="0.6*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="200"/>
-                                
-                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="0.1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã loại:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaloai" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_HOCKY}" MaxLength="50"/>
@@ -82,17 +72,11 @@
             </StackPanel>
         </Expander>
 
-        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="155"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="290"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
-            <dxg:GridControl Grid.Column="1" Grid.ColumnSpan="4" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
+        <Grid Grid.Row="3" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" 

@@ -15,8 +15,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 
 namespace DATN.TTS.TVMH
@@ -36,7 +38,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
 
-            this.iDataSoure.Rows[0]["USER"] = "admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             InitGrid();
             SetComBo();
         }
@@ -83,6 +85,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -106,6 +110,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -117,6 +123,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -128,6 +136,8 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            col.EditSettings = new TextEditSettings();
+            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 

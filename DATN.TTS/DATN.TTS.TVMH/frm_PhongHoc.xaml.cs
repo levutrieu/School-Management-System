@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DATN.TTS.BUS;
+using DATN.TTS.BUS.Resource;
 using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.Xpf.Core.HandleDecorator;
@@ -36,7 +37,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             iDataSoure = TableSchemabinding();
             this.DataContext = iDataSoure;
-            this.iDataSoure.Rows[0]["USER"] = "Admin";
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             InitGrid();
 
             txtDay.ItemsSource = ItemsSoure();
@@ -94,6 +95,8 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -110,6 +113,8 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -118,6 +123,8 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -126,6 +133,8 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -134,6 +143,8 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
