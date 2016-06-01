@@ -2,12 +2,80 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="300" d:DesignWidth="1100"
 	Title="frm_QLyNgayDauNamHoc_HocKy">
 
-    <Grid>
-        
+    <Grid Background="Transparent">
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="430"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Click="BtnSetNamHoc_OnClick" Content="Đặt học kỳ hiện tại" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSetNamHoc" VerticalAlignment="Center"/>
+                <!--<Button Click="btnAddNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Center"/>-->
+                <!--<Button Click="btnSave_OnClick" Content="Lưu mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>-->
+                <!--<Button Click="btnDelete_OnClick" Content="Xóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnDelete" VerticalAlignment="Center"/>-->
+                <Button Click="btnRefresh_OnClick" Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <!--Controls nhap du lieu-->
+        <Expander Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,1,1,1" Height="auto">
+                    <!--Design hiển thị các controls-->
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="1" Text="Năm học:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Name="cboNamHoc" Style="{StaticResource ComboBoxEditStyle}" EditValueChanged="CboNamHoc_OnEditValueChanged"
+                                          EditValue="{Binding ID_NAMHOC_HIENTAI, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NAMHOC_HIENTAI" DisplayMember="NAMHOC"/>
+
+                            <TextBlock  Grid.Column="5" Text="Học kỳ:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit  Grid.Column="6" Name="cboHocKy" EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" DisplayMember="HOCKY_NAME" ValueMember="HOCKY"
+                                               Style="{StaticResource ComboBoxEditStyle}" EditValueChanged="CboHocKy_OnEditValueChanged"/>
+
+                            <!--<dxe:CheckEdit  Grid.Column="6" Name="chkHienTai" Style="{StaticResource CheckBoxStyle}" VerticalAlignment="Center"
+                                            EditValue="{Binding IS_HIENTAI}" Content="Hiện tại"/>-->
+                        </Grid>
+                    </StackPanel>
+
+                </Border>
+            </StackPanel>
+        </Expander>
+
+        <Grid Grid.Row="3">
+            <dxg:GridControl  AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
+                             dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
+                <dxg:GridControl.View>
+                    <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" VerticalContentAlignment="Center"
+                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged" MouseDown="GrdViewNDung_OnMouseDown"
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
     </Grid>
 </Page>
