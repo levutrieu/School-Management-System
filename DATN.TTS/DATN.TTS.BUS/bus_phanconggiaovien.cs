@@ -33,7 +33,7 @@ namespace DATN.TTS.BUS
                                               m.TEN_LOP
                                           }).First().TEN_LOP),
                                 d.ID_KHOAHOC_NGANH_CTIET,
-                                d.ID_HOCKY_NAMHOC,
+                                d.ID_NAMHOC_HKY_HTAI,
                                 d.ID_HEDAOTAO,
                                 TEN_HE_DAOTAO =
                                         ((from m in db.tbl_HEDAOTAOs
