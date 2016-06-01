@@ -90,7 +90,7 @@ namespace DATN.TTS.BUS
                           {
                               hp.ID_LOPHOCPHAN,
                               hp.ID_KHOAHOC_NGANH_CTIET,
-                              hp.ID_HOCKY_NAMHOC,
+                              hp.ID_NAMHOC_HKY_HTAI,
                               hp.ID_HEDAOTAO,
                               hp.ID_MONHOC,
                               hp.ID_LOPHOC,
@@ -106,7 +106,7 @@ namespace DATN.TTS.BUS
                               hp.SOLUONG,
                               knct.ID_KHOAHOC_NGANH,
                               knct.SO_TC,
-                              knct.ID_HOCKY,
+                              //knct.ID_HOCKY,
                               knct.SOTIET_LT,
                               knct.SOTIET_TH,
                               knct.ID_MONHOC_TRUOC,
