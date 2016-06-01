@@ -181,6 +181,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
                 xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();

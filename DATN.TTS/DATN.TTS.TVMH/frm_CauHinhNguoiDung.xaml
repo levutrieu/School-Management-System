@@ -106,7 +106,7 @@
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" MouseDown="GrdViewNDung_OnMouseDown"
                                    RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged"
-                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" >
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>
