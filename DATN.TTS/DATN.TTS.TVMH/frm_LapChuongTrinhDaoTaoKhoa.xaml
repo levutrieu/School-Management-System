@@ -1,0 +1,63 @@
+﻿<Page x:Class="DATN.TTS.TVMH.frm_LapChuongTrinhDaoTaoKhoa"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="1200"
+	Title="frm_LapChuongTrinhDaoTaoKhoa">
+
+    <Grid Background="Transparent">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <dxwui:PageView x:Name="PageController" Grid.Column="0" SelectionChanged="PageController_SelectionChanged">
+                <dxwui:PageViewItem x:Name="pvi0" Header="Chọn khóa">
+                    <!--<local:dm_dt_hockynamhoc x:Name="dm_dt_hockynamhoc"/>-->
+                </dxwui:PageViewItem>
+                <dxwui:PageViewItem x:Name="pvi1" Header="Chọn ngành">
+                    <!--<local:dm_dt_khoanganh x:Name="dm_dt_khoanganh"/>-->
+                </dxwui:PageViewItem>
+                <dxwui:PageViewItem x:Name="pvi2" Header="Chi tiết khóa ngành">
+                    <!--<local:dm_dt_khoanganh x:Name="dm_dt_khoanganh"/>-->
+                </dxwui:PageViewItem>
+            </dxwui:PageView>
+            <Viewbox x:Name="btnPrev" MouseDown="btnPrev_MouseDown" Cursor="Hand" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Height="48" Width="48">
+                <Grid>
+                    <Grid Width="48" Height="48" Visibility="Visible">
+                        <Ellipse Fill="#FDFDFDFD" Name="FillPrev" Visibility="Visible" />
+                    </Grid>
+                    <Path Data="F1M-218.342,2910.79L-234.066,2926.52 -233.954,2926.63 -225.428,2926.63 -210.87,2912.07 -206.495,2907.7 -225.313,2888.88 -234.066,2888.88 -218.342,2904.6 -259.829,2904.6 -259.829,2910.79 -218.342,2910.79z" Stretch="Uniform" Fill="#FF4C70A6" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <TransformGroup.Children>
+                                    <RotateTransform Angle="0" />
+                                    <ScaleTransform ScaleX="-1" ScaleY="1" />
+                                </TransformGroup.Children>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                </Grid>
+            </Viewbox>
+            <Viewbox x:Name="btnNext" MouseDown="btnNext_MouseDown" Cursor="Hand" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60 0 0 0" Height="48" Width="48">
+                <Grid>
+                    <Grid Width="48" Height="48" Visibility="Visible">
+                        <Ellipse Fill="#FDFDFDFD" Name="FillNext" Visibility="Visible" />
+                    </Grid>
+                    <Path Data="F1M-756.543,-2951.94L-775.412,-2933.06 -775.278,-2932.93 -765.046,-2932.93 -747.577,-2950.4 -742.327,-2955.65 -764.908,-2978.23 -775.412,-2978.23 -756.543,-2959.36 -806.328,-2959.36 -806.328,-2951.94 -756.543,-2951.94z" Stretch="Uniform" Fill="#FF4C70A6" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <TransformGroup.Children>
+                                    <RotateTransform Angle="0" />
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </TransformGroup.Children>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                </Grid>
+            </Viewbox>
+        </Grid>
+        </Grid>
+</Page>
