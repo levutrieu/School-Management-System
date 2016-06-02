@@ -92,7 +92,7 @@ namespace DATN.TTS.TVMH
 
                 xcolumn = new GridColumn();
                 xcolumn.FieldName = "IsNew";
-                xcolumn.Header = string.Empty;
+                xcolumn.Header = "Chọn";
                 xcolumn.Width = 50;
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.True;
@@ -110,7 +110,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.True;
                 xcolumn.UnboundType = UnboundColumnType.Integer;
-                xcolumn.Visible = true;
+                xcolumn.Visible = false;
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
                 xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
@@ -455,6 +455,40 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
+        }
+
+        private void GrdViewUI_OnCellValueChanging(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                //int index = this.grdViewUI.FocusedRowHandle;
+                //for (int i = 0; i < iGridDataSoureUI.Rows.Count; i++)
+                //{
+                //    if(i == index)
+                //}
+                //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
+                //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = 1;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void GrdViewUI_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            //Mouse.OverrideCursor = Cursors.Wait;
+            int index = this.grdViewUI.FocusedRowHandle;
+            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
+                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "True";
+
+            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "False")
+                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "False";
         }
     }
 }
