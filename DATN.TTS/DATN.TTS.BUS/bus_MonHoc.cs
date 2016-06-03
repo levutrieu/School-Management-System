@@ -238,5 +238,35 @@ namespace DATN.TTS.BUS
             i = query.ID_MONHOC;
             return i;
         }
+
+        public int InsertObject_Excel(DataTable idatasource, string pUser)
+        {
+            try
+            {
+                int i = 0;
+                foreach (DataRow dr in idatasource.Rows)
+                {
+                    tbl_MONHOC query = new tbl_MONHOC
+                    {
+                        MA_MONHOC = dr["f_mamh"].ToString(),
+                        TEN_MONHOC = dr["f_tenmhvn"].ToString(),
+                        SO_TC = Convert.ToInt32(dr["f_dvht"]),
+                        IS_THUHOCPHI = 1,
+                        IS_TINHDIEM = 1,
+                        TRANGTHAI = 1,
+                        CREATE_USER = pUser,
+                        CREATE_TIME = DateTime.Now,
+                    };
+                    db.tbl_MONHOCs.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                    i = query.ID_MONHOC;
+                }
+                return i;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
