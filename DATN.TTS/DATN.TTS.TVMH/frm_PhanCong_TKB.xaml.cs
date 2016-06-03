@@ -1131,7 +1131,9 @@ namespace DATN.TTS.TVMH
                             Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TUAN"].ToString()),
                             Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_DASEP"].ToString()));
                         #endregion
-                        bool check = (tiet == (Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET"].ToString()))) ? true : false;
+
+                        bool check = true;
+                            //check = (tiet == (Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET"].ToString()))) ? true : false;
                         #region Lưu Chi tiết lớp học phần
                         if (check)
                         {
@@ -1330,7 +1332,7 @@ namespace DATN.TTS.TVMH
             {
                 DataTable dt =client.GetAllLopForKhoaHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()),Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
 
-                this.iGridDataSoure = dt.Copy();
+                this.iGridDataSoure = dt;
                 grdLHP.ItemsSource = this.iGridDataSoure;
             }
         }
@@ -1345,9 +1347,9 @@ namespace DATN.TTS.TVMH
                 DataRow r = null;
                 if (this.grdLHP.GetFocusedRow() == null)
                     return;
-                r = ((DataRowView) this.grdLHP.GetFocusedRow()).Row;
+                r = ((DataRowView)this.grdLHP.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"] = r["ID_LOPHOCPHAN"];
-                this.iDataSoure.Rows[0]["SO_TUAN"] = r["SO_TUAN"];
+                this.iDataSoure.Rows[0]["SO_TUAN"] = (Convert.ToInt32(r["TUAN_KT"].ToString()) - Convert.ToInt32(r["TUAN_BD"].ToString())) + 1;
                 this.iDataSoure.Rows[0]["SO_TIET_TONG"] = r["SOTIET"];
                 if (!this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].Equals(string.Empty))
                 {
