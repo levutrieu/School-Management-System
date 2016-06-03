@@ -19,7 +19,7 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                var hdt = from dtao in db.tbl_HEDAOTAOs where dtao.IS_DELETE == 0
+                var hdt = from dtao in db.tbl_HEDAOTAOs where (dtao.IS_DELETE != 1 || dtao.IS_DELETE == null)
                     select new
                     {
                         dtao.ID_HE_DAOTAO,
@@ -41,7 +41,7 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = new DataTable();
                 var khoahoc = from k in db.tbl_KHOAHOCs
-                    where k.IS_DELETE == 0 && k.ID_HE_DAOTAO.Equals(pID_HE_DATAO)
+                    where (k.IS_DELETE != 1 || k.IS_DELETE ==null) && k.ID_HE_DAOTAO.Equals(pID_HE_DATAO)
                     select new
                     {
                         k.ID_KHOAHOC,
@@ -80,12 +80,12 @@ namespace DATN.TTS.BUS
                           join gv in db.tbl_GIANGVIENs on new { ID_GIANGVIEN = Convert.ToInt32(hp.ID_GIANGVIEN) } equals new { ID_GIANGVIEN = gv.ID_GIANGVIEN } into gv_join
                           from gv in gv_join.DefaultIfEmpty()
                           where
-                            hp.IS_DELETE == 0 &&
+                            (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
                             hp.ID_HEDAOTAO == pID_HE_DATAO &&
-                            knct.IS_DELETE == 0 &&
-                            khn.IS_DELETE == 0 &&
-                            kh.IS_DELETE == 0 &&
-                            gv.IS_DELETE == 0
+                            (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
+                            (khn.IS_DELETE != 1|| khn.IS_DELETE == null) &&
+                            (kh.IS_DELETE !=1 || kh.IS_DELETE == null) &&
+                            (gv.IS_DELETE != 1 || gv.IS_DELETE == null)
                           select new
                           {
                               hp.ID_LOPHOCPHAN,
@@ -142,30 +142,43 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = new DataTable();
                 var lhpct = from hpct in db.tbl_LOP_HOCPHAN_CTs
-                            join p in db.tbl_PHONGHOCs on hpct.ID_PHONG equals p.ID_PHONG
-                            join h in db.tbl_LOP_HOCPHANs on hpct.ID_LOPHOCPHAN equals h.ID_LOPHOCPHAN
-                            join gv in db.tbl_GIANGVIENs on h.ID_GIANGVIEN equals gv.ID_GIANGVIEN
-                    where
-                        hpct.IS_DELETE == 0 &&
-                        hpct.ID_LOPHOCPHAN == pID_LOPHOCPHAN &&
-                        p.IS_DELETE == 0 &&
-                        h.IS_DELETE==0 &&
-                        gv.IS_DELETE == 0
-                    select new
-                    {
-                        hpct.ID_LOP_HOCPHAN_CTIET,
-                        hpct.ID_LOPHOCPHAN,
-                        hpct.IS_DELETE,
-                        hpct.THU,
-                        hpct.TIET_BD,
-                        hpct.TIET_KT,
-                        hpct.ID_PHONG,
-                        p.TEN_PHONG,
-                        h.TEN_LOP_HOCPHAN,
-                        h.TUAN_BD,
-                        h.TUAN_KT,
-                        gv.TEN_GIANGVIEN
-                    };
+                            join hp in db.tbl_LOP_HOCPHANs on new { ID_LOPHOCPHAN = Convert.ToInt32(hpct.ID_LOPHOCPHAN) } equals new { ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN }
+                            where
+                              (hpct.IS_DELETE != 1 ||
+                              hpct.IS_DELETE == null) &&
+                              hpct.ID_LOPHOCPHAN == pID_LOPHOCPHAN
+                            select new
+                            {
+                                hpct.ID_LOP_HOCPHAN_CTIET,
+                                ID_LOPHOCPHAN = (int?)hpct.ID_LOPHOCPHAN,
+                                hpct.THU,
+                                hpct.TIET_BD,
+                                hpct.TIET_KT,
+                                hpct.ID_PHONG,
+                                hp.TEN_LOP_HOCPHAN,
+                                hp.TUAN_BD,
+                                hp.TUAN_KT,
+                                TEN_PHONG =
+                                  ((from p in db.tbl_PHONGHOCs
+                                    where
+                                      (p.IS_DELETE != 1 ||
+                                      p.IS_DELETE == null) &&
+                                      p.ID_PHONG == hpct.ID_PHONG
+                                    select new
+                                    {
+                                        p.TEN_PHONG
+                                    }).First().TEN_PHONG),
+                                TEN_GIANGVIEN =
+                                  ((from gv in db.tbl_GIANGVIENs
+                                    where
+                                      (gv.IS_DELETE != 1 ||
+                                      gv.IS_DELETE == null) &&
+                                      gv.ID_GIANGVIEN == hp.ID_GIANGVIEN
+                                    select new
+                                    {
+                                        gv.TEN_GIANGVIEN
+                                    }).First().TEN_GIANGVIEN)
+                            };
                 dt = TableUtil.LinqToDataTable(lhpct);
                 return dt;
             }
@@ -270,7 +283,7 @@ namespace DATN.TTS.BUS
                 var sotiet = from hpct in
                     (from hpct in db.tbl_LOP_HOCPHAN_CTs
                         where
-                            hpct.IS_DELETE == 0 &&
+                            (hpct.IS_DELETE != 1 || hpct.IS_DELETE == null) &&
                             hpct.ID_LOPHOCPHAN == pID_LOPHOCPHAN
                         select new
                         {
@@ -304,9 +317,9 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                var phong = from p in db.tbl_PHONGHOCs where p.IS_DELETE == 0 && 
+                var phong = from p in db.tbl_PHONGHOCs where (p.IS_DELETE != 1 || p.IS_DELETE == null) && 
                                 (from hpct in db.tbl_LOP_HOCPHAN_CTs
-                                 where hpct.IS_DELETE == 0 && p.ID_PHONG == hpct.ID_PHONG
+                                 where (hpct.IS_DELETE != 1 || hpct.IS_DELETE == null) && p.ID_PHONG == hpct.ID_PHONG
                                 select new
                                 {
                                     hpct.ID_PHONG
@@ -375,10 +388,10 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = null;
                 var phong = from p in db.tbl_PHONGHOCs
-                    where p.IS_DELETE == 0 &&
+                            where (p.IS_DELETE != 1 || p.IS_DELETE == null) &&
                           (from hpct in db.tbl_LOP_HOCPHAN_CTs
                               where
-                                  hpct.IS_DELETE == 0 &&
+                                  (hpct.IS_DELETE != 1 || hpct.IS_DELETE == null) &&
                                   (hpct.TIET_BD >= tietbd && hpct.TIET_KT <= tietkt) &&
                                   hpct.THU == thu &&
                                   p.ID_PHONG == hpct.ID_PHONG
