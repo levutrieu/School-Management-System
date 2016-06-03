@@ -19,6 +19,7 @@
         <!--Button thuc hien chuc nang-->
         <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="SlateGray">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Content="Nhập từ Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnImport" VerticalAlignment="Center" Click="BtnImport_OnClick"/>
                 <Button Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnNew" VerticalAlignment="Center" Click="btnNew_Click"/>
                 <Button Content="Xóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btndelete" VerticalAlignment="Center" Click="Btndelete_OnClick"/>
                 <Button Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnrefresh" VerticalAlignment="Center" Click="Btnrefresh_OnClick"/>

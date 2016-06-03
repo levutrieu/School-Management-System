@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +23,7 @@ using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Grid.GroupRowLayout;
+using Microsoft.Win32;
 
 namespace DATN.TTS.TVMH
 {
@@ -40,7 +43,8 @@ namespace DATN.TTS.TVMH
         {
             InitializeComponent();
             this.iData = TableChelmabinding();
-            this.iData.Rows[0]["USER"] = UserCommon.IdNhanVien.ToString();
+            //this.iData.Rows[0]["USER"] = UserCommon.UserName.ToString();
+            this.iData.Rows[0]["USER"] = "admin";
             InitGrid();
             Load_data();
         }
@@ -245,6 +249,90 @@ namespace DATN.TTS.TVMH
                 
                 throw ex;
             }
+        }
+
+        private void BtnImport_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".xls";
+            dlg.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                DataTable dtExcel = exceldata(filename);
+
+                DataTable dtCheck = bus.GetAllMonHoc();
+                DataTable dtNewInsert = dtExcel.Clone();
+                foreach (DataRow dr in dtExcel.Rows)
+                {
+                    if (IsCheck(dtCheck, dr["f_mamh"].ToString()))
+                    {
+                        dtNewInsert.ImportRow(dr);
+                        DataRow m = dtCheck.NewRow();
+                        m["MA_MONHOC"] = dr["f_mamh"].ToString();
+                        dtCheck.Rows.Add(m);
+                    }
+                }
+                int isInsert = 0;
+                if (dtNewInsert != null && dtNewInsert.Rows.Count > 0)
+                {
+                    isInsert = bus.InsertObject_Excel(dtNewInsert, iData.Rows[0]["USER"].ToString());
+                    if (isInsert != 0)
+                    {
+                        CTMessagebox.Show("Thành công", "Nhập từ Excel", "", CTICON.Information, CTBUTTON.OK);
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Lỗi", "Nhập từ Excel", "", CTICON.Information, CTBUTTON.OK);                        
+                    }
+                    Load_data();
+                }
+            }
+        }
+
+        private bool IsCheck(DataTable dt, string pMaMH)
+        {
+            if (dt != null)
+            {
+                DataRow[] xcheck = dt.Select("MA_MONHOC = '" + pMaMH + "'");
+                if (xcheck.Count() > 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public static DataTable exceldata(string filePath)
+        {
+            DataTable dtexcel = new DataTable();
+            bool hasHeaders = false;
+            string HDR = hasHeaders ? "Yes" : "No";
+            string strConn;
+            if (filePath.Substring(filePath.LastIndexOf('.')).ToLower() == ".xlsx")
+                strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=\"Excel 12.0;HDR=" + HDR + ";IMEX=0\"";
+            else
+                strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filePath + ";Extended Properties=\"Excel 8.0;HDR=" + HDR + ";IMEX=0\"";
+            OleDbConnection conn = new OleDbConnection(strConn);
+            conn.Open();
+            DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+            // Load nhieu sheet trong 1 file
+            foreach (DataRow schemaRow in schemaTable.Rows)
+            {
+                string sheet = schemaRow["TABLE_NAME"].ToString(); //ten sheet
+                if (!sheet.EndsWith("_"))
+                {
+                    //Lay all column
+                    //string query = "SELECT  * FROM [" + sheet + "]";
+
+                    //lay column theo y muon
+                    string query = "SELECT f_mamhtght,f_mamh,f_mamhhtd,f_dvht,f_tenmhvn FROM [" + sheet + "]";
+                    OleDbDataAdapter daexcel = new OleDbDataAdapter(query, conn);
+                    dtexcel.Locale = CultureInfo.CurrentCulture;
+                    daexcel.Fill(dtexcel);
+                }
+            }
+            conn.Close();
+            return dtexcel;
         }
     }
 }
