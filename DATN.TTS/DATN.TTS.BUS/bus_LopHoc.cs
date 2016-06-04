@@ -13,6 +13,23 @@ namespace DATN.TTS.BUS
     {
         db_ttsDataContext db = new db_ttsDataContext();
 
+        public bool CheckTrungMaLop(string malop)
+        {
+            try
+            {
+                var lop = from l in db.tbl_LOPHOCs where l.MA_LOP == malop select l;
+                DataTable dt = new DataTable();
+                dt = TableUtil.LinqToDataTable(lop);
+                if (dt.Rows.Count > 0)
+                    return false;
+                return true;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
         public DataTable GetAllKhoaNganh()
         {
             try

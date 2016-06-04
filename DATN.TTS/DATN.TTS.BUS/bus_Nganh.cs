@@ -40,8 +40,6 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 int flag = 0;
                 var nganh = (from ng in db.tbl_NGANHs where ng.IS_DELETE == 0
-                             join hdt in db.tbl_HEDAOTAOs on ng.ID_HE_DAOTAO equals hdt.ID_HE_DAOTAO
-                             where hdt.IS_DELETE == 0
                             join k in db.tbl_KHOAs on ng.ID_KHOA equals k.ID_KHOA where k.IS_DELETE == 0
                             select new
                             {
@@ -53,8 +51,6 @@ namespace DATN.TTS.BUS
                                 ng.GHICHU,
                                 ng.CAP_NGANH,
                                 ng.ID_KHOA,
-                                ng.ID_HE_DAOTAO,
-                                hdt.TEN_HE_DAOTAO,
                                 k.TEN_KHOA
                             }
                             );
@@ -81,7 +77,6 @@ namespace DATN.TTS.BUS
                 nganh.KYHIEU = r["KYHIEU"].ToString();
                 nganh.GHICHU = r["GHICHU"].ToString();
                 nganh.TRANGTHAI = r["TRANGTHAI"].ToString();
-                nganh.ID_HE_DAOTAO = Convert.ToInt32(r["ID_HE_DAOTAO"].ToString());
                 nganh.ID_KHOA = Convert.ToInt32(r["ID_KHOA"].ToString());
                 nganh.CAP_NGANH = r["CAP_NGANH"].ToString();
                 nganh.CREATE_USER = r["USER"].ToString();
@@ -112,7 +107,6 @@ namespace DATN.TTS.BUS
                 nganh.KYHIEU = r["KYHIEU"].ToString();
                 nganh.GHICHU = r["GHICHU"].ToString();
                 nganh.TRANGTHAI = r["TRANGTHAI"].ToString();
-                nganh.ID_HE_DAOTAO = Convert.ToInt32(r["ID_HE_DAOTAO"].ToString());
                 nganh.ID_KHOA = Convert.ToInt32(r["ID_KHOA"].ToString());
                 nganh.CAP_NGANH = r["CAP_NGANH"].ToString();
                 nganh.UPDATE_USER = r["USER"].ToString();
