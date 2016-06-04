@@ -31,6 +31,29 @@ namespace DATN.TTS.BUS
             }
         }
 
+        public static DataTable ConvertDictionaryToTable(Dictionary<string, Type> defition, bool allowAddnew)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                foreach (var x in defition)
+                {
+                    dt.Columns.Add(x.Key, x.Value);
+                }
+                if (allowAddnew)
+                {
+                    DataRow dr = dt.NewRow();
+                    dt.Rows.Add(dr);
+                }
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public static DataTable LinqToDataTable<T>(IEnumerable<T> linqlist)
         {
             DataTable dt = new DataTable();
