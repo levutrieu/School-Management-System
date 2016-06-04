@@ -132,6 +132,26 @@
 
                 </Grid>
                 </TabItem>
+            <TabItem Header="Danh sách học phần" x:Name="tabds">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Nhập từ Excel"  Style="{StaticResource Button_Style_2}" Name="btnImport_ds" Click="BtnImport_OnClick"/>
+                        <Button Content="Xóa"  Style="{StaticResource Button_Style_2}" Name="btnDelete_ds" Click="BtnDelete_OnClick"/>
+                        <Button Content="Làm mới"  Style="{StaticResource Button_Style_2}" Name="btnRefresh_ds" Click="BtnRefresh_ds_OnClick"/>
+                    </StackPanel>
+                    <dxg:GridControl Grid.Row="1" Margin="0 5 0 0" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd_ds" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView_ds" FocusedRowChanged="GrdView_ct_OnFocusedRowChanged" MouseDoubleClick="GrdView_ct_OnMouseDoubleClick"
+                                   ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}"/>
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Page>

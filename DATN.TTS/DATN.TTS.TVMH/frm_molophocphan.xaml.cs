@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,7 @@ using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
+using Microsoft.Win32;
 
 namespace DATN.TTS.TVMH
 {
@@ -29,6 +32,7 @@ namespace DATN.TTS.TVMH
     {
         private DataTable iDataSource = null;
         private DataTable iGridData_dsHP_nganh = null;
+        private DataTable iGridData_dsHP = null;
         private DataTable iGridData_TTHK = null;
         public static DataTable idata_send = null;
 
@@ -42,6 +46,7 @@ namespace DATN.TTS.TVMH
             InitGrid_HP();
             InitGrid_Lop();
             InitGrid_mh_lop();
+            InitGrid_HP_ds();
             this.iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             Load_combo();
         }
@@ -223,6 +228,83 @@ namespace DATN.TTS.TVMH
                 grd_ct.Columns.Add(xcolumn);
 
                 grdView_ct.AutoWidth = false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void InitGrid_HP_ds()
+        {
+            try
+            {
+
+                GridColumn xcolumn;
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "ID_LOPHOCPHAN";
+                xcolumn.Visible = false;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "MA_LOP_HOCPHAN";
+                xcolumn.Header = "Mã lớp học phần";
+                xcolumn.Width = 90;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "TEN_LOP_HOCPHAN";
+                xcolumn.Header = "Tên lớp học phần";
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "SOTIET";
+                xcolumn.Header = "Số tiết";
+                xcolumn.Width = 50;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "SOLUONG";
+                xcolumn.Header = "Số sinh viên";
+                xcolumn.Width = 50;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "TUAN_BD";
+                xcolumn.Header = "Tuần bắt đầu";
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "TUAN_KT";
+                xcolumn.Header = "Tuần kết thúc";
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "CACH_TINHDIEM";
+                xcolumn.Header = "Cách tính điểm";
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_ds.Columns.Add(xcolumn);
+
+                grdView_ds.AutoWidth = false;
             }
             catch (Exception ex)
             {
@@ -715,6 +797,192 @@ namespace DATN.TTS.TVMH
 
         private void GrdView_ct_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+        }
+
+        bus_molophocphan client= new bus_molophocphan();
+        private void BtnImport_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.DefaultExt = ".xls";
+                dlg.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    Mouse.OverrideCursor = Cursors.Wait;
+                    string filename = dlg.FileName;
+                    DataTable dtExcel = exceldata(filename);
+
+                    #region Add namhoc_hientai
+
+                    DataTable idata_nhoc_ht = client.Getall_NamHocHT();
+                    DataTable idata_new_nhht = dtExcel.Clone();
+                    foreach (DataRow dr in dtExcel.Rows)
+                    {
+                        if (!string.IsNullOrEmpty(dr["f_namhoc0"].ToString()))
+                        {
+                            if (IsCheck_nhht(idata_nhoc_ht, dr["f_namhoc0"].ToString()))
+                            {
+                                idata_new_nhht.ImportRow(dr);
+                                DataRow xdr = idata_nhoc_ht.NewRow();
+                                xdr["NAMHOC_TU"] = dr["f_namhoc0"];
+                                idata_nhoc_ht.Rows.Add(xdr);
+                            }
+                        }
+                    }
+                    if (idata_new_nhht.Rows.Count > 0)
+                    {
+                        client.Insert_NamHocHT_Excel(idata_new_nhht, iDataSource.Rows[0]["USER"].ToString());
+                    }
+
+                    #endregion
+
+                    #region Add hocky_namhoc_hientai
+
+                    DataTable idata_hky_ht = client.Getall_NamHoc_hkyHT();
+                    DataTable idata_new_HkyHT = dtExcel.Clone();
+                    foreach (DataRow dr in dtExcel.Rows)
+                    {
+                        if (!string.IsNullOrEmpty(dr["f_namhoc0"].ToString()) &&
+                            !string.IsNullOrEmpty(dr["f_hockythu"].ToString()))
+                        {
+                            if (IsCheck_Hkyht(idata_hky_ht, dr["f_namhoc0"].ToString(), dr["f_hockythu"].ToString()))
+                            {
+                                idata_new_HkyHT.ImportRow(dr);
+                                DataRow xdr = idata_hky_ht.NewRow();
+                                xdr["NAMHOC_TU"] = dr["f_namhoc0"];
+                                xdr["HOCKY"] = dr["f_hockythu"];
+                                idata_hky_ht.Rows.Add(xdr);
+                            }
+                        }
+                    }
+                    if (idata_new_HkyHT.Rows.Count > 0)
+                    {
+                        client.Insert_HkyHT_Excel(idata_new_HkyHT, iDataSource.Rows[0]["USER"].ToString());
+                    }
+
+                    #endregion
+
+                    #region Add lophocphan
+
+                    int xcheck = 0;
+                    DataTable idata_lophocphan = client.Getall_lopHocPhan();
+                    DataTable idata_new_lhp = dtExcel.Clone();
+                    foreach (DataRow dr in dtExcel.Rows)
+                    {
+                        if (IsCheck_lhp(idata_lophocphan, dr["f_mamhhtd"].ToString()))
+                        {
+                            idata_new_lhp.ImportRow(dr);
+                            DataRow xdr = idata_lophocphan.NewRow();
+                            xdr["MA_LOP_HOCPHAN"] = dr["f_mamhhtd"];
+                            idata_lophocphan.Rows.Add(xdr);
+                        }
+                    }
+                    if (idata_new_lhp.Rows.Count > 0)
+                    {
+                        xcheck = client.Insert_lhp_Excel(idata_new_lhp, iDataSource.Rows[0]["USER"].ToString());
+                        if (xcheck != 0)
+                        {
+                            CTMessagebox.Show("Thành công", "Nhập từ Excel", "", CTICON.Information, CTBUTTON.OK);
+                            BtnRefresh_ds_OnClick(null, null);
+                        }
+                        else
+                        {
+                            CTMessagebox.Show("Lỗi", "Nhập từ Excel", "", CTICON.Information, CTBUTTON.OK);
+                        }
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Thành công", "Nhập từ Excel", "", CTICON.Information, CTBUTTON.OK);
+                        BtnRefresh_ds_OnClick(null, null);
+                    }
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private bool IsCheck_nhht(DataTable dt, string namhochientai)
+        {
+            if (dt != null)
+            {
+                DataRow[] xcheck = dt.Select("NAMHOC_TU = " + namhochientai + "");
+                if (xcheck.Count() > 0)
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsCheck_Hkyht(DataTable dt, string namhochientai, string hocky)
+        {
+            if (dt != null)
+            {
+                DataRow[] xcheck = dt.Select("NAMHOC_TU = " + namhochientai + " and HOCKY = " + hocky);
+                if (xcheck.Count() > 0)
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsCheck_lhp(DataTable dt, string pid_lophocphan)
+        {
+            if (dt != null)
+            {
+                DataRow[] xcheck = dt.Select("MA_LOP_HOCPHAN = '" + pid_lophocphan + "'");
+                if (xcheck.Count() > 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public static DataTable exceldata(string filePath)
+        {
+            DataTable dtexcel = new DataTable();
+            bool hasHeaders = false;
+            string HDR = hasHeaders ? "Yes" : "No";
+            string strConn;
+            if (filePath.Substring(filePath.LastIndexOf('.')).ToLower() == ".xlsx")
+                strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=\"Excel 12.0;HDR=" + HDR + ";IMEX=0\"";
+            else
+                strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filePath + ";Extended Properties=\"Excel 8.0;HDR=" + HDR + ";IMEX=0\"";
+            OleDbConnection conn = new OleDbConnection(strConn);
+            conn.Open();
+            DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+            foreach (DataRow schemaRow in schemaTable.Rows)
+            {
+                string sheet = schemaRow["TABLE_NAME"].ToString();
+                if (!sheet.EndsWith("_"))
+                {
+                    string query = "SELECT f_mamh,f_mamhhtd,f_phtrambt,f_phtramkt,f_namhoc0,f_namthu,f_hockythu,f_tenmhvn FROM [" + sheet + "]";
+                    OleDbDataAdapter daexcel = new OleDbDataAdapter(query, conn);
+                    dtexcel.Locale = CultureInfo.CurrentCulture;
+                    daexcel.Fill(dtexcel);
+                }
+            }
+            conn.Close();
+            return dtexcel;
+        }
+
+        private void BtnRefresh_ds_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                iGridData_dsHP = client.GetAll_hocphan_ds();
+                grd_ds.ItemsSource = iGridData_dsHP;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
