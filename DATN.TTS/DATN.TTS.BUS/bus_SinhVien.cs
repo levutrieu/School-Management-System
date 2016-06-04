@@ -56,8 +56,8 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                var sv = from svien in db.tbL_SINHVIENs where svien.IS_DELETE == 0 
-                         join l in db.tbl_LOPHOCs on svien.ID_LOPHOC equals l.ID_LOPHOC where l.IS_DELETE == 0
+                var sv = from svien in db.tbL_SINHVIENs
+                         where svien.IS_DELETE != 1 || svien.IS_DELETE == null
                          select new
                         {
                             svien.ID_SINHVIEN,
@@ -81,9 +81,15 @@ namespace DATN.TTS.BUS
                             svien.DIENTHOAI,
                             svien.DIENTHOAI_GD,
                             svien.EMAIL,
-
-                            l.TEN_LOP
-
+                            TEN_LOP=
+                                ((from m in db.tbl_LOPHOCs
+                                  where
+                                      m.ID_LOPHOC == svien.ID_LOPHOC &&
+                                      ( m.IS_DELETE != 1 || m.IS_DELETE ==null)
+                                  select new
+                                  {
+                                      m.TEN_LOP
+                                  }).First().TEN_LOP),
                         };
 
                 dt = TableUtil.LinqToDataTable(sv);
@@ -205,6 +211,32 @@ namespace DATN.TTS.BUS
             {
                 
                 throw;
+            }
+        }
+
+        public int InsertObject_Excel(DataTable idatasource, string pUser)
+        {
+            try
+            {
+                int i = 0;
+                foreach (DataRow dr in idatasource.Rows)
+                {
+                    tbL_SINHVIEN query = new tbL_SINHVIEN
+                    {
+                        MA_SINHVIEN = dr["f_masv"].ToString(),
+                        TEN_SINHVIEN = dr["f_holotvn"].ToString() +" "+ dr["f_tenvn"].ToString(),
+                        CREATE_USER = pUser,
+                        CREATE_TIME = DateTime.Now,
+                    };
+                    db.tbL_SINHVIENs.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                    i = query.ID_SINHVIEN;
+                }
+                return i;
+            }
+            catch (Exception ex)
+            {
+                return 0;
             }
         }
     }
