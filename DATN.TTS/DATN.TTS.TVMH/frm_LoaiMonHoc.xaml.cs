@@ -40,7 +40,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSource = TableChelmabinding();
             this.DataContext = this.iDataSource;
-            this.iDataSource.Rows[0]["USER"] = UserCommon.IdNhanVien;
+            this.iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             this.iDataSource.Rows[0]["ID_LOAI"] = 0;
             Initialize_Grid();
             Load_data();
@@ -52,7 +52,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
-                xDicUser.Add("USER", typeof(decimal));
+                xDicUser.Add("USER", typeof(string));
                 xDicUser.Add("MA_LOAI", typeof(string));
                 xDicUser.Add("TENLOAI", typeof(string));
                 xDicUser.Add("TRANGTHAI", typeof(decimal));
