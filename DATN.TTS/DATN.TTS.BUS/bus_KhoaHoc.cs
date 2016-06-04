@@ -111,15 +111,13 @@ namespace DATN.TTS.BUS
 
                 if (kh.ID_KHOAHOC.GetTypeCode() != TypeCode.DBNull)
                 {
-                    db.Transaction.Commit();
                     return true;
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                db.Transaction.Rollback();
-                throw;
+                throw err;
             }
         }
 
@@ -129,20 +127,14 @@ namespace DATN.TTS.BUS
             {
                 //db.Connection.Open();
                 tbl_KHOAHOC kh = db.tbl_KHOAHOCs.Single(t => t.ID_KHOAHOC == pId);
-                using (db.Transaction = db.Connection.BeginTransaction())
-                {
-                    kh.IS_DELETE = 1;
-                    kh.UPDATE_USER = pUser;
-                    kh.UPDATE_TIME = System.DateTime.Now;
-
+                kh.IS_DELETE = 1;
+                kh.UPDATE_USER = pUser;
+                kh.UPDATE_TIME = System.DateTime.Now;
                     db.SubmitChanges();
-
-                    db.Transaction.Commit();
-                }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                db.Transaction.Rollback();
+                throw err;
             }
             //db.Connection.Close();
         }
@@ -153,9 +145,6 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = (DataTable)param[0];
                 DataRow r = dt.Rows[0];
-                db.Connection.Open();
-                using (db.Transaction = db.Connection.BeginTransaction())
-                {
                     tbl_KHOAHOC kh = db.tbl_KHOAHOCs.Single(t => t.ID_KHOAHOC == int.Parse(r["ID_KHOAHOC"].ToString()));
 
                     kh.ID_HE_DAOTAO = int.Parse(r["ID_HE_DAOTAO"].ToString().Trim());
@@ -172,13 +161,10 @@ namespace DATN.TTS.BUS
                     kh.UPDATE_USER = r["USER"].ToString();
 
                     db.SubmitChanges();
-
-                    db.Transaction.Commit();
-                }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                db.Transaction.Rollback();
+                throw err;
             }
             db.Connection.Close();
         }
