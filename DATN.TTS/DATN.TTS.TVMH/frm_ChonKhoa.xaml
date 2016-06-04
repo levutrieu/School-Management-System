@@ -32,7 +32,7 @@
             <TextBlock Grid.Column="0" Name="lblHeDT" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
             <dxe:ComboBoxEdit Grid.Column="1"  Name="cboHeDT" Width="250" Style="{StaticResource ComboBoxEditStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"
                           EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
-                          EditValueChanged="CboHeDT_OnEditValueChanged"/>
+                          EditValueChanged="CboHeDT_OnEditValueChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </Grid>
         <!--Controls nhap du lieu-->
         <Grid Grid.Row="2" Grid.Column="0">
