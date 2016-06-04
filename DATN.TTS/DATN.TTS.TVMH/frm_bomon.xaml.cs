@@ -37,7 +37,7 @@ namespace DATN.TTS.TVMH
             this.iDataSource = TableChelmabinding();
             this.DataContext = this.iDataSource;
             this.iDataSource.Rows[0]["ID_BOMON"] = 0;
-            this.iDataSource.Rows[0]["USER"] = UserCommon.IdNhanVien;
+            this.iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             Init_Grid();
             LoadData();
         }
