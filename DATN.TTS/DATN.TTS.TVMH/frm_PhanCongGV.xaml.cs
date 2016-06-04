@@ -44,7 +44,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             iDataSoure = TableChelmabinding();
             this.DataContext = this.iDataSoure;
-            this.iDataSoure.Rows[0]["USER"] = UserCommon.IdNhanVien.ToString();
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName.ToString();
             Init_Grid();
             Load_data();
         }
