@@ -297,6 +297,12 @@ namespace DATN.TTS.TVMH
                 {
                     if (flagsave)
                     {
+                        if (!client.CheckTrungMaLop(this.iDataSoure.Rows[0]["MA_LOP"].ToString()))
+                        {
+                            CTMessagebox.Show("Trùng mã lớp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                            txtMaLop.Focus();
+                            return;
+                        }
                         bool res = client.Insert_Lop(this.iDataSoure.Copy());
                         if (!res)
                         {
