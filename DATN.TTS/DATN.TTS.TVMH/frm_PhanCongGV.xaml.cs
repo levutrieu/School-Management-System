@@ -44,7 +44,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             iDataSoure = TableChelmabinding();
             this.DataContext = this.iDataSoure;
-            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName.ToString();
+            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             Init_Grid();
             Load_data();
         }
@@ -55,7 +55,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
-                xDicUser.Add("USER", typeof(decimal));
+                xDicUser.Add("USER", typeof(string));
                 xDicUser.Add("ID_BOMON", typeof(int));
                 xDicUser.Add("MA_BM", typeof(string));
                 xDicUser.Add("TEN_BM", typeof(string));
