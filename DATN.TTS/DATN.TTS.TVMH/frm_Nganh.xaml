@@ -36,9 +36,9 @@
                     <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="25"/>
                                 <RowDefinition Height="0.2*"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="25"/>
                                 <RowDefinition Height="0.1*"/>
                                 <!--<RowDefinition Height="25"/>
                                 <RowDefinition Height="*"/>-->
@@ -67,29 +67,30 @@
                                           EditValue="{Binding KYHIEU}" MaxLength="255"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="7" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="8" Name="txtGhiChu" Style="{StaticResource TextEditStyle}" 
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="8" Grid.RowSpan="3"
+                                          Name="txtGhiChu" Style="{StaticResource TextEditStyle}" 
                                           EditValue="{Binding GHICHU}" MaxLength="255"/>
 
                             
 
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                            <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="2" Name="cbbHDT" Style="{StaticResource ComboBoxEditStyle}" 
                                               AutoComplete="True" IsTextEditable="True"
                                               EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" 
-                                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>
+                                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>-->
                             
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Khoa:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="4" Name="cbbKhoa" Style="{StaticResource ComboBoxEditStyle}" 
-                                              AutoComplete="True" IsTextEditable="True"
-                                              EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Khoa:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="2" Name="cbbKhoa" Style="{StaticResource ComboBoxEditStyle}" 
+                                              AutoComplete="True"
+                                              EditValue="{Binding ID_KHOA, UpdateSourceTrigger=PropertyChanged}" 
                                               ValueMember="ID_KHOA" DisplayMember="TEN_KHOA"/>
                             
 
-                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Cấp ngành:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="6" Name="txtCapNganh" Style="{StaticResource TextEditStyle}" 
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Cấp ngành:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="4" Name="txtCapNganh" Style="{StaticResource TextEditStyle}" 
                                           EditValue="{Binding CAP_NGANH}" MaxLength="255"/>
-                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="8" Name="txtTThai" Style="{StaticResource TextEditStyle}" 
+                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="6" Name="txtTThai" Style="{StaticResource TextEditStyle}" 
                                           EditValue="{Binding TRANGTHAI}" MaxLength="255"/>
 
                         </Grid>
@@ -106,9 +107,8 @@
             <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight">
                 <dxg:GridControl.View>
-                    <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" AllowCellMerge="True"
-                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged"
-                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                    <dxg:TableView  NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdViewNDung"
+                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged">
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>

@@ -46,7 +46,7 @@ namespace DATN.TTS.TVMH
 
         private void SetComboBox()
         {
-            cbbHDT.ItemsSource = client.GetAllHDT();
+            //cbbHDT.ItemsSource = client.GetAllHDT();
             cbbKhoa.ItemsSource = client.GetAllKhoa();
         }
 
@@ -81,39 +81,33 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if (this.iDataSoure.Rows[0]["ID_KHOA"].ToString() == string.Empty)
+                if (this.iDataSoure.Rows[0]["ID_KHOA"].ToString() == "0")
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng chọn khoa");
                     txtMaNganh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["MA_NGANH"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập mã ngành");
                     txtMaNganh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TEN_NGANH"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập tên ngành");
                     txtMaNganh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["KYHIEU"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
-                    txtMaNganh.Focus();
-                    return false;
-                }
-                if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() == string.Empty)
-                {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập ký hiệu");
                     txtMaNganh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["CAP_NGANH"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox .Show("Vui lòng nhập cấp ngành");
                     txtMaNganh.Focus();
                     return false;
                 }
@@ -134,7 +128,7 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["MA_NGANH"] = string.Empty;
                 this.iDataSoure.Rows[0]["TEN_NGANH"] = string.Empty;
                 this.iDataSoure.Rows[0]["KYHIEU"] = string.Empty;
-                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "0";
+                //this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "0";
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
                 this.iDataSoure.Rows[0]["TRANGTHAI"] = string.Empty;
                 this.iDataSoure.Rows[0]["CAP_NGANH"] = string.Empty;
@@ -167,12 +161,21 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
 
+            //col = new GridColumn();
+            //col.FieldName = "ID_HE_DAOTAO";
+            //col.Width = 50;
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = false;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //grd.Columns.Add(col);
+
             col = new GridColumn();
-            col.FieldName = "ID_HE_DAOTAO";
+            col.FieldName = "TEN_KHOA";
+            col.Header = "Khoa";
             col.Width = 50;
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
@@ -180,28 +183,17 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "TEN_KHOA";
-            col.AllowCellMerge = true;
-            col.Header = "Khoa";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "TEN_HE_DAOTAO";
-            col.AllowCellMerge = true;
-            col.Header = "Hệ đào tạo";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
-            grd.Columns.Add(col);
+            //col = new GridColumn();
+            //col.FieldName = "TEN_HE_DAOTAO";
+            //col.AllowCellMerge = true;
+            //col.Header = "Hệ đào tạo";
+            //col.Width = 50;
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = true;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //col.AllowCellMerge = false;
+            //grd.Columns.Add(col);
 
             col = new GridColumn();
             col.FieldName = "KYHIEU";
@@ -213,7 +205,6 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             col.EditSettings = new TextEditSettings();
             col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -226,7 +217,6 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             col.EditSettings = new TextEditSettings();
             col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -237,7 +227,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -248,7 +237,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -259,7 +247,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -270,7 +257,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
             grd.Columns.Add(col);
            
             grdViewNDung.AutoWidth = true;
@@ -384,7 +370,6 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["MA_NGANH"] = r["MA_NGANH"];
                 this.iDataSoure.Rows[0]["TEN_NGANH"] = r["TEN_NGANH"];
                 this.iDataSoure.Rows[0]["KYHIEU"] = r["KYHIEU"];
-                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = r["ID_HE_DAOTAO"];
                 this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
                 this.iDataSoure.Rows[0]["TRANGTHAI"] = r["TRANGTHAI"];
                 this.iDataSoure.Rows[0]["CAP_NGANH"] = r["CAP_NGANH"];
