@@ -44,7 +44,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iData = TableChelmabinding();
             //this.iData.Rows[0]["USER"] = UserCommon.UserName.ToString();
-            this.iData.Rows[0]["USER"] = "admin";
+            this.iData.Rows[0]["USER"] = UserCommon.UserName.ToString();
             InitGrid();
             Load_data();
         }
