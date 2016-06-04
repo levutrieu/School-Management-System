@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="DATN.TTS.TVMH.frm_ChonKhoa"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900">
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Click="BtnChon_OnClick" Content="Chọn khóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnChon" VerticalAlignment="Center"/>
+                <!--<Button Click="BtnCapNhat_OnClick" Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnCapNhat" VerticalAlignment="Center"/>-->
+                <Button Click="BtnExcel_OnClick" Content="Xuất Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnExcel" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="lblHeDT" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Column="1"  Name="cboHeDT" Width="250" Style="{StaticResource ComboBoxEditStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"
+                          EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
+                          EditValueChanged="CboHeDT_OnEditValueChanged"/>
+        </Grid>
+        <!--Controls nhap du lieu-->
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" >
+                <dxg:GridControl.View>
+                    <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdKhoa"
+                                   RowStyle="{StaticResource SelectedRowStyle}" MouseDown="GrdKhoa_OnMouseDown" FocusedRowChanged="GrdKhoa_OnFocusedRowChanged"/>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+    </Grid>
+</UserControl>
