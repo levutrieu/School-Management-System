@@ -30,6 +30,7 @@
         <!--Button thuc hien chuc nang-->
         <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Click="BtnImport_OnClick" Content="Nhập từ Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnImport" VerticalAlignment="Center"/>
                 <Button Click="btnAddNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAddNew" VerticalAlignment="Center"/>
                 <Button Click="btnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
                 <Button Click="btnDelete_OnClick" Content="Xóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnDelete" VerticalAlignment="Center"/>
