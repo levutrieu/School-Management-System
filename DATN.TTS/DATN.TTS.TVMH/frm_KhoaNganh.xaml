@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="DATN.TTS.TVMH.frm_KhoaNganh"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      mc:Ignorable="d" 
+      d:DesignHeight="460" d:DesignWidth="1200">
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="0.08*"/>
+            <ColumnDefinition Width="0.6*" />
+        </Grid.ColumnDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Click="BtnKeThua_OnClick" Content="Kế thừa khóa ngành" Style="{StaticResource Button_Style}" HorizontalAlignment="Left" Name="btnKeThua" VerticalAlignment="Center"/>
+                <Button Click="BtnThemLop_OnClick" Content="Thêm mới lớp học" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnThemLop" VerticalAlignment="Center"/>
+                <Button Click="BtnThemKhoaNganh_OnClick" Content="Lưu khóa ngành" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnThemKhoaNganh" VerticalAlignment="Center"/>
+                <Button Click="BtnCapNhat_OnClick" Content="Cập nhật" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnCapNhat" VerticalAlignment="Center"/>
+                <Button Click="BtnExcel_OnClick" Content="Xuất Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnExcel" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="lblHeDT" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:TextEdit Grid.Column="1" Style="{StaticResource TextEditStyle}" Name="txtHDT" EditValue="{Binding TEN_HE_DAOTAO}" IsReadOnly="True"/>
+            <!--<dxe:ComboBoxEdit Grid.Column="1"  Name="cboHeDT" Style="{StaticResource ComboBoxEditStyle}"
+                          EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
+                          EditValueChanged="CboHeDT_OnEditValueChanged" IsReadOnly="True"/>-->
+
+            <TextBlock Grid.Column="2" Name="lblKhoa" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:TextEdit Grid.Column="3" Style="{StaticResource TextEditStyle}" Name="txtKhoa" EditValue="{Binding TEN_KHOAHOC}" IsReadOnly="True"/>
+        </Grid>
+        
+        <Grid Grid.Row="2" Grid.Column="1" Grid.VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Click="BtnThem_OnClick" Width="90" Content="Thêm" Style="{StaticResource Button_Style}" Name="btnThem" VerticalContentAlignment="Center"/>
+            <Button Grid.Row="2" Click="BtnXoa_OnClick" Width="90" Content="Xóa" Style="{StaticResource Button_Style}" Name="btnXoa" VerticalContentAlignment="Center"/>
+        </Grid>
+        <!--Controls nhap du lieu-->
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" >
+                <dxg:GridControl.View>
+                    <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdNganh" RowStyle="{StaticResource SelectedRowStyle}" 
+                                   MouseDown="GrdNganh_OnMouseDown" FocusedRowChanged="GrdNganh_OnFocusedRowChanged">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="False" 
+                             Margin="0"  FontSize="12" x:Name="grdKhoaNganh" dx:ThemeManager.ThemeName="MetropolisLight" 
+                             >
+                <dxg:GridControl.View>
+                    <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdViewKhoaNganh"
+                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewKhoaNganh_OnCellValueChanged"
+                                   >
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+    </Grid>
+</UserControl>
