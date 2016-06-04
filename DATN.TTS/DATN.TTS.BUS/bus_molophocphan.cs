@@ -411,5 +411,244 @@ namespace DATN.TTS.BUS
                 throw ex;
             }
         }
+
+        public DataTable Getall_NamHocHT()
+        {
+            var query = from d in db.tbl_NAMHOC_HIENTAIs
+                        where
+                          d.IS_DELETE != 1 ||
+                          d.IS_DELETE == null
+                        select new
+                        {
+                            d.ID_NAMHOC_HIENTAI,
+                            d.NAMHOC_TU,
+                            d.NAMHOC_DEN,
+                            d.NGAY_BATDAU,
+                            d.SO_TUAN,
+                            d.SO_HKY_TRONGNAM,
+                            d.IS_HIENTAI,
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
+        public DataTable Getall_NamHoc_hkyHT()
+        {
+            var query = from d in db.tbl_NAMHOC_HKY_HTAIs
+                        join m in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(d.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = m.ID_NAMHOC_HIENTAI } into m_join
+                        from m in m_join.DefaultIfEmpty()
+                        where
+                          d.IS_DELETE != 1 ||
+                          d.IS_DELETE == null
+                        select new
+                        {
+                            d.ID_NAMHOC_HKY_HTAI,
+                            d.HOCKY,
+                            NAMHOC_TU = (int?)m.NAMHOC_TU,
+                            NAMHOC_DEN = (int?)m.NAMHOC_DEN,
+                            SO_TUAN = (int?)m.SO_TUAN,
+                            SO_HKY_TRONGNAM = (int?)m.SO_HKY_TRONGNAM
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
+        public DataTable Getall_lopHocPhan()
+        {
+            var query = from d in db.tbl_LOP_HOCPHANs
+                        where
+                          d.IS_DELETE != 1 ||
+                          d.IS_DELETE == null
+                        select new
+                        {
+                            d.ID_LOPHOCPHAN,
+                            d.ID_LOPHOC,
+                            d.ID_KHOAHOC_NGANH_CTIET,
+                            d.ID_NAMHOC_HKY_HTAI,
+                            d.ID_HEDAOTAO,
+                            d.ID_MONHOC,
+                            d.MA_LOP_HOCPHAN,
+                            d.TEN_LOP_HOCPHAN,
+                            d.TUAN_BD,
+                            d.TUAN_KT,
+                            d.SOTIET,
+                            d.SOLUONG,
+                            d.ID_GIANGVIEN,
+                            d.CACH_TINHDIEM
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
+        public DataTable GetAll_hocphan_ds()
+        {
+            var query = from Tbl_LOP_HOCPHAN in db.tbl_LOP_HOCPHANs
+                        where
+                            (Tbl_LOP_HOCPHAN.IS_DELETE != 1 ||
+                             Tbl_LOP_HOCPHAN.IS_DELETE == null)
+                        select new
+                        {
+                            Tbl_LOP_HOCPHAN.ID_LOPHOCPHAN,
+                            Tbl_LOP_HOCPHAN.ID_LOPHOC,
+                            Tbl_LOP_HOCPHAN.ID_KHOAHOC_NGANH_CTIET,
+                            Tbl_LOP_HOCPHAN.ID_NAMHOC_HKY_HTAI,
+                            Tbl_LOP_HOCPHAN.ID_HEDAOTAO,
+                            Tbl_LOP_HOCPHAN.ID_MONHOC,
+                            Tbl_LOP_HOCPHAN.MA_LOP_HOCPHAN,
+                            Tbl_LOP_HOCPHAN.TEN_LOP_HOCPHAN,
+                            Tbl_LOP_HOCPHAN.TUAN_BD,
+                            Tbl_LOP_HOCPHAN.TUAN_KT,
+                            Tbl_LOP_HOCPHAN.SOTIET,
+                            Tbl_LOP_HOCPHAN.SOLUONG,
+                            Tbl_LOP_HOCPHAN.ID_GIANGVIEN,
+                            TEN_GIANGVIEN = (from Tbl_GIANGVIEN in db.tbl_GIANGVIENs
+                                             where
+                                                 (Tbl_GIANGVIEN.IS_DELETE != 1 ||
+                                                  Tbl_GIANGVIEN.IS_DELETE == null) &&
+                                                 Tbl_GIANGVIEN.ID_GIANGVIEN == 1
+                                             select new
+                                             {
+                                                 Tbl_GIANGVIEN.TEN_GIANGVIEN
+                                             }).First().TEN_GIANGVIEN,
+                            Tbl_LOP_HOCPHAN.CACH_TINHDIEM
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
+        public DataTable GetAll_monhoc_all()
+        {
+            var query = from d in db.tbl_MONHOCs
+                        where
+                          d.IS_DELETE != 1 ||
+                          d.IS_DELETE == null
+                        select new
+                        {
+                            d.ID_MONHOC,
+                            d.ID_LOAI_MONHOC,
+                            d.ID_BOMON,
+                            d.MA_MONHOC,
+                            d.TEN_MONHOC,
+                            d.KY_HIEU,
+                            d.SO_TC,
+                            d.IS_THUHOCPHI,
+                            d.IS_THUCHANH,
+                            d.IS_LYTHUYET,
+                            d.IS_TINHDIEM,
+                            d.TRANGTHAI,
+                            d.ISBATBUOC,
+                            d.ID_MONHOC_SONGHANH,
+                            d.GHICHU
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
+        public int Insert_NamHocHT_Excel(DataTable idatasource, string pUser)
+        {
+            try
+            {
+                int i = 0;
+                foreach (DataRow dr in idatasource.Rows)
+                {
+                    tbl_NAMHOC_HIENTAI query = new tbl_NAMHOC_HIENTAI
+                    {
+                        NAMHOC_TU = Convert.ToInt32(dr["f_namhoc0"].ToString()),
+                        NAMHOC_DEN = Convert.ToInt32(dr["f_namhoc0"].ToString()) + 1 ,
+                        CREATE_USER = pUser,
+                        CREATE_TIME = DateTime.Now
+                    };
+                    db.tbl_NAMHOC_HIENTAIs.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                    i = query.ID_NAMHOC_HIENTAI;
+                }
+                return i;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public int Insert_HkyHT_Excel(DataTable idatasource, string pUser)
+        {
+            try
+            {
+                int i = 0;
+                DataTable xdt = Getall_NamHocHT();
+                foreach (DataRow dr in idatasource.Rows)
+                {
+                    tbl_NAMHOC_HKY_HTAI query = new tbl_NAMHOC_HKY_HTAI
+                    {
+                        HOCKY = Convert.ToInt32(dr["f_hockythu"].ToString()),
+                        ID_NAMHOC_HIENTAI = Convert.ToInt32((xdt.Select("NAMHOC_TU = " + dr["f_namhoc0"].ToString()))[0]["ID_NAMHOC_HIENTAI"].ToString()),
+                        CREATE_USER = pUser,
+                        CREATE_TIME = DateTime.Now
+                    };
+                    db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                    i = query.ID_NAMHOC_HKY_HTAI;
+                }
+                return i;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public int Insert_lhp_Excel(DataTable idatasource, string pUser)
+        {
+            try
+            {
+                int i = 0;
+                DataTable xdt = Getall_NamHoc_hkyHT();
+                DataTable xdt_monhoc = GetAll_monhoc_all();
+                foreach (DataRow dr in idatasource.Rows)
+                {
+                    string cachtinhdiem = "";
+                    if (Convert.ToInt32(dr["f_phtrambt"].ToString()) == 0 &&
+                        Convert.ToInt32(dr["f_phtramkt"].ToString()) == 0)
+                    {
+                        cachtinhdiem = "0-0-100";
+                    }
+                    else
+                    {
+                        cachtinhdiem = dr["f_phtrambt"].ToString() + "-" + dr["f_phtramkt"].ToString() + ( 100 - ( Convert.ToInt32(dr["f_phtrambt"].ToString()) + Convert.ToInt32(dr["f_phtramkt"].ToString()) ) ).ToString();
+                    }
+                    int id_namhoc_hky = 0;
+                    if (!string.IsNullOrEmpty(dr["f_namhoc0"].ToString()))
+                    {
+                        id_namhoc_hky =
+                            Convert.ToInt32(
+                                (xdt.Select("NAMHOC_TU = " + dr["f_namhoc0"].ToString() + " and HOCKY = " +
+                                            dr["f_hockythu"].ToString()))[0]["ID_NAMHOC_HKY_HTAI"].ToString());
+                    }
+                    tbl_LOP_HOCPHAN query = new tbl_LOP_HOCPHAN
+                    {
+                        ID_NAMHOC_HKY_HTAI = id_namhoc_hky,
+                        ID_MONHOC = Convert.ToInt32((xdt_monhoc.Select("MA_MONHOC = '" + dr["f_mamh"].ToString() + "'"))[0]["ID_MONHOC"].ToString()),
+                        MA_LOP_HOCPHAN = dr["f_mamhhtd"].ToString(),
+                        TEN_LOP_HOCPHAN = dr["f_tenmhvn"].ToString(),
+                        CACH_TINHDIEM = cachtinhdiem,
+                        CREATE_USER = pUser,
+                        CREATE_TIME = DateTime.Now
+                    };
+                    db.tbl_LOP_HOCPHANs.InsertOnSubmit(query);
+                    db.SubmitChanges();
+                    i = query.ID_LOPHOCPHAN;
+                }
+                return i;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
