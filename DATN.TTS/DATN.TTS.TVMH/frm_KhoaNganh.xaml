@@ -39,13 +39,15 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Name="lblHeDT" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:TextEdit Grid.Column="1" Style="{StaticResource TextEditStyle}" Name="txtHDT" EditValue="{Binding TEN_HE_DAOTAO}" IsReadOnly="True"/>
+            <dxe:TextEdit Grid.Column="1" Style="{StaticResource TextEditStyle}" Name="txtHDT" EditValue="{Binding TEN_HE_DAOTAO}" 
+                          IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="AntiqueWhite" ShowBorder="False"/>
             <!--<dxe:ComboBoxEdit Grid.Column="1"  Name="cboHeDT" Style="{StaticResource ComboBoxEditStyle}"
                           EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
                           EditValueChanged="CboHeDT_OnEditValueChanged" IsReadOnly="True"/>-->
 
             <TextBlock Grid.Column="2" Name="lblKhoa" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:TextEdit Grid.Column="3" Style="{StaticResource TextEditStyle}" Name="txtKhoa" EditValue="{Binding TEN_KHOAHOC}" IsReadOnly="True"/>
+            <dxe:TextEdit Grid.Column="3" Style="{StaticResource TextEditStyle}" Name="txtKhoa" EditValue="{Binding TEN_KHOAHOC}" IsReadOnly="True"
+                          VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="AntiqueWhite" ShowBorder="False"/>
         </Grid>
         
         <Grid Grid.Row="2" Grid.Column="1" Grid.VerticalAlignment="Center">
@@ -79,7 +81,7 @@
                              >
                 <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdViewKhoaNganh"
-                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewKhoaNganh_OnCellValueChanged"
+                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewKhoaNganh_OnCellValueChanged" FocusedRowChanged="GrdViewKhoaNganh_OnFocusedRowChanged"
                                    >
                     </dxg:TableView>
                 </dxg:GridControl.View>

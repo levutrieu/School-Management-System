@@ -292,6 +292,9 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_KHOAHOC", typeof(Decimal));
                 dic.Add("ID_NGANH", typeof(Decimal));
                 dic.Add("TEN_NGANH", typeof(string));
+                //===============================
+                dic.Add("KHOAHOC_NGANH", typeof(string));
+                dic.Add("ID_KHOAHOC_NGANH", typeof(Decimal));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -390,7 +393,7 @@ namespace DATN.TTS.TVMH
                 r["GHICHU"] = "";
                 iGridDataSoureKhoaNganh.Rows.Add(r);
                 iGridDataSoureKhoaNganh.AcceptChanges();
-                iGridDataSoureKhoaNganh.Columns.Add("CHK");
+                //iGridDataSoureKhoaNganh.Columns.Add("CHK");
                 grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
             }
             catch (Exception err)
@@ -414,9 +417,23 @@ namespace DATN.TTS.TVMH
                 {
                     iGridDataSoureKhoaNganh = TableSchemaBindings_Grid();
                 }
-                if (xdt.Rows.Count > 0)
+                DataTable dt = new DataTable();
+                dt = xdt.Clone();
+                foreach (DataRow r in xdt.Rows)
                 {
-                    foreach (DataRow dr in xdt.Rows)
+                    foreach (DataRow xdr in iGridDataSoureKhoaNganh.Rows)
+                    {
+                        int x = Convert.ToInt32(xdr["ID_NGANH"].ToString());
+                        int y = Convert.ToInt32(r["ID_NGANH"].ToString());
+                        if (x != y)
+                        {
+                            dt.ImportRow(r);
+                        }
+                    }
+                }
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
                     {
                         DataRow r = iGridDataSoureKhoaNganh.NewRow();
                         r["ID_KHOAHOC_NGANH"] = "0";
@@ -429,10 +446,11 @@ namespace DATN.TTS.TVMH
                         r["SO_SINHVIEN_DK"] = dr["SO_SINHVIEN_DK"];
                         r["SO_LOP"] = dr["SO_LOP"];
                         r["GHICHU"] = dr["GHICHU"];
+
                         iGridDataSoureKhoaNganh.Rows.Add(r);
                         iGridDataSoureKhoaNganh.AcceptChanges();
                     }
-                    iGridDataSoureKhoaNganh.Columns.Add("CHK");
+                    //iGridDataSoureKhoaNganh.Columns.Add("CHK");
                     grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
                 }
             }
@@ -584,6 +602,27 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Wait;
                 LoadKhoaNganh();
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void GrdViewKhoaNganh_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.grdKhoaNganh.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grdKhoaNganh.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = row["ID_KHOAHOC_NGANH"];
+                this.iDataSoure.Rows[0]["KHOAHOC_NGANH"] = row["TEN_KHOAHOC"] + " " + row["TEN_NGANH"];
             }
             catch (Exception err)
             {

@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+      xmlns:Local="DATN.TTS.TVMH"
+      xmlns:tvmh="clr-namespace:DATN.TTS.TVMH"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="1200"
 	Title="frm_LapChuongTrinhDaoTaoKhoa">
@@ -15,13 +17,13 @@
             </Grid.ColumnDefinitions>
             <dxwui:PageView x:Name="PageController" Grid.Column="0" SelectionChanged="PageController_SelectionChanged">
                 <dxwui:PageViewItem x:Name="pvi0" Header="Chọn khóa">
-                    <!--<local:dm_dt_hockynamhoc x:Name="dm_dt_hockynamhoc"/>-->
+                    <tvmh:frm_ChonKhoa x:Name="frm_ChonKhoa" FontSize="12" FontFamily="Time New Roman"/>
                 </dxwui:PageViewItem>
                 <dxwui:PageViewItem x:Name="pvi1" Header="Chọn ngành">
-                    <!--<local:dm_dt_khoanganh x:Name="dm_dt_khoanganh"/>-->
+                    <tvmh:frm_KhoaNganh x:Name="frm_KhoaNganh" FontSize="12" FontFamily="Time New Roman"/>
                 </dxwui:PageViewItem>
-                <dxwui:PageViewItem x:Name="pvi2" Header="Chi tiết khóa ngành">
-                    <!--<local:dm_dt_khoanganh x:Name="dm_dt_khoanganh"/>-->
+                <dxwui:PageViewItem x:Name="pvi2" Header="Thiết lập khóa ngành">
+                    <tvmh:frm_KhungNganhDaoTaoKhoa x:Name="frm_KhungNganhDaoTaoKhoa" FontSize="12" FontFamily="Time New Roman"/>
                 </dxwui:PageViewItem>
             </dxwui:PageView>
             <Viewbox x:Name="btnPrev" MouseDown="btnPrev_MouseDown" Cursor="Hand" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Height="48" Width="48">
