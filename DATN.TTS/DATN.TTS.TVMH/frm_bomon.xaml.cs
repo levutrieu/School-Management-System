@@ -47,7 +47,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
-                xDicUser.Add("USER", typeof(decimal));
+                xDicUser.Add("USER", typeof(string));
                 xDicUser.Add("ID_BOMON", typeof(int));
                 xDicUser.Add("MA_BM", typeof(string));
                 xDicUser.Add("TEN_BM", typeof(string));
