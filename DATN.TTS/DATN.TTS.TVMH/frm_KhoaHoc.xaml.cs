@@ -19,6 +19,7 @@ using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
+using CustomMessage;
 
 namespace DATN.TTS.TVMH
 {
@@ -215,55 +216,55 @@ namespace DATN.TTS.TVMH
         {
             if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Vui lòng chọn hệ đào tạo!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 cbbHDT.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["MA_KHOAHOC"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Vui lòng nhập mã khóa học", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtMaKH.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["TEN_KHOAHOC"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Vui lòng nhập tên khóa học", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtTenKH.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["NAM_BD"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("VUi lòng nhập năm bắt đầu", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtNamBD.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["NAM_KT"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
-                txtNamKT.Focus();
+                CTMessagebox.Show("Vui lòng nhập năm kết thúc", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                txtNamKT.Focus();;
                 return false;
             }
             if (this.iDataSoure.Rows[0]["SO_HKY_1NAM"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Vui lòng nhập số học kỳ của năm", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtHocKyNam.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["SO_HKY"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Vui lòng nhập tổng số học kỳ", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtSoHK.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["KYHIEU"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Bạn có muốn xóa không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtKyHieu.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["TRANGTHAI"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập", "Thông báo");
+                CTMessagebox.Show("Bạn có muốn xóa không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtTrangThai.Focus();
                 return false;
             }
@@ -318,7 +319,8 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_KhoaHoc(this.iDataSoure.Copy());
                         if (!res)
                         {
-                            MessageBox.Show("Thêm mới không thành công", "Thêm mới", MessageBoxButton.OKCancel);
+                            CTMessagebox.Show("Thêm mới không thành công", "Thêm mới", "", CTICON.Information,
+                                CTBUTTON.YesNo);
                         }
                         SetNullValue();
                     }
@@ -341,7 +343,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if (MessageBox.Show("Bạn có muốn xóa không?", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (CTMessagebox.Show("Bạn có muốn xóa không?","Xóa","", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_KhoaHoc(int.Parse(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()), this.iDataSoure.Rows[0]["USER"].ToString());
 
