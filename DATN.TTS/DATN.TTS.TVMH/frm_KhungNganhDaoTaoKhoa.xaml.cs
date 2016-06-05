@@ -619,6 +619,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 frm_KeThuaKhoaNganhCT frm = new frm_KeThuaKhoaNganhCT();
+                frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
                 DataTable xdt = frm.iDataReturn.Copy();
                 if (iGridDataSoureNganhCT.Rows.Count == 0)
@@ -695,16 +696,6 @@ namespace DATN.TTS.TVMH
         }
 
         private void GrdViewKhoaNganhCT_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
-        {
-
-        }
-
-        private void CboBoMon_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
-        {
-
-        }
-
-        private void CboLoaiMH_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
 
         }
