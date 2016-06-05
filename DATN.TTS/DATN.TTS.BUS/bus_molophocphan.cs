@@ -176,16 +176,15 @@ namespace DATN.TTS.BUS
 
         public DataTable GetAll_Lop(int pID_KHOAHOC)
         {
-            var query = from kn in db.tbl_KHOAHOC_NGANHs
-                join lh in db.tbl_LOPHOCs on new {ID_KHOAHOC_NGANH = kn.ID_KHOAHOC_NGANH} equals
-                    new {ID_KHOAHOC_NGANH = Convert.ToInt32(lh.ID_KHOAHOC_NGANH)} into lh_join
-                from lh in lh_join.DefaultIfEmpty()
-                where
-                    kn.ID_KHOAHOC == pID_KHOAHOC &&
-                    (kn.IS_DELETE != 1 ||
-                     kn.IS_DELETE == null) &&
-                    (lh.IS_DELETE != 1 ||
-                     lh.IS_DELETE == null)
+            var query = from lh in db.tbl_LOPHOCs
+                        join kn in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(lh.ID_KHOAHOC_NGANH) } equals new { ID_KHOAHOC_NGANH = kn.ID_KHOAHOC_NGANH } into kn_join
+                        from kn in kn_join.DefaultIfEmpty()
+                        where
+                          kn.ID_KHOAHOC == 1 &&
+                          (kn.IS_DELETE != 1 ||
+                          kn.IS_DELETE == null) &&
+                          (lh.IS_DELETE != 1 ||
+                          lh.IS_DELETE == null)
                 select new
                 {
                     ID_KHOAHOC_NGANH = (int?) kn.ID_KHOAHOC_NGANH,
