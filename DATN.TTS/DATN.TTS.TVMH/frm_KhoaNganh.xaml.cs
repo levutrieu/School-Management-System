@@ -685,13 +685,6 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-        
-        #region chưa xử lý
-
-        private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BtnThemLop_OnClick(object sender, RoutedEventArgs e)
         {
@@ -699,6 +692,7 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Wait;
                 frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(this.iDataSoure.Copy());
+                frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
             }
             catch (Exception err)
@@ -711,7 +705,11 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        
+        #region chưa xử lý
+        private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
     }
 }
