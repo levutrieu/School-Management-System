@@ -4,7 +4,7 @@
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-        Title="Mở lớp học" Height="300" Width="900" WindowStartupLocation="CenterScreen"
+        Title="Mở lớp học" Height="500" Width="1200" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeToContent="Height">

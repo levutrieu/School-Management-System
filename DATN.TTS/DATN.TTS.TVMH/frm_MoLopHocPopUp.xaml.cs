@@ -33,14 +33,20 @@ namespace DATN.TTS.TVMH
         public frm_MoLopHocPopUp(params object[] oParams)
         {
             InitializeComponent();
-            this.iDataSoure = TableSchemaBinding();
-            this.DataContext = iDataSoure;
 
-            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
-            SetComBo();
-            InitGrid();
-
+            if (oParams != null)
+            {
+                DataTable dt = (DataTable) oParams[0];
+                DataRow r = dt.Rows[0];
+                this.iDataSoure = TableSchemaBinding();
+                this.DataContext = iDataSoure;
+                SetComBo();
+                this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = r["ID_KHOAHOC_NGANH"];
+                this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
+                InitGrid();
+            }
         }
+
         void InitGrid()
         {
             GridColumn col = null;
@@ -54,27 +60,17 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "ID_KHOAHOC_NGANH";
-            col.Header = string.Empty;
-            col.Width = 50;
-            col.AutoFilterValue = true;
+            //col = new GridColumn();
+            //col.FieldName = "ID_KHOAHOC_NGANH";
+            //col.Header = string.Empty;
+            //col.Width = 50;
+            //col.AutoFilterValue = true;
 
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "KHOA_NGANH";
-            col.Header = "Khóa ngành";
-            col.Width = 80;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = false;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //grd.Columns.Add(col);
 
             col = new GridColumn();
             col.FieldName = "MA_LOP";
@@ -174,8 +170,6 @@ namespace DATN.TTS.TVMH
 
         void SetIsNull()
         {
-            this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = "0";
-            this.iDataSoure.Rows[0]["KHOA_NGANH"] = string.Empty;
             this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = "0";
             this.iDataSoure.Rows[0]["MA_LOP"] = string.Empty;
             this.iDataSoure.Rows[0]["TEN_LOP"] = string.Empty;
@@ -193,8 +187,11 @@ namespace DATN.TTS.TVMH
 
         void GetGrid()
         {
-            this.iGridDataSoure = client.GetAllLop();
-            this.grd.ItemsSource = iGridDataSoure.Copy();
+            if (this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString() != string.Empty)
+            {
+                this.iGridDataSoure = client.GetAllLopWhere(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                this.grd.ItemsSource = iGridDataSoure;
+            }
         }
 
         bool Validate()
@@ -229,12 +226,6 @@ namespace DATN.TTS.TVMH
                 cbbGiangVienCN.Focus();
                 return false;
             }
-            if (this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString() == "0")
-            {
-                CTMessagebox.Show("Vui lòng chọn khóa ngành cho lớp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
-                cbbKhoaNganh.Focus();
-                return false;
-            }
             if (this.iDataSoure.Rows[0]["SOLUONG_SV"].ToString() == string.Empty)
             {
                 CTMessagebox.Show("Vui lòng nhập số sinh viên của lớp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
@@ -261,6 +252,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("SOLUONG_SV", typeof(Decimal));
                 dic.Add("GHICHU", typeof(string));
                 dic.Add("USER", typeof(string));
+                dic.Add("SO_LOP", typeof(Decimal));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -364,8 +356,6 @@ namespace DATN.TTS.TVMH
                     return;
                 r = ((DataRowView)this.grd.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_LOPHOC"] = r["ID_LOPHOC"];
-                this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = r["ID_KHOAHOC_NGANH"];
-                this.iDataSoure.Rows[0]["KHOA_NGANH"] = r["KHOA_NGANH"];
                 this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = r["ID_GIANGVIEN_CN"];
                 this.iDataSoure.Rows[0]["MA_LOP"] = r["MA_LOP"];
                 this.iDataSoure.Rows[0]["TEN_LOP"] = r["TEN_LOP"];
