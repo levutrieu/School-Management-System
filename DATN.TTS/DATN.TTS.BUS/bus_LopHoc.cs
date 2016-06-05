@@ -37,9 +37,9 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 dt.Columns.Add("ID_KHOAHOC_NGANH", typeof(int));
                 dt.Columns.Add("KHOA_NGANH", typeof(string));
-                var khNganh = from kng in db.tbl_KHOAHOC_NGANHs where kng.IS_DELETE == 0 
-                              join kh in db.tbl_KHOAHOCs on kng.ID_KHOAHOC equals kh.ID_KHOAHOC where kh.IS_DELETE ==0
-                              join nganh in db.tbl_NGANHs on kng.ID_NGANH equals nganh.ID_NGANH where nganh.IS_DELETE ==0
+                var khNganh = from kng in db.tbl_KHOAHOC_NGANHs where (kng.IS_DELETE != 1 || kng.IS_DELETE == null)
+                              join kh in db.tbl_KHOAHOCs on kng.ID_KHOAHOC equals kh.ID_KHOAHOC where (kh.IS_DELETE !=1 || kh.IS_DELETE == null)
+                              join nganh in db.tbl_NGANHs on kng.ID_NGANH equals nganh.ID_NGANH where (nganh.IS_DELETE !=1 || nganh.IS_DELETE == null)
                               select new
                               {
                                   kng.ID_KHOAHOC_NGANH,
@@ -93,11 +93,11 @@ namespace DATN.TTS.BUS
                 dt.Columns.Add("GHICHU", typeof(string));
                 dt.Columns.Add("KHOA_NGANH", typeof(string));
                 dt.Columns.Add("TEN_GIANGVIEN", typeof(string));
-                var lop = from l in db.tbl_LOPHOCs where l.IS_DELETE == 0
-                          join khoanganh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals khoanganh.ID_KHOAHOC_NGANH where khoanganh.IS_DELETE == 0
-                          join kh in db.tbl_KHOAHOCs on khoanganh.ID_KHOAHOC equals kh.ID_KHOAHOC where kh.IS_DELETE == 0
-                          join nganh in db.tbl_NGANHs on khoanganh.ID_NGANH equals nganh.ID_NGANH where nganh.IS_DELETE == 0
-                          join gv in db.tbl_GIANGVIENs on l.ID_GIANGVIEN_CN equals gv.ID_GIANGVIEN where gv.IS_DELETE == 0
+                var lop = from l in db.tbl_LOPHOCs where (l.IS_DELETE != 1 || l.IS_DELETE == null)
+                          join khoanganh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals khoanganh.ID_KHOAHOC_NGANH where (khoanganh.IS_DELETE != 1 || khoanganh.IS_DELETE == null)
+                          join kh in db.tbl_KHOAHOCs on khoanganh.ID_KHOAHOC equals kh.ID_KHOAHOC where (kh.IS_DELETE != 1 || kh.IS_DELETE == null)
+                          join nganh in db.tbl_NGANHs on khoanganh.ID_NGANH equals nganh.ID_NGANH where (nganh.IS_DELETE != 1 || nganh.IS_DELETE == null)
+                          join gv in db.tbl_GIANGVIENs on l.ID_GIANGVIEN_CN equals gv.ID_GIANGVIEN where (gv.IS_DELETE != 1 || gv.IS_DELETE == null)
                     select new
                     {
                         l.ID_LOPHOC,
@@ -214,6 +214,48 @@ namespace DATN.TTS.BUS
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public DataTable GetAllLopWhere(int idnganh)
+        {
+            try
+            {
+                DataTable dt = null;
+                if (idnganh > 0)
+                {
+                    var lop = from l in db.tbl_LOPHOCs
+                              where (l.IS_DELETE != 1 || l.IS_DELETE == null) && l.ID_KHOAHOC_NGANH == idnganh
+                              join khoanganh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals khoanganh.ID_KHOAHOC_NGANH
+                              where (khoanganh.IS_DELETE != 1 || khoanganh.IS_DELETE == null)
+                              join kh in db.tbl_KHOAHOCs on khoanganh.ID_KHOAHOC equals kh.ID_KHOAHOC
+                              where (kh.IS_DELETE != 1 || kh.IS_DELETE == null)
+                              join nganh in db.tbl_NGANHs on khoanganh.ID_NGANH equals nganh.ID_NGANH
+                              where (nganh.IS_DELETE != 1 || nganh.IS_DELETE == null)
+                              join gv in db.tbl_GIANGVIENs on l.ID_GIANGVIEN_CN equals gv.ID_GIANGVIEN
+                              where (gv.IS_DELETE != 1 || gv.IS_DELETE == null)
+                              select new
+                              {
+                                  l.ID_LOPHOC,
+                                  l.ID_KHOAHOC_NGANH,
+                                  l.MA_LOP,
+                                  l.TEN_LOP,
+                                  l.NGAY_MOLOP,
+                                  l.NGAY_KETTHUC,
+                                  l.SOLUONG_SV,
+                                  l.GHICHU,
+                                  l.ID_GIANGVIEN_CN,
+                                  kh.TEN_KHOAHOC,
+                                  nganh.TEN_NGANH,
+                                  gv.TEN_GIANGVIEN
+                              };
+                    dt = TableUtil.LinqToDataTable(lop);
+                }
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
             }
         }
     }
