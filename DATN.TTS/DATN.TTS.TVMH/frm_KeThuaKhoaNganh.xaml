@@ -4,7 +4,8 @@
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-        Title="frm_KeThuaKhoaNganh" Height="400" Width="850" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="frm_KeThuaKhoaNganh" Height="400" Width="850" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen"
         ShowInTaskbar="False"
         SizeToContent="Height">
     <Grid>
