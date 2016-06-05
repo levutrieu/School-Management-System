@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="0.8*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Name="lblBoMon" Text="Bộ môn:" Style="{StaticResource TextBlockStyle}"/>
+            <!--<TextBlock Grid.Row="0" Grid.Column="0" Name="lblBoMon" Text="Bộ môn:" Style="{StaticResource TextBlockStyle}"/>
             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1"  Name="cboBoMon" Style="{StaticResource ComboBoxEditStyle}"
                           EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
                           EditValueChanged="CboBoMon_OnEditValueChanged" />
@@ -49,7 +49,7 @@
             <TextBlock Grid.Row="0" Grid.Column="2" Name="lblLoaiMH" Text="Bộ môn:" Style="{StaticResource TextBlockStyle}"/>
             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3"  Name="cboLoaiMH" Style="{StaticResource ComboBoxEditStyle}"
                           EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"
-                          EditValueChanged="CboLoaiMH_OnEditValueChanged" />
+                          EditValueChanged="CboLoaiMH_OnEditValueChanged" />-->
             
             <TextBlock Grid.Column="4" Name="lblHeDT" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
             <dxe:TextEdit Grid.Row="0" Grid.Column="5" Style="{StaticResource TextEditStyle}" Name="txtHDT" EditValue="{Binding TEN_HE_DAOTAO}" IsReadOnly="True"

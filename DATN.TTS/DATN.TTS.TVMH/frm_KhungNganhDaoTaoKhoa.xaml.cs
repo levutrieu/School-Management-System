@@ -32,7 +32,7 @@ namespace DATN.TTS.TVMH
     {
         public DataTable iDataSoure = null;
         private DataTable iGridDataSoureNganh = null;
-        private DataTable iGridDataSoureNganhCT = null;
+        public DataTable iGridDataSoureNganhCT = null;
         bus_LapKeHoachDaoTaoKhoa client = new bus_LapKeHoachDaoTaoKhoa();
         public frm_KhungNganhDaoTaoKhoa()
         {
@@ -95,6 +95,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_MONHOC_TRUOC", typeof(Decimal));
                 dic.Add("ID_MONHOC_SONGHANH", typeof(Decimal));
                 dic.Add("MONHOC_TIENQUYET", typeof(Decimal));
+                dic.Add("CHK", typeof(bool));
                 dt = TableUtil.ConvertDictionaryToTable(dic, false);
                 return dt;
             }
@@ -435,6 +436,25 @@ namespace DATN.TTS.TVMH
             this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
         }
 
+        private bool KiemTraThemChiTiet(Decimal idMonHon, DataTable temp)
+        {
+            try
+            {
+                if (temp.Rows.Count == 0)
+                    return true;
+                foreach (DataRow r in temp.Rows)
+                {
+                    if (Convert.ToDecimal(r["ID_MONHOC"].ToString()) == idMonHon)
+                        return false;
+                }
+                return true;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
         private void GrdViewMonHoc_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             try
@@ -466,6 +486,13 @@ namespace DATN.TTS.TVMH
                 if (iGridDataSoureNganhCT.Rows.Count == 0)
                 {
                     iGridDataSoureNganhCT = TableSchemaBinding_Grid();
+                }
+
+                bool check = KiemTraThemChiTiet(Convert.ToDecimal(this.iDataSoure.Rows[0]["ID_MONHOC"].ToString()),iGridDataSoureNganhCT.Copy());
+                if (!check)
+                {
+                    CTMessagebox.Show("Môn học vừa thêm đã có trong ngành!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                    return;
                 }
                 DataRow r = iGridDataSoureNganhCT.NewRow();
                 r["ID_KHOAHOC_NGANH_CTIET"] = "0";
@@ -501,18 +528,32 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                DataTable dt = (from temp in iGridDataSoureNganhCT.AsEnumerable() where temp.Field<string>("CHK") == "True" select temp).CopyToDataTable();
-                bool res = client.Delete_KhoaNganhCT(dt.Copy(), UserCommon.UserName);
-                if (!res)
+                int count = 0;
+                foreach (DataRow r in iGridDataSoureNganhCT.Rows)
                 {
-                    CTMessagebox.Show("Xóa chi tiết ngành không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
-                    LoadKhoaNganhCT();
+                    if (r["CHK"].ToString() == "True")
+                        count++;
+                }
+                if (count == 0)
+                {
+                    CTMessagebox.Show("Bạn chưa chọn môn học nào để xóa!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     return;
                 }
-                else
+                DataTable dt = (from temp in iGridDataSoureNganhCT.AsEnumerable() where temp.Field<string>("CHK") == "True" select temp).CopyToDataTable();
+                if (dt.Rows.Count > 0)
                 {
-                    CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
-                    LoadKhoaNganhCT();
+                    bool res = client.Delete_KhoaNganhCT(dt.Copy(), UserCommon.UserName);
+                    if (!res)
+                    {
+                        CTMessagebox.Show("Xóa chi tiết ngành không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        LoadKhoaNganhCT();
+                        return;
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        LoadKhoaNganhCT();
+                    }
                 }
             }
             catch (Exception err)
@@ -525,7 +566,7 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void BtnThemMHKhoaNganh_OnClick(object sender, RoutedEventArgs e)
+        public void BtnThemMHKhoaNganh_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -573,12 +614,81 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        #region Chưa xử lý
         private void BtnKeThua_OnClick(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                frm_KeThuaKhoaNganhCT frm = new frm_KeThuaKhoaNganhCT();
+                frm.ShowDialog();
+                DataTable xdt = frm.iDataReturn.Copy();
+                if (iGridDataSoureNganhCT.Rows.Count == 0)
+                {
+                    iGridDataSoureNganhCT = TableSchemaBinding_Grid();
+                }
+                DataTable dt = new DataTable();
+                if (iGridDataSoureNganhCT.Rows.Count > 0)
+                {
+                    dt = xdt.Clone();
+                    if (iGridDataSoureNganhCT.Rows.Count > 0)
+                    {
+                        foreach (DataRow r in xdt.Rows)
+                        {
+                            foreach (DataRow xdr in iGridDataSoureNganhCT.Rows)
+                            {
+                                int x = Convert.ToInt32(xdr["ID_MONHOC"].ToString());
+                                int y = Convert.ToInt32(r["ID_MONHOC"].ToString());
+                                if (x != y)
+                                {
+                                    dt.ImportRow(r);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                else
+                {
+                    dt = xdt.Copy();
+                }
 
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        DataRow r = iGridDataSoureNganhCT.NewRow();
+                        r["ID_KHOAHOC_NGANH_CTIET"] = "0";
+                        r["ID_MONHOC"] = dr["ID_MONHOC"];
+                        r["TEN_MONHOC"] = dr["TEN_MONHOC"];
+                        r["SO_TC"] = dr["SO_TC"];
+                        r["ID_HE_DAOTAO"] = dr["ID_HE_DAOTAO"];
+                        r["ID_KHOAHOC_NGANH"] = dr["ID_KHOAHOC_NGANH"];
+                        r["HOCKY"] = dr["HOCKY"];
+                        r["SOTIET_LT"] = dr["SOTIET_LT"];
+                        r["SOTIET_TH"] = dr["SOTIET_TH"];
+                        r["ID_MONHOC_TRUOC"] = dr["ID_MONHOC_TRUOC"];
+                        r["ID_MONHOC_SONGHANH"] = dr["ID_MONHOC_SONGHANH"];
+                        r["MONHOC_TIENQUYET"] = dr["MONHOC_TIENQUYET"];
+
+                        iGridDataSoureNganhCT.Rows.Add(r);
+                        iGridDataSoureNganhCT.AcceptChanges();
+                    }
+
+                    DataTable xdtTable =
+                        (iGridDataSoureNganhCT.AsEnumerable()
+                            .GroupBy(t => t.Field<Decimal>("ID_MONHOC"))
+                            .Select(b => b.First())).CopyToDataTable();
+
+                    iGridDataSoureNganhCT = xdtTable.Copy();
+                    this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
 
+        #region Chưa xử lý
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
         {
 
