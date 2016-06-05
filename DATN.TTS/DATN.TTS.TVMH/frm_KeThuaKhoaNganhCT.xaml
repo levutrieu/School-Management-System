@@ -1,0 +1,61 @@
+﻿<Window x:Class="DATN.TTS.TVMH.frm_KeThuaKhoaNganhCT"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        Title="Kế thừa khung ngành chi tiết" Height="450" Width="950" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="370"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Click="BtnChon_OnClick" Content="Chọn" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnChon" VerticalAlignment="Center"/>
+                <Button Click="BtnDong_OnClick" Content="Đóng" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnDong" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.7*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
+                              EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboHDT_OnEditValueChanged"
+                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>
+
+            <TextBlock Grid.Column="2" Text="Chọn khóa:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
+                              EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboKhoa_OnEditValueChanged"
+                              ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC" AutoComplete="True"/>
+
+            <TextBlock Grid.Column="4" Text="Chọn ngành:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
+                              EditValue="{Binding ID_NGANH, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboNganh_OnEditValueChanged"
+                              ValueMember="ID_NGANH" DisplayMember="TEN_NGANH" AutoComplete="True"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdKhoaNganhCT"
+                             dx:ThemeManager.ThemeName="MetropolisLight"  >
+                <dxg:GridControl.View>
+                    <dxg:TableView BorderBrush="#27415d" x:Name="grdViewKhoaNganhCT"  NavigationStyle="Cell"
+                                   RowStyle="{StaticResource SelectedRowStyle}"
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+    </Grid>
+</Window>
