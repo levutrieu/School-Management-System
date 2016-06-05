@@ -568,5 +568,31 @@ namespace DATN.TTS.BUS
                 throw err;
             }
         }
+
+        public int GetIDKhoaNganh(int idkhoa, int idnganh)
+        {
+            try
+            {
+                int res = 0;
+                DataTable dt = null;
+                if (idkhoa > 0 && idnganh > 0)
+                {
+                    var khoanganh = (from k in db.tbl_KHOAHOC_NGANHs
+                                     where (k.IS_DELETE != 1 || k.IS_DELETE == null)
+                                     && k.ID_KHOAHOC == idkhoa && k.ID_NGANH == idnganh
+                                     select new { k.ID_KHOAHOC_NGANH });
+                    dt = TableUtil.LinqToDataTable(khoanganh);
+                }
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    res = Convert.ToInt32(dt.Rows[0]["ID_KHOAHOC_NGANH"].ToString());
+                }
+                return res;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            } 
+        }
     }
 }
