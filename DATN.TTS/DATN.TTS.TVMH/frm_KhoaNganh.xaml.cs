@@ -292,6 +292,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_KHOAHOC", typeof(Decimal));
                 dic.Add("ID_NGANH", typeof(Decimal));
                 dic.Add("TEN_NGANH", typeof(string));
+                dic.Add("SO_LOP", typeof(Decimal));
                 //===============================
                 dic.Add("KHOAHOC_NGANH", typeof(string));
                 dic.Add("ID_KHOAHOC_NGANH", typeof(Decimal));
@@ -672,7 +673,8 @@ namespace DATN.TTS.TVMH
                     return;
                 DataRow row = ((DataRowView)this.grdKhoaNganh.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = row["ID_KHOAHOC_NGANH"];
-                this.iDataSoure.Rows[0]["KHOAHOC_NGANH"] = row["TEN_KHOAHOC"] + " " + row["TEN_NGANH"];
+                this.iDataSoure.Rows[0]["KHOAHOC_NGANH"] = row["TEN_KHOAHOC"] + " Ngành: " + row["TEN_NGANH"];
+                this.iDataSoure.Rows[0]["SO_LOP"] = row["SO_LOP"];
             }
             catch (Exception err)
             {
@@ -696,7 +698,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(null);
+                frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(this.iDataSoure.Copy());
                 frm.ShowDialog();
             }
             catch (Exception err)
