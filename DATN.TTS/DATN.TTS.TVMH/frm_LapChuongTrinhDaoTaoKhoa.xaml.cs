@@ -92,20 +92,20 @@ namespace DATN.TTS.TVMH
                             frm_KhoaNganh.LoadNganh(dt);
                             return;
                         }
-                        DataTable xdt = frm_KhungNganhDaoTaoKhoa.iGridDataSoureNganhCT;
-                        int row = 0;
-                        foreach (DataRow dr in xdt.Rows)
-                        {
-                            if (dr["ID_KHOAHOC_NGANH_CTIET"].ToString() == "0")
-                                row++;
-                        }
-                        if (row > 0)
-                        {
-                            if (CTMessagebox.Show("Có " + row + " dòng chưa lưu." + "\n" + "Bạn có muốn lưu không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
-                            {
-                                frm_KhungNganhDaoTaoKhoa.BtnThemMHKhoaNganh_OnClick(null, null);
-                            }
-                        }
+                        //DataTable xdt = frm_KhungNganhDaoTaoKhoa.iGridDataSoureNganhCT;
+                        //int row = 0;
+                        //foreach (DataRow dr in xdt.Rows)
+                        //{
+                        //    if (dr["ID_KHOAHOC_NGANH_CTIET"].ToString() == "0")
+                        //        row++;
+                        //}
+                        //if (row > 0)
+                        //{
+                        //    if (CTMessagebox.Show("Có " + row + " dòng chưa lưu." + "\n" + "Bạn có muốn lưu không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                        //    {
+                        //        frm_KhungNganhDaoTaoKhoa.BtnThemMHKhoaNganh_OnClick(null, null);
+                        //    }
+                        //}
                         SetMoveButtonVisibility();
                         BindingUI(index);
                     }
