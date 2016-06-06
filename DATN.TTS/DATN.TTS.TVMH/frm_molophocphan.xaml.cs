@@ -544,15 +544,20 @@ namespace DATN.TTS.TVMH
                 xdtbm.Columns.Add("KIEU_HOC_CHU", typeof(string));
                 foreach (DataRow dr in xdtbm.Rows)
                 {
-                    if (Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
+                    if (!string.IsNullOrEmpty(dr["IS_THUCHANH"].ToString()) &&
+                        !string.IsNullOrEmpty(dr["IS_LYTHUYET"].ToString()))
                     {
-                        dr["KIEU_HOC_CHU"] = "Thực hành";
-                    }
-                    if (Convert.ToInt32(dr["IS_LYTHUYET"]) == 1)
-                    {
-                        dr["KIEU_HOC_CHU"] = "Lý thuyết";
+                        if (Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
+                        {
+                            dr["KIEU_HOC_CHU"] = "Thực hành";
+                        }
+                        if (Convert.ToInt32(dr["IS_LYTHUYET"]) == 1)
+                        {
+                            dr["KIEU_HOC_CHU"] = "Lý thuyết";
+                        }
                     }
                 }
+
                 grd_KN.ItemsSource = xdtbm;
             }
             catch (Exception ex)
@@ -617,13 +622,17 @@ namespace DATN.TTS.TVMH
                 idata.Columns.Add("KIEU_HOC_CHU", typeof (string));
                 foreach (DataRow dr in idata.Rows)
                 {
-                    if (Convert.ToInt32(dr["IS_LYTHUYET"]) == 1)
+                     if (!string.IsNullOrEmpty(dr["IS_THUCHANH"].ToString()) &&
+                        !string.IsNullOrEmpty(dr["IS_LYTHUYET"].ToString()))
                     {
-                        dr["KIEU_HOC_CHU"] = "Lý thuyết";
-                    }
-                    if (Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
-                    {
-                        dr["KIEU_HOC_CHU"] = "Thực hành";
+                        if (Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
+                        {
+                            dr["KIEU_HOC_CHU"] = "Thực hành";
+                        }
+                        if (Convert.ToInt32(dr["IS_LYTHUYET"]) == 1)
+                        {
+                            dr["KIEU_HOC_CHU"] = "Lý thuyết";
+                        }
                     }
                 }
                 grd_mh_lop.ItemsSource = idata;
