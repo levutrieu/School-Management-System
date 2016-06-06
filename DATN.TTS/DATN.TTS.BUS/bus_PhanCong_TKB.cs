@@ -62,30 +62,21 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = new DataTable();
                 var lop = from hp in db.tbl_LOP_HOCPHANs
-                          join knct in db.tbl_KHOAHOC_NGANH_CTIETs on new { ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET) } 
-                            equals new { ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET } into knct_join
-                          from knct in knct_join.DefaultIfEmpty()
-
-                          join khn in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(knct.ID_KHOAHOC_NGANH) } 
-                            equals new { ID_KHOAHOC_NGANH = khn.ID_KHOAHOC_NGANH } into khn_join
-                          from khn in khn_join.DefaultIfEmpty()
-
-                          join kh in db.tbl_KHOAHOCs on new { ID_KHOAHOC = Convert.ToInt32(khn.ID_KHOAHOC), Column1 = pID_KHOAHOC, ID_HE_DAOTAO = pID_HE_DATAO }
-                            equals new { ID_KHOAHOC = kh.ID_KHOAHOC, Column1 = kh.ID_KHOAHOC, ID_HE_DAOTAO = Convert.ToInt32(kh.ID_HE_DAOTAO) } into kh_join
-                          from kh in kh_join.DefaultIfEmpty()
-
-                          join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(knct.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC } into mh_join
-                          from mh in mh_join.DefaultIfEmpty()
-
-                          join gv in db.tbl_GIANGVIENs on new { ID_GIANGVIEN = Convert.ToInt32(hp.ID_GIANGVIEN) } equals new { ID_GIANGVIEN = gv.ID_GIANGVIEN } into gv_join
-                          from gv in gv_join.DefaultIfEmpty()
+                          join knct in db.tbl_KHOAHOC_NGANH_CTIETs on new { ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET) } equals new { ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET }
+                          join khn in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(knct.ID_KHOAHOC_NGANH) } equals new { ID_KHOAHOC_NGANH = khn.ID_KHOAHOC_NGANH }
+                          join kh in db.tbl_KHOAHOCs on new { ID_KHOAHOC = Convert.ToInt32(khn.ID_KHOAHOC) } equals new { ID_KHOAHOC = kh.ID_KHOAHOC }
+                          join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
                           where
-                            (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
-                            hp.ID_HEDAOTAO == pID_HE_DATAO &&
-                            (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
-                            (khn.IS_DELETE != 1|| khn.IS_DELETE == null) &&
-                            (kh.IS_DELETE !=1 || kh.IS_DELETE == null) &&
-                            (gv.IS_DELETE != 1 || gv.IS_DELETE == null)
+                            (hp.IS_DELETE != 1 ||
+                            hp.IS_DELETE == null) &&
+                            (knct.IS_DELETE != 1 ||
+                            knct.IS_DELETE == null) &&
+                            (khn.IS_DELETE != 1 ||
+                            khn.IS_DELETE == null) &&
+                            (mh.IS_DELETE != 1 ||
+                            mh.IS_DELETE == null) &&
+                            kh.ID_KHOAHOC == pID_KHOAHOC &&
+                            kh.ID_HE_DAOTAO == pID_HE_DATAO
                           select new
                           {
                               hp.ID_LOPHOCPHAN,
@@ -95,8 +86,6 @@ namespace DATN.TTS.BUS
                               hp.ID_MONHOC,
                               hp.ID_LOPHOC,
                               hp.ID_GIANGVIEN,
-                              gv.MA_GIANGVIEN,
-                              gv.TEN_GIANGVIEN,
                               hp.MA_LOP_HOCPHAN,
                               hp.TEN_LOP_HOCPHAN,
                               hp.SOTIET,
@@ -106,7 +95,6 @@ namespace DATN.TTS.BUS
                               hp.SOLUONG,
                               knct.ID_KHOAHOC_NGANH,
                               knct.SO_TC,
-                              //knct.ID_HOCKY,
                               knct.SOTIET_LT,
                               knct.SOTIET_TH,
                               knct.ID_MONHOC_TRUOC,
@@ -120,7 +108,6 @@ namespace DATN.TTS.BUS
                               mh.MA_MONHOC,
                               mh.TEN_MONHOC,
                               mh.KY_HIEU,
-                              //mh.SO_TC,
                               mh.IS_THUHOCPHI,
                               mh.IS_THUCHANH,
                               mh.IS_LYTHUYET,
