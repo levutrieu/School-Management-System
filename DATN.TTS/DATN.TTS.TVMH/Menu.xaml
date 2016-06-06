@@ -66,7 +66,7 @@
 
                 <!--Column menu-->
                 <DockPanel Grid.Column="0">
-                    <dxn:NavBarControl x:Name="navBar" MaxWidth="200" >
+                    <dxn:NavBarControl x:Name="navBar" MaxWidth="240" >
                         <dxn:NavBarControl.Resources>
                             <ResourceDictionary Source="Resource/StyleMenu.xaml"/>
                         </dxn:NavBarControl.Resources>
