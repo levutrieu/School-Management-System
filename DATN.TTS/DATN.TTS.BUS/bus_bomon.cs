@@ -46,7 +46,8 @@ namespace DATN.TTS.BUS
                     MA_BM = Ma_bm,
                     TEN_BM = Ten_bm,
                     CREATE_TIME = DateTime.Now,
-                    CREATE_USER = user
+                    CREATE_USER = user,
+                    ISDELETE = 0,
                 };
                 db.tbl_BOMONs.InsertOnSubmit(query);
                 db.SubmitChanges();
