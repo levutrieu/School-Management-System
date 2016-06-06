@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\CNTP\DOANTN\TOTNGHIEP\DATN.TTS\DATN.TTS.TVMH\obj\Debug\
+D:\DATN\trunk\DATN.TTS\DATN.TTS.TVMH\obj\Debug\
 DATN.TTS.TVMH
 none
 false
 DEBUG;TRACE
-D:\CNTP\DOANTN\TOTNGHIEP\DATN.TTS\DATN.TTS.TVMH\Resource\App.xaml
-32-524624648
+D:\DATN\trunk\DATN.TTS\DATN.TTS.TVMH\Resource\App.xaml
+451512243712
 
-37-162980891
-381427372006
-frm_BacDaoTao.xaml;frm_bomon.xaml;frm_CauHinhSQL.xaml;frm_ChucVu.xaml;frm_DoiMatKhau.xaml;frm_GiangVien.xaml;frm_HeDaoTao.xaml;frm_HeSoLuong.xaml;frm_HocKy.xaml;frm_Khoa.xaml;frm_KhoaHoc.xaml;frm_CauHinhNhomNguoiDung.xaml;frm_KhoaHoc_Nganh.xaml;frm_LoaiHinhDaoTao.xaml;frm_LoaiMonHoc.xaml;frm_Login.xaml;frm_LopHoc.xaml;frm_MonHoc.xaml;frm_MonHoc_popup.xaml;frm_Nganh.xaml;frm_NhanVien.xaml;frm_PhanCongGV.xaml;frm_PhanCongGV_popup.xaml;frm_PhanCong_TKB.xaml;frm_PhongHoc.xaml;frm_SinhVien.xaml;frm_TietHoc.xaml;frm_TimPhongTrong.xaml;Main.xaml;Menu.xaml;Resource\StyleMenu.xaml;frm_CauHinhNguoiDung.xaml;
+50-812534718
+38-1909294809
+frm_BacDaoTao.xaml;frm_bomon.xaml;frm_CauHinhSQL.xaml;frm_ChonKhoa.xaml;frm_ChucVu.xaml;frm_DoiMatKhau.xaml;frm_GiangVien.xaml;frm_HeDaoTao.xaml;frm_HeSoLuong.xaml;frm_HocKy.xaml;frm_KeThuaKhoaNganh.xaml;frm_KeThuaKhoaNganhCT.xaml;frm_Khoa.xaml;frm_KhoaHoc.xaml;frm_CauHinhNhomNguoiDung.xaml;frm_KhoaHoc_Nganh.xaml;frm_KhoaNganh.xaml;frm_KhungNganhDaoTaoKhoa.xaml;frm_LapChuongTrinhDaoTaoKhoa.xaml;frm_LoaiHinhDaoTao.xaml;frm_LoaiMonHoc.xaml;frm_Login.xaml;frm_LopHoc.xaml;frm_molophocphan.xaml;frm_MoLopHocPopUp.xaml;frm_MonHoc.xaml;frm_MonHoc_popup.xaml;frm_NamHoc.xaml;frm_Nganh.xaml;frm_ngaydaunamhoc.xaml;frm_NhanVien.xaml;frm_NhapDiemSV.xaml;frm_PhanCongGV.xaml;frm_PhanCongGV_popup.xaml;frm_PhanCong_TKB.xaml;frm_PhongHoc.xaml;frm_QLyNgayDauNamHoc_HocKy.xaml;frm_SinhVien.xaml;frm_taotudonghocphan.xaml;frm_TietHoc.xaml;frm_TimPhongTrong.xaml;Main.xaml;Menu.xaml;Resource\StyleMenu.xaml;frm_CauHinhNguoiDung.xaml;
 
 False
 

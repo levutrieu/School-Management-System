@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using DevExpress.Utils;
 using DevExpress.Xpf.Grid;
 using CustomMessage;
+using DevExpress.Xpf.Editors.Settings;
 
 
 namespace DATN.TTS.TVMH
@@ -26,6 +27,7 @@ namespace DATN.TTS.TVMH
             xcolumn.Width = 50;
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
+            xcolumn.EditSettings=new ComboBoxEditSettings();
             xcolumn.Visible = true;
 
             xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;

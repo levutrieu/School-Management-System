@@ -1044,13 +1044,15 @@
                         The important aspect here is that the bottom of the Border is 0px thick,
                         helping the TabItem/strip to blend into the TabPage.
                      -->
+                            <!--Background="{StaticResource TabItem_BackgroundBrush_Unselected}"
+                             BorderBrush="{StaticResource TabItem_BorderBrush_Selected}"-->
+
                             <Border Name="Border"
-                             Background="{StaticResource TabItem_BackgroundBrush_Unselected}"
-                             BorderBrush="{StaticResource TabItem_BorderBrush_Selected}" 
+                             
                              Margin="{StaticResource TabItemMargin_Base}"
-                             BorderThickness="1,1,1,0" 
-                             CornerRadius="2,2,0,0" 
-                             >
+                             BorderThickness="1,1,1,0" >
+                                <!--CornerRadius="2,2,0,0" 
+                             >-->
                                 <!--******** 
                            This grid, along with its content (except for the TI-ContentPresenter)
                            have been added in part IV.
@@ -1214,7 +1216,7 @@
                 <native:BrushInfo x:Key="BorderBrushFocusedRow" Brush="{StaticResource {dxgt:GridRowThemeKey ResourceKey=GridDataRowDelimiterBrush}}" />
             </native:BrushSet.Elements>
         </native:BrushSet>
-        
+
         <Style x:Key="SelectedRowStyle" TargetType="{x:Type dxg:RowControl}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">

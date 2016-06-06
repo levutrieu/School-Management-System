@@ -23,6 +23,19 @@ namespace DATN.TTS.DATA.Properties {
             }
         }
         
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MINHTHONG;Initial Catalog=KhoaLuanTotNghiep;User ID=sa;Password=minht" +
+            "hong")]
+        public string ctr {
+            get {
+                return ((string)(this["ctr"]));
+            }
+            set {
+                this["ctr"] = value;
+            }
+        }
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
@@ -34,16 +47,14 @@ namespace DATN.TTS.DATA.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MINHTHONG;Initial Catalog=KhoaLuanTotNghiep;User ID=sa;Password=minht" +
-            "hong")]
-        public string ctr {
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-P2TP6D3\\SQLSERVER2012;Initial Catalog=KhoaLuanTotNghiep;Integ" +
+            "rated Security=True")]
+        public string KhoaLuanTotNghiepConnectionString1 {
             get {
-                return ((string)(this["ctr"]));
-            }
-            set {
-                this["ctr"] = value;
+                return ((string)(this["KhoaLuanTotNghiepConnectionString1"]));
             }
         }
     }
