@@ -1129,10 +1129,10 @@ namespace DATN.TTS.TVMH
                         this.iDataSoure.Rows[0]["SO_TIET"] = r["SO_TIET"];
                         #endregion
                         #region Kiểm tra số tiết
-                        int tiet = KiemTraSoTiet(Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString()),
-                            Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_CONLAI"].ToString()),
-                            Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TUAN"].ToString()),
-                            Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_DASEP"].ToString()));
+                        //int tiet = KiemTraSoTiet(Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString()),
+                        //    Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_CONLAI"].ToString()),
+                        //    Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TUAN"].ToString()),
+                        //    Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_DASEP"].ToString()));
                         #endregion
 
                         bool check = true;
@@ -1142,8 +1142,7 @@ namespace DATN.TTS.TVMH
                         {
                             flagsave = true;
                             frm_TimPhongTrong frm = new frm_TimPhongTrong(this.iDataSoure.Copy(), flagsave);
-                            frm.MaxWidth = 1200;
-                            frm.MinHeight = 600;
+                            frm.Owner = Window.GetWindow(this);
                             frm.ShowDialog();
                             if (frm.res == true)
                             {
@@ -1218,6 +1217,7 @@ namespace DATN.TTS.TVMH
                         this.iDataSoure.Rows[0]["ID_PHONG"] = r["ID_PHONG"];
                         this.iDataSoure.Rows[0]["ID_LOP_HOCPHAN_CTIET"] = r["ID_LOP_HOCPHAN_CTIET"];
                         frm_TimPhongTrong frm = new frm_TimPhongTrong(this.iDataSoure, flagsave);
+                        frm.Owner = Window.GetWindow(this);
                         frm.MaxWidth = 1200;
                         frm.MinHeight = 600;
                         frm.ShowDialog();
