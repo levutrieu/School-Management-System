@@ -280,7 +280,10 @@ namespace DATN.TTS.TVMH
 
         void SetComBo()
         {
-            cboHeDT.ItemsSource = client.GetAllHDT();
+            DataTable dt = client.GetAllHDT();
+            cboHeDT.ItemsSource = dt;
+            if (dt.Rows.Count > 0)
+                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHeDT.GetKeyValue(0);
         }
         //Binding du lieu va datacontex
         DataTable TableSchemaBinding()
@@ -1313,10 +1316,17 @@ namespace DATN.TTS.TVMH
             {
                 if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() != string.Empty)
                 {
-                    DataTable dt = client.GetKhoaHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
+                    DataTable dt = null;
+                    dt = client.GetKhoaHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
+                    cboKhoaHoc.ItemsSource = dt;
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        cboKhoaHoc.ItemsSource = dt;
+                        this.iDataSoure.Rows[0]["ID_KHOAHOC"] = cboKhoaHoc.GetKeyValue(0);
+                    }
+                    if (dt.Rows.Count == 0)
+                    {
+                        this.iGridDataSoure = null;
+                        this.grdLHP.ItemsSource = iGridDataSoure;
                     }
                 }
             }
@@ -1328,19 +1338,41 @@ namespace DATN.TTS.TVMH
 
         private void CboKhoaHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
-            if (!this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString().Equals(string.Empty) && !this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString().Equals(string.Empty))
+            try
             {
-                DataTable dt =client.GetAllLopForKhoaHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()),Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
-
-                this.iGridDataSoure = dt;
+                Mouse.OverrideCursor = Cursors.Wait;
+                this.iGridDataSoure = null;
+                if (!this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString().Equals(string.Empty) && !this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString().Equals(string.Empty))
+                {
+                    DataTable dt = client.GetAllLopForKhoaHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()), Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
+                    if (dt.Rows.Count > 0)
+                    {
+                        this.iGridDataSoure = dt;
+                    }
+                }
                 grdLHP.ItemsSource = this.iGridDataSoure;
+
             }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+            
         }
 
         private void GrdViewLHP_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             try
             {
+                this.iDataSoure.Rows[0]["SO_TIET_TONG"] = "0";
+                this.iDataSoure.Rows[0]["SO_TUAN"] = "0";
+                this.iDataSoure.Rows[0]["SO_TIET_TUAN"] = "0";
+                this.iDataSoure.Rows[0]["SO_TIET_DASEP"] = "0";
+                
                 ClearFormat();
                 //DataTable iDataSoureHPCT = null;
                 Mouse.OverrideCursor = Cursors.Wait;
@@ -1349,12 +1381,21 @@ namespace DATN.TTS.TVMH
                     return;
                 r = ((DataRowView)this.grdLHP.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"] = r["ID_LOPHOCPHAN"];
-                this.iDataSoure.Rows[0]["SO_TUAN"] = (Convert.ToInt32(r["TUAN_KT"].ToString()) - Convert.ToInt32(r["TUAN_BD"].ToString())) + 1;
+                if (r["TUAN_KT"].ToString() != string.Empty && r["TUAN_BD"].ToString() != string.Empty)
+                {
+                    this.iDataSoure.Rows[0]["SO_TUAN"] = (Convert.ToInt32(r["TUAN_KT"].ToString()) - Convert.ToInt32(r["TUAN_BD"].ToString())) + 1;
+                }
+                //this.iDataSoure.Rows[0]["SO_TUAN"] = (Convert.ToInt32(r["TUAN_KT"].ToString()) - Convert.ToInt32(r["TUAN_BD"].ToString())) + 1;
                 this.iDataSoure.Rows[0]["SO_TIET_TONG"] = r["SOTIET"];
                 if (!this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].Equals(string.Empty))
                 {
                     iDataSoureHPCT = client.GetHPCTByLHP(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].ToString()));
-                    this.iDataSoure.Rows[0]["SO_TIET_TUAN"] = Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TONG"].ToString()) / Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString());
+
+                    if (this.iDataSoure.Rows[0]["SO_TIET_TONG"].ToString() != string.Empty && this.iDataSoure.Rows[0]["SO_TUAN"].ToString() != string.Empty)
+                    {
+                        this.iDataSoure.Rows[0]["SO_TIET_TUAN"] = Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TONG"].ToString()) / Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString());
+                    
+                    }
                     this.iDataSoure.Rows[0]["SO_TIET_DASEP"] = client.SoTietDaSep(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_LOPHOCPHAN"].ToString()));
                 }
                 if (iDataSoureHPCT != null)
