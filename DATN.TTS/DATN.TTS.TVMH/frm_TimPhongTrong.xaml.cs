@@ -317,13 +317,15 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                foreach (DataRow r in iGridDataSource.Rows)
-                {
-                    if (r["IsNew"].Equals("True"))
-                    {
-                        this.iDataSource.Rows[0]["ID_PHONG"] = r["ID_PHONG"];
-                    }
-                }
+                //foreach (DataRow r in iGridDataSource.Rows)
+                //{
+                //    if (r["IsNew"].Equals("True"))
+                //    {
+                //        this.iDataSource.Rows[0]["ID_PHONG"] = r["ID_PHONG"];
+                //    }
+                //}
+                DataTable dt = (from temp in iGridDataSource.AsEnumerable() where (temp.Field<string>("IsNew") == "True")select temp).CopyToDataTable();
+                this.iDataSource.Rows[0]["ID_PHONG"] = dt.Rows[0]["ID_PHONG"];
                 #region thực hiện insert
                 if (flagsave)
                 {
