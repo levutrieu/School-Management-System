@@ -323,7 +323,8 @@ namespace DATN.TTS.BUS
                         SOLUONG = Convert.ToInt32(dt["SOLUONG"]),
                         CACH_TINHDIEM = dt["CACH_TINHDIEM"].ToString(),
                         CREATE_USER = dt["USER"].ToString(),
-                        CREATE_TIME = DateTime.Now
+                        CREATE_TIME = DateTime.Now,
+                        IS_DELETE = 0
                     };
                     db.tbl_LOP_HOCPHANs.InsertOnSubmit(query);
                     db.SubmitChanges();
@@ -560,7 +561,8 @@ namespace DATN.TTS.BUS
                         NAMHOC_TU = Convert.ToInt32(dr["f_namhoc0"].ToString()),
                         NAMHOC_DEN = Convert.ToInt32(dr["f_namhoc0"].ToString()) + 1 ,
                         CREATE_USER = pUser,
-                        CREATE_TIME = DateTime.Now
+                        CREATE_TIME = DateTime.Now,
+                        IS_DELETE = 0
                     };
                     db.tbl_NAMHOC_HIENTAIs.InsertOnSubmit(query);
                     db.SubmitChanges();
@@ -587,7 +589,8 @@ namespace DATN.TTS.BUS
                         HOCKY = Convert.ToInt32(dr["f_hockythu"].ToString()),
                         ID_NAMHOC_HIENTAI = Convert.ToInt32((xdt.Select("NAMHOC_TU = " + dr["f_namhoc0"].ToString()))[0]["ID_NAMHOC_HIENTAI"].ToString()),
                         CREATE_USER = pUser,
-                        CREATE_TIME = DateTime.Now
+                        CREATE_TIME = DateTime.Now,
+                        IS_DELETE = 0
                     };
                     db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(query);
                     db.SubmitChanges();
@@ -636,7 +639,8 @@ namespace DATN.TTS.BUS
                         TEN_LOP_HOCPHAN = dr["f_tenmhvn"].ToString(),
                         CACH_TINHDIEM = cachtinhdiem,
                         CREATE_USER = pUser,
-                        CREATE_TIME = DateTime.Now
+                        CREATE_TIME = DateTime.Now,
+                        IS_DELETE = 0
                     };
                     db.tbl_LOP_HOCPHANs.InsertOnSubmit(query);
                     db.SubmitChanges();

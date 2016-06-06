@@ -188,7 +188,8 @@ namespace DATN.TTS.BUS
                 CREATE_TIME = DateTime.Now,
                 ISBATBUOC = Convert.ToInt32(idatasource.Rows[0]["ISBATBUOC"]),
                 ID_MONHOC_SONGHANH = Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]),
-                GHICHU = idatasource.Rows[0]["GHICHU"].ToString()
+                GHICHU = idatasource.Rows[0]["GHICHU"].ToString(),
+                IS_DELETE = 0
             };
             db.tbl_MONHOCs.InsertOnSubmit(query);
             db.SubmitChanges();
@@ -256,6 +257,7 @@ namespace DATN.TTS.BUS
                         TRANGTHAI = 1,
                         CREATE_USER = pUser,
                         CREATE_TIME = DateTime.Now,
+                        IS_DELETE = 0
                     };
                     db.tbl_MONHOCs.InsertOnSubmit(query);
                     db.SubmitChanges();

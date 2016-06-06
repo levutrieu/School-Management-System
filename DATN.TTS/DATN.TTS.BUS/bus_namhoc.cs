@@ -73,7 +73,7 @@ namespace DATN.TTS.BUS
                 //namhoc.IS_DELETE = Convert.ToInt32(r[""]);
                 namhoc.CREATE_USER = r["USER"].ToString();
                 namhoc.CREATE_TIME = DateTime.Now;
-
+                namhoc.IS_DELETE = 0;
                 db.tbl_NAMHOC_HIENTAIs.InsertOnSubmit(namhoc);
                 db.SubmitChanges();
                 if (!namhoc.ID_NAMHOC_HIENTAI.GetTypeCode().Equals(TypeCode.DBNull))

@@ -48,7 +48,8 @@ namespace DATN.TTS.BUS
                     TEN_LOAI_MONHOC = xdt.Rows[0]["TENLOAI"].ToString(),
                     TRANGTHAI = xdt.Rows[0]["TRANGTHAI"].ToString(),
                     CREATE_USER = xdt.Rows[0]["USER"].ToString(),
-                    CREATE_TIME = DateTime.Now
+                    CREATE_TIME = DateTime.Now,
+                    IS_DELETE = 0
                 };
 
                 db.tbl_LOAI_MONHOCs.InsertOnSubmit(query);

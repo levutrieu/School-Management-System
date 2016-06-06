@@ -227,6 +227,7 @@ namespace DATN.TTS.BUS
                         TEN_SINHVIEN = dr["f_holotvn"].ToString() +" "+ dr["f_tenvn"].ToString(),
                         CREATE_USER = pUser,
                         CREATE_TIME = DateTime.Now,
+                        IS_DELETE =0
                     };
                     db.tbL_SINHVIENs.InsertOnSubmit(query);
                     db.SubmitChanges();
