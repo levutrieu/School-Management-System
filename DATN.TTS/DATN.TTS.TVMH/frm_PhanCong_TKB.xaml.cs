@@ -504,16 +504,16 @@ namespace DATN.TTS.TVMH
             col.AllowCellMerge = false;
             grdLHP.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "MA_GIANGVIEN";
-            col.Header = "Mã GV";
-            col.Width = 80;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as System.Windows.Style;
-            col.AllowCellMerge = false;
-            grdLHP.Columns.Add(col);
+            //col = new GridColumn();
+            //col.FieldName = "MA_GIANGVIEN";
+            //col.Header = "Mã GV";
+            //col.Width = 80;
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = true;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as System.Windows.Style;
+            //col.AllowCellMerge = false;
+            //grdLHP.Columns.Add(col);
 
             col = new GridColumn();
             col.FieldName = "TEN_GIANGVIEN";
