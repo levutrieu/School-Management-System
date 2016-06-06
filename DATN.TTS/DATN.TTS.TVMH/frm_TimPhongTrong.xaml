@@ -4,7 +4,11 @@
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-        Title="Tìm phòng trống">
+        Title="Tìm phòng trống"
+         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height">
     <Grid>
         <!--Định nghĩa các phần riêng biệt-->
         <Grid.RowDefinitions>
