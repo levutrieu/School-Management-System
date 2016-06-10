@@ -79,7 +79,10 @@ namespace DATN.TTS.TVMH
 
         void SetComboNamHoc()
         {
-            cboNamHoc.ItemsSource = client.GetAllNamHoc();
+            DataTable dt = client.GetAllNamHoc();
+            cboNamHoc.ItemsSource = dt;
+            if (dt.Rows.Count > 0)
+                this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = cboNamHoc.GetKeyValue(0);
         }
 
         DataTable TableSchemabinding()
