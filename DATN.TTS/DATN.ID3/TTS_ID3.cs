@@ -11,7 +11,6 @@ namespace DATN.ID3
     {
         List<List<double>> Examples;
         List<Attribute> Attributes;
-        List<string> _DS_ThuTu;
         TreeNode _tree;
         int _depth;
         string _solution;
@@ -36,31 +35,14 @@ namespace DATN.ID3
             set { _solution = value; }
         }
 
-        public List<string> DS_ThuTu
-        {
-            get { return _DS_ThuTu; }
-            set { _DS_ThuTu = value; }
-        }
-
         public TTS_ID3(List<List<double>> Examples, List<Attribute> Attributes, double Diem_Xet1, double Diem_Xet2)
         {
             this.Examples = Examples;
             this.Attributes = Attributes;
             this.Tree = null;
-            this._DS_ThuTu = new List<string>();
             Depth = 0;
-            if (Diem_Xet1 > Diem_Xet2)
-            {
-                this.diem_xet1 = Diem_Xet1;
-                this.diem_xet2 = Diem_Xet2;
-            }
-            else
-            {
-                this.diem_xet1 = Diem_Xet2;
-                this.diem_xet2 = Diem_Xet1;
-            }
-            //this.diem_xet1 = Diem_Xet1;
-            //this.diem_xet2 = Diem_Xet2;
+            this.diem_xet1 = Diem_Xet1;
+            this.diem_xet2 = Diem_Xet2;
         }
 
         // tính entroypy
@@ -98,12 +80,18 @@ namespace DATN.ID3
                 int j = A.Value.IndexOf(Examples[i][Col]);
                 if (Examples[i][Examples[0].Count - 1] == diem_xet1)
                 {
-                    CountPositives++;
-                    CountPositivesA[j]++;
+                    if (j >= 0)
+                    {
+                        CountPositives++;
+                        CountPositivesA[j]++;
+                    }
                 }
                 else
                 {
-                    CountNegativeA[j]++;
+                    if (j >= 0)
+                    {
+                        CountNegativeA[j]++;
+                    }
                 }
             }
             result = GetEntropy(CountPositives, Examples.Count - CountPositives);
