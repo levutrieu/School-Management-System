@@ -534,6 +534,8 @@ namespace DATN.TTS.TVMH
                     if (r["CHK"].ToString() == "True")
                         count++;
                 }
+                //DataTable xdt = (from temp in iGridDataSoureNganhCT.AsEnumerable() where (temp.Field<string>("CHK") == "True") select temp).CopyToDataTable();
+                
                 if (count == 0)
                 {
                     CTMessagebox.Show("Bạn chưa chọn môn học nào để xóa!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);

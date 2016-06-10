@@ -17,7 +17,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Button thuc hien chuc nang-->
@@ -95,11 +94,8 @@
             </StackPanel>
         </Expander>
 
-        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="400"/>
-            </Grid.RowDefinitions>
-            <dxg:GridControl Grid.Column="1" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
+        <Grid Grid.Row="3" Grid.Column="0">
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" MouseDown="GrdViewNDung_OnMouseDown"

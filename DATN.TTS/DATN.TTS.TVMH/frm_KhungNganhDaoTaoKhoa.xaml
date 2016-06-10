@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="27"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="500"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -82,9 +81,6 @@
             </Grid>
             <!--Controls nhap du lieu-->
             <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="500"/>
-                </Grid.RowDefinitions>
                 <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grdMonHoc" dx:ThemeManager.ThemeName="MetropolisLight" >
                     <dxg:GridControl.View>
                         <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewMonHoc" RowStyle="{StaticResource SelectedRowStyle}" 
@@ -94,9 +90,6 @@
                 </dxg:GridControl>
             </Grid>
             <Grid  Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="500"/>
-                </Grid.RowDefinitions>
                 <dxg:GridControl AutoPopulateColumns="False" 
                              Margin="0"  FontSize="12" x:Name="grdKhoaNganhCT" dx:ThemeManager.ThemeName="MetropolisLight" 
                              >

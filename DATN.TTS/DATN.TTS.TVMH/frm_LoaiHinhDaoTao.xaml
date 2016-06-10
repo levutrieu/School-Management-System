@@ -16,7 +16,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Button thuc hien chuc nang-->
@@ -73,9 +72,6 @@
         </Expander>
 
         <Grid Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="400"/>
-            </Grid.RowDefinitions>
             <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>

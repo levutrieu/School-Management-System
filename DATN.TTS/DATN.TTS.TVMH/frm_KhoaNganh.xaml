@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="27"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="500"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -61,9 +60,6 @@
         </Grid>
         <!--Controls nhap du lieu-->
         <Grid Grid.Row="2" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="500"/>
-            </Grid.RowDefinitions>
             <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" >
                 <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdNganh" RowStyle="{StaticResource SelectedRowStyle}" 
@@ -73,9 +69,6 @@
             </dxg:GridControl>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="500"/>
-            </Grid.RowDefinitions>
             <dxg:GridControl AutoPopulateColumns="False" 
                              Margin="0"  FontSize="12" x:Name="grdKhoaNganh" dx:ThemeManager.ThemeName="MetropolisLight" 
                              >
