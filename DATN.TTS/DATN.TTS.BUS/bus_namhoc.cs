@@ -138,10 +138,10 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 dt.Columns.Add("NAMHOC", typeof(string));
                 dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                DataRow dr = dt.NewRow();
-                dr["NAMHOC"] = "----------------Chọn-------------------";
-                dr["ID_NAMHOC_HIENTAI"] = 0;
-                dt.Rows.Add(dr);
+                //DataRow dr = dt.NewRow();
+                //dr["NAMHOC"] = "----------------Chọn-------------------";
+                //dr["ID_NAMHOC_HIENTAI"] = 0;
+                //dt.Rows.Add(dr);
                 var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where (nh.IS_DELETE != 1 || nh.IS_DELETE == null) select nh;
                 foreach (var nh in namhoc)
                 {
