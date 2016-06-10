@@ -220,6 +220,7 @@ namespace DATN.TTS.TVMH
 
             
             string xcolumn = iGridDataSource.Columns[iGridDataSource.Columns.Count - 1].ColumnName; // Ten cot diem TK mon dang xet
+            iData_AllTree.Clear();
 
             #region Tao tree
 
@@ -320,7 +321,7 @@ namespace DATN.TTS.TVMH
             xxx.Rows[0][2] = 5.6;
             xxx.Rows[0][3] = 4.8;
             xxx.Rows[0][4] = 8.7;
-            xxx.Rows[0][5] = 5.7;
+            xxx.Rows[0][5] = 8.1;
             xxx.Rows[0][6] = 4.6;
             xxx.Rows[0][7] = 6.1;
             xxx.Rows[0][8] = 6.6;
