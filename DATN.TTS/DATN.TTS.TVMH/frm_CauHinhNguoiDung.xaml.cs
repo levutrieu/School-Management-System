@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DevExpress.Data;
 using DevExpress.Utils;
@@ -336,7 +337,7 @@ namespace DATN.TTS.TVMH
                         }
                         else
                         {
-                            MessageBox.Show("Tài khoản này đã tồn tại", "Thông báo");
+                            CTMessagebox.Show("Tài khoản này đã tồn tại", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                             txtUser.Focus();
                             return;
                         }
@@ -353,7 +354,7 @@ namespace DATN.TTS.TVMH
                         }
                         else
                         {
-                            MessageBox.Show("Them moi khong thanh cong");
+                            CTMessagebox.Show("Lưu dữ liệu thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                         }
                         #endregion
                     }
@@ -373,7 +374,7 @@ namespace DATN.TTS.TVMH
                                         bool res =client.InsertNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
                                         if (!res)
                                         {
-                                            MessageBox.Show("Cập nhật không thành công");
+                                            CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                                         }
                                     }
                                     catch

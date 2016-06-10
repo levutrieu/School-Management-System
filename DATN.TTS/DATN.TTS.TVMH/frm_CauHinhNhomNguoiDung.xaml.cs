@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DevExpress.Data;
 using DevExpress.Utils;
@@ -231,7 +232,7 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_Nhom(iDataSoure.Copy());
                         if (!res)
                         {
-                            MessageBox.Show("Thêm mới thất bại", "Thêm");
+                            CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                         }
                         else
                         {
@@ -254,7 +255,7 @@ namespace DATN.TTS.TVMH
                                     res = client.Insert_PhanQuyenUI(this.iDataSoure.Copy());
                                     if (!res)
                                     {
-                                        MessageBox.Show("Thêm mới thất bại", "Thêm");
+                                        CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                                     }
                                 }
                             }
@@ -288,7 +289,7 @@ namespace DATN.TTS.TVMH
                                     res = client.Insert_PhanQuyenUI(this.iDataSoure.Copy());
                                     if (!res)
                                     {
-                                        MessageBox.Show("Thêm mới thất bại", "Thêm");
+                                        CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                                     }
                                 }
                             }
@@ -340,7 +341,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if (MessageBox.Show("Bạn có muốn xóa không?", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if ( CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_Nhom(this.iDataSoure.Rows[0]["MaNhomNguoiDung"].ToString().Trim());
                     LoadGridNhom();
