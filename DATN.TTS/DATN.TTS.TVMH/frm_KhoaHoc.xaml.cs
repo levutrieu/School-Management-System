@@ -258,13 +258,13 @@ namespace DATN.TTS.TVMH
             }
             if (this.iDataSoure.Rows[0]["KYHIEU"].ToString() == string.Empty)
             {
-                CTMessagebox.Show("Bạn có muốn xóa không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                CTMessagebox.Show("Bạn chưa nhập ký hiệu?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtKyHieu.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["TRANGTHAI"].ToString() == string.Empty)
             {
-                CTMessagebox.Show("Bạn có muốn xóa không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                CTMessagebox.Show("Bạn chưa nhập trạng thái?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtTrangThai.Focus();
                 return false;
             }
