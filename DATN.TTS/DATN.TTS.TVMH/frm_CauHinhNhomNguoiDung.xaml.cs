@@ -341,7 +341,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if ( CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                if ( CTMessagebox.Show("Bạn có muốn xóa không?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_Nhom(this.iDataSoure.Rows[0]["MaNhomNguoiDung"].ToString().Trim());
                     LoadGridNhom();
