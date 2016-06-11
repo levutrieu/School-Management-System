@@ -201,5 +201,13 @@ namespace DATN.TTS.TVMH
             cauhinh.ShowDialog();
             this.Visibility = Visibility.Visible;
         }
+
+        private void BtnDangNhap_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnDangNhap_OnClick(sender, e);
+            }
+        }
     }
 }

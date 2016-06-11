@@ -32,7 +32,7 @@
         <dxe:PasswordBoxEdit Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
         <dxe:CheckEdit Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="2 0 0 0" Content="Ghi nhớ mật khẩu" Name="LuuMK" Checked="LuuMK_OnChecked" Unchecked="LuuMK_OnUnchecked"/>
         <Button Grid.Row="5" Grid.Column="2" Content="Cấu hình" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnCauHinh" Click="BtnCauHinh_OnClick"/>
-        <Button Grid.Row="5" Grid.Column="3" Content="Đăng nhập" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnDangNhap" Click="BtnDangNhap_OnClick"/>
+        <Button Grid.Row="5"  IsDefault="True" Grid.Column="3" Content="Đăng nhập" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnDangNhap" Click="BtnDangNhap_OnClick"/>
         <Button Grid.Row="5" Grid.Column="4" Content="Thoát" Style="{StaticResource Button_Style}" HorizontalAlignment="Stretch" Name="btnThoat" Click="BtnThoat_OnClick"/>
     </Grid>
 </Window>
