@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DATN.TTS.BUS.Resource;
 using DATN.TTS.DATA;
 
 namespace DATN.TTS.BUS
@@ -18,7 +19,7 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where nh.IS_DELETE == 0 select nh;
+                var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where (nh.IS_DELETE != 1 || nh.IS_DELETE == null) select nh;
                 dt = TableUtil.LinqToDataTable(namhoc);
                 return dt;
             }
@@ -45,6 +46,8 @@ namespace DATN.TTS.BUS
                         tbl_NAMHOC_HIENTAI sethien = db.tbl_NAMHOC_HIENTAIs.Single(t => t.ID_NAMHOC_HIENTAI == Convert.ToInt32(r["ID_NAMHOC_HIENTAI"].ToString()));
                         sethien.IS_HIENTAI = 0;
                         db.SubmitChanges();
+
+                        UserCommon.IdNamhocHientai = pID_NAMHOC_HIENTAI;
                     }
                 }
                 db.SubmitChanges();
@@ -142,7 +145,7 @@ namespace DATN.TTS.BUS
                 //dr["NAMHOC"] = "----------------Chọn-------------------";
                 //dr["ID_NAMHOC_HIENTAI"] = 0;
                 //dt.Rows.Add(dr);
-                var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where (nh.IS_DELETE != 1 || nh.IS_DELETE == null) select nh;
+                var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where (nh.IS_DELETE != 1 || nh.IS_DELETE == null) && nh.IS_HIENTAI == 1 select nh;
                 foreach (var nh in namhoc)
                 {
                     DataRow r = dt.NewRow();
@@ -229,7 +232,9 @@ namespace DATN.TTS.BUS
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
-                                    a.IS_DELETE == 0 
+                                    (a.IS_DELETE != 1 || a.IS_DELETE == null)&&
+                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
+                                    (b.IS_HIENTAI == 1)
                                   select new
                                   {
                                       ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
@@ -275,9 +280,11 @@ namespace DATN.TTS.BUS
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
-                                    a.IS_DELETE == 0 &&
+                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
+                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
                                     a.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI &&
-                                    a.HOCKY == pHOCKY
+                                    a.HOCKY == pHOCKY &&
+                                    (b.IS_HIENTAI == 1)
                                   select new
                                   {
                                       ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
@@ -323,8 +330,10 @@ namespace DATN.TTS.BUS
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
-                                    a.IS_DELETE == 0 &&
-                                    a.HOCKY == pHOCKY
+                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
+                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
+                                    a.HOCKY == pHOCKY &&
+                                    (b.IS_HIENTAI == 1)
                                   select new
                                   {
                                       ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
@@ -370,8 +379,10 @@ namespace DATN.TTS.BUS
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
-                                    a.IS_DELETE == 0 &&
-                                    a.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI
+                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
+                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
+                                    a.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI &&
+                                    (b.IS_HIENTAI == 1)
                                   select new
                                   {
                                       ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
@@ -418,7 +429,7 @@ namespace DATN.TTS.BUS
                 db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
                 db.SubmitChanges();
                 //kết thúc thực hiện thêm mới
-
+                UserCommon.IdNamhocHkyHtai = hknamhoc.ID_NAMHOC_HKY_HTAI;
                 //Thực hiện cập nhật
                 var hknamhocUp = from hk in db.tbl_NAMHOC_HKY_HTAIs
                                where (hk.IS_DELETE != 1 || hk.IS_DELETE == null)
@@ -459,6 +470,8 @@ namespace DATN.TTS.BUS
                 hky.UPDATE_USER = pUser;
                 hky.UPDATE_TIME = System.DateTime.Now;
                 db.SubmitChanges();
+                //========================================
+                UserCommon.IdNamhocHkyHtai = hky.ID_NAMHOC_HKY_HTAI;
                 //Lấy danh sách học kỳ năm học có ID_NAMHOC_HIENTAI = vs tham số năm học và học kỳ khác vs tham số học kỳ
                 var hknamhoc = from hk in db.tbl_NAMHOC_HKY_HTAIs
                     where (hk.IS_DELETE != 1 || hk.IS_DELETE == null) 
@@ -510,5 +523,6 @@ namespace DATN.TTS.BUS
                 throw err;
             }
         }
+
     }
 }
