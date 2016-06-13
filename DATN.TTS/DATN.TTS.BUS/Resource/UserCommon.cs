@@ -10,6 +10,10 @@ namespace DATN.TTS.BUS.Resource
     {
         private static int ID_NhanVien;
 
+        private static int _ID_NAMHOC_HIENTAI;
+
+        private static int _ID_NAMHOC_HKY_HTAI;
+
         public static int IdNhanVien
         {
             get { return ID_NhanVien; }
@@ -30,6 +34,18 @@ namespace DATN.TTS.BUS.Resource
         {
             get { return User_Name; }
             set { User_Name = value; }
+        }
+
+        public static int IdNamhocHientai
+        {
+            get { return _ID_NAMHOC_HIENTAI; }
+            set { _ID_NAMHOC_HIENTAI = value; }
+        }
+
+        public static int IdNamhocHkyHtai
+        {
+            get { return _ID_NAMHOC_HKY_HTAI; }
+            set { _ID_NAMHOC_HKY_HTAI = value; }
         }
     }
 }
