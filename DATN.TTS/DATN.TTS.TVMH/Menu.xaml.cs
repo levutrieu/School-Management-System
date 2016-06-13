@@ -20,12 +20,15 @@ namespace DATN.TTS.TVMH
     /// </summary>
     public partial class Menu : Window
     {
+        bus_DangKyHocPhan GetNamHoc = new bus_DangKyHocPhan();
         public Menu()
         {
             InitializeComponent();
             this.DataContext = this;
             txtThongTin.Text = UserCommon.TenNhanVien;
             Load_menu();
+            UserCommon.IdNamhocHientai = GetNamHoc.GetNamHocHienTai();
+            UserCommon.IdNamhocHkyHtai = GetNamHoc.GetHocKyHienTai();
         }
 
         #region Add item menu

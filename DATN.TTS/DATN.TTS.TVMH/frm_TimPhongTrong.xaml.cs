@@ -388,13 +388,25 @@ namespace DATN.TTS.TVMH
 
         private void GrdView_OnCellValueChanging(object sender, CellValueChangedEventArgs e)
         {
-            int index = this.grdView.FocusedRowHandle;
-            for (int i = 0; i < this.iGridDataSource.Rows.Count; i++)
+            try
             {
-                if (i != index)
+                Mouse.OverrideCursor = Cursors.Wait;
+                int index = this.grdView.FocusedRowHandle;
+                for (int i = 0; i < this.iGridDataSource.Rows.Count; i++)
                 {
-                    this.iGridDataSource.Rows[i]["IsNew"] = "False";
+                    if (i != index)
+                    {
+                        this.iGridDataSource.Rows[i]["IsNew"] = "False";
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
     }

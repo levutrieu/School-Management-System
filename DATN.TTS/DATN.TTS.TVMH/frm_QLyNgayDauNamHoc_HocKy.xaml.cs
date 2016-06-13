@@ -201,6 +201,7 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 this.iDataSoure.Rows[0]["HOCKY"] = "0";
                 this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = "0";
+                SetComboNamHoc();
                 GetGrid();
             }
             catch (Exception err)
