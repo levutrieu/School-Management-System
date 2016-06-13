@@ -167,6 +167,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = "0";
                 this.iDataSoure.Rows[0]["NAMHOC_TU"] = DateTime.Now.Year;
                 this.iDataSoure.Rows[0]["NAMHOC_DEN"] = "0";
                 this.iDataSoure.Rows[0]["NGAY_BATDAU"] = DateTime.Now;
@@ -294,7 +295,7 @@ namespace DATN.TTS.TVMH
                         }
                         else
                         {
-                            bool res = client.Insert_NamHocHienTai(this.iDataSoure.Copy());
+                            bool res = client.Update_NamHocHienTai(this.iDataSoure.Copy());
                             if (!res)
                             {
                                 CTMessagebox.Show("Cập nhật thất bại", "Cập nhật", "", CTICON.Information, CTBUTTON.YesNo);
@@ -399,7 +400,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (!this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString().Equals(string.Empty))
+                if (!this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString().Equals(string.Empty) && this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString() !="0")
                 {
                     bool res = client.SetNamHocHienTai(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()));
                     if (!res)
@@ -411,6 +412,10 @@ namespace DATN.TTS.TVMH
                         CTMessagebox.Show("Đặt năm học hiện tại thành công", "Thành công", "", CTICON.Information, CTBUTTON.YesNo);
                         GetGrid();
                     }
+                }
+                else
+                {
+                    CTMessagebox.Show("Bạn chưa chọn năm học để thiết lập", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 }
             }
             catch (Exception er)
