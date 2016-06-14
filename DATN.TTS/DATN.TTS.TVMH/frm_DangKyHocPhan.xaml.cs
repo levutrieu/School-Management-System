@@ -586,5 +586,33 @@ namespace DATN.TTS.TVMH
         {
             
         }
+
+        private void BtnHoTroID3_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                frm_ID3 frm=new frm_ID3();
+                frm.Owner = Window.GetWindow(this);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void BtnHoTroC45_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                frm_C45 frm = new frm_C45();
+                frm.Owner = Window.GetWindow(this);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

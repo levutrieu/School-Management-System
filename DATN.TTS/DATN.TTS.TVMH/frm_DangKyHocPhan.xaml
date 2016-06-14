@@ -113,8 +113,8 @@
         <Grid Grid.Row="3">
             <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button  Content="Hỗ trợ tư vấn ID3" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroID3" VerticalAlignment="Center"/>
-                    <Button  Content="Hỗ trợ tư vấn C45" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroC45" VerticalAlignment="Center"/>
+                    <Button  Content="Hỗ trợ tư vấn ID3" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroID3" VerticalAlignment="Center" Click="BtnHoTroID3_OnClick"/>
+                    <Button  Content="Hỗ trợ tư vấn C45" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroC45" VerticalAlignment="Center" Click="BtnHoTroC45_OnClick"/>
                     <Button  Content="Lưu đăng ký" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnLuuDK" VerticalAlignment="Center"/>
                     <Button  Content="Hủy đăng ký" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHuyDK" VerticalAlignment="Center"/>
                 </StackPanel>
