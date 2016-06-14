@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,10 @@ namespace DATN.C45
         List<string> _ListMonHoc;
         int _depth;
         string _solution;
+        private double diem1 = 0;
+        private double diem2 = 0;
 
-        internal TreeNode Tree
+        public TreeNode Tree
         {
             get { return _tree; }
             set { _tree = value; }
@@ -40,15 +43,18 @@ namespace DATN.C45
             set { _ListMonHoc = value; }
         }
 
-        public DecisionTree_C45(List<List<double>> Examples, List<Attribute> Attributes)
+        public DecisionTree_C45(List<List<double>> Examples, List<Attribute> Attributes, double kq1, double kq2)
         {
             this.Examples = Examples;
             this.Attributes = Attributes;
             this.Tree = null;
             this.ListMonHoc = new List<string>();
             Depth = 0;
-        } 
+            diem1 = kq1;
+            diem2 = kq2;
+        }
         #endregion
+
         #region GetTree and Get depth tree
         private int GetDepth(TreeNode tree)
         {
@@ -69,7 +75,7 @@ namespace DATN.C45
             return depth;
         }
         #endregion
-       
+
         public void GetTree()
         {
             Solution = "";
@@ -81,9 +87,8 @@ namespace DATN.C45
             Tree = GetTreeNode_DecisionC45(Examples, at, "S");
             Depth = GetDepth(Tree);
         }
-      
 
-       private TreeNode GetTreeNode_DecisionC45(List<List<double>> Examples, List<Attribute> Attribute_Examp, string bestat)
+        private TreeNode GetTreeNode_DecisionC45(List<List<double>> Examples, List<Attribute> Attribute_Examp, string bestat)
         {
             Solution = Solution + "---------------------------------    Xét " + bestat + "     -------------------------------";
             if (CheckAllPositive(Examples))
@@ -106,7 +111,7 @@ namespace DATN.C45
                 List<List<double>> Examplesvi = new List<List<double>>();
                 for (int j = 0; j < Examples.Count; j++)
                 {
-                    double x =(double) Examples[j][LocationBA];
+                    double x = (double)Examples[j][LocationBA];
                     double y = Convert.ToDouble(Best_attributes.Value[i].ToString());
                     if (x == y)
                         Examplesvi.Add(Examples[j]);
@@ -126,10 +131,9 @@ namespace DATN.C45
             return Root;
         }
 
-
         private Attribute GetBestAttribute(List<List<double>> Examples, List<Attribute> Attributes, string bestat)
         {
-            double maxGain= GainRatio(Examples, Attributes[0], bestat);
+            double maxGain = GainRatio(Examples, Attributes[0], bestat);
             int max = 0;
             for (int i = 1; i < Attributes.Count; i++)
             {
@@ -165,14 +169,20 @@ namespace DATN.C45
                 int j = A.Value.IndexOf(Examples[i][Col]);
                 int x = Examples[0].Count - 1;
                 int y = Convert.ToInt32((Examples[i][x]));
-                if (y == 10)
+                if (y == diem2)
                 {
-                    CountPoSitive++;
-                    CountPositivesA[j]++;
+                    if (j >= 0)
+                    {
+                        CountPoSitive++;
+                        CountPositivesA[j]++;
+                    }
                 }
                 else
                 {
-                    CountNegativeA[j]++;
+                    if (j >= 0)
+                    {
+                        CountNegativeA[j]++;
+                    }
                 }
             }
             Entropy = GetEntropy(CountPoSitive, Examples.Count - CountPoSitive);
@@ -182,7 +192,7 @@ namespace DATN.C45
                 int Negative = CountNegativeA[t];
                 double RateValue = (double)(CountPositivesA[t] + CountNegativeA[t]) / Examples.Count;
                 EntropyCurrent += RateValue * GetEntropy(PoSitive, Negative);
-                SplitInformation += RateValue*Math.Log(RateValue, 2);
+                SplitInformation += RateValue * Math.Log(RateValue, 2);
             }
             GainValue = Entropy - EntropyCurrent;
             gainRatio = (double)GainValue / (-SplitInformation);//result = GetEntropy(CountPoSitive, Examples.Count - CountPoSitive) - result;
@@ -206,11 +216,12 @@ namespace DATN.C45
 
             return Entropy;
         }
+
         private string GetMostCommonValue(List<List<double>> Examples)
         {
-            int CountPositive = 0;for (int i = 0; i < Examples.Count; i++)
+            int CountPositive = 0; for (int i = 0; i < Examples.Count; i++)
             {
-                if (Examples[i][Examples[0].Count - 1] == 0)
+                if (Examples[i][Examples[0].Count - 1] == diem1)
                     CountPositive++;
             }
             int CountNegative = Examples.Count - CountPositive;
@@ -218,7 +229,7 @@ namespace DATN.C45
             if (CountPositive > CountNegative)
                 Label = 0.ToString();
             else
-                Label = 10.ToString();  
+                Label = 10.ToString();
             Solution = Solution + " là " + Label;
             return Label;
         }
@@ -227,7 +238,7 @@ namespace DATN.C45
         {
             for (int i = 0; i < Examples.Count; i++)
             {
-                if (Examples[i][Examples[0].Count - 1] == 0)
+                if (Examples[i][Examples[0].Count - 1] == diem1)
                     return false;
             }
             return true;
@@ -238,10 +249,55 @@ namespace DATN.C45
 
             for (int i = 0; i < Examples.Count; i++)
             {
-                if (Examples[i][Examples[0].Count - 1] == 10)
+                if (Examples[i][Examples[0].Count - 1] == diem2)
                     return false;
             }
             return true;
+        }
+
+        // Tìm giá trị 
+        public List<double> SearchTree(TreeNode tree, DataTable iDataSource, List<double> lst_result, bool kt)
+        {
+            if (!string.IsNullOrEmpty(tree.Attribute.Label))
+            {
+                if (kt == true)
+                {
+                    lst_result.Add(Convert.ToDouble(tree.Attribute.Label));
+                }
+            }
+            else
+            {
+                // Kiểm tra giá trị tại node đang xét có tồn tại trong đk đưa vào
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0][tree.Attribute.Name.Trim()].ToString()))
+                {
+                    int check = 0;
+                    for (int i = 0; i < tree.Attribute.Value.Count; i++)
+                    {
+                        if (Convert.ToDouble(iDataSource.Rows[0][tree.Attribute.Name.Trim()]) ==
+                            tree.Attribute.Value[i])
+                        {
+                            lst_result = SearchTree(tree.Childs[i], iDataSource, lst_result, true);
+                            check++;
+                        }
+                    }
+                    if (check == 0)
+                    {
+                        foreach (TreeNode trnode in tree.Childs)
+                        {
+                            lst_result = SearchTree(trnode, iDataSource, lst_result, false);
+                        }
+                    }
+
+                }
+                else
+                {
+                    foreach (TreeNode trnode in tree.Childs)
+                    {
+                        lst_result = SearchTree(trnode, iDataSource, lst_result, false);
+                    }
+                }
+            }
+            return lst_result;
         }
     }
 }

@@ -8,10 +8,10 @@ namespace DATN.C45
 {
     public class TreeNode
     {
-        private Attribute _attributes;
-        private TreeNode[] _childs;
-        private int n;
-        private int _numberLabel;
+         Attribute _attributes;
+         TreeNode[] _childs;
+         int n;
+         int _numberLabel;
 
         public Attribute Attribute
         {
