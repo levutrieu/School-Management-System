@@ -19,13 +19,15 @@ namespace DATN.TTS.BUS
             try
             {
                 int res = 0;
-                var khoanganh = from kn in db.tbl_KHOAHOC_NGANHs
-                    where
-                        (kn.IS_DELETE != 1 || kn.IS_DELETE == null) && kn.ID_KHOAHOC == idkhoa && kn.ID_NGANH == idnganh
-                    select new {kn.ID_KHOAHOC_NGANH};
-                DataTable dt = TableUtil.LinqToDataTable(khoanganh);
-                if (dt.Rows.Count > 0)
-                    res = Convert.ToInt32(dt.Rows[0]["ID_KHOAHOC_NGANH"].ToString());
+                var tblKhoahocNganh = (from kn in db.tbl_KHOAHOC_NGANHs
+                    where (kn.IS_DELETE != 1 || kn.IS_DELETE == null)
+                          && kn.ID_KHOAHOC == idkhoa && kn.ID_NGANH == idnganh
+                    select kn).FirstOrDefault();
+                if (tblKhoahocNganh != null)
+                {
+                    var khoanganh = tblKhoahocNganh.ID_KHOAHOC_NGANH;
+                    res = Convert.ToInt32(khoanganh);
+                }
                 return res;
             }
             catch (Exception err)
@@ -91,8 +93,7 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = null;
                 var hpdk = from dkhp in db.tbl_HP_DANGKies
-                    join hp in db.tbl_LOP_HOCPHANs on new {ID_LOPHOCPHAN = Convert.ToInt32(dkhp.ID_LOPHOCPHAN)} equals
-                        new {ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN}
+                    join hp in db.tbl_LOP_HOCPHANs on dkhp.ID_LOPHOCPHAN equals hp.ID_LOPHOCPHAN
                     join hk in db.tbl_NAMHOC_HKY_HTAIs on hp.ID_NAMHOC_HKY_HTAI equals hk.ID_NAMHOC_HKY_HTAI
                     join nh in db.tbl_NAMHOC_HIENTAIs on hk.ID_NAMHOC_HIENTAI equals nh.ID_NAMHOC_HIENTAI
                     join mh in db.tbl_MONHOCs on new {ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC)} equals
@@ -103,21 +104,28 @@ namespace DATN.TTS.BUS
                         (mh.IS_DELETE != 1 ||mh.IS_DELETE == null) &&
                          (hk.IS_DELETE != 1 || hk.IS_DELETE == null) &&
                          (nh.IS_DELETE != 1 || nh.IS_DELETE == null) &&
-                         hk.IS_HIENTAI == 1 && nh.IS_HIENTAI == 1 &&
+                         hk.IS_HIENTAI == 1 &&
                         dkhp.ID_SINHVIEN == id_sinhvien
                     select new
                     {
                         dkhp.ID_DANGKY,
                         dkhp.ID_SINHVIEN,
                         dkhp.ID_LOPHOCPHAN,
+                        dkhp.ID_THAMSO,
                         mh.MA_MONHOC,
                         mh.TEN_MONHOC,
                         dkhp.NGAY_DANGKY,
                         dkhp.GIO_DANGKY,
                         mh.SO_TC,
+                        dkhp.DON_GIA,
                         dkhp.THANH_TIEN
                     };
                 dt = TableUtil.LinqToDataTable(hpdk);
+                dt.Columns.Add("TRANGTHAI");
+                foreach (DataRow r in dt.Rows)
+                {
+                    r["TRANGTHAI"] = "Đã lưu vào cơ sở dữ liệu";
+                }
                 return dt;
             }
             catch (Exception err)
@@ -270,6 +278,77 @@ namespace DATN.TTS.BUS
                     res = Convert.ToInt32(hockyHT);
                 }
                 return res;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public bool Delete_HocPhanDK(int Id_DangKy, string pUser)
+        {
+            try
+            {
+                bool res;
+
+                tbl_HP_DANGKY dkhp = db.tbl_HP_DANGKies.Single(t => t.ID_DANGKY == Id_DangKy);
+                dkhp.IS_DELETE = 1;
+                dkhp.UPDATE_TIME = DateTime.Now;
+                dkhp.CREATE_USER = pUser;
+                db.SubmitChanges();
+                if (dkhp.ID_DANGKY != 0)
+                {
+                    res = true;
+                }
+                else
+                {
+                    res = false;
+                }
+                return res;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public bool Insert_DangKyHuy(DataTable iDataSoure)
+        {
+            try
+            {
+                int count = 0;
+                if (iDataSoure.Rows.Count > 0)
+                {
+                    foreach (DataRow r in iDataSoure.Rows)
+                    {
+                        try
+                        {
+                            tbl_HP_DANGKY_HUY huydk = new tbl_HP_DANGKY_HUY();
+                            huydk.ID_LOPHOCPHAN = Convert.ToInt32(r["ID_LOPHOCPHAN"].ToString());
+                            huydk.ID_SINHVIEN = Convert.ToInt32(r["ID_SINHVIEN"].ToString());
+                            huydk.ID_THAMSO = Convert.ToInt32(r["ID_THAMSO"].ToString());
+                            huydk.NGAY_HUY = DateTime.Now;
+                            huydk.GIO_HUY = DateTime.Now.ToString("HH:mm:ss");
+                            huydk.DON_GIA = Convert.ToInt32(r["DON_GIA"].ToString());
+                            huydk.THANH_TIEN = Convert.ToInt32(r["THANH_TIEN"].ToString());
+                            huydk.IS_DELETE = 0;
+                            huydk.CREATE_USER = r["USER"].ToString();
+                            huydk.CREATE_TIME = DateTime.Now;
+
+                            db.tbl_HP_DANGKY_HUYs.InsertOnSubmit(huydk);
+                            db.SubmitChanges();
+                            count++;
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                        
+                    }
+                }
+                if (count > 0)
+                    return true;
+                return false;
             }
             catch (Exception err)
             {

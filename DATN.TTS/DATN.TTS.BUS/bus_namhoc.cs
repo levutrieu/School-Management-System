@@ -418,23 +418,10 @@ namespace DATN.TTS.BUS
         {
             try
             {
-                // thực hiện thêm mới học kỳ năm học
-                tbl_NAMHOC_HKY_HTAI hknamhoc = new tbl_NAMHOC_HKY_HTAI();
-                hknamhoc.ID_NAMHOC_HIENTAI = pID_NAMHOC_HIENTAI;
-                hknamhoc.HOCKY = pHOCKY;
-                hknamhoc.CREATE_USER = pUser;
-                hknamhoc.CREATE_TIME = System.DateTime.Now;
-                hknamhoc.IS_DELETE = 0;
-                hknamhoc.IS_HIENTAI = 1;
-                db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
-                db.SubmitChanges();
-                //kết thúc thực hiện thêm mới
-                UserCommon.IdNamhocHkyHtai = hknamhoc.ID_NAMHOC_HKY_HTAI;
-                //Thực hiện cập nhật
+                //Thực hiện cập nhật trước khi thiết lập mới
                 var hknamhocUp = from hk in db.tbl_NAMHOC_HKY_HTAIs
-                               where (hk.IS_DELETE != 1 || hk.IS_DELETE == null)
-                                     && hk.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI && hk.HOCKY != pHOCKY
-                               select hk;
+                                 where (hk.IS_DELETE != 1 || hk.IS_DELETE == null)
+                                 select hk;
                 DataTable dt = new DataTable();
                 dt = TableUtil.LinqToDataTable(hknamhocUp);
                 if (dt.Rows.Count > 0)
@@ -450,6 +437,19 @@ namespace DATN.TTS.BUS
                     }
                 }
                 // kết thúc cập nhật
+                // thực hiện thêm mới học kỳ năm học
+                tbl_NAMHOC_HKY_HTAI hknamhoc = new tbl_NAMHOC_HKY_HTAI();
+                hknamhoc.ID_NAMHOC_HIENTAI = pID_NAMHOC_HIENTAI;
+                hknamhoc.HOCKY = pHOCKY;
+                hknamhoc.CREATE_USER = pUser;
+                hknamhoc.CREATE_TIME = System.DateTime.Now;
+                hknamhoc.IS_DELETE = 0;
+                hknamhoc.IS_HIENTAI = 1;
+                db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
+                db.SubmitChanges();
+                //kết thúc thực hiện thêm mới
+                UserCommon.IdNamhocHkyHtai = hknamhoc.ID_NAMHOC_HKY_HTAI;
+               
                 if (!hknamhoc.ID_NAMHOC_HKY_HTAI.GetTypeCode().Equals(TypeCode.DBNull))
                     return true;
                 return false;
@@ -464,19 +464,9 @@ namespace DATN.TTS.BUS
         {
             try
             {
-                // thực hiện cập nhật khi trùng dữ liệu
-                tbl_NAMHOC_HKY_HTAI hky = db.tbl_NAMHOC_HKY_HTAIs.Single(t => t.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI && t.HOCKY == pHOCKY);
-                hky.IS_HIENTAI = 1;
-                hky.UPDATE_USER = pUser;
-                hky.UPDATE_TIME = System.DateTime.Now;
-                db.SubmitChanges();
-                //========================================
-                UserCommon.IdNamhocHkyHtai = hky.ID_NAMHOC_HKY_HTAI;
-                //Lấy danh sách học kỳ năm học có ID_NAMHOC_HIENTAI = vs tham số năm học và học kỳ khác vs tham số học kỳ
                 var hknamhoc = from hk in db.tbl_NAMHOC_HKY_HTAIs
-                    where (hk.IS_DELETE != 1 || hk.IS_DELETE == null) 
-                          && hk.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI && hk.HOCKY != pHOCKY
-                    select hk;
+                               where (hk.IS_DELETE != 1 || hk.IS_DELETE == null)
+                               select hk;
                 DataTable dt = new DataTable();
                 dt = TableUtil.LinqToDataTable(hknamhoc);
                 if (dt.Rows.Count > 0)
@@ -491,6 +481,14 @@ namespace DATN.TTS.BUS
                         db.SubmitChanges();
                     }
                 }
+                // thực hiện cập nhật khi trùng dữ liệu
+                tbl_NAMHOC_HKY_HTAI hky = db.tbl_NAMHOC_HKY_HTAIs.Single(t => t.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI && t.HOCKY == pHOCKY);
+                hky.IS_HIENTAI = 1;
+                hky.UPDATE_USER = pUser;
+                hky.UPDATE_TIME = System.DateTime.Now;
+                db.SubmitChanges();
+                //========================================
+                UserCommon.IdNamhocHkyHtai = hky.ID_NAMHOC_HKY_HTAI;
                 if (hky.ID_NAMHOC_HKY_HTAI > 0)
                     return true;
                 return false;

@@ -82,17 +82,6 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                dt.Columns.Add("ID_LOPHOC", typeof(int));
-                dt.Columns.Add("ID_KHOAHOC_NGANH", typeof(int));
-                dt.Columns.Add("MA_LOP", typeof(string));
-                dt.Columns.Add("TEN_LOP", typeof(string));
-                dt.Columns.Add("NGAY_MOLOP", typeof(DateTime));
-                dt.Columns.Add("NGAY_KETTHUC", typeof(DateTime));
-                dt.Columns.Add("SOLUONG_SV", typeof(Decimal));
-                dt.Columns.Add("ID_GIANGVIEN_CN", typeof(int));
-                dt.Columns.Add("GHICHU", typeof(string));
-                dt.Columns.Add("KHOA_NGANH", typeof(string));
-                dt.Columns.Add("TEN_GIANGVIEN", typeof(string));
                 var lop = from l in db.tbl_LOPHOCs where (l.IS_DELETE != 1 || l.IS_DELETE == null)
                           join khoanganh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals khoanganh.ID_KHOAHOC_NGANH where (khoanganh.IS_DELETE != 1 || khoanganh.IS_DELETE == null)
                           join kh in db.tbl_KHOAHOCs on khoanganh.ID_KHOAHOC equals kh.ID_KHOAHOC where (kh.IS_DELETE != 1 || kh.IS_DELETE == null)
@@ -113,24 +102,7 @@ namespace DATN.TTS.BUS
                         nganh.TEN_NGANH,
                         gv.TEN_GIANGVIEN
                     };
-                foreach (var x in lop)
-                {
-                    DataRow r = dt.NewRow();
-                    r["ID_LOPHOC"] = x.ID_LOPHOC;
-                    r["ID_KHOAHOC_NGANH"] = x.ID_KHOAHOC_NGANH;
-                    r["MA_LOP"] = x.MA_LOP;
-                    r["TEN_LOP"] = x.TEN_LOP;
-                    r["NGAY_MOLOP"] = x.NGAY_MOLOP;
-                    r["NGAY_KETTHUC"] = x.NGAY_KETTHUC;
-                    r["SOLUONG_SV"] = x.SOLUONG_SV;
-                    r["GHICHU"] = x.GHICHU;
-                    r["ID_GIANGVIEN_CN"] = x.ID_GIANGVIEN_CN;
-                    r["KHOA_NGANH"] = x.TEN_NGANH + "_" + x.TEN_KHOAHOC;
-                    r["TEN_GIANGVIEN"] = x.TEN_GIANGVIEN;
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
-                }
-
+                dt = TableUtil.LinqToDataTable(lop);
                 return dt;
             }
             catch (Exception)
