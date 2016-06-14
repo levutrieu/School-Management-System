@@ -31,15 +31,23 @@ namespace DATN.TTS.TVMH
     /// <summary>
     /// Interaction logic for frm_ID3.xaml
     /// </summary>
-    public partial class frm_ID3 : Page
+    public partial class frm_ID3 : Window
     {
-        
         List<DATN.ID3.TTS_ID3> iData_AllTree = new List<TTS_ID3>(); // Danh sach tat ca cac tree sau khi thuc hien thuat toan
-        
+       
+        bus_ID3 bus=new bus_ID3();
+
+        private DataTable iDataSource = null;
 
         public frm_ID3()
         {
             InitializeComponent();
+            Load_data();
+        }
+
+        public void Load_data()
+        {
+            DataTable ttsv = bus.Get_TTSV("2001120021");
         }
 
         private void Btnimport_OnClick(object sender, RoutedEventArgs e)
@@ -316,15 +324,12 @@ namespace DATN.TTS.TVMH
 
             DataTable xxx = iGridDataSource.Clone();
             xxx.Rows.Add(xxx.NewRow());
-            xxx.Rows[0][0] = 9;
+            xxx.Rows[0][0] = 6.3;
             xxx.Rows[0][1] = 9.3;
-            xxx.Rows[0][2] = 5.6;
+            xxx.Rows[0][2] = 7.2;
             xxx.Rows[0][3] = 4.8;
             xxx.Rows[0][4] = 8.7;
-            xxx.Rows[0][5] = 8.1;
-            xxx.Rows[0][6] = 4.6;
-            xxx.Rows[0][7] = 6.1;
-            xxx.Rows[0][8] = 6.6;
+            //xxx.Rows[0][5] = 8.1;
 
             List<double> result = new List<double>();
 
@@ -340,7 +345,9 @@ namespace DATN.TTS.TVMH
                 tong += b;
             }
             double diem_dudoan = (double)tong / result.Count;
-            CTMessagebox.Show("Danh sách điểm có thể đạt được: "+ds_dudoan +"\n\n Điểm dự đoán: "+diem_dudoan.ToString(), "Dự đoán", "", CTICON.Information, CTBUTTON.OK);
+            //CTMessagebox.Show("Danh sách điểm có thể đạt được: "+ds_dudoan +"\n\n Điểm dự đoán: "+diem_dudoan.ToString(), "Dự đoán", "", CTICON.Information, CTBUTTON.OK);
+            TXTkq.Text = "Danh sách điểm có thể đạt được: " + ds_dudoan + "\n\n Điểm dự đoán: " + diem_dudoan.ToString();
+
             #endregion
         }
 

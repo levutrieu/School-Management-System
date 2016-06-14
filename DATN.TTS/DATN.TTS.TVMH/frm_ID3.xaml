@@ -1,4 +1,4 @@
-﻿<Page x:Class="DATN.TTS.TVMH.frm_ID3"
+﻿<Window x:Class="DATN.TTS.TVMH.frm_ID3"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,12 +7,14 @@
       xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
       mc:Ignorable="d" 
-      d:DesignHeight="500" d:DesignWidth="1050">
+      Title="Tư vấn môn học ID3" Height="500" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
 
     <Grid>
         <!--Định nghĩa các phần riêng biệt-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.1*"/>
@@ -20,37 +22,18 @@
         <!--Button thuc hien chuc nang-->
         <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
-                <Button  Content="Nhập dữ liệu mẫu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnimport" VerticalAlignment="Bottom" Click="Btnimport_OnClick"/>
+                <Button  Content="Dự đoán" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnimport" VerticalAlignment="Bottom" Click="Btnimport_OnClick"/>
                 <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center" />
             </StackPanel>
         </Border>
-        <!--Controls nhap du lieu-->
-        <Expander Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
-            <StackPanel HorizontalAlignment="Stretch">
-                <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
-                    <!--Design hiển thị các controls-->
-                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.5*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.5*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Sinh viên" Style="{StaticResource TextBlockStyle}" />
-                            <dxe:ComboBoxEdit Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboSinhVien" DisplayMember="TEN_SINHVIEN" ValueMember="ID_SINHVIEN" EditValue="{Binding id_sinhvien_s, UpdateSourceTrigger=PropertyChanged}"/>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </Expander>
         <!--Luoi du lieu-->
 
-        <dxg:GridControl Grid.Row="2" Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
+        <dxg:GridControl Grid.Row="1" Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
             <dxg:GridControl.View>
                 <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" AllowCellMerge="True"
                                    ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
+        <dxe:TextEdit Grid.Row="2" Margin="3" TextWrapping="Wrap" Style="{StaticResource TextEditStyle}" IsReadOnly="True" Text="{Binding KET_QUA}" Name="TXTkq" VerticalContentAlignment="Top"/>
     </Grid>
-</Page>
+</Window>
