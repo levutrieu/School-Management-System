@@ -35,14 +35,15 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="1" Text="Nhập mã sinh viên" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN}"/>
+            <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN, UpdateSourceTrigger=PropertyChanged}" />
             
-            <Button Grid.Row="0" Grid.Column="3" Name="btnXemHocPhanDK" Content="Xem học phần đã đăng ký" Style="{StaticResource Button_Style_2}"/>
+            <Button Grid.Row="0" Grid.Column="3" Name="btnXemHocPhanDK"
+                    Content="Xem học phần đã đăng ký" Style="{StaticResource Button_Style_2}" Click="BtnXemHocPhanDK_OnClick"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="28"/>
                 <!--<RowDefinition Height="28"/>-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -103,9 +104,9 @@
             <dxg:GridControl Grid.Row="1" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdLopHP"
                              dx:ThemeManager.ThemeName="MetropolisLight"  >
                 <dxg:GridControl.View>
-                    <dxg:TableView BorderBrush="#27415d" x:Name="grdViewLopHP"  NavigationStyle="Cell"
-                                   RowStyle="{StaticResource SelectedRowStyle}"
-                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                    <dxg:TableView BorderBrush="#27415d" x:Name="grdViewLopHP"  NavigationStyle="Cell" CellValueChanging="GrdViewLopHP_OnCellValueChanging"
+                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewLopHP_OnCellValueChanged"
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" AutoWidth="True">
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>
@@ -113,10 +114,10 @@
         <Grid Grid.Row="3">
             <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button  Content="Hỗ trợ tư vấn ID3" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroID3" VerticalAlignment="Center" Click="BtnHoTroID3_OnClick"/>
-                    <Button  Content="Hỗ trợ tư vấn C45" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHoTroC45" VerticalAlignment="Center" Click="BtnHoTroC45_OnClick"/>
-                    <Button  Content="Lưu đăng ký" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnLuuDK" VerticalAlignment="Center"/>
-                    <Button  Content="Hủy đăng ký" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnHuyDK" VerticalAlignment="Center"/>
+                    <Button Click="BtnHoTroID3_OnClick"  Content="Hỗ trợ tư vấn ID3" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnHoTroID3" VerticalAlignment="Center"/>
+                    <Button Click="BtnHoTroC45_OnClick"  Content="Hỗ trợ tư vấn C45" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnHoTroC45" VerticalAlignment="Center"/>
+                    <Button Click="BtnLuuDK_OnClick"  Content="Lưu đăng ký" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnLuuDK" VerticalAlignment="Center"/>
+                    <Button  Content="Hủy đăng ký" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnHuyDK" VerticalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </Grid>
@@ -132,7 +133,7 @@
                              dx:ThemeManager.ThemeName="MetropolisLight"  >
                 <dxg:GridControl.View>
                     <dxg:TableView BorderBrush="#27415d" x:Name="grdViewDanhSachDK"  NavigationStyle="Cell"
-                                   RowStyle="{StaticResource SelectedRowStyle}"
+                                   RowStyle="{StaticResource SelectedRowStyle}" AutoWidth="True"
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
                     </dxg:TableView>
                 </dxg:GridControl.View>

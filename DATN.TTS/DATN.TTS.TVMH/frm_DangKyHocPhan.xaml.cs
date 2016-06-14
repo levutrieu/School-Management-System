@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Data;
@@ -20,6 +21,7 @@ using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
+using DevExpress.XtraSpreadsheet.Commands.Internal;
 
 namespace DATN.TTS.TVMH
 {
@@ -40,12 +42,13 @@ namespace DATN.TTS.TVMH
             this.DataContext = iDataSoure;
 
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
-            //this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "1";
+            this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120021";
             SetComBoThu();
             InitGrid_LopHP();
             InitGrid_HPDangKy();
             SetComboHDT();
             SetComboMonHoc();
+            LoadGridLopHocPhan();
         }
 
         private DataTable GetNgayHoc()
@@ -110,6 +113,8 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_NGANH", typeof(int));
                 dic.Add("ID_LOPHOC", typeof(int));
                 dic.Add("ID_MONHOC", typeof(Decimal));
+                dic.Add("ID_SINHVIEN", typeof(Decimal));
+                dic.Add("MA_SINHVIEN", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -117,6 +122,34 @@ namespace DATN.TTS.TVMH
             {
                 throw err;
             } 
+        }
+
+        private DataTable TableSchemaBindingGridHPDK()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                Dictionary<string, Type> dic =new Dictionary<string, Type>();
+                dic.Add("ID_DANGKY", typeof(Decimal));
+                dic.Add("MA_LOP_HOCPHAN", typeof(string));
+                dic.Add("MA_MONHOC", typeof(string));
+                dic.Add("TEN_MONHOC", typeof(string));
+                dic.Add("ID_LOPHOCPHAN", typeof(Decimal));
+                dic.Add("ID_THAMSO", typeof(Decimal));
+                dic.Add("ID_SINHVIEN", typeof(Decimal));
+                dic.Add("NGAY_DANGKY", typeof(DateTime));
+                dic.Add("GIO_DANGKY", typeof(string));
+                dic.Add("DON_GIA", typeof(Decimal));
+                dic.Add("THANH_TIEN", typeof(Decimal));
+                dic.Add("TRANGTHAI", typeof(string));
+                dic.Add("SO_TC", typeof(Decimal));
+                dt = TableUtil.ConvertDictionaryToTable(dic, false);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
 
         void InitGrid_LopHP()
@@ -128,7 +161,7 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "DK";
-                col.Width = 50;
+                col.Width = 30;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
@@ -210,10 +243,10 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "MA_LOP_HOCPHAN";
                 col.Header = "Mã học phần";
-                col.Width = 100;
+                col.Width = 120;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = false;
+                col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -225,18 +258,19 @@ namespace DATN.TTS.TVMH
                 col.Width = 200;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = false;
+                col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grdLopHP.Columns.Add(col);
 
                 #endregion
 
+                #region Attribiute
                 col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
-                col.Width = 150;
+                col.Width = 100;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -249,7 +283,7 @@ namespace DATN.TTS.TVMH
                 col.Width = 250;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
+                col.Visible = false;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grdLopHP.Columns.Add(col);
 
@@ -270,7 +304,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Sỉ số";
                 col.Width = 60;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -278,11 +312,11 @@ namespace DATN.TTS.TVMH
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
-                col.FieldName = "CONLAI";
-                col.Header = "Còn lại";
+                col.FieldName = "SOSVDKY";
+                col.Header = "Đã DK";
                 col.Width = 60;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -294,7 +328,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Thứ";
                 col.Width = 60;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -306,7 +340,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Tiết BD";
                 col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -318,7 +352,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số tiết";
                 col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -330,7 +364,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Phòng";
                 col.Width = 100;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -342,7 +376,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Tuần BD";
                 col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -354,12 +388,13 @@ namespace DATN.TTS.TVMH
                 col.Header = "Tuần KT";
                 col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
+                #endregion
             }
             catch (Exception er)
             {
@@ -393,11 +428,21 @@ namespace DATN.TTS.TVMH
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
+                col.FieldName = "ID_LOPHOCPHAN";
+                col.Header = "Lớp học phần";
+                col.Width = 90;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                grDanhSachDK.Columns.Add(col);
+
+                col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
                 col.Width = 150;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -419,7 +464,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số TC";
                 col.Width = 80;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -431,7 +476,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Học phí";
                 col.Width = 130;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -443,7 +488,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Phải đóng";
                 col.Width = 150;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -456,11 +501,11 @@ namespace DATN.TTS.TVMH
                 col.Header = "Ngày DK";
                 col.Width = 100;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                //col.EditSettings = new TextEditSettings();
+                //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -468,7 +513,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Trạng thái chọn môn học";
                 col.Width = 170;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
@@ -502,6 +547,34 @@ namespace DATN.TTS.TVMH
                 cboHDT.ItemsSource = dt;
                 if (dt.Rows.Count > 0)
                     this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        void LoadGridLopHocPhan()
+        {
+            try
+            {
+                iGridDataSoureHP = DangKyHocPhan.GetLopHP();
+                iGridDataSoureHP.Columns.Add("CHK");
+                this.grdLopHP.ItemsSource = iGridDataSoureHP;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        void LoadGridDKHP()
+        {
+            try
+            {
+                //this.iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString()));
+                iGridDataSoureHPDK.Columns.Add("CHK");
+                this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
             }
             catch (Exception err)
             {
@@ -585,6 +658,170 @@ namespace DATN.TTS.TVMH
         private void CboMonHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             
+        }
+
+        private void BtnXemHocPhanDK_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                
+                if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
+                {
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo","", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                int idsinhvien = DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
+                if (idsinhvien == 0)
+                {
+                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!"+"\n"+"Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
+                iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString()));
+                iGridDataSoureHPDK.Columns.Add("CHK");
+                this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void BtnLuuDK_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
+                {
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên. Và bấm xem học phần đã đăng ký."+"\n"+"Rồi thực hiện đăng đăng ký học phần", "Thông báo", "",CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                if (this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString() == "0")
+                {
+                    CTMessagebox.Show("Không tìm thấy sinh viên có mã này trong hệ thống."+"\n"+"Vui lòng kiểm tra lại.!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                if (iGridDataSoureHPDK.Rows.Count > 0)
+                {
+                    DataTable dt = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).CopyToDataTable();
+                    bool res = DangKyHocPhan.Insert_HocPhanDK(dt.Copy(), UserCommon.UserName);
+                    if (res)
+                    {
+                        CTMessagebox.Show("Đăng ký học phần thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.YesNo);
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Đăng ký học phần không thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.YesNo);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void GrdViewLopHP_OnCellValueChanging(object sender, CellValueChangedEventArgs e)
+        {
+           
+        }
+
+        private void GrdViewLopHP_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            #region CheckGrid
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                int index = this.grdViewLopHP.FocusedRowHandle;
+                DataTable iDataCheck = new DataTable();
+                iDataCheck = (from temp in iGridDataSoureHP.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).CopyToDataTable();
+                for (int i = 0; i < iDataCheck.Rows.Count; i++)
+                {
+                    #region MyRegion
+
+                    if (iGridDataSoureHPDK != null && iGridDataSoureHPDK.Rows.Count > 0)
+                    {
+                        //DataTable dt = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t=>t.Field<string>("MA_MONHOC") != iDataCheck.Rows[i]["MA_MONHOC"].ToString()) select temp).CopyToDataTable();
+                        for (int j = 0; j < iGridDataSoureHPDK.Rows.Count; j++)
+                        {
+                            if (iDataCheck.Rows[i]["MA_MONHOC"].ToString() !=
+                                (iGridDataSoureHPDK.Rows[j]["MA_MONHOC"].ToString()))
+                            {
+                                DataRow r = iGridDataSoureHPDK.NewRow();
+                                r["ID_DANGKY"] = 0;
+                                r["MA_MONHOC"] = iDataCheck.Rows[i]["MA_MONHOC"];
+                                r["TEN_MONHOC"] = iDataCheck.Rows[i]["TEN_MONHOC"];
+                                r["ID_LOPHOCPHAN"] = iDataCheck.Rows[i]["ID_LOPHOCPHAN"];
+                                r["ID_THAMSO"] = 0;
+                                r["ID_SINHVIEN"] = this.iDataSoure.Rows[0]["ID_SINHVIEN"];
+                                r["NGAY_DANGKY"] = System.DateTime.Now;
+                                r["GIO_DANGKY"] = DateTime.Now.ToString("HH:mm:ss");
+                                r["DON_GIA"] = 0;
+                                r["THANH_TIEN"] = "0";
+                                r["SO_TC"] = iDataCheck.Rows[i]["SO_TC"];
+                                r["TRANGTHAI"] = "Chưa lưu";
+                                iGridDataSoureHPDK.Rows.Add(r);
+
+                                iDataCheck.Rows.RemoveAt(i);
+                            }
+                            else
+                            {
+                                CTMessagebox.Show(
+                                    "Môn học bạn vừa đăng ký đã trùng. Bạn có thể hủy môn đó rồi đăng ký mới.",
+                                    "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                                iGridDataSoureHP.Rows[index]["CHK"] = "False";
+                                this.grdLopHP.ItemsSource = iGridDataSoureHP.Copy();
+                                return;
+                            }
+                        }
+                        this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
+                    }
+                    else
+                    {
+                        iGridDataSoureHPDK = TableSchemaBindingGridHPDK();
+                        DataRow r = iGridDataSoureHPDK.NewRow();
+                        r["ID_DANGKY"] = 0;
+                        r["MA_MONHOC"] = iDataCheck.Rows[i]["MA_MONHOC"];
+                        r["TEN_MONHOC"] = iDataCheck.Rows[i]["TEN_MONHOC"];
+                        r["ID_LOPHOCPHAN"] = iDataCheck.Rows[i]["ID_LOPHOCPHAN"];
+                        r["ID_THAMSO"] = 0;
+                        r["ID_SINHVIEN"] = this.iDataSoure.Rows[0]["ID_SINHVIEN"];
+                        r["NGAY_DANGKY"] = System.DateTime.Now;
+                        r["GIO_DANGKY"] = DateTime.Now.ToString("HH:mm:ss");
+                        r["DON_GIA"] = 0;
+                        r["THANH_TIEN"] = "0";
+                        r["SO_TC"] = iDataCheck.Rows[i]["SO_TC"];
+                        r["TRANGTHAI"] = "Chưa lưu";
+                        iGridDataSoureHPDK.Rows.Add(r);
+                        iGridDataSoureHPDK.Columns.Add("CHK");
+                        this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+            #endregion
         }
 
         private void BtnHoTroID3_OnClick(object sender, RoutedEventArgs e)
