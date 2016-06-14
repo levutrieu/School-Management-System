@@ -680,8 +680,8 @@ namespace DATN.TTS.TVMH
                     return;
                 }
                 this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
-                iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString()));
-                iGridDataSoureHPDK.Columns.Add("CHK");
+                iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
+                 iGridDataSoureHPDK.Columns.Add("CHK");
                 this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
             }
             catch (Exception err)
@@ -717,11 +717,11 @@ namespace DATN.TTS.TVMH
                     bool res = DangKyHocPhan.Insert_HocPhanDK(dt.Copy(), UserCommon.UserName);
                     if (res)
                     {
-                        CTMessagebox.Show("Đăng ký học phần thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Đăng ký học phần thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.OK);
                     }
                     else
                     {
-                        CTMessagebox.Show("Đăng ký học phần không thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Đăng ký học phần không thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.OK);
                     }
                 }
             }
@@ -758,9 +758,9 @@ namespace DATN.TTS.TVMH
                         //DataTable dt = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t=>t.Field<string>("MA_MONHOC") != iDataCheck.Rows[i]["MA_MONHOC"].ToString()) select temp).CopyToDataTable();
                         for (int j = 0; j < iGridDataSoureHPDK.Rows.Count; j++)
                         {
-                            if (iDataCheck.Rows[i]["MA_MONHOC"].ToString() !=
-                                (iGridDataSoureHPDK.Rows[j]["MA_MONHOC"].ToString()))
-                            {
+                            //if (iDataCheck.Rows[i]["MA_MONHOC"].ToString() !=
+                            //    (iGridDataSoureHPDK.Rows[j]["MA_MONHOC"].ToString()))
+                            //{
                                 DataRow r = iGridDataSoureHPDK.NewRow();
                                 r["ID_DANGKY"] = 0;
                                 r["MA_MONHOC"] = iDataCheck.Rows[i]["MA_MONHOC"];
@@ -777,16 +777,16 @@ namespace DATN.TTS.TVMH
                                 iGridDataSoureHPDK.Rows.Add(r);
 
                                 iDataCheck.Rows.RemoveAt(i);
-                            }
-                            else
-                            {
-                                CTMessagebox.Show(
-                                    "Môn học bạn vừa đăng ký đã trùng. Bạn có thể hủy môn đó rồi đăng ký mới.",
-                                    "Thông báo", "", CTICON.Information, CTBUTTON.OK);
-                                iGridDataSoureHP.Rows[index]["CHK"] = "False";
-                                this.grdLopHP.ItemsSource = iGridDataSoureHP.Copy();
-                                return;
-                            }
+                            //}
+                            //else
+                            //{
+                            //    CTMessagebox.Show(
+                            //        "Môn học bạn vừa đăng ký đã trùng. Bạn có thể hủy môn đó rồi đăng ký mới.",
+                            //        "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                            //    iGridDataSoureHP.Rows[index]["CHK"] = "False";
+                            //    this.grdLopHP.ItemsSource = iGridDataSoureHP.Copy();
+                            //    return;
+                            //}
                         }
                         this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
                     }
