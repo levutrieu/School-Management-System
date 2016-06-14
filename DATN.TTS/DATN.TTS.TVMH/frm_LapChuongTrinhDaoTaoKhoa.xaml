@@ -22,7 +22,7 @@
                 <dxwui:PageViewItem x:Name="pvi1" Header="Chọn ngành">
                     <tvmh:frm_KhoaNganh x:Name="frm_KhoaNganh" FontSize="12" FontFamily="Time New Roman"/>
                 </dxwui:PageViewItem>
-                <dxwui:PageViewItem x:Name="pvi2" Header="Thiết lập khóa ngành">
+                <dxwui:PageViewItem x:Name="pvi2" Header="Lập chương trình đào tạo">
                     <tvmh:frm_KhungNganhDaoTaoKhoa x:Name="frm_KhungNganhDaoTaoKhoa" FontSize="12" FontFamily="Time New Roman"/>
                 </dxwui:PageViewItem>
             </dxwui:PageView>

@@ -15,7 +15,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Button thuc hien chuc nang-->
@@ -36,9 +35,6 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.2*"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.1*"/>
                                 <!--<RowDefinition Height="25"/>
                                 <RowDefinition Height="*"/>-->
                             </Grid.RowDefinitions>
@@ -76,9 +72,9 @@
                                               AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
                                               AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_BAC_DAOTAO}" ValueMember="ID_BAC_DAOTAO" DisplayMember="TEN_BAC_DAOTAO"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
+                            <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtTrangThai" Grid.ColumnSpan="5" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>
+                                          TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>-->
                         </Grid>
                     </StackPanel>
 

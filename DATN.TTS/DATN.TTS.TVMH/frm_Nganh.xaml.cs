@@ -163,16 +163,6 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-
-            //col = new GridColumn();
-            //col.FieldName = "ID_HE_DAOTAO";
-            //col.Width = 50;
-            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            //col.AllowEditing = DefaultBoolean.False;
-            //col.Visible = false;
-            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            //grd.Columns.Add(col);
-
             col = new GridColumn();
             col.FieldName = "TEN_KHOA";
             col.Header = "Khoa";
@@ -182,18 +172,6 @@ namespace DATN.TTS.TVMH
             col.Visible = false;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
-
-            //col = new GridColumn();
-            //col.FieldName = "TEN_HE_DAOTAO";
-            //col.AllowCellMerge = true;
-            //col.Header = "Hệ đào tạo";
-            //col.Width = 50;
-            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            //col.AllowEditing = DefaultBoolean.False;
-            //col.Visible = true;
-            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            //col.AllowCellMerge = false;
-            //grd.Columns.Add(col);
 
             col = new GridColumn();
             col.FieldName = "KYHIEU";
@@ -232,16 +210,6 @@ namespace DATN.TTS.TVMH
             col = new GridColumn();
             col.FieldName = "CAP_NGANH";
             col.Header = "Cấp ngành";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "TRANGTHAI";
-            col.Header = "Trạng thái";
             col.Width = 50;
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;

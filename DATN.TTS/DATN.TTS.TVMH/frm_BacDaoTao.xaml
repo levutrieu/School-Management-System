@@ -56,9 +56,9 @@
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Bậc đào tạo:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtTenHDT" Style="{StaticResource TextEditStyle}" EditValue="{Binding TEN_BAC_DAOTAO}"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="5" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
+                            <!--<TextBlock Grid.Row="0" Grid.Column="5" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="6" Name="txtTrangThai" Grid.ColumnSpan="3" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>
+                                          TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>-->
                         </Grid>
                     </StackPanel>
 

@@ -70,16 +70,6 @@ namespace DATN.TTS.TVMH
             grd.Columns.Add(col);
 
             col = new GridColumn();
-            col.FieldName = "KHOA_NGANH";
-            col.Header = "Khóa ngành";
-            col.Width = 80;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
             col.FieldName = "MA_LOP";
             col.Header = "Mã lớp";
             col.Width = 50;
@@ -368,7 +358,7 @@ namespace DATN.TTS.TVMH
                 r = ((DataRowView)this.grd.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_LOPHOC"] = r["ID_LOPHOC"];
                 this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = r["ID_KHOAHOC_NGANH"];
-                this.iDataSoure.Rows[0]["KHOA_NGANH"] = r["KHOA_NGANH"];
+                //this.iDataSoure.Rows[0]["KHOA_NGANH"] = r["KHOA_NGANH"];
                 this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = r["ID_GIANGVIEN_CN"];
                 this.iDataSoure.Rows[0]["MA_LOP"] = r["MA_LOP"];
                 this.iDataSoure.Rows[0]["TEN_LOP"] = r["TEN_LOP"];

@@ -153,17 +153,7 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "TRANGTHAI";
-            col.Header = "Trạng thái";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
+            grd.Columns.Add(col);      
 
             GetGrid();
         }

@@ -53,9 +53,6 @@
                                 <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.7*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.7*"/>
-                                <ColumnDefinition Width="0.1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã khóa học:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_KHOAHOC}" MaxLength="50"/>
@@ -69,11 +66,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="7" Text="Năm kết thúc:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="8" Name="txtNamKT" Style="{StaticResource TextEditStyle}" MaskType="Numeric" DisplayFormatString="0000" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding NAM_KT}" MaxLength="255"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="9" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="10" Name="cbbHDT" Style="{StaticResource ComboBoxEditStyle}" 
-                                              AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
-                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_HE_DAOTAO}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>
-
+                           
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="Ký hiệu:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtKyHieu" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding KYHIEU}" MaxLength="255"/>
 
@@ -83,10 +76,11 @@
 
                             <TextBlock Grid.Row="2" Grid.Column="5" Text="Số học kỳ:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="2" Grid.Column="6" Name="txtSoHK" Style="{StaticResource SpinEditStyle}" MinValue="0" MaxValue="10" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY}" MaxLength="255"/>
-
                             
-                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="8" Name="txtTrangThai" Grid.ColumnSpan="3" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>
+                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="8" Name="cbbHDT" Style="{StaticResource ComboBoxEditStyle}" 
+                                              AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
+                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_HE_DAOTAO}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>
                         </Grid>
                     </StackPanel>
 

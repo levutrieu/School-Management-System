@@ -199,16 +199,6 @@ namespace DATN.TTS.TVMH
             col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
             grd.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "TRANGTHAI";
-            col.Header = "Trạng thái";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
             GetGrid();
         }
 
@@ -262,12 +252,6 @@ namespace DATN.TTS.TVMH
                 txtKyHieu.Focus();
                 return false;
             }
-            if (this.iDataSoure.Rows[0]["TRANGTHAI"].ToString() == string.Empty)
-            {
-                CTMessagebox.Show("Bạn chưa nhập trạng thái?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
-                txtTrangThai.Focus();
-                return false;
-            }
             return true;
         }
 
@@ -285,10 +269,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["KYHIEU"] = string.Empty;
                 this.iDataSoure.Rows[0]["TRANGTHAI"] = string.Empty;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 

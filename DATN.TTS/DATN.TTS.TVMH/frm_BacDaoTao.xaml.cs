@@ -83,12 +83,6 @@ namespace DATN.TTS.TVMH
                     txtTenHDT.Focus();
                     return false;
                 }
-                if (this.iDataSoure.Rows[0]["TRANGTHAI"] == string.Empty)
-                {
-                    MessageBox.Show("Vui lòng nhập trạng thái", "Thông báo");
-                    txtTrangThai.Focus();
-                    return false;
-                }
                 return true;
             }
             catch (Exception)
@@ -134,15 +128,15 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "TRANGTHAI";
-            col.Header = "Trạng thái";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
+            //col = new GridColumn();
+            //col.FieldName = "TRANGTHAI";
+            //col.Header = "Trạng thái";
+            //col.Width = 50;
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = true;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //grd.Columns.Add(col);
 
             GetGrid();
         }
