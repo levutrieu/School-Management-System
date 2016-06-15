@@ -57,28 +57,51 @@ namespace DATN.TTS.BUS
             }
         }
 
+        public DataTable GetDSLopHocWhereKhoaHoc(int idKhoahoc)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                var lophoc = from lop in db.tbl_LOPHOCs
+                    join khoanganh in db.tbl_KHOAHOC_NGANHs on lop.ID_KHOAHOC_NGANH equals khoanganh.ID_KHOAHOC_NGANH
+                    join khoa in db.tbl_KHOAHOCs on khoanganh.ID_KHOAHOC equals khoa.ID_KHOAHOC
+                    join nganh in db.tbl_NGANHs on khoanganh.ID_NGANH equals nganh.ID_NGANH
+                    where (lop.IS_DELETE != 1 || lop.IS_DELETE == null) &&
+                          (khoanganh.IS_DELETE != 1 || khoanganh.IS_DELETE == null) &&
+                          (khoa.IS_DELETE != 1 || khoa.IS_DELETE == null) &&
+                          (nganh.IS_DELETE != 1 || nganh.IS_DELETE == null) &&
+                          khoanganh.ID_KHOAHOC == idKhoahoc
+                    select new
+                    {
+                        lop.ID_LOPHOC,
+                        TEN_LOP =khoa.TEN_KHOAHOC + " - " + nganh.TEN_NGANH + " - " + lop.TEN_LOP + " - " +lop.NGAY_MOLOP.Year.ToString()
+                    };
+                dt = TableUtil.LinqToDataTable(lophoc);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
         public DataTable GetMonHoc()
         {
             try
             {
                 DataTable dt = new DataTable();
-                dt.Columns.Add("ID_MONHOC", typeof (Decimal));
-                dt.Columns.Add("TEN_MONHOC", typeof (string));
-                DataRow r = dt.NewRow();
-                r["ID_MONHOC"] = 0;
-                r["TEN_MONHOC"] = "--------------------------------------Chọn----------------------------------------";
-                dt.Rows.Add(r);
-                var mh = from m in db.tbl_MONHOCs
-                    where (m.IS_DELETE != 1 || m.IS_DELETE == null)
-                    select new {m.ID_MONHOC, m.TEN_MONHOC};
-                foreach (var m in mh)
-                {
-                    DataRow dr = dt.NewRow();
-                    dr["ID_MONHOC"] = m.ID_MONHOC;
-                    dr["TEN_MONHOC"] = m.TEN_MONHOC;
-                    dt.Rows.Add(dr);
-                    dt.AcceptChanges();
-                }
+                var hpmh = (from hp in db.tbl_LOP_HOCPHANs
+                    join mh in db.tbl_MONHOCs on hp.ID_MONHOC equals mh.ID_MONHOC
+                    join hkht in db.tbl_NAMHOC_HKY_HTAIs on hp.ID_NAMHOC_HKY_HTAI equals hkht.ID_NAMHOC_HKY_HTAI
+                    where (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
+                          (mh.IS_DELETE != 1 || mh.IS_DELETE == null)&&
+                          hkht.IS_HIENTAI ==1
+                    select new
+                    {
+                        hp.ID_MONHOC,
+                        mh.TEN_MONHOC
+                    }).Distinct();
+                dt = TableUtil.LinqToDataTable(hpmh);
                 return dt;
             }
             catch (Exception err)
@@ -338,7 +361,7 @@ namespace DATN.TTS.BUS
             return db.SoSVDaDangKy(ID_LOPHOCPHAN).GetValueOrDefault();
         }
 
-        public DataTable GetLopHP()
+         public DataTable GetLopHP()
         {
             try
             {
@@ -390,7 +413,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetLopHPWhereHDT(int ID_HEDAOTAO)
+         DataTable GetLopHPWhereHDT(int ID_HEDAOTAO)
         {
             DataTable dt = null;
             var hpdky = from hp in db.tbl_LOP_HOCPHANs
@@ -439,7 +462,7 @@ namespace DATN.TTS.BUS
             return dt;
         }
 
-        public DataTable GetLopHPWhereThu(int zthu)
+         DataTable GetLopHPWhereThu(int zthu)
         {
             DataTable dt = null;
             var hpdky = from hp in db.tbl_LOP_HOCPHANs
@@ -485,6 +508,461 @@ namespace DATN.TTS.BUS
                         #endregion
             dt = TableUtil.LinqToDataTable(hpdky);
             return dt;
+        }
+
+         DataTable GetLopHPWhereMonHoc(int idmonhoc)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                             where hkht.IS_HIENTAI == 1
+                             select new
+                             {
+                                 hkht.ID_NAMHOC_HKY_HTAI
+                             }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                && hp.ID_MONHOC == idmonhoc
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+         DataTable GetLopHPWherMonHoc_Thu(int idmonhoc, int zthu)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                             where hkht.IS_HIENTAI == 1
+                             select new
+                             {
+                                 hkht.ID_NAMHOC_HKY_HTAI
+                             }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                && hp.ID_MONHOC == idmonhoc && thu.THU == zthu
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+         DataTable GetLopHPWhereHDT_Thu(int idhedaotao, int zthu)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                             where hkht.IS_HIENTAI == 1
+                             select new
+                             {
+                                 hkht.ID_NAMHOC_HKY_HTAI
+                             }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                &&
+                                hp.ID_HEDAOTAO == idhedaotao && thu.THU == zthu
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+         DataTable GetLopHPHDT_MonHoc(int idhedaotao, int idmonhoc)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                             where hkht.IS_HIENTAI == 1
+                             select new
+                             {
+                                 hkht.ID_NAMHOC_HKY_HTAI
+                             }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                &&
+                                hp.ID_HEDAOTAO == idhedaotao && hp.ID_MONHOC == idmonhoc
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+         DataTable GetLopHPWhereMonHoc_LOP(int idmonhoc, int idlophoc)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                             where hkht.IS_HIENTAI == 1
+                             select new
+                             {
+                                 hkht.ID_NAMHOC_HKY_HTAI
+                             }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                &&
+                                hp.ID_MONHOC == idmonhoc && hp.ID_LOPHOC == idlophoc
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+         DataTable GetLopHocHPWhereThu_Lop(int zthu, int idlophoc)
+        {
+            try
+            {
+                DataTable dt = null;
+                var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                            join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                            join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                            where
+                                (hp.IS_DELETE != 1 ||
+                                 hp.IS_DELETE == null) &&
+                                (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                                 where hkht.IS_HIENTAI == 1
+                                 select new
+                                 {
+                                     hkht.ID_NAMHOC_HKY_HTAI
+                                 }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                    (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                    &&
+                                    thu.THU == zthu && hp.ID_LOPHOC == idlophoc
+                            #region Select
+                            select new
+                            {
+                                hp.ID_LOPHOCPHAN,
+                                hp.ID_KHOAHOC_NGANH_CTIET,
+                                hp.ID_NAMHOC_HKY_HTAI,
+                                hp.ID_HEDAOTAO,
+                                ID_MONHOC = (int?)hp.ID_MONHOC,
+                                hp.ID_LOPHOC,
+                                hp.ID_GIANGVIEN,
+                                hp.MA_LOP_HOCPHAN,
+                                hp.TEN_LOP_HOCPHAN,
+                                mh.MA_MONHOC,
+                                mh.TEN_MONHOC,
+                                mh.SO_TC,
+                                hp.SOLUONG,
+                                hp.TUAN_BD,
+                                hp.TUAN_KT,
+                                SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                                TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                                thu.THU,
+                                thu.TIET_BD,
+                                thu.TIET_KT,
+                                thu.SO_TIET,
+                                TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                            };
+                            #endregion
+                dt = TableUtil.LinqToDataTable(hpdky);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+         DataTable GetLopHPWhereLop_Monhoc_Thu(int idlophoc, int idmonhoc, int zthu)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                                hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                                where hkht.IS_HIENTAI == 1
+                                select new
+                                {
+                                    hkht.ID_NAMHOC_HKY_HTAI
+                                }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                &&
+                                thu.THU == zthu && hp.ID_LOPHOC == idlophoc && hp.ID_MONHOC == idmonhoc
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+        DataTable GetLopHPWhereLop(int idlophoc)
+        {
+            DataTable dt = null;
+            var hpdky = from hp in db.tbl_LOP_HOCPHANs
+                        join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                        join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                        where
+                            (hp.IS_DELETE != 1 ||
+                                hp.IS_DELETE == null) &&
+                            (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                                where hkht.IS_HIENTAI == 1
+                                select new
+                                {
+                                    hkht.ID_NAMHOC_HKY_HTAI
+                                }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
+                                (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                                && hp.ID_LOPHOC == idlophoc
+                        #region Select
+                        select new
+                        {
+                            hp.ID_LOPHOCPHAN,
+                            hp.ID_KHOAHOC_NGANH_CTIET,
+                            hp.ID_NAMHOC_HKY_HTAI,
+                            hp.ID_HEDAOTAO,
+                            ID_MONHOC = (int?)hp.ID_MONHOC,
+                            hp.ID_LOPHOC,
+                            hp.ID_GIANGVIEN,
+                            hp.MA_LOP_HOCPHAN,
+                            hp.TEN_LOP_HOCPHAN,
+                            mh.MA_MONHOC,
+                            mh.TEN_MONHOC,
+                            mh.SO_TC,
+                            hp.SOLUONG,
+                            hp.TUAN_BD,
+                            hp.TUAN_KT,
+                            SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                            TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                            thu.THU,
+                            thu.TIET_BD,
+                            thu.TIET_KT,
+                            thu.SO_TIET,
+                            TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
+                        };
+                        #endregion
+            dt = TableUtil.LinqToDataTable(hpdky);
+            return dt;
+        }
+
+        public DataTable GetLopHocPhan(int idhedaotao, int idmonhoc, int zthu, int idlophoc)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                if (idhedaotao == 0 && idmonhoc == 0 && zthu == 0 && idlophoc == 0)
+                {
+                    dt = GetLopHP();
+                }
+                if (idmonhoc == 0 && zthu == 0 && idlophoc == 0)
+                {
+                    dt = GetLopHPWhereHDT(idhedaotao);
+                }
+                if (idmonhoc != 0 && zthu == 0 && idlophoc == 0)
+                {
+                    dt = GetLopHPWhereMonHoc(idmonhoc);
+                }
+                if (idmonhoc == 0 && zthu != 0 && idlophoc == 0)
+                {
+                    dt = GetLopHPWhereThu(zthu);
+                }
+                if (idmonhoc != 0 && zthu != 0 && idlophoc == 0)
+                {
+                    dt = GetLopHPWherMonHoc_Thu(idmonhoc,zthu);
+                }
+                if (idmonhoc == 0 && zthu != 0 && idlophoc==0)
+                {
+                    dt = GetLopHPWhereHDT_Thu(idhedaotao, zthu);
+                }
+                if (idmonhoc != 0 && zthu == 0 && idlophoc == 0)
+                {
+                    dt = GetLopHPHDT_MonHoc(idhedaotao, idmonhoc);
+                }
+                if (idmonhoc != 0 && idlophoc != 0 && zthu ==0)
+                {
+                    dt = GetLopHPWhereMonHoc_LOP(idmonhoc, idlophoc);
+                }
+                if (zthu != 0 && idlophoc != 0 && idmonhoc==0)
+                {
+                    dt = GetLopHocHPWhereThu_Lop(zthu, idlophoc);
+                }
+
+                if (idlophoc != 0 && idmonhoc != 0 && zthu != 0)
+                {
+                    dt = GetLopHPWhereLop_Monhoc_Thu(idlophoc, idmonhoc, zthu);
+                }
+
+                if (idlophoc != 0 && idmonhoc == 0 && zthu == 0)
+                {
+                    dt = GetLopHPWhereLop(idlophoc);
+                }
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
     }
 }

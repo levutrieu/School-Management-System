@@ -89,16 +89,16 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public string ThemMaNhom()
-        {
-            ArrayList _MangPBH = new ArrayList();
-            var _MaNhom = from _PBH in db.tbl_NhomNguoiDungs select _PBH;
-            foreach (tbl_NhomNguoiDung bh in _MaNhom)
-            {
-                _MangPBH.Add(int.Parse(bh.MaNhomNguoiDung.Substring(3)));
-            }
-            return TableUtil.KiemTra(_MangPBH, "N");
-        }
+        //public string ThemMaNhom()
+        //{
+        //    ArrayList _MangPBH = new ArrayList();
+        //    var _MaNhom = from _PBH in db.tbl_NhomNguoiDungs select _PBH;
+        //    foreach (tbl_NhomNguoiDung bh in _MaNhom)
+        //    {
+        //        _MangPBH.Add(int.Parse(bh.MaNhomNguoiDung.Substring(3)));
+        //    }
+        //    return TableUtil.KiemTra(_MangPBH, "N");
+        //}
 
         public bool Insert_Nhom(params object[] param)
         {
