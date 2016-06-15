@@ -79,13 +79,13 @@
                               EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC"
                               EditValueChanged="CboKhoa_OnEditValueChanged"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="5" Text="Ngành:" Style="{StaticResource TextBlockStyle}"/>
+                    <!--<TextBlock Grid.Row="0" Grid.Column="5" Text="Ngành:" Style="{StaticResource TextBlockStyle}"/>
                     <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
                               EditValue="{Binding ID_NGANH, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NGANH" DisplayMember="TEN_NGANH"
-                              EditValueChanged="CboNganh_OnEditValueChanged"/>
+                              EditValueChanged="CboNganh_OnEditValueChanged"/>-->
                     
-                    <TextBlock Grid.Row="0" Grid.Column="7" Text="Lớp học:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="8" Style="{StaticResource ComboBoxEditStyle}" Name="cboLopHoc"
+                    <TextBlock Grid.Row="0" Grid.Column="5" Text="Lớp học:" Style="{StaticResource TextBlockStyle}"/>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboLopHoc" EditValueChanged="CboLopHoc_OnEditValueChanged"
                               EditValue="{Binding ID_LOPHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_LOPHOC" DisplayMember="TEN_LOP"/>
                 </Grid>
             </GroupBox>
