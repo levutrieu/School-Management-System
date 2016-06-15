@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
@@ -120,7 +121,7 @@ namespace DATN.TTS.TVMH
             {
                 DataTable dt = null;
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
-                dic.Add("ID_KHOA", typeof(string));
+                dic.Add("ID_KHOA", typeof(Decimal));
                 dic.Add("MA_KHOA", typeof(string));
                 dic.Add("TEN_KHOA", typeof(string));
                 dic.Add("DIENTHOAI", typeof(string));
@@ -160,26 +161,14 @@ namespace DATN.TTS.TVMH
             {
                 if (this.iDataSoure.Rows[0]["MA_KHOA"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập mã khoa","Thông báo","", CTICON.Information, CTBUTTON.OK);
                     txtMaKhoa.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TEN_KHOA"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập tên khoa", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtTenKhoa.Focus();
-                    return false;
-                }
-                if (this.iDataSoure.Rows[0]["DIENTHOAI"].ToString() == string.Empty)
-                {
-                    MessageBox.Show("Vui lòng nhập");
-                    txtDT.Focus();
-                    return false;
-                }
-                if (this.iDataSoure.Rows[0]["EMAIL"].ToString() == string.Empty)
-                {
-                    MessageBox.Show("Vui lòng nhập");
-                    txtMail.Focus();
                     return false;
                 }
                 return true;
@@ -195,32 +184,24 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                try
-                {
-                    Mouse.OverrideCursor = Cursors.Wait;
-                    DataRow r = null;
-                    if(this.grd.GetFocusedRow() == null)
-                        return;
-                    r = ((DataRowView) grd.GetFocusedRow()).Row;
-                    this.iDataSoure.Rows[0]["ID_KHOA"] = r["ID_KHOA"];
-                    this.iDataSoure.Rows[0]["MA_KHOA"] = r["MA_KHOA"];
-                    this.iDataSoure.Rows[0]["TEN_KHOA"] = r["TEN_KHOA"];
-                    this.iDataSoure.Rows[0]["DIENTHOAI"] = r["DIENTHOAI"];
-                    this.iDataSoure.Rows[0]["EMAIL"] = r["EMAIL"];
-                    this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
+                Mouse.OverrideCursor = Cursors.Wait;
+                DataRow r = null;
+                if(this.grd.GetFocusedRow() == null)
+                    return;
+                r = ((DataRowView) grd.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_KHOA"] = r["ID_KHOA"];
+                this.iDataSoure.Rows[0]["MA_KHOA"] = r["MA_KHOA"];
+                this.iDataSoure.Rows[0]["TEN_KHOA"] = r["TEN_KHOA"];
+                this.iDataSoure.Rows[0]["DIENTHOAI"] = r["DIENTHOAI"];
+                this.iDataSoure.Rows[0]["EMAIL"] = r["EMAIL"];
+                this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
 
-                    flagsave = false;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
             finally
             {
@@ -232,14 +213,19 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -247,6 +233,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (ValiDate())
                 {
                     if (flagsave)
@@ -254,7 +241,7 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_Khoa(this.iDataSoure.Copy());
                         if (!res)
                         {
-                            MessageBox.Show("Thêm mới không thành công", "Thêm mới");
+                            CTMessagebox.Show("Thêm mới không thành công", "Thêm mới", "", CTICON.Information,CTBUTTON.OK);
                         }
                         GetGrid();
                         SetIsNull();
@@ -267,9 +254,13 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch
+            catch(Exception err)
             {
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -277,17 +268,22 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if (MessageBox.Show("Bạn có muốn xóa không?", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (CTMessagebox.Show("Bạn có muốn xóa không?", "Xóa","",CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_Khoa(this.iDataSoure.Copy());
                     GetGrid();
                     SetIsNull();
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -295,14 +291,18 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 txtMaKhoa.Focus();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
     }
