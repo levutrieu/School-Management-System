@@ -49,8 +49,9 @@ namespace DATN.TTS.TVMH
                         dtKhoaNganh.Rows[0]["ID_KHOAHOC"] = dtKhoa.Rows[0]["ID_KHOAHOC"];
                         dtKhoaNganh.Rows[0]["TEN_KHOAHOC"] = dtKhoa.Rows[0]["TEN_KHOAHOC"];
                         DataTable dt = frm_KhoaNganh.client.GetNganhWhereHDT();
-                        frm_KhoaNganh.LoadNganh(dt);
                         frm_KhoaNganh.LoadKhoaNganh();
+
+                        frm_KhoaNganh.LoadNganh(dt);
                     }
                     break;
                 case 2:
@@ -85,27 +86,11 @@ namespace DATN.TTS.TVMH
                         if (frm_ChonKhoa.iDataSoure == null || frm_ChonKhoa.iDataSoure.Rows.Count == 0 || 
                             frm_ChonKhoa.iGridDataSoure == null || frm_ChonKhoa.iGridDataSoure.Rows.Count ==0)
                         {
-                            CTMessagebox.Show("Vui lòng chọn khóa học!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "",
-                                CTICON.Information, CTBUTTON.YesNo);
-
+                            CTMessagebox.Show("Vui lòng chọn khóa học!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "",CTICON.Information, CTBUTTON.YesNo);
                             DataTable dt = new DataTable();
                             frm_KhoaNganh.LoadNganh(dt);
                             return;
                         }
-                        //DataTable xdt = frm_KhungNganhDaoTaoKhoa.iGridDataSoureNganhCT;
-                        //int row = 0;
-                        //foreach (DataRow dr in xdt.Rows)
-                        //{
-                        //    if (dr["ID_KHOAHOC_NGANH_CTIET"].ToString() == "0")
-                        //        row++;
-                        //}
-                        //if (row > 0)
-                        //{
-                        //    if (CTMessagebox.Show("Có " + row + " dòng chưa lưu." + "\n" + "Bạn có muốn lưu không?", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
-                        //    {
-                        //        frm_KhungNganhDaoTaoKhoa.BtnThemMHKhoaNganh_OnClick(null, null);
-                        //    }
-                        //}
                         SetMoveButtonVisibility();
                         BindingUI(index);
                     }
