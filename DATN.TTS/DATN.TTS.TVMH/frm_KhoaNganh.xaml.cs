@@ -58,6 +58,18 @@ namespace DATN.TTS.TVMH
             try
             {
                 GridColumn col;
+                col = new GridColumn();
+                col.FieldName = "CHK";
+                col.Header = "Chọn";
+                col.Width = 100;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.True;
+                col.Visible = true;
+                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                col.EditSettings = new CheckEditSettings();
+                col.UnboundType = UnboundColumnType.Boolean;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grd.Columns.Add(col);
 
                 col = new GridColumn();
                 col.FieldName = "ID_NGANH";
@@ -258,6 +270,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 iGridDataSoureNganh = xdt;
+                iGridDataSoureNganh.Columns.Add("CHK");
                 grd.ItemsSource = iGridDataSoureNganh;
             }
             catch (Exception er)
@@ -266,18 +279,18 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        public void LoadKhoaNganh( DataTable xdt)
-        {
-            try
-            {
-                iGridDataSoureKhoaNganh = xdt;
-                grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
-            }
-            catch (Exception er)
-            {
-                throw er;
-            }
-        }
+        //public void LoadKhoaNganh( DataTable xdt)
+        //{
+        //    try
+        //    {
+        //        iGridDataSoureKhoaNganh = xdt;
+        //        grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
+        //    }
+        //    catch (Exception er)
+        //    {
+        //        throw er;
+        //    }
+        //}
 
         DataTable TableSchemBinding()
         {
