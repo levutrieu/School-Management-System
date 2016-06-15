@@ -46,8 +46,10 @@ namespace DATN.TTS.TVMH
 
         private void SetComboBox()
         {
-            //cbbHDT.ItemsSource = client.GetAllHDT();
-            cbbKhoa.ItemsSource = client.GetAllKhoa();
+            DataTable dt = client.GetAllKhoa();
+            cbbKhoa.ItemsSource = dt;
+            if (dt.Rows.Count > 0)
+                this.iDataSoure.Rows[0]["ID_KHOA"] = cbbKhoa.GetKeyValue(0);
         }
 
         private DataTable TableSchemaBinding()
