@@ -34,28 +34,44 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetNganhWhereHDT()
+        public DataTable GetNganhWhereHDT(int idkhoahoc)
         {
             try
             {
                 DataTable dt = new DataTable();
-                    var nganh = (from ng in db.tbl_NGANHs
-                        where (ng.IS_DELETE != 1 || ng.IS_DELETE == null)
-                        join k in db.tbl_KHOAs on ng.ID_KHOA equals k.ID_KHOA
-                        where (k.IS_DELETE != 1 || k.IS_DELETE == null)
-                        select new
-                        {
-                            ng.ID_NGANH,
-                            ng.MA_NGANH,
-                            ng.TEN_NGANH,
-                            ng.KYHIEU,
-                            ng.TRANGTHAI,
-                            ng.GHICHU,
-                            ng.CAP_NGANH,
-                            ng.ID_KHOA,
-                            k.TEN_KHOA
-                        }
-                        );
+                var nganh = from ng in db.tbl_NGANHs
+                            where
+                              (ng.IS_DELETE != 1 ||
+                              ng.IS_DELETE == null) &&
+                              !
+                                (from khoahocnganh in db.tbl_KHOAHOC_NGANHs
+                                 join khoahoc in db.tbl_KHOAHOCs on new { ID_KHOAHOC = Convert.ToInt32(khoahocnganh.ID_KHOAHOC) } equals new { ID_KHOAHOC = khoahoc.ID_KHOAHOC } into khoahoc_join
+                                 from khoahoc in khoahoc_join.DefaultIfEmpty()
+                                 where
+                                   (khoahocnganh.IS_DELETE != 1 ||
+                                   khoahocnganh.IS_DELETE == null) &&
+                                   khoahoc.ID_KHOAHOC == idkhoahoc
+                                 select new
+                                 {
+                                     khoahocnganh.ID_NGANH
+                                 }).Contains(new { ID_NGANH = (System.Int32?)ng.ID_NGANH })
+                            select new
+                            {
+                                ng.ID_NGANH,
+                                ng.ID_KHOA,
+                                ng.ID_HE_DAOTAO,
+                                ng.MA_NGANH,
+                                ng.TEN_NGANH,
+                                ng.KYHIEU,
+                                ng.GHICHU,
+                                ng.TRANGTHAI,
+                                ng.IS_DELETE,
+                                ng.CREATE_USER,
+                                ng.UPDATE_USER,
+                                ng.CREATE_TIME,
+                                ng.UPDATE_TIME,
+                                ng.CAP_NGANH
+                            };
 
                     dt = TableUtil.LinqToDataTable(nganh);
                 return dt;
@@ -306,28 +322,59 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetData_1()
+        public DataTable GetData_1(int idkhoanganh)
         {
             try
             {
                 DataTable dt = null;
-                var mh = from mhoc in db.tbl_MONHOCs where (mhoc.IS_DELETE != 1 || mhoc.IS_DELETE == null) 
-                 select new
-                {
-                    mhoc.ID_MONHOC,
-                    mhoc.MA_MONHOC,
-                    mhoc.TEN_MONHOC,
-                    mhoc.KY_HIEU,
-                    mhoc.SO_TC,
-                    mhoc.ISBATBUOC,
-                    mhoc.IS_THUHOCPHI,
-                    mhoc.IS_THUCHANH,
-                    mhoc.IS_LYTHUYET,
-                    mhoc.IS_TINHDIEM,
-                    mhoc.ID_MONHOC_SONGHANH,
-                    mhoc.TRANGTHAI
-                };
-                dt = TableUtil.LinqToDataTable(mh);
+                var mhoc = from mh in db.tbl_MONHOCs
+                           where
+                             (mh.IS_DELETE != 1 ||
+                             mh.IS_DELETE == null) &&
+                             !
+                               (from knct in db.tbl_KHOAHOC_NGANH_CTIETs
+                                join khoanganh in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(knct.ID_KHOAHOC_NGANH) } equals new { ID_KHOAHOC_NGANH = khoanganh.ID_KHOAHOC_NGANH }
+                                where
+                                  (knct.IS_DELETE != 1 ||
+                                  knct.IS_DELETE == null) &&
+                                    (from khoanganh0 in db.tbl_KHOAHOC_NGANHs
+                                     where
+                                       (khoanganh0.IS_DELETE != 1 ||
+                                       khoanganh0.IS_DELETE == null) &&
+                                       khoanganh0.ID_KHOAHOC_NGANH == idkhoanganh
+                                     select new
+                                     {
+                                         khoanganh0.ID_KHOAHOC_NGANH
+                                     }).Contains(new { ID_KHOAHOC_NGANH = (System.Int32)knct.ID_KHOAHOC_NGANH })
+                                select new
+                                {
+                                    knct.ID_MONHOC
+                                }).Contains(new { ID_MONHOC = (System.Int32?)mh.ID_MONHOC })
+                           select new
+                           {
+                               mh.ID_MONHOC,
+                               mh.ID_LOAI_MONHOC,
+                               mh.ID_BOMON,
+                               mh.MA_MONHOC,
+                               mh.TEN_MONHOC,
+                               mh.KY_HIEU,
+                               mh.SO_TC,
+                               mh.IS_THUHOCPHI,
+                               mh.IS_THUCHANH,
+                               mh.IS_LYTHUYET,
+                               mh.IS_TINHDIEM,
+                               mh.TRANGTHAI,
+                               mh.IS_DELETE,
+                               mh.CREATE_USER,
+                               mh.UPDATE_USER,
+                               mh.CREATE_TIME,
+                               mh.UPDATE_TIME,
+                               mh.ISBATBUOC,
+                               mh.ID_MONHOC_SONGHANH,
+                               mh.GHICHU
+                           };
+                
+                dt = TableUtil.LinqToDataTable(mhoc);
                 return dt;
             }
             catch (Exception err)
@@ -384,7 +431,11 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 var monhoctruoc = from x in db.tbl_MONHOCs
                     where (x.IS_DELETE != 1 || x.IS_DELETE == null)
-                    select x;
+                    select new
+                    {
+                        ID_MONHOC_TRUOC = x.ID_MONHOC,
+                        x.TEN_MONHOC
+                    };
                 dt = TableUtil.LinqToDataTable(monhoctruoc);
                 return dt;
             }
@@ -400,8 +451,12 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = new DataTable();
                 var monhoctruoc = from x in db.tbl_MONHOCs
-                                  where (x.IS_DELETE != 1 || x.IS_DELETE == null)
-                                  select x;
+                    where (x.IS_DELETE != 1 || x.IS_DELETE == null)
+                    select new
+                    {
+                        ID_MONHOC_SONGHANH = x.ID_MONHOC,
+                        x.TEN_MONHOC
+                    };
                 dt = TableUtil.LinqToDataTable(monhoctruoc);
                 return dt;
             }
@@ -418,7 +473,11 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 var monhoctruoc = from x in db.tbl_MONHOCs
                                   where (x.IS_DELETE != 1 || x.IS_DELETE == null)
-                                  select x;
+                                  select new
+                                  {
+                                      MONHOC_TIENQUYET = x.ID_MONHOC,
+                                      x.TEN_MONHOC
+                                  };
                 dt = TableUtil.LinqToDataTable(monhoctruoc);
                 return dt;
             }
