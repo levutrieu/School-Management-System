@@ -14,6 +14,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="28"/>
+            <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -46,7 +47,7 @@
                               EditValue="{Binding ID_NGANH, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboNganh_OnEditValueChanged"
                               ValueMember="ID_NGANH" DisplayMember="TEN_NGANH" AutoComplete="True"/>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Grid.RowSpan="2">
             <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdKhoaNganhCT"
                              dx:ThemeManager.ThemeName="MetropolisLight"  >
                 <dxg:GridControl.View>

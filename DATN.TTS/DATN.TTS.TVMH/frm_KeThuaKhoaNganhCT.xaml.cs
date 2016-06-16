@@ -315,7 +315,7 @@ namespace DATN.TTS.TVMH
                 DataTable dt = new DataTable();
                 dt.Columns.Add("ID_NGANH", typeof(Decimal));
                 dt.Columns.Add("TEN_NGANH", typeof(string));
-                DataTable xdt = client.GetNganhWhereHDT();
+                DataTable xdt = client.GetNganhWhereHDT(0);
                 foreach (DataRow dr in xdt.Rows)
                 {
                     DataRow ir = dt.NewRow();
