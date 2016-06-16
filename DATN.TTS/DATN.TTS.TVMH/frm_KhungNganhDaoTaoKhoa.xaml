@@ -8,6 +8,11 @@
       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
       mc:Ignorable="d" 
       d:DesignHeight="550" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ReadOnlyHeaderTemplate">
+            <dxe:CheckEdit IsChecked="{Binding Column.ReadOnly, Mode=TwoWay}" />
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <!--Định nghĩa các phần riêng biệt-->
         <Grid.RowDefinitions>
@@ -83,8 +88,8 @@
             <Grid Grid.Column="0">
                 <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grdMonHoc" dx:ThemeManager.ThemeName="MetropolisLight" >
                     <dxg:GridControl.View>
-                        <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewMonHoc" RowStyle="{StaticResource SelectedRowStyle}" 
-                                   FocusedRowChanged="GrdViewMonHoc_OnFocusedRowChanged">
+                        <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewMonHoc"
+                                       RowStyle="{StaticResource SelectedRowStyle}" >
                         </dxg:TableView>
                     </dxg:GridControl.View>
                 </dxg:GridControl>

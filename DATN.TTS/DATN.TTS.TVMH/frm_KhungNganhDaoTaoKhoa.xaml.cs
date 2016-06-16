@@ -28,10 +28,11 @@ namespace DATN.TTS.TVMH
     /// <summary>
     /// Interaction logic for frm_KhungNganhDaoTaoKhoa.xaml
     /// </summary>
-    public partial class frm_KhungNganhDaoTaoKhoa : UserControl
+    /// 
+   public partial class frm_KhungNganhDaoTaoKhoa : UserControl
     {
         public DataTable iDataSoure = null;
-        private DataTable iGridDataSoureNganh = null;
+        private DataTable iGridDataMonHoc = null;
         public DataTable iGridDataSoureNganhCT = null;
         bus_LapKeHoachDaoTaoKhoa client = new bus_LapKeHoachDaoTaoKhoa();
         public frm_KhungNganhDaoTaoKhoa()
@@ -110,6 +111,19 @@ namespace DATN.TTS.TVMH
             try
             {
                 GridColumn col;
+                col = new GridColumn();
+                col.FieldName = "CHK";
+                col.Header = "Chọn";
+                col.Width = 70;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.True;
+                col.Visible = true;
+                CheckEditSettings chkSettings = new CheckEditSettings();
+                col.EditSettings = chkSettings;
+                col.ShowInColumnChooser = true;
+                col.UnboundType = UnboundColumnType.Boolean;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grdMonHoc.Columns.Add(col);
 
                 col = new GridColumn();
                 col.FieldName = "ID_MONHOC";
@@ -163,7 +177,8 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtSTC = new SpinEditSettings();
+                col.EditSettings = txtSTC;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
 
@@ -241,7 +256,7 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "Xóa";
-                col.Width = 100;
+                col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
@@ -317,6 +332,10 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                SpinEditSettings txtSTC = new SpinEditSettings();
+                txtSTC.MaskType = MaskType.Numeric;
+                txtSTC.MinValue = 0;
+                txtSTC.MaskAutoComplete = AutoCompleteType.Default;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
@@ -329,7 +348,12 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtHK = new SpinEditSettings();
+                txtHK.MaskType = MaskType.Numeric;
+                txtHK.MinValue = 0;
+                txtHK.MaxValue = 8;
+                txtHK.MaskAutoComplete = AutoCompleteType.Default;
+                col.EditSettings = txtHK;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
@@ -341,7 +365,11 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtSTLT = new SpinEditSettings();
+                txtSTLT.MaskType = MaskType.Numeric;
+                txtSTLT.MinValue = 0;
+                txtSTLT.MaskAutoComplete = AutoCompleteType.Default;
+                col.EditSettings = txtSTLT;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
@@ -353,7 +381,11 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtSTTH = new SpinEditSettings();
+                txtSTTH.MaskType = MaskType.Numeric;
+                txtSTTH.MinValue = 0;
+                txtSTTH.MaskAutoComplete = AutoCompleteType.Default;
+                col.EditSettings = txtSTTH;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
@@ -370,13 +402,13 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = cboMonHocTruoc;
                 cboMonHocTruoc.ItemsSource = client.GetMonHocTruoc();
                 cboMonHocTruoc.DisplayMember = "TEN_MONHOC";
-                cboMonHocTruoc.ValueMember = "ID_MONHOC";
+                cboMonHocTruoc.ValueMember = "ID_MONHOC_TRUOC";
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
                 col = new GridColumn();
                 col.Header = "Môn học song hành";
-                col.FieldName = "ID_MONHOC_TRUOC";
+                col.FieldName = "ID_MONHOC_SONGHANH";
                 col.Width = 150;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
@@ -387,7 +419,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = cbbMonHocSongHanh;
                 cbbMonHocSongHanh.ItemsSource = client.GetMonHocSongHanh();
                 cbbMonHocSongHanh.DisplayMember = "TEN_MONHOC";
-                cbbMonHocSongHanh.ValueMember = "ID_MONHOC";
+                cbbMonHocSongHanh.ValueMember = "ID_MONHOC_SONGHANH";
 
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
@@ -405,7 +437,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = cbbMonHocTienQuyet;
                 cbbMonHocTienQuyet.ItemsSource = client.GetMonHocTienQuyet();
                 cbbMonHocTienQuyet.DisplayMember = "TEN_MONHOC";
-                cbbMonHocTienQuyet.ValueMember = "ID_MONHOC";
+                cbbMonHocTienQuyet.ValueMember = "MONHOC_TIENQUYET";
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
             }
@@ -415,11 +447,12 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        public void LoadMonHoc()
+        public void LoadMonHoc(int idkhoanganh)
         {
             try
             {
-                DataTable iGridDataMonHoc = client.GetData_1();
+                iGridDataMonHoc = client.GetData_1(idkhoanganh);
+                iGridDataMonHoc.Columns.Add("CHK");
                 this.grdMonHoc.ItemsSource = iGridDataMonHoc;
             }
             catch (Exception err)
@@ -436,47 +469,6 @@ namespace DATN.TTS.TVMH
             this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
         }
 
-        private bool KiemTraThemChiTiet(Decimal idMonHon, DataTable temp)
-        {
-            try
-            {
-                if (temp.Rows.Count == 0)
-                    return true;
-                foreach (DataRow r in temp.Rows)
-                {
-                    if (Convert.ToDecimal(r["ID_MONHOC"].ToString()) == idMonHon)
-                        return false;
-                }
-                return true;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        private void GrdViewMonHoc_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                if (this.grdMonHoc.GetFocusedRow() == null)
-                    return;
-                DataRow row = ((DataRowView)this.grdMonHoc.GetFocusedRow()).Row;
-                this.iDataSoure.Rows[0]["ID_MONHOC"] = row["ID_MONHOC"];
-                this.iDataSoure.Rows[0]["TEN_MONHOC"] = row["TEN_MONHOC"];
-                this.iDataSoure.Rows[0]["SO_TC"] = row["SO_TC"];
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-
         private void BtnThemMH_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -487,29 +479,32 @@ namespace DATN.TTS.TVMH
                 {
                     iGridDataSoureNganhCT = TableSchemaBinding_Grid();
                 }
-
-                bool check = KiemTraThemChiTiet(Convert.ToDecimal(this.iDataSoure.Rows[0]["ID_MONHOC"].ToString()),iGridDataSoureNganhCT.Copy());
-                if (!check)
+                DataTable dt = new DataTable();
+                if (iGridDataMonHoc.Rows.Count > 0)
                 {
-                    CTMessagebox.Show("Môn học vừa thêm đã có trong ngành!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
-                    return;
+                    dt =(from temp in iGridDataMonHoc.AsEnumerable().Where(t => t.Field<string>("CHK") == "True")select temp).CopyToDataTable();
                 }
-                DataRow r = iGridDataSoureNganhCT.NewRow();
-                r["ID_KHOAHOC_NGANH_CTIET"] = "0";
-                r["ID_MONHOC"] = this.iDataSoure.Rows[0]["ID_MONHOC"];
-                r["TEN_MONHOC"] = this.iDataSoure.Rows[0]["TEN_MONHOC"];
-                r["SO_TC"] = this.iDataSoure.Rows[0]["SO_TC"];
-                r["ID_HE_DAOTAO"] = "0";//this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
-                r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
-                r["HOCKY"] = "0";
-                r["SOTIET_LT"] = "0";
-                r["SOTIET_TH"] = "0";
-                r["ID_MONHOC_TRUOC"] = "0";
-                r["ID_MONHOC_SONGHANH"] = "0";
-                r["MONHOC_TIENQUYET"] = "0";
-
-                iGridDataSoureNganhCT.Rows.Add(r);
-                iGridDataSoureNganhCT.AcceptChanges();
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        DataRow r = iGridDataSoureNganhCT.NewRow();
+                        r["ID_KHOAHOC_NGANH_CTIET"] = "0";
+                        r["ID_MONHOC"] = dr["ID_MONHOC"];
+                        r["TEN_MONHOC"] = dr["TEN_MONHOC"];
+                        r["SO_TC"] = dr["SO_TC"];
+                        r["ID_HE_DAOTAO"] = "0";//this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
+                        r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
+                        r["HOCKY"] = "0";
+                        r["SOTIET_LT"] = "0";
+                        r["SOTIET_TH"] = "0";
+                        r["ID_MONHOC_TRUOC"] = "0";
+                        r["ID_MONHOC_SONGHANH"] = "0";
+                        r["MONHOC_TIENQUYET"] = "0";
+                        iGridDataSoureNganhCT.Rows.Add(r);
+                        iGridDataSoureNganhCT.AcceptChanges();
+                    }
+                }
                 this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
             }
             catch (Exception err)
@@ -578,7 +573,8 @@ namespace DATN.TTS.TVMH
                     bool res = client.Insert_KhoaNganhCT(this.iGridDataSoureNganhCT.Copy(), UserCommon.UserName);
                     if (!res)
                     {
-                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Information,
+                            CTBUTTON.YesNo);
                         LoadKhoaNganhCT();
                         return;
                     }
@@ -586,6 +582,7 @@ namespace DATN.TTS.TVMH
                     {
                         CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                         LoadKhoaNganhCT();
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
                     }
                 }
             }
@@ -700,6 +697,48 @@ namespace DATN.TTS.TVMH
         private void GrdViewKhoaNganhCT_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
         {
 
+        }
+
+
+        private bool KiemTraThemChiTiet(Decimal idMonHon, DataTable temp)
+        {
+            try
+            {
+                if (temp.Rows.Count == 0)
+                    return true;
+                foreach (DataRow r in temp.Rows)
+                {
+                    if (Convert.ToDecimal(r["ID_MONHOC"].ToString()) == idMonHon)
+                        return false;
+                }
+                return true;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        private void GrdViewMonHoc_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.grdMonHoc.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grdMonHoc.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_MONHOC"] = row["ID_MONHOC"];
+                this.iDataSoure.Rows[0]["TEN_MONHOC"] = row["TEN_MONHOC"];
+                this.iDataSoure.Rows[0]["SO_TC"] = row["SO_TC"];
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
         }
         #endregion
     }

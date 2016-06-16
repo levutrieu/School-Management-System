@@ -50,7 +50,6 @@ namespace DATN.TTS.TVMH
                         dtKhoaNganh.Rows[0]["TEN_KHOAHOC"] = dtKhoa.Rows[0]["TEN_KHOAHOC"];
                         DataTable dt = frm_KhoaNganh.client.GetNganhWhereHDT(Convert.ToInt32(dtKhoa.Rows[0]["ID_KHOAHOC"].ToString()));
                         frm_KhoaNganh.LoadKhoaNganh();
-                        
                         frm_KhoaNganh.LoadNganh(dt);
                     }
                     break;
@@ -66,7 +65,7 @@ namespace DATN.TTS.TVMH
                         xdtKhoaNganhCt.Rows[0]["KHOAHOC_NGANH"] = xdtKhoaNganh.Rows[0]["KHOAHOC_NGANH"];
                         xdtKhoaNganhCt.Rows[0]["ID_KHOAHOC_NGANH"] = xdtKhoaNganh.Rows[0]["ID_KHOAHOC_NGANH"];
 
-                        frm_KhungNganhDaoTaoKhoa.LoadMonHoc();
+                        frm_KhungNganhDaoTaoKhoa.LoadMonHoc(Convert.ToInt32(xdtKhoaNganhCt.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
                         frm_KhungNganhDaoTaoKhoa.LoadKhoaNganhCT();
                     }
                     break;
