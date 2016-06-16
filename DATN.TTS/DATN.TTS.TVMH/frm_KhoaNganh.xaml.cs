@@ -204,6 +204,12 @@ namespace DATN.TTS.TVMH
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
+                SpinEditSettings txtSOHK = new SpinEditSettings();
+                txtSOHK.MaskType = MaskType.Numeric;
+                txtSOHK.MinValue = 0;
+                txtSOHK.MaxValue = 10;
+                col.EditSettings = txtSOHK;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.FieldName = "SO_HKY";
                 col.Header = "Số học kỳ";
                 col.Width = 100;
@@ -211,8 +217,6 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -233,7 +237,10 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtSoSV = new SpinEditSettings();
+                txtSoSV.MinValue = 0;
+                txtSoSV.MaskType = MaskType.Numeric;
+                col.EditSettings = txtSoSV;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganh.Columns.Add(col);
 
@@ -245,7 +252,10 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                SpinEditSettings txtSOLOP = new SpinEditSettings();
+                txtSOLOP.MinValue = 0;
+                txtSoSV.MaskType = MaskType.Numeric;
+                col.EditSettings = txtSOLOP;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganh.Columns.Add(col);
 
@@ -278,19 +288,6 @@ namespace DATN.TTS.TVMH
                 throw er; 
             }
         }
-
-        //public void LoadKhoaNganh( DataTable xdt)
-        //{
-        //    try
-        //    {
-        //        iGridDataSoureKhoaNganh = xdt;
-        //        grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
-        //    }
-        //    catch (Exception er)
-        //    {
-        //        throw er;
-        //    }
-        //}
 
         DataTable TableSchemBinding()
         {
@@ -388,26 +385,58 @@ namespace DATN.TTS.TVMH
                 {
                     iGridDataSoureKhoaNganh = TableSchemaBindings_Grid();
                 }
-
-                bool check = KiemTraThemKhoaNganh(Convert.ToDecimal(this.iDataSoure.Rows[0]["ID_NGANH"].ToString()), iGridDataSoureKhoaNganh);
-                if (!check)
+                #region Bỏ
+                //if (this.iDataSoure.Rows[0]["ID_NGANH"].ToString() == string.Empty || this.iDataSoure.Rows[0]["ID_NGANH"].ToString() == "0")
+                //{
+                //    CTMessagebox.Show("Bạn chưa chọn ngành nào để thêm vào khóa", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                //    return;
+                //}
+                //bool check = KiemTraThemKhoaNganh(Convert.ToDecimal(this.iDataSoure.Rows[0]["ID_NGANH"].ToString()), iGridDataSoureKhoaNganh);
+                //if (!check)
+                //{
+                //    CTMessagebox.Show("Ngành vừa thêm đã có trong khóa!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                //    return;
+                //} 
+                #endregion
+                DataTable dt = new DataTable();
+                if (iGridDataSoureNganh.Rows.Count > 0)
                 {
-                    CTMessagebox.Show("Ngành vừa thêm đã có trong khóa!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
-                    return;
+                    dt = (from temp in iGridDataSoureNganh.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).CopyToDataTable();
                 }
-                DataRow r = iGridDataSoureKhoaNganh.NewRow();
-                r["ID_KHOAHOC_NGANH"] = "0";
-                r["ID_KHOAHOC"] = this.iDataSoure.Rows[0]["ID_KHOAHOC"];
-                r["TEN_KHOAHOC"] = this.iDataSoure.Rows[0]["TEN_KHOAHOC"];
-                r["ID_NGANH"] = this.iDataSoure.Rows[0]["ID_NGANH"];
-                r["TEN_NGANH"] = this.iDataSoure.Rows[0]["TEN_NGANH"];
-                r["SO_HKY"] = "0";
-                r["HOCKY_TRONGKHOA"] = "";
-                r["SO_SINHVIEN_DK"] = "0";
-                r["SO_LOP"] = "0";
-                r["GHICHU"] = "";
-                iGridDataSoureKhoaNganh.Rows.Add(r);
-                iGridDataSoureKhoaNganh.AcceptChanges();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow xr in dt.Rows)
+                    {
+                        DataRow r = iGridDataSoureKhoaNganh.NewRow();
+                        r["ID_KHOAHOC_NGANH"] = "0";
+                        r["ID_KHOAHOC"] = this.iDataSoure.Rows[0]["ID_KHOAHOC"];
+                        r["TEN_KHOAHOC"] = this.iDataSoure.Rows[0]["TEN_KHOAHOC"];
+                        r["ID_NGANH"] = xr["ID_NGANH"];
+                        r["TEN_NGANH"] = xr["TEN_NGANH"];
+                        r["SO_HKY"] = "0";
+                        r["HOCKY_TRONGKHOA"] = "";
+                        r["SO_SINHVIEN_DK"] = "0";
+                        r["SO_LOP"] = "0";
+                        r["GHICHU"] = "";
+                        iGridDataSoureKhoaNganh.Rows.Add(r);
+                        iGridDataSoureKhoaNganh.AcceptChanges();
+                    }
+                }
+                #region Bỏ
+                //DataRow r = iGridDataSoureKhoaNganh.NewRow();
+                //r["ID_KHOAHOC_NGANH"] = "0";
+                //r["ID_KHOAHOC"] = this.iDataSoure.Rows[0]["ID_KHOAHOC"];
+                //r["TEN_KHOAHOC"] = this.iDataSoure.Rows[0]["TEN_KHOAHOC"];
+                //r["ID_NGANH"] = this.iDataSoure.Rows[0]["ID_NGANH"];
+                //r["TEN_NGANH"] = this.iDataSoure.Rows[0]["TEN_NGANH"];
+                //r["SO_HKY"] = "0";
+                //r["HOCKY_TRONGKHOA"] = "";
+                //r["SO_SINHVIEN_DK"] = "0";
+                //r["SO_LOP"] = "0";
+                //r["GHICHU"] = "";
+                //iGridDataSoureKhoaNganh.Rows.Add(r);
+                //iGridDataSoureKhoaNganh.AcceptChanges(); 
+                #endregion
                 //iGridDataSoureKhoaNganh.Columns.Add("CHK");
                 grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
             }
@@ -447,6 +476,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 frm_KeThuaKhoaNganh frmKeThua = new frm_KeThuaKhoaNganh();
+                frmKeThua.Owner = System.Windows.Window.GetWindow(this);
                 frmKeThua.ShowDialog();
                 DataTable xdt = frmKeThua.iDataReturn.Copy();
                 if (iGridDataSoureKhoaNganh.Rows.Count == 0)
@@ -518,8 +548,8 @@ namespace DATN.TTS.TVMH
                 if (this.grd.GetFocusedRow() == null)
                     return;
                 DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
-                this.iDataSoure.Rows[0]["ID_NGANH"] = row["ID_NGANH"];
-                this.iDataSoure.Rows[0]["TEN_NGANH"] = row["TEN_NGANH"];
+                //this.iDataSoure.Rows[0]["ID_NGANH"] = row["ID_NGANH"];
+                //this.iDataSoure.Rows[0]["TEN_NGANH"] = row["TEN_NGANH"];
             }
             catch (Exception err)
             {
@@ -604,6 +634,9 @@ namespace DATN.TTS.TVMH
                     {
                         CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                         LoadKhoaNganh();
+                        iGridDataSoureNganh = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
+                        iGridDataSoureNganh.Columns.Add("CHK");
+                        grd.ItemsSource = iGridDataSoureNganh;
                     }
                 }
             }
