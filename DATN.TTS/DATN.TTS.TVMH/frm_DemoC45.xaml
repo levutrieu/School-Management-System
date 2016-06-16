@@ -1,0 +1,42 @@
+﻿<Page x:Class="DATN.TTS.TVMH.frm_DemoC45"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="900"
+	Title="frm_DemoC45">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Click="BtnLoadDuLieu_OnClick" Content="Load dữ liệu" Style="{StaticResource Button_Style}" HorizontalAlignment="Left" Name="btnLoadDuLieu" VerticalAlignment="Center"/>
+                <Button Click="BtnThuHien_OnClick" Content="Thực hiện" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnThuHien" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+            <dxg:GridControl AutoPopulateColumns="False" 
+                             Margin="0"  FontSize="12" x:Name="grdMonHoc" dx:ThemeManager.ThemeName="MetropolisLight" 
+                             >
+                <dxg:GridControl.View>
+                    <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdViewMonHoc"
+                                   RowStyle="{StaticResource SelectedRowStyle}" 
+                                   >
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+        
+    </Grid>
+</Page>
