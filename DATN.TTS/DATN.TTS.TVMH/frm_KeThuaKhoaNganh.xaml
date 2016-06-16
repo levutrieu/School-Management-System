@@ -13,6 +13,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -38,7 +39,7 @@
                               EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboKhoa_OnEditValueChanged"
                               ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC" AutoComplete="True"/>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Grid.RowSpan="2">
             <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight"  >
                 <dxg:GridControl.View>
