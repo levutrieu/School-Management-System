@@ -38,6 +38,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
+            this.iDataSoure.Rows[0]["SO_TUAN"] = "52";
             InitGrid();
         }
 
@@ -172,7 +173,7 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["NAMHOC_DEN"] = "0";
                 this.iDataSoure.Rows[0]["NGAY_BATDAU"] = DateTime.Now;
                 this.iDataSoure.Rows[0]["SO_HKY_TRONGNAM"] = "0";
-                this.iDataSoure.Rows[0]["SO_TUAN"] = "0";
+                this.iDataSoure.Rows[0]["SO_TUAN"] = "52";
             }
             catch (Exception er)
             {
@@ -438,6 +439,7 @@ namespace DATN.TTS.TVMH
                 {
                     int namhoc = int.Parse(txtNamBD.Text);
                     this.iDataSoure.Rows[0]["NAMHOC_DEN"] = namhoc + 1;
+                    this.iDataSoure.Rows[0]["NGAY_BATDAU"] = Convert.ToDateTime(DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month + "/" + namhoc);
                 }
             }
             catch (Exception ex)

@@ -39,14 +39,15 @@
                                 <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="0"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.3*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.8*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock  Grid.Column="1" Text="Năm học:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Name="cboNamHoc" Style="{StaticResource ComboBoxEditStyle}" EditValueChanged="CboNamHoc_OnEditValueChanged"
@@ -56,8 +57,8 @@
                             <dxe:ComboBoxEdit  Grid.Column="6" Name="cboHocKy" EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" DisplayMember="HOCKY_NAME" ValueMember="HOCKY"
                                                Style="{StaticResource ComboBoxEditStyle}" EditValueChanged="CboHocKy_OnEditValueChanged"/>
 
-                            <!--<dxe:CheckEdit  Grid.Column="6" Name="chkHienTai" Style="{StaticResource CheckBoxStyle}" VerticalAlignment="Center"
-                                            EditValue="{Binding IS_HIENTAI}" Content="Hiện tại"/>-->
+                            <TextBlock  Grid.Column="7" Text="Tuần bắt đầu học kỳ:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Column="8" Style="{StaticResource TextEditStyle}" IsReadOnly="True" EditValue="{Binding TUAN_BD_HKY}"/>
                         </Grid>
                     </StackPanel>
 

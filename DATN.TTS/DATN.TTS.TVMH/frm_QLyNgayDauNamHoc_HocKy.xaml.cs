@@ -52,24 +52,17 @@ namespace DATN.TTS.TVMH
                 DataTable dt = new DataTable();
                 dt.Columns.Add("HOCKY", typeof (Decimal));
                 dt.Columns.Add("HOCKY_NAME", typeof (string));
-                for (int i = 0; i <= 3; i++)
+                for (int i = 1; i <= 3; i++)
                 {
                     DataRow r = dt.NewRow();
-                    if (i == 0)
-                    {
-                        r["HOCKY"] = i;
-                        r["HOCKY_NAME"] = "----------------Chọn----------------";
-                    }
-                    else
-                    {
-                        r["HOCKY"] = i;
-                        r["HOCKY_NAME"] = i;
-                    }
+                    r["HOCKY"] = i;
+                    r["HOCKY_NAME"] = "Học kỳ "+i;
                     dt.Rows.Add(r);
                     dt.AcceptChanges();
                 }
+
                 cboHocKy.ItemsSource = dt;
-                
+                this.iDataSoure.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
             }
             catch (Exception)
             {
@@ -95,6 +88,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
                 dic.Add("HOCKY", typeof(Decimal));
                 dic.Add("IS_HIENTAI", typeof(Decimal));
+                dic.Add("TUAN_BD_HKY", typeof(Decimal));
                 dic.Add("USER", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
@@ -165,6 +159,18 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grd.Columns.Add(col); 
+
+                col = new GridColumn();
+                col.FieldName = "TUAN_BD_HKY";
+                col.Header = "Tuần bắt đầu";
+                col.Width = 50;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -216,7 +222,26 @@ namespace DATN.TTS.TVMH
 
         private void GrdViewNDung_OnFocusedRowChanged(object sender, DevExpress.Xpf.Grid.FocusedRowChangedEventArgs e)
         {
-            
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                Mouse.OverrideCursor = Cursors.Wait;
+                DataRow r = null;
+                if (this.grd.GetFocusedRow() == null)
+                    return;
+                r = ((DataRowView)grd.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = r["ID_NAMHOC_HIENTAI"];
+                this.iDataSoure.Rows[0]["HOCKY"] = r["HOCKY"];
+                this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = r["TUAN_BD_HKY"];
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
         }
 
         private void CboNamHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
@@ -241,6 +266,18 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                if (Convert.ToInt32(this.iDataSoure.Rows[0]["HOCKY"].ToString()) == 1)
+                {
+                    this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = 1;
+                }
+                if (Convert.ToInt32(this.iDataSoure.Rows[0]["HOCKY"].ToString()) == 2)
+                {
+                    this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = 24;
+                }
+                if (Convert.ToInt32(this.iDataSoure.Rows[0]["HOCKY"].ToString()) == 3)
+                {
+                    this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = 48;
+                }
                 GetGrid();
             }
             catch (Exception er)
@@ -258,13 +295,13 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                Mouse.OverrideCursor = Cursors.Wait;
-                DataRow r = null;
-                if (this.grd.GetFocusedRow() == null)
-                    return;
-                r = ((DataRowView)grd.GetFocusedRow()).Row;
-                this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = r["ID_NAMHOC_HIENTAI"];
-                this.iDataSoure.Rows[0]["HOCKY"] = r["HOCKY"];
+                //DataRow r = null;
+                //if (this.grd.GetFocusedRow() == null)
+                //    return;
+                //r = ((DataRowView)grd.GetFocusedRow()).Row;
+                //this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = r["ID_NAMHOC_HIENTAI"];
+                //this.iDataSoure.Rows[0]["HOCKY"] = r["HOCKY"];
+                //this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = r["TUAN_BD_HKY"];
             }
             catch (Exception err)
             {
@@ -288,7 +325,7 @@ namespace DATN.TTS.TVMH
                     bool res = client.CheckTrungHocKyNamHoc(pID_NAMHOC_HIENTAI, pHOCKY);
                     if (res)
                     {
-                        bool resultInse = client.Insert_HocKyNamHoc(pID_NAMHOC_HIENTAI, pHOCKY, UserCommon.UserName);
+                        bool resultInse = client.Insert_HocKyNamHoc(pID_NAMHOC_HIENTAI, pHOCKY, Convert.ToInt32(this.iDataSoure.Rows[0]["TUAN_BD_HKY"].ToString()), UserCommon.UserName);
                         if (resultInse)
                         {
                             CTMessagebox.Show("Thiết lập học kỳ hiện tại thành công", "Thiết lập mới", "", CTICON.Information,CTBUTTON.OK);

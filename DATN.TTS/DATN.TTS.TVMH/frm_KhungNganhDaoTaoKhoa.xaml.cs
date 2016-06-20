@@ -18,6 +18,7 @@ using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Data;
 using DevExpress.Utils;
+using DevExpress.Utils.Zip.Internal;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
@@ -493,7 +494,7 @@ namespace DATN.TTS.TVMH
                         r["ID_MONHOC"] = dr["ID_MONHOC"];
                         r["TEN_MONHOC"] = dr["TEN_MONHOC"];
                         r["SO_TC"] = dr["SO_TC"];
-                        r["ID_HE_DAOTAO"] = "0";//this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
+                        r["ID_HE_DAOTAO"] = this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
                         r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
                         r["HOCKY"] = "0";
                         r["SOTIET_LT"] = "0";
@@ -550,6 +551,7 @@ namespace DATN.TTS.TVMH
                     {
                         CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
                         LoadKhoaNganhCT();
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
                     }
                 }
             }
@@ -624,63 +626,78 @@ namespace DATN.TTS.TVMH
                 if (iGridDataSoureNganhCT.Rows.Count == 0)
                 {
                     iGridDataSoureNganhCT = TableSchemaBinding_Grid();
+                    if (xdt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in xdt.Rows)
+                        {
+                            DataRow r = iGridDataSoureNganhCT.NewRow();
+                            r["ID_KHOAHOC_NGANH_CTIET"] = "0";
+                            r["ID_MONHOC"] = dr["ID_MONHOC"];
+                            r["TEN_MONHOC"] = dr["TEN_MONHOC"];
+                            r["SO_TC"] = dr["SO_TC"];
+                            r["ID_HE_DAOTAO"] = this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
+                            r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
+                            r["HOCKY"] = dr["HOCKY"];
+                            r["SOTIET_LT"] = dr["SOTIET_LT"];
+                            r["SOTIET_TH"] = dr["SOTIET_TH"];
+                            r["ID_MONHOC_TRUOC"] = dr["ID_MONHOC_TRUOC"];
+                            r["ID_MONHOC_SONGHANH"] = dr["ID_MONHOC_SONGHANH"];
+                            r["MONHOC_TIENQUYET"] = dr["MONHOC_TIENQUYET"];
+
+                            iGridDataSoureNganhCT.Rows.Add(r);
+                            iGridDataSoureNganhCT.AcceptChanges();
+                        }
+                    }
+
                 }
-                DataTable dt = new DataTable();
-                if (iGridDataSoureNganhCT.Rows.Count > 0)
+                else
                 {
-                    dt = xdt.Clone();
+                    DataTable dt = new DataTable();
                     if (iGridDataSoureNganhCT.Rows.Count > 0)
                     {
-                        foreach (DataRow r in xdt.Rows)
+                        if (xdt.Rows.Count > 0)
                         {
-                            foreach (DataRow xdr in iGridDataSoureNganhCT.Rows)
+                            dt = xdt.Clone();
+                            if (iGridDataSoureNganhCT.Rows.Count > 0)
                             {
-                                int x = Convert.ToInt32(xdr["ID_MONHOC"].ToString());
-                                int y = Convert.ToInt32(r["ID_MONHOC"].ToString());
-                                if (x != y)
+                                foreach (DataRow r in xdt.Rows)
                                 {
-                                    dt.ImportRow(r);
+                                    foreach (DataRow xdr in iGridDataSoureNganhCT.Rows)
+                                    {
+                                        int x = Convert.ToInt32(xdr["ID_MONHOC"].ToString());
+                                        int y = Convert.ToInt32(r["ID_MONHOC"].ToString());
+                                        if (x != y)
+                                        {
+                                            dt.ImportRow(r);
+                                        }
+                                    }
                                 }
-                            }
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    DataRow r = iGridDataSoureNganhCT.NewRow();
+                                    r["ID_KHOAHOC_NGANH_CTIET"] = "0";
+                                    r["ID_MONHOC"] = dr["ID_MONHOC"];
+                                    r["TEN_MONHOC"] = dr["TEN_MONHOC"];
+                                    r["SO_TC"] = dr["SO_TC"];
+                                    r["ID_HE_DAOTAO"] = this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
+                                    r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
+                                    r["HOCKY"] = dr["HOCKY"];
+                                    r["SOTIET_LT"] = dr["SOTIET_LT"];
+                                    r["SOTIET_TH"] = dr["SOTIET_TH"];
+                                    r["ID_MONHOC_TRUOC"] = dr["ID_MONHOC_TRUOC"];
+                                    r["ID_MONHOC_SONGHANH"] = dr["ID_MONHOC_SONGHANH"];
+                                    r["MONHOC_TIENQUYET"] = dr["MONHOC_TIENQUYET"];
+
+                                    iGridDataSoureNganhCT.Rows.Add(r);
+                                    iGridDataSoureNganhCT.AcceptChanges();
+                                }
+                                DataTable xdtTable =(iGridDataSoureNganhCT.AsEnumerable().GroupBy(t => t.Field<Decimal>("ID_MONHOC")).Select(b => b.First())).CopyToDataTable();
+                                iGridDataSoureNganhCT = xdtTable.Copy();
+                            }   
                         }
                     }
                 }
-                
-                else
-                {
-                    dt = xdt.Copy();
-                }
-
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        DataRow r = iGridDataSoureNganhCT.NewRow();
-                        r["ID_KHOAHOC_NGANH_CTIET"] = "0";
-                        r["ID_MONHOC"] = dr["ID_MONHOC"];
-                        r["TEN_MONHOC"] = dr["TEN_MONHOC"];
-                        r["SO_TC"] = dr["SO_TC"];
-                        r["ID_HE_DAOTAO"] = dr["ID_HE_DAOTAO"];
-                        r["ID_KHOAHOC_NGANH"] = dr["ID_KHOAHOC_NGANH"];
-                        r["HOCKY"] = dr["HOCKY"];
-                        r["SOTIET_LT"] = dr["SOTIET_LT"];
-                        r["SOTIET_TH"] = dr["SOTIET_TH"];
-                        r["ID_MONHOC_TRUOC"] = dr["ID_MONHOC_TRUOC"];
-                        r["ID_MONHOC_SONGHANH"] = dr["ID_MONHOC_SONGHANH"];
-                        r["MONHOC_TIENQUYET"] = dr["MONHOC_TIENQUYET"];
-
-                        iGridDataSoureNganhCT.Rows.Add(r);
-                        iGridDataSoureNganhCT.AcceptChanges();
-                    }
-
-                    DataTable xdtTable =
-                        (iGridDataSoureNganhCT.AsEnumerable()
-                            .GroupBy(t => t.Field<Decimal>("ID_MONHOC"))
-                            .Select(b => b.First())).CopyToDataTable();
-
-                    iGridDataSoureNganhCT = xdtTable.Copy();
-                    this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
-                }
+                this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
             }
             catch
             {
