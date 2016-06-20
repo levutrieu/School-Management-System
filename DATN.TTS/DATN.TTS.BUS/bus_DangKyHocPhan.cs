@@ -964,5 +964,58 @@ namespace DATN.TTS.BUS
                 throw err;
             }
         }
+
+        public DataTable GetHocKyNamHoc()
+        {
+            try
+            {
+                DataTable dt = null;
+                var hockynamhoc = from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                    join nhht in db.tbl_NAMHOC_HIENTAIs on
+                        new {ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI)} equals
+                        new {ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI}
+                    where
+                        nhht.IS_HIENTAI == 1
+                    select new
+                    {
+                        hkht.ID_NAMHOC_HKY_HTAI,
+                        TEN_HOKY_NH =
+                            ("Học kỳ " + "" + Convert.ToString(hkht.HOCKY) + " " + "Năm " +
+                             Convert.ToString(nhht.NAMHOC_TU) + " - " + Convert.ToString(nhht.NAMHOC_DEN))
+                    };
+                dt = TableUtil.LinqToDataTable(hockynamhoc);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public DataTable GetNgay_SoTuan()
+        {
+            try
+            {
+                DataTable dt = null;
+                var NgayTuan = from nhht in db.tbl_NAMHOC_HIENTAIs
+                    where
+                        (nhht.IS_DELETE != 1 ||
+                         nhht.IS_DELETE == null) &&
+                        nhht.IS_HIENTAI == 1
+                    select new
+                    {
+                        nhht.NGAY_BATDAU,
+                        nhht.SO_TUAN
+                    };
+                dt = TableUtil.LinqToDataTable(NgayTuan);
+
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+            
     }
 }
