@@ -72,8 +72,6 @@ namespace DATN.TTS.BUS
                 namhoc.NGAY_BATDAU = Convert.ToDateTime(r["NGAY_BATDAU"]);
                 namhoc.SO_TUAN = Convert.ToInt32(r["SO_TUAN"]);
                 namhoc.SO_HKY_TRONGNAM = Convert.ToInt32(r["SO_HKY_TRONGNAM"]);
-                //namhoc.IS_HIENTAI = Convert.ToInt32(r[""]);
-                //namhoc.IS_DELETE = Convert.ToInt32(r[""]);
                 namhoc.CREATE_USER = r["USER"].ToString();
                 namhoc.CREATE_TIME = DateTime.Now;
                 namhoc.IS_DELETE = 0;
@@ -223,12 +221,6 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                dt.Columns.Add("ID_NAMHOC_HKY_HTAI", typeof(Decimal));
-                dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                dt.Columns.Add("NAMHOC_TU", typeof(Decimal));
-                dt.Columns.Add("NAMHOC", typeof(string));
-                dt.Columns.Add("HOCKY", typeof(Decimal));
-                dt.Columns.Add("IS_HIENTAI", typeof(Decimal));
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
@@ -240,24 +232,13 @@ namespace DATN.TTS.BUS
                                       ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
                                       a.ID_NAMHOC_HKY_HTAI,
                                       a.IS_HIENTAI,
+                                      a.TUAN_BD_HKY,
                                       a.HOCKY,
                                       b.NAMHOC_TU,
-                                      b.NAMHOC_DEN
+                                      b.NAMHOC_DEN,
+                                      NAMHOC = b.NAMHOC_TU+"_"+b.NAMHOC_DEN
                                   };
-                foreach (var hk in hockynamhoc)
-                {
-                    DataRow r = dt.NewRow();
-                    r["ID_NAMHOC_HKY_HTAI"] = hk.ID_NAMHOC_HKY_HTAI;
-                    r["ID_NAMHOC_HIENTAI"] = hk.ID_NAMHOC_HIENTAI;
-                    r["NAMHOC_TU"] = hk.NAMHOC_TU;
-                    r["NAMHOC"] = hk.NAMHOC_TU + "_" + hk.NAMHOC_DEN;
-                    r["HOCKY"] = hk.HOCKY;
-                    r["IS_HIENTAI"] = hk.IS_HIENTAI;
-
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
-                }
-
+                dt = TableUtil.LinqToDataTable(hockynamhoc);
                 return dt;
             }
             catch (Exception err)
@@ -271,12 +252,6 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                dt.Columns.Add("ID_NAMHOC_HKY_HTAI", typeof(Decimal));
-                dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                dt.Columns.Add("NAMHOC_TU", typeof(Decimal));
-                dt.Columns.Add("NAMHOC", typeof(string));
-                dt.Columns.Add("HOCKY", typeof(Decimal));
-                dt.Columns.Add("IS_HIENTAI", typeof(Decimal));
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
@@ -291,22 +266,12 @@ namespace DATN.TTS.BUS
                                       a.ID_NAMHOC_HKY_HTAI,
                                       a.IS_HIENTAI,
                                       a.HOCKY,
+                                      a.TUAN_BD_HKY,
                                       b.NAMHOC_TU,
-                                      b.NAMHOC_DEN
+                                      b.NAMHOC_DEN,
+                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
                                   };
-                foreach (var hk in hockynamhoc)
-                {
-                    DataRow r = dt.NewRow();
-                    r["ID_NAMHOC_HKY_HTAI"] = hk.ID_NAMHOC_HKY_HTAI;
-                    r["ID_NAMHOC_HIENTAI"] = hk.ID_NAMHOC_HIENTAI;
-                    r["NAMHOC_TU"] = hk.NAMHOC_TU;
-                    r["NAMHOC"] = hk.NAMHOC_TU + "_" + hk.NAMHOC_DEN;
-                    r["HOCKY"] = hk.HOCKY;
-                    r["IS_HIENTAI"] = hk.IS_HIENTAI;
-
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
-                }
+                dt = TableUtil.LinqToDataTable(hockynamhoc);
 
                 return dt;
             }
@@ -340,23 +305,12 @@ namespace DATN.TTS.BUS
                                       a.ID_NAMHOC_HKY_HTAI,
                                       a.IS_HIENTAI,
                                       a.HOCKY,
+                                      a.TUAN_BD_HKY,
                                       b.NAMHOC_TU,
-                                      b.NAMHOC_DEN
+                                      b.NAMHOC_DEN,
+                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
                                   };
-                foreach (var hk in hockynamhoc)
-                {
-                    DataRow r = dt.NewRow();
-                    r["ID_NAMHOC_HKY_HTAI"] = hk.ID_NAMHOC_HKY_HTAI;
-                    r["ID_NAMHOC_HIENTAI"] = hk.ID_NAMHOC_HIENTAI;
-                    r["NAMHOC_TU"] = hk.NAMHOC_TU;
-                    r["NAMHOC"] = hk.NAMHOC_TU + "_" + hk.NAMHOC_DEN;
-                    r["HOCKY"] = hk.HOCKY;
-                    r["IS_HIENTAI"] = hk.IS_HIENTAI;
-
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
-                }
-
+                dt = TableUtil.LinqToDataTable(hockynamhoc);
                 return dt;
             }
             catch (Exception err)
@@ -389,23 +343,12 @@ namespace DATN.TTS.BUS
                                       a.ID_NAMHOC_HKY_HTAI,
                                       a.IS_HIENTAI,
                                       a.HOCKY,
+                                      a.TUAN_BD_HKY,
                                       b.NAMHOC_TU,
-                                      b.NAMHOC_DEN
+                                      b.NAMHOC_DEN,
+                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
                                   };
-                foreach (var hk in hockynamhoc)
-                {
-                    DataRow r = dt.NewRow();
-                    r["ID_NAMHOC_HKY_HTAI"] = hk.ID_NAMHOC_HKY_HTAI;
-                    r["ID_NAMHOC_HIENTAI"] = hk.ID_NAMHOC_HIENTAI;
-                    r["NAMHOC_TU"] = hk.NAMHOC_TU;
-                    r["NAMHOC"] = hk.NAMHOC_TU + "_" + hk.NAMHOC_DEN;
-                    r["HOCKY"] = hk.HOCKY;
-                    r["IS_HIENTAI"] = hk.IS_HIENTAI;
-
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
-                }
-
+                dt = TableUtil.LinqToDataTable(hockynamhoc);
                 return dt;
             }
             catch (Exception err)
@@ -414,7 +357,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public bool Insert_HocKyNamHoc(int pID_NAMHOC_HIENTAI, int pHOCKY, string pUser)
+        public bool Insert_HocKyNamHoc(int pID_NAMHOC_HIENTAI, int pHOCKY, int TuanBD_HKY, string pUser)
         {
             try
             {
@@ -445,6 +388,7 @@ namespace DATN.TTS.BUS
                 hknamhoc.CREATE_TIME = System.DateTime.Now;
                 hknamhoc.IS_DELETE = 0;
                 hknamhoc.IS_HIENTAI = 1;
+                hknamhoc.TUAN_BD_HKY = TuanBD_HKY;
                 db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
                 db.SubmitChanges();
                 //kết thúc thực hiện thêm mới
