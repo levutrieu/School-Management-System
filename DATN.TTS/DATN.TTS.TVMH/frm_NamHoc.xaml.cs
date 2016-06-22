@@ -172,7 +172,7 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["NAMHOC_TU"] = DateTime.Now.Year;
                 this.iDataSoure.Rows[0]["NAMHOC_DEN"] = "0";
                 this.iDataSoure.Rows[0]["NGAY_BATDAU"] = DateTime.Now;
-                this.iDataSoure.Rows[0]["SO_HKY_TRONGNAM"] = "0";
+                this.iDataSoure.Rows[0]["SO_HKY_TRONGNAM"] = "2";
                 this.iDataSoure.Rows[0]["SO_TUAN"] = "52";
             }
             catch (Exception er)
@@ -297,6 +297,7 @@ namespace DATN.TTS.TVMH
                         else
                         {
                             bool res = client.Update_NamHocHienTai(this.iDataSoure.Copy());
+                            
                             if (!res)
                             {
                                 CTMessagebox.Show("Cập nhật thất bại", "Cập nhật", "", CTICON.Information, CTBUTTON.YesNo);
