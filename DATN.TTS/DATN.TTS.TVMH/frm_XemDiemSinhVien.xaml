@@ -1,0 +1,87 @@
+﻿<Page xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  x:Class="DATN.TTS.TVMH.frm_XemDiemSinhVien"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="1200"
+	Title="frm_XemDiemSinhVien">
+
+    <Grid Name="grdparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Name="grdTop" Margin="5" Width="400">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14" Foreground="Blue" FontStyle="Italic" Text="Nhập mã sinh viên:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:TextEdit Grid.Row="0" Grid.Column="1" Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN}" MaxLength="50"/>
+            <Button Grid.Row="0" IsDefault="True" Grid.Column="2" Content="Xem điểm" Name="btnXemDiem" Style="{StaticResource Button_Style_2}" Click="BtnXemDiem_OnClick"/>
+            <Button Grid.Row="0" IsDefault="True" Grid.Column="3" Content="In bảng điểm" Name="btnXuatDiem" Style="{StaticResource Button_Style_2}" Click="BtnXuatDiem_OnClick"/>
+        </Grid>
+        <Border Grid.Row="1" Name="bordertop" Margin="5" Background="GhostWhite" BorderBrush="#27415d" BorderThickness="2,1,2,1" Height="auto">
+            <Grid Margin="5" Name="Grid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Mã sinh viên:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding MA_SINHVIEN}"  Style="{StaticResource TextBlockStyle}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Sinh viên:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_SINHVIEN}"  Style="{StaticResource TextBlockStyle}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="4" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Lớp:" Style="{StaticResource TextBlockStyle}" />
+                <TextBlock Grid.Row="0" Grid.Column="5" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_LOP}"  Style="{StaticResource TextBlockStyle}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="6" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Ngành học:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="7" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_NGANH}"  Style="{StaticResource TextBlockStyle}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Khóa học:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_KHOAHOC}"  Style="{StaticResource TextBlockStyle}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="2" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_HE_DAOTAO}"  Style="{StaticResource TextBlockStyle}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="4" FontSize="12" Foreground="Blue" FontStyle="Italic" Text="Niên khóa:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="5" FontSize="12" Foreground="Red" FontStyle="Italic" Text="{Binding KHOAHOC}"  Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+        </Border>
+        <!--<dxg:GridControl Grid.Row="2" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="GridDiem"
+                             dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="GridViewDiem"  NavigationStyle="Cell" VerticalContentAlignment="Center"
+                                   RowStyle="{StaticResource SelectedRowStyle}"
+                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>-->
+        <dxg:TreeListControl Grid.Row="2" Height="Auto" Name="GridDiem" Background="Transparent" dx:ThemeManager.ThemeName="MetropolisLight">
+            <dxg:TreeListControl.View >
+                <dxg:TreeListView  Name="GridViewDiem" AutoWidth="True" AutoExpandAllNodes="True"  RowStyle="{StaticResource SelectedRowStyle}"
+                                  KeyFieldName="ID" ParentFieldName="ID_PARENT"/>
+            </dxg:TreeListControl.View>
+            <dxg:TreeListControl.TotalSummary>
+                <dxg:TreeListSummaryItem FieldName="Name" SummaryType="Count" />
+            </dxg:TreeListControl.TotalSummary>
+        </dxg:TreeListControl>
+    </Grid>
+</Page>
