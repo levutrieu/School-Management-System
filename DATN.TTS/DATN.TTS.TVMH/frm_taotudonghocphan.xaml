@@ -17,13 +17,14 @@
         <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="SlateGray" Margin=" 0 0 0 5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
                 <Button Content="Tạo lớp" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnsave" VerticalAlignment="Center" Click="Btnsave_OnClick"/>
-                <Button Content="Hủy" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btncancel" VerticalAlignment="Center"/>
+                <Button Content="Hủy" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btncancel" VerticalAlignment="Center" Click="Btncancel_OnClick"/>
             </StackPanel>
         </Border>
 
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="SlateGray" Background="Lavender" Margin="0 0 0 10">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
@@ -33,6 +34,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Tên môn học" VerticalAlignment="Center"/>
                 <dxe:TextEdit Grid.Row="0" Grid.Column="1" Style="{StaticResource TextEditStyle}" IsReadOnly="True" EditValue="{Binding TEN_MONHOC}"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Ngành" VerticalAlignment="Center"/>
@@ -43,12 +45,17 @@
                 <TextBlock Grid.Row="1" Grid.Column="2" Text="Kiểu học" VerticalAlignment="Center"/>
                 <dxe:TextEdit Grid.Row="1" Grid.Column="3" Style="{StaticResource TextEditStyle}" IsReadOnly="True"  EditValue="{Binding KIEU_HOC_CHU}"/>
 
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Năm học hiện tại" VerticalAlignment="Center"/>
+                <dxe:TextEdit Grid.Row="2" Grid.Column="1" Style="{StaticResource TextEditStyle}" IsReadOnly="True" EditValue="{Binding NAMHOCHT}"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="Học kỳ hiện tại" VerticalAlignment="Center"/>
+                <dxe:TextEdit Grid.Row="2" Grid.Column="3" Style="{StaticResource TextEditStyle}" IsReadOnly="True"  EditValue="{Binding HOCKYHT}"/>
             </Grid>
         </Border>
 
         <GroupBox Grid.Row="2" Header="Thông tin học phần" BorderBrush="SlateGray" Background="Lavender" Margin="0 0 0 10">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
@@ -60,19 +67,26 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Số tín chỉ" VerticalAlignment="Center"/>
-                <dxe:TextEdit Grid.Row="0" Grid.Column="1" Style="{StaticResource TextEditStyle}" IsReadOnly="True" EditValue="{Binding SO_TC}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="Tuần bắt đầu" VerticalAlignment="Center"/>
-                <dxe:SpinEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource SpinEditStyle}" Text="{Binding TUAN_BD}" Mask="d" MinValue="0"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="Tuần kết thúc" VerticalAlignment="Center"/>
-                <dxe:SpinEdit Grid.Row="0" Grid.Column="5" Style="{StaticResource SpinEditStyle}" Text="{Binding TUAN_KT}" Mask="d" MinValue="0"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Số lớp tạo tự động" VerticalAlignment="Center"/>
+                <dxe:SpinEdit Grid.Row="0" Grid.Column="1" Name="SolopEdit" Style="{StaticResource SpinEditStyle}" Text="{Binding SOLOP}" Mask="d" MinValue="1"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Năm học" VerticalAlignment="Center"/>
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboNamhoc" EditValue="{Binding NAMHOC, UpdateSourceTrigger=PropertyChanged}" DisplayMember="NAMHOC_CHU" ValueMember="NAMHOC_TU" SelectedIndexChanged="CboNamhoc_OnSelectedIndexChanged"/>
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="Học kỳ" VerticalAlignment="Center"/>
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cbohocky" EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" DisplayMember="TENHOCKY" ValueMember="HOCKY" SelectedIndexChanged="Cbohocky_OnSelectedIndexChanged"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Số tiết" VerticalAlignment="Center"/>
-                <dxe:SpinEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource SpinEditStyle}" Text="{Binding SOTIET}" Mask="d" MinValue="0"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="Số sinh viên" VerticalAlignment="Center"/>
-                <dxe:SpinEdit Grid.Row="1" Grid.Column="3" Style="{StaticResource SpinEditStyle}" Text="{Binding SOLUONG}" Mask="d" MinValue="0"/>
-                <TextBlock Grid.Row="1" Grid.Column="4" Text="Cách tính điểm" VerticalAlignment="Center"/>
-                <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboCanhtinh" EditValue="{Binding CACH_TINHDIEM, UpdateSourceTrigger=PropertyChanged}" DisplayMember="CACHTINH_NAME" ValueMember="CACHTINH"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Số tín chỉ" VerticalAlignment="Center"/>
+                <dxe:TextEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource TextEditStyle}" IsReadOnly="True" EditValue="{Binding SO_TC}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Tuần bắt đầu" VerticalAlignment="Center"/>
+                <dxe:SpinEdit Grid.Row="1" Grid.Column="3" Name="TuanBDEdit" Style="{StaticResource SpinEditStyle}" Text="{Binding TUAN_BD}" Mask="d" MinValue="0"/>
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="Tuần kết thúc" VerticalAlignment="Center"/>
+                <dxe:SpinEdit Grid.Row="1" Grid.Column="5" Name="TuanKTEdit" Style="{StaticResource SpinEditStyle}" Text="{Binding TUAN_KT}" Mask="d" MinValue="0"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Số tiết" VerticalAlignment="Center"/>
+                <dxe:TextEdit Grid.Row="2" Grid.Column="1" Style="{StaticResource TextEditStyle}" Text="{Binding SOTIET}" Mask="d" IsReadOnly="True"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="Số sinh viên" VerticalAlignment="Center"/>
+                <dxe:SpinEdit Grid.Row="2" Grid.Column="3" Style="{StaticResource SpinEditStyle}" Text="{Binding SOLUONG}" Mask="d" MinValue="0"/>
+                <TextBlock Grid.Row="2" Grid.Column="4" Text="Cách tính điểm" VerticalAlignment="Center"/>
+                <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboCanhtinh" EditValue="{Binding CACH_TINHDIEM, UpdateSourceTrigger=PropertyChanged}" DisplayMember="CACHTINH_NAME" ValueMember="CACHTINH"/>
 
             </Grid>
         </GroupBox>
@@ -96,7 +110,7 @@
                     <RadioButton x:Name="rdbMaMon" Grid.Column="0" Grid.Row="0" Content="Mã môn học" VerticalAlignment="Center" IsChecked="{Binding IS_MA_TD, Mode=TwoWay}"/>
                     <RadioButton x:Name="rdbTenMon" Grid.Column="0" Grid.Row="1" Content="Nhập mã" VerticalAlignment="Center" IsChecked="{Binding IS_MA, Mode=TwoWay}"/>
                     <TextBlock  x:Name="rdbTenMon1" Grid.Column="1" Grid.Row="0" Text="+ học kỳ + năm học"  VerticalAlignment="Center"/>
-                    <dxe:TextEdit Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding MA_HP}" Style="{StaticResource TextEditStyle}"/>
+                    <dxe:TextEdit Name="NhapMaTextEdit" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding MA_HP}" Style="{StaticResource TextEditStyle}"/>
 
 
                 </Grid>
@@ -112,10 +126,9 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="0.1*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton x:Name="rdbddTenMon" Grid.Column="0" Grid.Row="0" Content="Tên môn học" VerticalAlignment="Center" IsChecked="{Binding IS_TEN_TD, Mode=TwoWay}"/>
-                    <RadioButton Grid.Column="0" Grid.Row="1" Content="Nhập tên" VerticalAlignment="Center" IsChecked="{Binding IS_TEN, Mode=TwoWay}"/>
-                    <TextBlock  x:Name="txt1" Grid.Column="1" Grid.Row="0" Text=" + học kỳ + năm học +"  VerticalAlignment="Center"/>
-                    <dxe:TextEdit Grid.Column="2" Grid.Row="0" Text="{Binding TEN_THEM}" Style="{StaticResource TextEditStyle}"/>
+                    <RadioButton Name="rdbddTenMon" Grid.Column="0" Grid.Row="0" Content="Tên môn học" VerticalAlignment="Center" IsChecked="{Binding IS_TEN_TD, Mode=TwoWay}"/>
+                    <RadioButton Name="NhapTenRadioButton" Grid.Column="0" Grid.Row="1" Content="Nhập tên" VerticalAlignment="Center" IsChecked="{Binding IS_TEN, Mode=TwoWay}"/>
+                    <TextBlock  Name="txt1" Grid.Column="1" Grid.Row="0" Text=" + học kỳ + năm học"  VerticalAlignment="Center"/>
                     <dxe:TextEdit Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TEN_HP}" Style="{StaticResource TextEditStyle}"/>
 
                 </Grid>
