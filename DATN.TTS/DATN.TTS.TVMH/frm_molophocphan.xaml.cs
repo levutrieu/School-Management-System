@@ -31,10 +31,12 @@ namespace DATN.TTS.TVMH
     public partial class frm_molophocphan : Page
     {
         private DataTable iDataSource = null;
+        private DataTable iGridDataSource = null;
         private DataTable iGridData_dsHP_nganh = null;
         private DataTable iGridData_dsHP = null;
         private DataTable iGridData_TTHK = null;
         public static DataTable idata_send = null;
+        public static int iSua = 0;
 
         public frm_molophocphan()
         {
@@ -70,6 +72,13 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("ID_KHOAHOC_LQL", typeof(int));
                 xDicUser.Add("ID_KHOAHOC_NGANH", typeof(int));
                 xDicUser.Add("ID_LOPHOC", typeof(int));
+                xDicUser.Add("HOCKY", typeof(int));
+                xDicUser.Add("HOCKY_Search", typeof(int));
+                xDicUser.Add("NAMHOC_Search", typeof(int));
+                xDicUser.Add("HOCKY_Search_ds", typeof(int));
+                xDicUser.Add("NAMHOC_Search_ds", typeof(int));
+                xDicUser.Add("ID_MONHOC", typeof(int));
+                xDicUser.Add("ID_KHOAHOC_NGANH_CTIET", typeof(int));
                 dtaTable = TableUtil.ConvertToTable(xDicUser);
             }
             catch (Exception ex)
@@ -121,9 +130,25 @@ namespace DATN.TTS.TVMH
                 grd_KN.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
+                xcolumn.FieldName = "SOTIET";
+                xcolumn.Header = "Số tiết";
+                xcolumn.Width = 60;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_KN.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
                 xcolumn.FieldName = "KIEU_HOC_CHU";
                 xcolumn.Header = "Kiểu học";
                 xcolumn.Width = 90;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd_KN.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.FieldName = "HOCKY";
+                xcolumn.Header = "Học kỳ";
+                xcolumn.Width = 50;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
                 grd_KN.Columns.Add(xcolumn);
@@ -147,7 +172,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                
+
                 GridColumn xcolumn;
 
                 xcolumn = new GridColumn();
@@ -411,6 +436,14 @@ namespace DATN.TTS.TVMH
                 grd_mh_lop.Columns.Add(col);
 
                 col = new GridColumn();
+                col.FieldName = "SOTIET";
+                col.Header = "Số tiết";
+                col.AllowCellMerge = false;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Width = 50;
+                grd_mh_lop.Columns.Add(col);
+
+                col = new GridColumn();
                 col.FieldName = "TEN_LOAIMH";
                 col.Header = "Loại môn học";
                 col.AllowCellMerge = false;
@@ -457,6 +490,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("ID_LOPHOCPHAN", typeof(int));
                 xDicUser.Add("ID_LOPHOC", typeof(decimal));
                 xDicUser.Add("ID_KHOAHOC_NGANH_CTIET", typeof(decimal));
                 xDicUser.Add("TEN_NGANH", typeof(string));
@@ -477,8 +511,10 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("KIEU_HOC_CHU", typeof(string));
                 xDicUser.Add("SO_TC", typeof(decimal));
                 xDicUser.Add("USER", typeof(string));
-                xDicUser.Add("HOCKY", typeof(decimal));
-                xDicUser.Add("NAMHOC", typeof(decimal));
+                xDicUser.Add("HOCKY", typeof(int));
+                xDicUser.Add("NAMHOC", typeof(int));
+                xDicUser.Add("HOCKYHT", typeof(decimal));
+                xDicUser.Add("NAMHOCHT", typeof(string));
                 dtaTable = TableUtil.ConvertToTable(xDicUser);
             }
             catch (Exception ex)
@@ -496,10 +532,50 @@ namespace DATN.TTS.TVMH
                 bus_molophocphan bus = new bus_molophocphan();
                 //Thong tin nam hoc
                 iGridData_TTHK = bus.GetAll_Tso_Hocky();
+                iDataSource.Rows[0]["HOCKY_Search"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
 
                 DataTable xdtbm = bus.GetAll_HDT();
                 cboHeDT.ItemsSource = xdtbm;
                 cboHeDTLQL.ItemsSource = xdtbm;
+
+                #region LOAD HOC KY
+                DataTable dt_hocky = new DataTable();
+                dt_hocky.Columns.Add("hocky", typeof(int));
+                dt_hocky.Columns.Add("tenhocky", typeof(string));
+
+                DataRow xdr = null;
+                xdr = dt_hocky.NewRow();
+                xdr["hocky"] = 0;
+                xdr["tenhocky"] = "-----Chọn-----";
+                dt_hocky.Rows.Add(xdr);
+                for (int i = 1; i <= 8; i++)
+                {
+                    xdr = dt_hocky.NewRow();
+                    xdr["hocky"] = i;
+                    xdr["tenhocky"] = i.ToString();
+                    dt_hocky.Rows.Add(xdr);
+                }
+                dt_hocky.AcceptChanges();
+                cboHocKy.ItemsSource = dt_hocky;
+                iDataSource.Rows[0]["HOCKY"] = 0;
+                #endregion
+
+                #region Load namhoc search
+
+                DataTable xdt = bus.GetAll_NAMHOC();
+                cboNamhoc_search.ItemsSource = xdt;
+
+                #endregion
+
+                #region Load namhoc search ds
+
+                DataTable xdata = bus.GetAll_NAMHOC();
+                cboNamhoc_search_ds.ItemsSource = xdt;
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -557,8 +633,8 @@ namespace DATN.TTS.TVMH
                         }
                     }
                 }
-
-                grd_KN.ItemsSource = xdtbm;
+                iGridDataSource = xdtbm.Copy();
+                grd_KN.ItemsSource = iGridDataSource;
             }
             catch (Exception ex)
             {
@@ -619,11 +695,11 @@ namespace DATN.TTS.TVMH
 
                 bus_molophocphan bus = new bus_molophocphan();
                 DataTable idata = bus.GetAll_MH_byKhoaHoc(Convert.ToInt32(RowSelGb["ID_KHOAHOC_NGANH"]));
-                idata.Columns.Add("KIEU_HOC_CHU", typeof (string));
+                idata.Columns.Add("KIEU_HOC_CHU", typeof(string));
                 foreach (DataRow dr in idata.Rows)
                 {
-                     if (!string.IsNullOrEmpty(dr["IS_THUCHANH"].ToString()) &&
-                        !string.IsNullOrEmpty(dr["IS_LYTHUYET"].ToString()))
+                    if (!string.IsNullOrEmpty(dr["IS_THUCHANH"].ToString()) &&
+                       !string.IsNullOrEmpty(dr["IS_LYTHUYET"].ToString()))
                     {
                         if (Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
                         {
@@ -669,15 +745,25 @@ namespace DATN.TTS.TVMH
                 idata_send.Rows[0]["ID_HE_DAOTAO"] = iDataSource.Rows[0]["ID_HEDAOTAO_LQL"];
                 idata_send.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
                 idata_send.Rows[0]["SO_TC"] = RowSelGb["SO_TC"];
+                idata_send.Rows[0]["SOTIET"] = RowSelGb["SOTIET"];
                 idata_send.Rows[0]["KIEU_HOC_CHU"] = RowSelGb["KIEU_HOC_CHU"];
                 idata_send.Rows[0]["TEN_MONHOC"] = RowSelGb["TEN_MONHOC"];
                 idata_send.Rows[0]["MA_MONHOC"] = RowSelGb["MA_MONHOC"];
                 idata_send.Rows[0]["ID_NAMHOC_HKY_HTAI"] = iGridData_TTHK.Rows[0]["ID_NAMHOC_HKY_HTAI"];
+                idata_send.Rows[0]["HOCKYHT"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                idata_send.Rows[0]["NAMHOCHT"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"].ToString() + "-" + (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) + 1).ToString();
                 idata_send.Rows[0]["HOCKY"] = iGridData_TTHK.Rows[0]["HOCKY"];
                 idata_send.Rows[0]["NAMHOC"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
                 idata_send.Rows[0]["USER"] = iDataSource.Rows[0]["USER"];
                 idata_send.Rows[0]["TEN_HEDAOTAO"] = iDataSource.Rows[0]["TEN_HEDAOTAO_LQL"];
                 idata_send.Rows[0]["TEN_NGANH"] = iDataSource.Rows[0]["TEN_NGANH_LQL"];
+
+                iDataSource.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
+                iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"] = RowSelGb["ID_KHOAHOC_NGANH_CTIET"];
+                iDataSource.Rows[0]["HOCKY_Search"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
 
                 bus_molophocphan bus = new bus_molophocphan();
                 iGridData_dsHP_nganh = bus.GetAll_hocphan_bymh(Convert.ToInt32(RowSelGb["ID_MONHOC"]), Convert.ToInt32(iGridData_TTHK.Rows[0]["ID_NAMHOC_HKY_HTAI"]),
@@ -704,15 +790,25 @@ namespace DATN.TTS.TVMH
                 idata_send.Rows[0]["ID_HE_DAOTAO"] = iDataSource.Rows[0]["ID_HE_DAOTAO"];
                 idata_send.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
                 idata_send.Rows[0]["SO_TC"] = RowSelGb["SO_TC"];
+                idata_send.Rows[0]["SOTIET"] = RowSelGb["SOTIET"];
                 idata_send.Rows[0]["KIEU_HOC_CHU"] = RowSelGb["KIEU_HOC_CHU"];
                 idata_send.Rows[0]["TEN_MONHOC"] = RowSelGb["TEN_MONHOC"];
                 idata_send.Rows[0]["MA_MONHOC"] = RowSelGb["MA_MONHOC"];
                 idata_send.Rows[0]["ID_NAMHOC_HKY_HTAI"] = iGridData_TTHK.Rows[0]["ID_NAMHOC_HKY_HTAI"];
+                idata_send.Rows[0]["HOCKYHT"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                idata_send.Rows[0]["NAMHOCHT"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"].ToString() + "-" + (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) + 1).ToString();
                 idata_send.Rows[0]["HOCKY"] = iGridData_TTHK.Rows[0]["HOCKY"];
                 idata_send.Rows[0]["NAMHOC"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
                 idata_send.Rows[0]["USER"] = iDataSource.Rows[0]["USER"];
                 idata_send.Rows[0]["TEN_HEDAOTAO"] = iDataSource.Rows[0]["TEN_HEDAOTAO"];
                 idata_send.Rows[0]["TEN_NGANH"] = iDataSource.Rows[0]["TEN_NGANH"];
+
+                iDataSource.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
+                iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"] = RowSelGb["ID_KHOAHOC_NGANH_CTIET"];
+                iDataSource.Rows[0]["HOCKY_Search"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
 
                 bus_molophocphan bus = new bus_molophocphan();
                 iGridData_dsHP_nganh = bus.GetAll_hocphan_bymh(Convert.ToInt32(RowSelGb["ID_MONHOC"]), Convert.ToInt32(iGridData_TTHK.Rows[0]["ID_NAMHOC_HKY_HTAI"]),
@@ -731,7 +827,7 @@ namespace DATN.TTS.TVMH
             {
                 if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString()))
                 {
-                    if (CTMessagebox.Show("Bạn muốn xóa học phần " + iDataSource.Rows[0]["TEN_LOP_HOCPHAN"].ToString()+" không?", "Xóa", "", CTICON.Question, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    if (CTMessagebox.Show("Bạn muốn xóa học phần " + iDataSource.Rows[0]["TEN_LOP_HOCPHAN"].ToString() + " không?", "Xóa", "", CTICON.Question, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                     {
                         int tmp = 0;
                         bus_molophocphan bus = new bus_molophocphan();
@@ -806,9 +902,38 @@ namespace DATN.TTS.TVMH
 
         private void GrdView_ct_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            try
+            {
+                iSua = 1;
+                DataRow RowSelGb = null;
+                if (this.grd_ct.GetFocusedRow() == null) return;
+                RowSelGb = ((DataRowView)this.grd_ct.GetFocusedRow()).Row;
+                DataTable xdt = client.GetAll_TT_byHP(Convert.ToInt32(RowSelGb["ID_LOPHOCPHAN"]));
+                foreach (DataColumn item in xdt.Columns)
+                {
+                    if (idata_send.Columns[item.ColumnName] != null)
+                    {
+                        idata_send.Rows[0][item.ColumnName] = xdt.Rows[0][item.ColumnName];
+                    }
+                }
+                idata_send.Rows[0]["HOCKYHT"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                idata_send.Rows[0]["NAMHOCHT"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"].ToString() + "-" + (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) + 1).ToString();
+                frm_taotudonghocphan frm = new frm_taotudonghocphan();
+                frm.Owner = Window.GetWindow(this);
+                frm.ShowDialog();
+                idata_send.Clear();
+                idata_send.Rows.Add(idata_send.NewRow());
+                iSua = 0;
+                BtnRefresh_OnClick(null, null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        bus_molophocphan client= new bus_molophocphan();
+        bus_molophocphan client = new bus_molophocphan();
+
         private void BtnImport_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -985,8 +1110,244 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                iGridData_dsHP = client.GetAll_hocphan_ds();
+                iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                iGridData_dsHP = client.GetAll_hocphan_ds(Convert.ToInt32(iGridData_TTHK.Rows[0]["ID_NAMHOC_HKY_HTAI"]));
                 grd_ds.ItemsSource = iGridData_dsHP;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboHocKy_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                if (Convert.ToInt32(iDataSource.Rows[0]["HOCKY"]) == 0)
+                {
+                    grd_KN.ItemsSource = iGridDataSource;
+                }
+                else
+                {
+                    if (iGridDataSource != null && iGridDataSource.Rows.Count > 0)
+                    {
+                        DataTable dt = null;
+                        DataRow[] xcheck = (from x in
+                                                iGridDataSource.AsEnumerable()
+                                                    .Where(
+                                                        d =>
+                                                            d.Field<int>("HOCKY") ==
+                                                            Convert.ToInt32(iDataSource.Rows[0]["HOCKY"].ToString()))
+                                            select x).ToArray();
+                        if (xcheck.Count() > 0)
+                        {
+                            dt = xcheck.CopyToDataTable();
+
+                        }
+                        else
+                        {
+                            dt = iGridDataSource.Clone();
+                        }
+                        grd_KN.ItemsSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void GrdView_KN_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            GrdView_KN_OnMouseDown(null, null);
+        }
+
+        private void GrdView_mh_lop_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            GrdView_mh_lop_OnMouseDown(null, null);
+        }
+
+        private void CboNamhoc_search_OnSelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdt = bus.GetAll_HOCKY_ByNH(Convert.ToInt32(iDataSource.Rows[0]["NAMHOC_Search"]));
+                cbohocky_search.ItemsSource = xdt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Cbohocky_search_OnSelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_MONHOC"].ToString()))
+                {
+                    bus_molophocphan bus = new bus_molophocphan();
+                    DataTable xdt = bus.GetAll_HKYHT(Convert.ToInt32(iDataSource.Rows[0]["NAMHOC_Search"]),
+                        Convert.ToInt32(iDataSource.Rows[0]["HOCKY_Search"]));
+                    iGridData_dsHP_nganh = bus.GetAll_hocphan_bymh(Convert.ToInt32(iDataSource.Rows[0]["ID_MONHOC"]),
+                        Convert.ToInt32(xdt.Rows[0]["ID_NAMHOC_HKY_HTAI"]),
+                        Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"]));
+                    grd_ct.ItemsSource = iGridData_dsHP_nganh;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboNamhoc_search_ds_OnSelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdt = bus.GetAll_HOCKY_ByNH(Convert.ToInt32(iDataSource.Rows[0]["NAMHOC_Search_ds"]));
+                cbohocky_search_ds.ItemsSource = xdt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Cbohocky_search_ds_OnSelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdt = bus.GetAll_HKYHT(Convert.ToInt32(iDataSource.Rows[0]["NAMHOC_Search_ds"]),
+                    Convert.ToInt32(iDataSource.Rows[0]["HOCKY_Search_ds"]));
+
+                iGridData_dsHP = client.GetAll_hocphan_ds(Convert.ToInt32(xdt.Rows[0]["ID_NAMHOC_HKY_HTAI"]));
+                grd_ds.ItemsSource = iGridData_dsHP;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void BtnDelete_ds_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString()))
+                {
+                    if (CTMessagebox.Show("Bạn muốn xóa học phần " + iDataSource.Rows[0]["TEN_LOP_HOCPHAN"].ToString() + " không?", "Xóa", "", CTICON.Question, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    {
+                        int tmp = 0;
+                        bus_molophocphan bus = new bus_molophocphan();
+
+                        tmp = bus.DeleteObject(Convert.ToInt32(iDataSource.Rows[0]["ID_LOPHOCPHAN"]),
+                            iDataSource.Rows[0]["USER"].ToString());
+                        if (tmp != 0)
+                        {
+                            CTMessagebox.Show("Thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void GrdView_ds_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                DataRow RowSelGb = null;
+                if (this.grd_ds.GetFocusedRow() == null) return;
+                RowSelGb = ((DataRowView)this.grd_ds.GetFocusedRow()).Row;
+                iDataSource.Rows[0]["ID_LOPHOCPHAN"] = RowSelGb["ID_LOPHOCPHAN"];
+                iDataSource.Rows[0]["TEN_LOP_HOCPHAN"] = RowSelGb["TEN_LOP_HOCPHAN"];
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (this.tabKHMoLop.IsSelected)
+        //        {
+        //            if (iGridData_dsHP_nganh != null)
+        //            {
+        //                iGridData_dsHP_nganh.Clear();
+        //            }
+        //        }
+        //        if (this.tabMLTLQL.IsSelected)
+        //        {
+        //            if (iGridData_dsHP_nganh != null)
+        //            {
+        //                iGridData_dsHP_nganh.Clear();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        private void GrdView_ds_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                iSua = 1;
+                DataRow RowSelGb = null;
+                if (this.grd_ds.GetFocusedRow() == null) return;
+                RowSelGb = ((DataRowView)this.grd_ds.GetFocusedRow()).Row;
+                DataTable xdt = client.GetAll_TT_byHP(Convert.ToInt32(RowSelGb["ID_LOPHOCPHAN"]));
+                foreach (DataColumn item in xdt.Columns)
+                {
+                    if (idata_send.Columns[item.ColumnName] != null)
+                    {
+                        idata_send.Rows[0][item.ColumnName] = xdt.Rows[0][item.ColumnName];
+                    }
+                }
+                idata_send.Rows[0]["HOCKYHT"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                idata_send.Rows[0]["NAMHOCHT"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"].ToString() + "-" + (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) + 1).ToString();
+                frm_taotudonghocphan frm = new frm_taotudonghocphan();
+                frm.Owner = Window.GetWindow(this);
+                frm.ShowDialog();
+                idata_send.Clear();
+                idata_send.Rows.Add(idata_send.NewRow());
+                iSua = 0;
+                BtnRefresh_ds_OnClick(null, null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void BtnRefresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_MONHOC"].ToString()))
+                {
+                    bus_molophocphan bus = new bus_molophocphan();
+                    DataTable xdt = bus.GetAll_HKYHT(Convert.ToInt32(iDataSource.Rows[0]["NAMHOC_Search"]),
+                        Convert.ToInt32(iDataSource.Rows[0]["HOCKY_Search"]));
+                    iGridData_dsHP_nganh = bus.GetAll_hocphan_bymh(Convert.ToInt32(iDataSource.Rows[0]["ID_MONHOC"]),
+                        Convert.ToInt32(xdt.Rows[0]["ID_NAMHOC_HKY_HTAI"]),
+                        Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"]));
+                    grd_ct.ItemsSource = iGridData_dsHP_nganh;
+                }
             }
             catch (Exception ex)
             {
