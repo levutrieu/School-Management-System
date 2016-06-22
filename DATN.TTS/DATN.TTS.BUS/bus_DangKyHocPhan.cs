@@ -1138,85 +1138,6 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = null;
-                var danhsachdiem = (from hkht in db.tbl_NAMHOC_HKY_HTAIs
-                                    join nhht in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
-                                    where
-                                      (hkht.IS_DELETE == null ||
-                                      hkht.IS_DELETE != 1) &&
-                                      (nhht.IS_DELETE != 1 ||
-                                      nhht.IS_DELETE == null) &&
-                                        (from hp in db.tbl_LOP_HOCPHANs
-                                         where
-                                           (hp.IS_DELETE != 1 ||hp.IS_DELETE == null) && hkht.ID_NAMHOC_HKY_HTAI == hp.ID_NAMHOC_HKY_HTAI &&
-                                             (from diem in db.tbl_DIEM_SINHVIENs
-                                              where
-                                                diem.IS_DELETE != 1 ||
-                                                diem.IS_DELETE == null
-                                              select new
-                                              {
-                                                  diem.ID_LOPHOCPHAN
-                                              }).Contains(new { ID_LOPHOCPHAN = (System.Int32?)hp.ID_LOPHOCPHAN })
-                                         select new
-                                         {
-                                             hp.ID_NAMHOC_HKY_HTAI
-                                         }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32?)hkht.ID_NAMHOC_HKY_HTAI })
-                                    select new
-                                    {
-                                        ID = hkht.ID_NAMHOC_HKY_HTAI,
-                                        NAME = ("Học kỳ" + " " + Convert.ToString(hkht.HOCKY) + " Năm " + Convert.ToString(nhht.NAMHOC_TU) + "-" + Convert.ToString(nhht.NAMHOC_DEN)),
-                                        MA_MONHOC = "",
-                                        SO_TC = 0,
-                                        DIEM_BT = (double)0,
-                                        DIEM_GK = (double)0,
-                                        DIEM_CK = (double)0,
-                                        DIEM_TONG = (double)0,
-                                        DIEM_HE4 = (double)0,
-                                        DIEM_CHU = "",
-                                        CACH_TINHDIEM = "",
-                                        ID_PARENT = 0
-                                    }
-                                ).Concat
-                                (
-                                    from diem in db.tbl_DIEM_SINHVIENs
-                                    join hp in db.tbl_LOP_HOCPHANs on new { ID_LOPHOCPHAN = Convert.ToInt32(diem.ID_LOPHOCPHAN) } equals new { ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN }
-                                    join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
-                                    join hkht in db.tbl_NAMHOC_HKY_HTAIs on new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
-                                    join nhht in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
-                                    where
-                                      (diem.IS_DELETE != 1 ||
-                                      diem.IS_DELETE == null) &&
-                                      diem.ID_SINHVIEN == id_sinhvien
-                                    select new
-                                    {
-                                        ID = diem.ID_KETQUA,
-                                        NAME = mh.TEN_MONHOC,
-                                        MA_MONHOC = mh.MA_MONHOC,
-                                        SO_TC = (int)mh.SO_TC,
-                                        DIEM_BT = (double)diem.DIEM_BT,
-                                        DIEM_GK = (double)diem.DIEM_GK,
-                                        DIEM_CK = (double)diem.DIEM_CK,
-                                        DIEM_TONG = (double)diem.DIEM_TONG,
-                                        DIEM_HE4 = (double)diem.DIEM_HE4,
-                                        DIEM_CHU = diem.DIEM_CHU,
-                                        CACH_TINHDIEM = hp.CACH_TINHDIEM,
-                                        ID_PARENT = (int)hp.ID_NAMHOC_HKY_HTAI
-                                    }
-                                );
-                dt = TableUtil.LinqToDataTable(danhsachdiem);
-
-                return dt;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        public DataTable GetDanhSachDiem1(int id_sinhvien)
-        {
-            try
-            {
-                DataTable dt = null;
                 var xxxx = (
                     from hkht in db.tbl_NAMHOC_HKY_HTAIs
                     join nhht in db.tbl_NAMHOC_HIENTAIs on new {ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI)} equals new {ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI}
@@ -1240,14 +1161,14 @@ namespace DATN.TTS.BUS
                         NAME = ("Học kỳ" + " " + Convert.ToString(hkht.HOCKY) + " Năm " + Convert.ToString(nhht.NAMHOC_TU) + "-" + Convert.ToString(nhht.NAMHOC_DEN)),
                         MA_MONHOC = "",
                         SO_TC = 0,
-                        DIEM_BT = (double) 0,
-                        DIEM_GK = (double) 0,
-                        DIEM_CK = (double) 0,
-                        DIEM_TONG = (double) 0,
-                        DIEM_HE4 = (double) 0,
+                        DIEM_BT = (double)0,
+                        DIEM_GK = (double)0,
+                        DIEM_CK = (double)0,
+                        DIEM_TONG = (double)0,
+                        DIEM_HE4 = (double)0,
                         DIEM_CHU = "",
                         CACH_TINHDIEM = "",
-                        ID_PARENT = 0
+                        ID_PARENT = ""
                     }).Concat
                     (
                         from diem in db.tbl_DIEM_SINHVIENs
@@ -1275,6 +1196,7 @@ namespace DATN.TTS.BUS
                             DIEM_TONG = (double) diem.DIEM_TONG,
                             DIEM_HE4 = (double) diem.DIEM_HE4,
                             DIEM_CHU = diem.DIEM_CHU,
+                            CACH_TINHDIEM=hp.CACH_TINHDIEM,
                             ID_PARENT = ("HK" + Convert.ToString(hp.ID_NAMHOC_HKY_HTAI))
                         }
                     );
