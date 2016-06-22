@@ -161,7 +161,8 @@ namespace DATN.TTS.BUS
                             m.TEN_MONHOC,
                             m.KY_HIEU,
                             m.SO_TC,
-                            SOTIET = (int?)(d.SOTIET_LT ?? 0 + d.SOTIET_TH ?? 0),
+                            //SOTIET = (int?)(d.SOTIET_LT ?? 0 + d.SOTIET_TH ?? 0),
+                            SOTIET = (d.SOTIET_LT + d.SOTIET_TH ),
                             m.IS_THUHOCPHI,
                             m.IS_THUCHANH,
                             m.IS_LYTHUYET,
@@ -601,7 +602,7 @@ namespace DATN.TTS.BUS
                         select new
                         {
                             Tbl_NAMHOC_HKY_HTAI.SO_TUAN,
-                            Tbl_NAMHOC_HKY_HTAI.TUAN_BDAU_HKY
+                            TUAN_BDAU_HKY =Tbl_NAMHOC_HKY_HTAI.TUAN_BD_HKY
                         };
             DataTable xdt = null;
             xdt = TableUtil.LinqToDataTable(query);
@@ -661,7 +662,7 @@ namespace DATN.TTS.BUS
                         {
                             d.ID_NAMHOC_HKY_HTAI,
                             d.HOCKY,
-                            d.TUAN_BDAU_HKY,
+                            TUAN_BDAU_HKY = d.TUAN_BD_HKY,
                             d.SO_TUAN,
                             m.NAMHOC_TU
                         };
