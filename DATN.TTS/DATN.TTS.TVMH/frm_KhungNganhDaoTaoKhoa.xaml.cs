@@ -736,7 +736,10 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void GrdViewMonHoc_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        
+        #endregion
+
+        private void GrdViewMonHoc_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -744,9 +747,25 @@ namespace DATN.TTS.TVMH
                 if (this.grdMonHoc.GetFocusedRow() == null)
                     return;
                 DataRow row = ((DataRowView)this.grdMonHoc.GetFocusedRow()).Row;
-                this.iDataSoure.Rows[0]["ID_MONHOC"] = row["ID_MONHOC"];
-                this.iDataSoure.Rows[0]["TEN_MONHOC"] = row["TEN_MONHOC"];
-                this.iDataSoure.Rows[0]["SO_TC"] = row["SO_TC"];
+                int index = Convert.ToInt32(row["ID_MONHOC"].ToString());
+                int vtri = -1;
+                for (int i = 0; i < iGridDataMonHoc.Rows.Count; i++)
+                {
+                    int idnganh = Convert.ToInt32(iGridDataMonHoc.Rows[i]["ID_MONHOC"].ToString());
+                    if (index == idnganh)
+                    {
+                        vtri = i;
+                        break;
+                    }
+                }
+                if (iGridDataMonHoc.Rows[vtri]["CHK"].ToString() == "True")
+                {
+                    iGridDataMonHoc.Rows[vtri]["CHK"] = "False";
+                }
+                else
+                {
+                    iGridDataMonHoc.Rows[vtri]["CHK"] = "True";
+                }
             }
             catch (Exception err)
             {
@@ -757,6 +776,5 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-        #endregion
     }
 }

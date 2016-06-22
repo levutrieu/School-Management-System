@@ -89,7 +89,7 @@
                 <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grdMonHoc" dx:ThemeManager.ThemeName="MetropolisLight" >
                     <dxg:GridControl.View>
                         <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewMonHoc"
-                                       RowStyle="{StaticResource SelectedRowStyle}" >
+                                       RowStyle="{StaticResource SelectedRowStyle}" MouseDown="GrdViewMonHoc_OnMouseDown">
                         </dxg:TableView>
                     </dxg:GridControl.View>
                 </dxg:GridControl>

@@ -63,7 +63,7 @@
             <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" >
                 <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdNganh" RowStyle="{StaticResource SelectedRowStyle}" 
-                                   >
+                                   MouseDown="GrdNganh_OnMouseDown">
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>

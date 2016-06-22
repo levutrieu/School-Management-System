@@ -762,8 +762,25 @@ namespace DATN.TTS.TVMH
                 if (this.grd.GetFocusedRow() == null)
                     return;
                 DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
-                //this.iDataSoure.Rows[0]["ID_NGANH"] = row["ID_NGANH"];
-                //this.iDataSoure.Rows[0]["TEN_NGANH"] = row["TEN_NGANH"];
+                int index = Convert.ToInt32(row["ID_NGANH"].ToString());
+                int vtri = -1;
+                for (int i = 0 ; i <iGridDataSoureNganh.Rows.Count; i++)
+                {
+                    int idnganh = Convert.ToInt32(iGridDataSoureNganh.Rows[i]["ID_NGANH"].ToString());
+                    if (index == idnganh)
+                    {
+                        vtri = i;
+                        break;
+                    }
+                }
+                if (iGridDataSoureNganh.Rows[vtri]["CHK"].ToString() == "True")
+                {
+                    iGridDataSoureNganh.Rows[vtri]["CHK"]= "False";
+                }
+                else
+                {
+                    iGridDataSoureNganh.Rows[vtri]["CHK"] = "True";
+                }
             }
             catch (Exception err)
             {
