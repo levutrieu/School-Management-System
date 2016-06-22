@@ -141,8 +141,34 @@ namespace DATN.TTS.BUS
                 namhoc.SO_HKY_TRONGNAM = Convert.ToInt32(r["SO_HKY_TRONGNAM"]);
                 namhoc.UPDATE_USER = r["USER"].ToString();
                 namhoc.UPDATE_TIME = DateTime.Now;
-
                 db.SubmitChanges();
+
+                int res = LayTongHKDaTao(namhoc.ID_NAMHOC_HIENTAI);
+                if (res < namhoc.SO_HKY_TRONGNAM)
+                {
+                    for (int i = res + 1; i <= namhoc.SO_HKY_TRONGNAM; i++)
+                    {
+                        int tuan_bdhk = 0;
+                        int hocky = i;
+                        if (hocky == 1)
+                        {
+                            tuan_bdhk = 1;
+                        }
+                        if (hocky == 2)
+                        {
+                            tuan_bdhk = 24;
+                        }
+                        if (hocky == 3)
+                        {
+                            tuan_bdhk = 48;
+                        }
+                        bool result = Insert_HocKyNamHoc(namhoc.ID_NAMHOC_HIENTAI, hocky, tuan_bdhk, namhoc.UPDATE_USER);
+                        if (!result)
+                            return false;
+                    }
+                }
+
+
                 if (namhoc.ID_NAMHOC_HIENTAI > 0)
                     return true;
                 return false;
@@ -150,6 +176,41 @@ namespace DATN.TTS.BUS
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        public int LayTongHKDaTao(int iD_NamHoc_HKy_Htai)
+        {
+            try
+            {
+                int res = 0;
+                var TongHocKyDaTao = (from hkht in
+                    (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                        where
+                            hkht.ID_NAMHOC_HIENTAI == 21 &&
+                            (hkht.IS_DELETE != 1 ||
+                             hkht.IS_DELETE == null)
+                        select new
+                        {
+                            hkht.ID_NAMHOC_HIENTAI,
+                            Dummy = "x"
+                        })
+                    group hkht by new {hkht.Dummy}
+                    into g
+                    select new
+                    {
+                        TONGHOCKY = g.Count(p => p.ID_NAMHOC_HIENTAI != null)
+                    }).FirstOrDefault();
+                if (TongHocKyDaTao != null)
+                {
+                    var TongHocKy = TongHocKyDaTao.TONGHOCKY;
+                    res = Convert.ToInt32(TongHocKy);
+                }
+                return res;
+            }
+            catch (Exception err)
+            {
+                throw err;
             }
         }
 
@@ -380,25 +441,6 @@ namespace DATN.TTS.BUS
         {
             try
             {
-                //Thực hiện cập nhật trước khi thiết lập mới
-                var hknamhocUp = from hk in db.tbl_NAMHOC_HKY_HTAIs
-                                 where (hk.IS_DELETE != 1 || hk.IS_DELETE == null)
-                                 select hk;
-                DataTable dt = new DataTable();
-                dt = TableUtil.LinqToDataTable(hknamhocUp);
-                if (dt.Rows.Count > 0)
-                {
-                    //duyệt tìm để set lại is_hientai = 0 cho năm học trong học kỳ đó
-                    foreach (DataRow r in dt.Rows)
-                    {
-                        tbl_NAMHOC_HKY_HTAI hkyHtai = db.tbl_NAMHOC_HKY_HTAIs.Single(t => t.ID_NAMHOC_HKY_HTAI == Convert.ToInt32(r["ID_NAMHOC_HKY_HTAI"].ToString()));
-                        hkyHtai.IS_HIENTAI = 0;
-                        hkyHtai.UPDATE_USER = pUser;
-                        hkyHtai.UPDATE_TIME = System.DateTime.Now;
-                        db.SubmitChanges();
-                    }
-                }
-                // kết thúc cập nhật
                 // thực hiện thêm mới học kỳ năm học
                 tbl_NAMHOC_HKY_HTAI hknamhoc = new tbl_NAMHOC_HKY_HTAI();
                 hknamhoc.ID_NAMHOC_HIENTAI = pID_NAMHOC_HIENTAI;
