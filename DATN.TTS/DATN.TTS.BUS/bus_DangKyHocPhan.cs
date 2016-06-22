@@ -1118,9 +1118,11 @@ namespace DATN.TTS.BUS
                     {
                         sv.MA_SINHVIEN,
                         sv.TEN_SINHVIEN,
+                        l.TEN_LOP,
                         ng.TEN_NGANH,
                         kh.TEN_KHOAHOC,
-                        hdt.TEN_HE_DAOTAO
+                        hdt.TEN_HE_DAOTAO,
+                        KHOAHOC= kh.NAM_BD +"-"+kh.NAM_KT
                     };
                 dt = TableUtil.LinqToDataTable(thongtinsinhvien);
                 return dt;
