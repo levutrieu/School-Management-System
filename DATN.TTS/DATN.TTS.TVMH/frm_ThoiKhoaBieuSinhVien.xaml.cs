@@ -12,13 +12,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.TVMH.Resource;
 using DevExpress.Spreadsheet;
 using DevExpress.Spreadsheet.Functions;
 using DevExpress.Utils;
+using DevExpress.Xpf.Editors;
 using DevExpress.XtraSpreadsheet;
 using Color = System.Drawing.Color;
+using Range = DevExpress.Spreadsheet.Range;
 
 namespace DATN.TTS.TVMH
 {
@@ -32,6 +35,10 @@ namespace DATN.TTS.TVMH
         private Worksheet worksheet = null;
         private Range range = null;
         private DataTable iDataSoure = null;
+        DateTime ngaytem;
+        private string datetemp = "";
+        private int id_hocky_htai = 0;
+
         public frm_ThoiKhoaBieuSinhVien()
         {
             InitializeComponent();
@@ -48,8 +55,19 @@ namespace DATN.TTS.TVMH
             LoadHeader();
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
+
+            //this.iDataSoure.Rows[0]["ID_SINHVIEN"] = 1;
             SetComBobox();
-            SetComboTuanTheoNamHoc();
+        }
+
+        private void ClearFormat()
+        {
+            XepTKB.BeginUpdate();
+            range = worksheet.Range["C2:I15"];
+            worksheet.ClearContents(range);
+            worksheet.UnMergeCells(range);
+            range.ClearFormats();
+            XepTKB.EndUpdate();
         }
 
         private void LoadHeader()
@@ -180,6 +198,7 @@ namespace DATN.TTS.TVMH
 
                 #endregion
 
+                #region Thứ
                 range = worksheet.Range["C1:C1"];
                 range.Value = "Thứ 2";
 
@@ -199,20 +218,15 @@ namespace DATN.TTS.TVMH
                 range.Value = "Thứ 7";
 
                 range = worksheet.Range["I1:I1"];
-                range.Value = "Chủ nhật";
+                range.Value = "Chủ nhật"; 
+                #endregion
 
                 #region Format
-                //range = worksheet.Range["A1:B15"];
-
                 Formatting rangeFormatting = range.BeginUpdateFormatting();
 
-                rangeFormatting.Font.Color = Color.Black;
+                //rangeFormatting.Font.Color = Color.Black;
                 rangeFormatting.Font.Size = 10;
-                rangeFormatting.Font.FontStyle = SpreadsheetFontStyle.Regular;
-
-                rangeFormatting.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
-                rangeFormatting.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-
+                //rangeFormatting.Font.FontStyle = SpreadsheetFontStyle.Regular;
                 range = worksheet.Range["C1:I1"];
                 range.ColumnWidth = 480;
                 range = worksheet.Range["C2:C15"];
@@ -226,17 +240,15 @@ namespace DATN.TTS.TVMH
 
                 rangeFormatting = range.BeginUpdateFormatting();
 
-                rangeFormatting.Font.Color = Color.Black;
+                rangeFormatting.Font.Color = Color.White;
+                rangeFormatting.Font.Bold = true;
                 rangeFormatting.Font.Size = 12;
                 rangeFormatting.Font.FontStyle = SpreadsheetFontStyle.Regular;
-
-                rangeFormatting.Fill.BackgroundColor = Color.Silver;
-
-
+                rangeFormatting.Fill.BackgroundColor = Color.FromArgb(20, 11, 200);
                 rangeFormatting.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
                 rangeFormatting.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
 
-                range.EndUpdateFormatting(rangeFormatting);
+               range.EndUpdateFormatting(rangeFormatting);
                 XepTKB.EndUpdate();
 
 
@@ -257,7 +269,12 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_NAMHOC_HKY_HTAI", typeof(int));
                 dic.Add("NAME_TUAN", typeof(string));
                 dic.Add("TUAN", typeof(int));
-
+                dic.Add("ID_SINHVIEN", typeof(Decimal));
+                dic.Add("MA_SINHVIEN", typeof(string));
+                dic.Add("TEN_SINHVIEN", typeof(string));
+                dic.Add("TEN_NGANH", typeof(string));
+                dic.Add("TEN_KHOAHOC", typeof(string));
+                dic.Add("TEN_HE_DAOTAO", typeof(string));
                 DataTable dt = null;
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
@@ -278,7 +295,194 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        void SetComboTuanTheoNamHoc()
+        //get du lieu len excels
+        private void SetColumnGrid(string HeadColumn, int BatDau, int KetThuc, string noidung)
+        {
+            XepTKB.BeginUpdate();
+            range = worksheet.Range[HeadColumn + BatDau + ":" + HeadColumn + KetThuc];
+            //range.Font.Size = 9F;
+            range.Merge();
+            System.Drawing.Color background = System.Drawing.Color.FromArgb(191, 238, 252);
+
+            range.Borders.LeftBorder.LineStyle = BorderLineStyle.Medium;
+            range.Borders.LeftBorder.Color = Color.Crimson;
+
+            range.Borders.RightBorder.LineStyle = BorderLineStyle.Medium;
+            range.Borders.RightBorder.Color = Color.Crimson;
+
+            range.Borders.TopBorder.LineStyle = BorderLineStyle.Medium;
+            range.Borders.TopBorder.Color = Color.Crimson;
+
+            range.Borders.BottomBorder.LineStyle = BorderLineStyle.Medium;
+            range.Borders.BottomBorder.Color = Color.Crimson;
+
+            //range.AutoFitColumns();
+            range.FillColor = background;
+            range.SetValue(noidung);
+            range = worksheet.Range["C2:I15"];
+            range.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+            range.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+            range.Alignment.WrapText = true;
+            XepTKB.EndUpdate();
+        }
+
+        private void Load_TKBHPCT(DataTable dt)
+        {
+            try
+            {
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        if (Convert.ToInt32(r["THU"].ToString()) == 2)
+                        {
+                            string HeadColumn = "C";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: "+ r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 3)
+                        {
+                            string HeadColumn = "D";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 4)
+                        {
+                            string HeadColumn = "E";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 5)
+                        {
+                            string HeadColumn = "F";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 6)
+                        {
+                            string HeadColumn = "G";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 7)
+                        {
+                            string HeadColumn = "H";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                        if (Convert.ToInt32(r["THU"].ToString()) == 8)
+                        {
+                            string HeadColumn = "I";
+                            int TietBD = int.Parse(r["TIET_BD"].ToString());
+                            int TietKT = int.Parse(r["TIET_KT"].ToString());
+
+                            string temp = "MH: " + r["TEN_MONHOC"].ToString();
+
+                            string str =
+
+                                temp + "\n"
+
+                                + "Tiết" + " " + r["TIET_BD"].ToString() + "-" + r["TIET_KT"].ToString() + "\n"
+
+                                + "Phòng:" + " " + r["TEN_PHONG"].ToString() + "\n"
+
+                                + r["TEN_GIANGVIEN"].ToString();
+
+                            SetColumnGrid(HeadColumn, TietBD + 1, TietKT + 1, str);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        void SetComboTuanTheoNamHoc(int sotuan)
         {
             try
             {
@@ -287,21 +491,70 @@ namespace DATN.TTS.TVMH
                 xdt.Columns.Add("TUAN", typeof (int));
                 xdt.Columns.Add("NAME_TUAN", typeof (string));
                 int count = 0;
-                int sotuan = Convert.ToInt32(dt.Rows[0]["SO_TUAN"].ToString());
+                //int sotuan = Convert.ToInt32(dt.Rows[0]["SO_TUAN"].ToString());
                 DateTime ngay = Convert.ToDateTime(dt.Rows[0]["NGAY_BATDAU"].ToString());
-                string datetemp = ngay.ToShortDateString();
-                for (int i = 1; i <= 5; i++)
+                if (sotuan == 1)
                 {
-                    count++;
-                    DateTime addday = ngay.AddDays(count*7);
-                    DataRow r = xdt.NewRow();
-                    r["TUAN"] = count;
-                    r["NAME_TUAN"] = "Tuần " + count + " [Từ " + datetemp + "  Đến " + addday.ToShortDateString() +"]";
-                    datetemp = addday.AddDays(1).ToShortDateString();
+                    ngaytem = ngay.AddDays(-1);
+                    datetemp = ngay.ToShortDateString();
 
-                    xdt.Rows.Add(r);
-                    xdt.AcceptChanges();
+                    for (int i = sotuan; i <= (sotuan + 23); i++)
+                    {
+                        count++;
+                        DateTime addday = ngaytem.AddDays(i * 7);
+                        DataRow r = xdt.NewRow();
+                        r["TUAN"] = count;
+                        r["NAME_TUAN"] = "Tuần " + count + " [Từ " + datetemp + "  Đến " + addday.ToShortDateString() + "]";
+                        datetemp = addday.AddDays(1).ToShortDateString();
+
+                        xdt.Rows.Add(r);
+                        xdt.AcceptChanges();
+                    }
                 }
+                if(sotuan == 24)
+                {
+                    ngaytem = ngay.AddDays((sotuan*7));
+                    count = 23;
+                    datetemp = ngaytem.ToShortDateString();
+                    ngaytem = ngay.AddDays(-1 +(sotuan * 7));
+                    int temp = 0;
+                    for (int i = sotuan; i <= (sotuan + 23); i++)
+                    {
+                        count++;
+                        temp++;
+                        DateTime addday = ngaytem.AddDays(temp * 7);
+                        DataRow r = xdt.NewRow();
+                        r["TUAN"] = count;
+                        r["NAME_TUAN"] = "Tuần " + count + " [Từ " + datetemp + "  Đến " + addday.ToShortDateString() + "]";
+                        datetemp = addday.AddDays(1).ToShortDateString();
+
+                        xdt.Rows.Add(r);
+                        xdt.AcceptChanges();
+                    }
+                }
+                if (sotuan == 48)
+                {
+                    ngaytem = ngay.AddDays((sotuan * 7));
+                    count = 47;
+                    datetemp = ngaytem.ToShortDateString();
+                    ngaytem = ngay.AddDays(-1 + (sotuan * 7));
+                    int temp = 0;
+                    for (int i = sotuan; i < 52; i++)
+                    {
+                        count++;
+                        temp++;
+                        DateTime addday = ngaytem.AddDays(temp * 7);
+                        DataRow r = xdt.NewRow();
+                        r["TUAN"] = count;
+                        r["NAME_TUAN"] = "Tuần " + count + " [Từ " + datetemp + "  Đến " + addday.ToShortDateString() + "]";
+                        datetemp = addday.AddDays(1).ToShortDateString();
+
+                        xdt.Rows.Add(r);
+                        xdt.AcceptChanges();
+                    }
+                }
+
+                
                 if (xdt.Rows.Count > 0)
                 {
                     ComboBoxUtil.SetComboBoxEdit(this.cboXemTuan, "NAME_TUAN", "TUAN", xdt, SelectionTypeEnum.Native);
@@ -311,6 +564,113 @@ namespace DATN.TTS.TVMH
             catch (Exception err)
             {
                 throw err;
+            }
+        }
+
+        private void CboXemTKB_HK_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                ClearFormat();
+                if (this.iDataSoure.Rows[0]["ID_NAMHOC_HKY_HTAI"].ToString() != string.Empty)
+                {
+                    id_hocky_htai = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HKY_HTAI"].ToString());
+
+                    int xxx = client.GetHocKy(id_hocky_htai);
+                    if (xxx == 1)
+                    {
+                        SetComboTuanTheoNamHoc(1);
+                    }
+                    if (xxx == 2)
+                    {
+                        SetComboTuanTheoNamHoc(24);
+                    }
+                    if (xxx == 3)
+                    {
+                        SetComboTuanTheoNamHoc(48);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void CboXemTuan_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                ClearFormat();
+                int tuan = Convert.ToInt32(this.iDataSoure.Rows[0]["TUAN"].ToString());
+                if (!string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString()))
+                {
+                    DataTable dt = client.GetTKB(id_hocky_htai, Convert.ToInt32(this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString()), tuan);
+                    if (dt.Rows.Count > 0)
+                    {
+                        Load_TKBHPCT(dt);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void BtnXem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
+                {
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                int idsinhvien = client.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
+                if (idsinhvien == 0)
+                {
+                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
+
+                DataTable iDataThongTin = client.GetThongTinSinhVien(idsinhvien);
+                if (iDataThongTin.Rows.Count > 0)
+                {
+                    this.iDataSoure.Rows[0]["MA_SINHVIEN"] = iDataThongTin.Rows[0]["MA_SINHVIEN"];
+                    this.iDataSoure.Rows[0]["TEN_SINHVIEN"] = iDataThongTin.Rows[0]["TEN_SINHVIEN"];
+                    this.iDataSoure.Rows[0]["TEN_NGANH"] = iDataThongTin.Rows[0]["TEN_NGANH"];
+                    this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = iDataThongTin.Rows[0]["TEN_KHOAHOC"];
+                    this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = iDataThongTin.Rows[0]["TEN_HE_DAOTAO"];
+                }
+                CboXemTuan_OnEditValueChanged(sender, null);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
     }

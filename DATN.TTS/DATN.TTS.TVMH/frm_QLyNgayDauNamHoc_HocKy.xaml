@@ -54,7 +54,8 @@
                                           EditValue="{Binding ID_NAMHOC_HIENTAI, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NAMHOC_HIENTAI" DisplayMember="NAMHOC"/>
 
                             <TextBlock  Grid.Column="5" Text="Học kỳ:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit  Grid.Column="6" Name="cboHocKy" EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" DisplayMember="HOCKY_NAME" ValueMember="HOCKY"
+                            <dxe:ComboBoxEdit  Grid.Column="6" Name="cboHocKy" EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" 
+                                               DisplayMember="HOCKY_NAME" ValueMember="HOCKY"
                                                Style="{StaticResource ComboBoxEditStyle}" EditValueChanged="CboHocKy_OnEditValueChanged"/>
 
                             <TextBlock  Grid.Column="7" Text="Tuần bắt đầu học kỳ:" Style="{StaticResource TextBlockStyle}"/>
@@ -71,7 +72,7 @@
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" VerticalContentAlignment="Center"
-                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged" MouseDown="GrdViewNDung_OnMouseDown"
+                                   RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdViewNDung_OnFocusedRowChanged"
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
                     </dxg:TableView>
                 </dxg:GridControl.View>

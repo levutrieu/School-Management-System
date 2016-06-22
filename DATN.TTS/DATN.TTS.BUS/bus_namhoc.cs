@@ -77,6 +77,27 @@ namespace DATN.TTS.BUS
                 namhoc.IS_DELETE = 0;
                 db.tbl_NAMHOC_HIENTAIs.InsertOnSubmit(namhoc);
                 db.SubmitChanges();
+                for (int i = 1; i <= namhoc.SO_HKY_TRONGNAM; i++)
+                {
+                    int tuan_bdhk = 0;
+                    int hocky = i;
+                    if (hocky == 1)
+                    {
+                        tuan_bdhk = 1;
+                    }
+                    if (hocky == 2)
+                    {
+                        tuan_bdhk = 24;
+                    }
+                    if (hocky == 3)
+                    {
+                        tuan_bdhk = 48;
+                    }
+                    bool res = Insert_HocKyNamHoc(namhoc.ID_NAMHOC_HIENTAI, hocky, tuan_bdhk, namhoc.CREATE_USER);
+                    if (!res)
+                        return false;
+                }
+
                 if (!namhoc.ID_NAMHOC_HIENTAI.GetTypeCode().Equals(TypeCode.DBNull))
                     return true;
                 return false;
@@ -132,6 +153,7 @@ namespace DATN.TTS.BUS
             }
         }
 
+        #region Thiết lập học kỳ hiện tại
         public DataTable GetAllNamHoc()
         {
             try
@@ -139,10 +161,6 @@ namespace DATN.TTS.BUS
                 DataTable dt = new DataTable();
                 dt.Columns.Add("NAMHOC", typeof(string));
                 dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                //DataRow dr = dt.NewRow();
-                //dr["NAMHOC"] = "----------------Chọn-------------------";
-                //dr["ID_NAMHOC_HIENTAI"] = 0;
-                //dt.Rows.Add(dr);
                 var namhoc = from nh in db.tbl_NAMHOC_HIENTAIs where (nh.IS_DELETE != 1 || nh.IS_DELETE == null) && nh.IS_HIENTAI == 1 select nh;
                 foreach (var nh in namhoc)
                 {
@@ -206,14 +224,14 @@ namespace DATN.TTS.BUS
                             }
                         }
                     }
-                    
+
                 }
                 return dt;
             }
             catch (Exception er)
             {
                 throw er;
-            }   
+            }
         }
 
         private DataTable GetData_1()
@@ -224,7 +242,7 @@ namespace DATN.TTS.BUS
                 var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
                                   join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
                                   where
-                                    (a.IS_DELETE != 1 || a.IS_DELETE == null)&&
+                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
                                     (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
                                     (b.IS_HIENTAI == 1)
                                   select new
@@ -236,7 +254,7 @@ namespace DATN.TTS.BUS
                                       a.HOCKY,
                                       b.NAMHOC_TU,
                                       b.NAMHOC_DEN,
-                                      NAMHOC = b.NAMHOC_TU+"_"+b.NAMHOC_DEN
+                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
                                   };
                 dt = TableUtil.LinqToDataTable(hockynamhoc);
                 return dt;
@@ -355,7 +373,8 @@ namespace DATN.TTS.BUS
             {
                 throw err;
             }
-        }
+        } 
+        #endregion
 
         public bool Insert_HocKyNamHoc(int pID_NAMHOC_HIENTAI, int pHOCKY, int TuanBD_HKY, string pUser)
         {
@@ -387,7 +406,7 @@ namespace DATN.TTS.BUS
                 hknamhoc.CREATE_USER = pUser;
                 hknamhoc.CREATE_TIME = System.DateTime.Now;
                 hknamhoc.IS_DELETE = 0;
-                hknamhoc.IS_HIENTAI = 1;
+                hknamhoc.IS_HIENTAI = 0;
                 hknamhoc.TUAN_BD_HKY = TuanBD_HKY;
                 db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
                 db.SubmitChanges();
@@ -466,5 +485,28 @@ namespace DATN.TTS.BUS
             }
         }
 
+        public DataTable GetHocKyAll(int id_namhoc_htai)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                var hocky = from nhht in db.tbl_NAMHOC_HKY_HTAIs
+                    where
+                        (nhht.IS_DELETE != 1 ||
+                         nhht.IS_DELETE == null) &&
+                        nhht.ID_NAMHOC_HIENTAI == id_namhoc_htai
+                    select new
+                    {
+                        nhht.HOCKY,
+                        HOCKY_NAME = "Học kỳ " + nhht.HOCKY
+                    };
+                dt = TableUtil.LinqToDataTable(hocky);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
     }
 }

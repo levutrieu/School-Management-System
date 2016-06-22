@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Editors.Settings;
@@ -40,33 +41,24 @@ namespace DATN.TTS.TVMH
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             this.iDataSoure.Rows[0]["HOCKY"] = "0";
             this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = "0";
-            SetComboHK();
             SetComboNamHoc();
             InitGrid();
         }
 
-        void SetComboHK()
+        void SetComboHK(int id_hocky_namhoc)
         {
             try
             {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("HOCKY", typeof (Decimal));
-                dt.Columns.Add("HOCKY_NAME", typeof (string));
-                for (int i = 1; i <= 3; i++)
+                DataTable dt = client.GetHocKyAll(id_hocky_namhoc);
+                if (dt.Rows.Count > 0)
                 {
-                    DataRow r = dt.NewRow();
-                    r["HOCKY"] = i;
-                    r["HOCKY_NAME"] = "Học kỳ "+i;
-                    dt.Rows.Add(r);
-                    dt.AcceptChanges();
+                    ComboBoxUtil.SetComboBoxEdit(cboHocKy, "HOCKY_NAME", "HOCKY", dt, SelectionTypeEnum.Native);
+                    this.iDataSoure.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
                 }
-
-                cboHocKy.ItemsSource = dt;
-                this.iDataSoure.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -86,7 +78,8 @@ namespace DATN.TTS.TVMH
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 dic.Add("ID_NAMHOC_HKY_HTAI", typeof(Decimal));
                 dic.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                dic.Add("HOCKY", typeof(Decimal));
+                dic.Add("HOCKY", typeof(int));
+                dic.Add("HOCKY_NAME", typeof(string));
                 dic.Add("IS_HIENTAI", typeof(Decimal));
                 dic.Add("TUAN_BD_HKY", typeof(Decimal));
                 dic.Add("USER", typeof(string));
@@ -205,8 +198,8 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                this.iDataSoure.Rows[0]["HOCKY"] = "0";
-                this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = "0";
+                //this.iDataSoure.Rows[0]["HOCKY"] = "0";
+                //this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = "0";
                 SetComboNamHoc();
                 GetGrid();
             }
@@ -224,7 +217,6 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                Mouse.OverrideCursor = Cursors.Wait;
                 Mouse.OverrideCursor = Cursors.Wait;
                 DataRow r = null;
                 if (this.grd.GetFocusedRow() == null)
@@ -249,6 +241,11 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                if (!string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()))
+                {
+                    int idNamhocHientai = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString());
+                    SetComboHK(idNamhocHientai);
+                }
                 GetGrid();
             }
             catch (Exception er)
@@ -283,29 +280,6 @@ namespace DATN.TTS.TVMH
             catch (Exception er)
             {
                 throw er;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-
-        private void GrdViewNDung_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                //DataRow r = null;
-                //if (this.grd.GetFocusedRow() == null)
-                //    return;
-                //r = ((DataRowView)grd.GetFocusedRow()).Row;
-                //this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"] = r["ID_NAMHOC_HIENTAI"];
-                //this.iDataSoure.Rows[0]["HOCKY"] = r["HOCKY"];
-                //this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = r["TUAN_BD_HKY"];
-            }
-            catch (Exception err)
-            {
-                throw err;
             }
             finally
             {

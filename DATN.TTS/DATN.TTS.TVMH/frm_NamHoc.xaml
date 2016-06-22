@@ -55,9 +55,11 @@
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Năm học:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="0" Grid.Column="2" Name="txtNamBD" Style="{StaticResource SpinEditStyle}" MaxLength="4"
                                           EditValue="{Binding NAMHOC_TU}" EditValueChanged="TxtNamBD_OnEditValueChanged"/>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="----" Style="{StaticResource TextBlockStyle}"/>
 
-                            <dxe:SpinEdit Grid.Row="0" Grid.Column="4" Name="txtNamDen" Style="{StaticResource SpinEditStyle}" EditValue="{Binding NAMHOC_DEN}"
-                                          MinValue="0" MaxLength="4" IsReadOnly="True"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtNamDen" Style="{StaticResource TextEditStyle}" EditValue="{Binding NAMHOC_DEN}"
+                                          MaxLength="4" IsReadOnly="True"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="Ngày bắt đầu:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:DateEdit Grid.Row="0" Grid.Column="6" Name="txtNgayBD" EditValue="{Binding NGAY_BATDAU}" Style="{StaticResource DateEditStyle}"/>
@@ -68,7 +70,7 @@
 
                             <TextBlock Grid.Row="0" Grid.Column="9" Text="Số tuần:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="0" Grid.Column="10" Name="txtSotuan" Style="{StaticResource SpinEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding SO_TUAN}" MaxLength="2" MinValue="0"/>
+                                          TextWrapping="Wrap" EditValue="{Binding SO_TUAN}" MaxLength="2" MinValue="0" MaxValue="52"/>
                         </Grid>
                     </StackPanel>
 

@@ -9,7 +9,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d" x:Class="DATN.TTS.TVMH.frm_ThoiKhoaBieuSinhVien"
         Title="frm_ThoiKhoaBieuSinhVien" d:DesignWidth="1100" d:DesignHeight="400">
-    <Grid>
+    <Grid PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -22,20 +22,72 @@
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="1"  Text="Chọn học kỳ xem TKB:" Style="{StaticResource TextBlockStyle}"/> 
-                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Style="{StaticResource ComboBoxEditStyle}" x:Name="cboXemTKB_HK" Width="300" HorizontalAlignment="Left"
-					EditValue="{Binding ID_NAMHOC_HKY_HTAI, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NAMHOC_HKY_HTAI" DisplayMember="TEN_HOKY_NH"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Tuần:" Style="{StaticResource TextBlockStyle}"/>
-                <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="2" Style="{StaticResource ComboBoxEditStyle}" x:Name="cboXemTuan" Width="300" HorizontalAlignment="Left"
-					EditValue="{Binding TUAN, UpdateSourceTrigger=PropertyChanged}" ValueMember="TUAN" DisplayMember="NAME_TUAN"/>
-                <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="In thời khóa biểu" Style="{StaticResource Button_Style}" Name="btnIN_TKB"/>
+                
+                <!--Row 0-->
+                <TextBlock Grid.Row="0" Grid.Column="0"  Text="Nhập mã SV:" Style="{StaticResource TextBlockStyle}"/>
+                <dxe:TextEdit Grid.Row="0" Grid.Column="1" Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN}"/>
+
+                <Button Grid.Row="0" Grid.Column="2" Content="Xem TKB" Style="{StaticResource Button_Style_2}" Name="btnXem" Click="BtnXem_OnClick"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="3"  Text="Chọn học kỳ xem TKB:" Style="{StaticResource TextBlockStyle}"/> 
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="4" Style="{StaticResource ComboBoxEditStyle}" x:Name="cboXemTKB_HK" Width="250" HorizontalAlignment="Left"
+					EditValue="{Binding ID_NAMHOC_HKY_HTAI, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NAMHOC_HKY_HTAI" DisplayMember="TEN_HOKY_NH"
+                                  EditValueChanged="CboXemTKB_HK_OnEditValueChanged"/>
+                
+                <TextBlock Grid.Row="0" Grid.Column="5" Text="Tuần:" Style="{StaticResource TextBlockStyle}"/>
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Style="{StaticResource ComboBoxEditStyle}" x:Name="cboXemTuan" Width="250" HorizontalAlignment="Left"
+					EditValue="{Binding TUAN, UpdateSourceTrigger=PropertyChanged}" ValueMember="TUAN" DisplayMember="NAME_TUAN" EditValueChanged="CboXemTuan_OnEditValueChanged"/>
+
+                <Button Grid.Row="0" Grid.Column="7" Content="In thời khóa biểu" Style="{StaticResource Button_Style_2}" Name="btnIN_TKB"/>
+
+                <!--Row 1-->
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" FontSize="15" Foreground="Red" FontWeight="Bold" Text="THỜI KHÓA BIỂU" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                <!--Row 2-->
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" Background="GhostWhite" Margin="2" BorderBrush="#27415d" BorderThickness="1,1,1,1" Height="auto">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="10" Foreground="Blue" FontStyle="Italic" Text="Mã sinh viên:" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="Red" FontStyle="Italic" Text="{Binding MA_SINHVIEN}"  Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="2" FontSize="10" Foreground="Blue" FontStyle="Italic" Text="Họ tên sinh viên:" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" FontSize="10" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_SINHVIEN}"  Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="4" FontSize="10" Foreground="Blue" FontStyle="Italic" Text="Ngành học:" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="5" FontSize="10" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_NGANH}"  Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="6" FontSize="10" Foreground="Blue" FontStyle="Italic" Text="Khóa học:" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="7" FontSize="10" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_KHOAHOC}"  Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="8" FontSize="10" Foreground="Blue" FontStyle="Italic" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="9" FontSize="10" Foreground="Red" FontStyle="Italic" Text="{Binding TEN_HE_DAOTAO}"  Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
-        <dxsps:SpreadsheetControl Grid.Column="0" Grid.Row="2" Name="XepTKB"
+        <dxsps:SpreadsheetControl Grid.Column="0" Grid.Row="1" Name="XepTKB"
                                   ShowTabSelector="False" HorizontalScrollbarVisibility="Hidden" VerticalScrollbarVisibility="Hidden">
         </dxsps:SpreadsheetControl>
     </Grid>
