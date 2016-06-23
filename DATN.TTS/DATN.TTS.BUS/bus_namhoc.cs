@@ -450,6 +450,14 @@ namespace DATN.TTS.BUS
                 hknamhoc.IS_DELETE = 0;
                 hknamhoc.IS_HIENTAI = 0;
                 hknamhoc.TUAN_BD_HKY = TuanBD_HKY;
+                if (pHOCKY == 1 || pHOCKY ==2)
+                {
+                    hknamhoc.SO_TUAN = 23;
+                }
+                if (pHOCKY == 3)
+                {
+                    hknamhoc.SO_TUAN = 8;
+                }
                 db.tbl_NAMHOC_HKY_HTAIs.InsertOnSubmit(hknamhoc);
                 db.SubmitChanges();
                 //kết thúc thực hiện thêm mới
