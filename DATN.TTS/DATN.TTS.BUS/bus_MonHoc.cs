@@ -254,7 +254,11 @@ namespace DATN.TTS.BUS
                         SO_TC = Convert.ToInt32(dr["f_dvht"]),
                         IS_THUHOCPHI = 1,
                         IS_TINHDIEM = 1,
+                        IS_THUCHANH = 0,
+                        IS_LYTHUYET = 0,
+                        ISBATBUOC = 1,
                         TRANGTHAI = 1,
+                        GHICHU = "Nhap tu Excel",
                         CREATE_USER = pUser,
                         CREATE_TIME = DateTime.Now,
                         IS_DELETE = 0
