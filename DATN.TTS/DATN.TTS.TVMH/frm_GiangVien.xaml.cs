@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Grid;
 
@@ -60,26 +61,39 @@ namespace DATN.TTS.TVMH
                     dt.Rows.Add(r);
                     dt.AcceptChanges();
                 }
-                cbbTrangThai.ItemsSource = dt;
+                ComboBoxUtil.SetComboBoxEdit(cbbTrangThai, "NAME_TRANGTHAI", "TRANGTHAI", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["TRANGTHAI"] = cbbTrangThai.GetKeyValue(0);
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
         void SetCombo()
         {
-            cbbChucVu.ItemsSource = client.GetAllChucVu();
-            cbbKhoa.ItemsSource = client.GetAllKhoa();
+            //cbbChucVu.ItemsSource = client.GetAllChucVu();
+            //cbbKhoa.ItemsSource = client.GetAllKhoa();
+            DataTable dt = client.GetAllChucVu();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cbbChucVu, "TEN_CHUCVU", "ID_CHUCVU", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_CHUCVU"] = cbbChucVu.GetKeyValue(0);
+            }
+            DataTable xdt = client.GetAllKhoa();
+            if (xdt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cbbKhoa,"TEN_KHOA", "ID_KHOA", xdt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_KHOA"] = cbbKhoa.GetKeyValue(0);
+            }
         }
 
         void SetIsNull()
         {
             this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = "0";
             this.iDataSoure.Rows[0]["HE_SOLUONG"] = "0";
-            this.iDataSoure.Rows[0]["TRANGTHAI"] = string.Empty;
-            this.iDataSoure.Rows[0]["ID_CHUCVU"] = 0;
+            this.iDataSoure.Rows[0]["TRANGTHAI"] = cbbTrangThai.GetKeyValue(0);
+            this.iDataSoure.Rows[0]["ID_CHUCVU"] = cbbChucVu.GetKeyValue(0);
             this.iDataSoure.Rows[0]["TEN_GIANGVIEN"] = string.Empty;
             this.iDataSoure.Rows[0]["MA_GIANGVIEN"] = string.Empty;
             this.iDataSoure.Rows[0]["PATH_ANH"] = string.Empty;
@@ -95,7 +109,7 @@ namespace DATN.TTS.TVMH
             this.iDataSoure.Rows[0]["NAM_LAMVIEC"] = DateTime.Today;
             this.iDataSoure.Rows[0]["NAM_KETTHUC"] = DateTime.Today;
             this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
-            this.iDataSoure.Rows[0]["ID_KHOA"] = "0";
+            this.iDataSoure.Rows[0]["ID_KHOA"] = cbbKhoa.GetKeyValue(0);
         }
 
         void InitGrid()
@@ -144,16 +158,16 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            col = new GridColumn();
-            col.FieldName = "TEN_KHOA";
-            col.Header = "Khoa giảng dạy";
-            col.Width = 50;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            col.AllowCellMerge = false;
-            grd.Columns.Add(col);
+            //col = new GridColumn();
+            //col.FieldName = "TEN_KHOA";
+            //col.Header = "Khoa giảng dạy";
+            //col.Width = 50;
+            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+            //col.AllowEditing = DefaultBoolean.False;
+            //col.Visible = true;
+            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //col.AllowCellMerge = false;
+            //grd.Columns.Add(col);
 
             col = new GridColumn();
             col.FieldName = "PATH_ANH";
@@ -353,9 +367,9 @@ namespace DATN.TTS.TVMH
                 this.iGridDataSoure = client.GetAllGiangVien();
                 grd.ItemsSource = this.iGridDataSoure;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -365,111 +379,105 @@ namespace DATN.TTS.TVMH
             {
                 if (this.iDataSoure.Rows[0]["ID_KHOA"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng chọn khoa giảng dạy!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng chọn khoa giảng dạy!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     cbbKhoa.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["HE_SOLUONG"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập hệ số lương!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập hệ số lương!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtHSL.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["ID_CHUCVU"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng chọn chức vụ!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng chọn chức vụ!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     cbbChucVu.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["MA_GIANGVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập mã giảng viên!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập mã giảng viên!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMaSV.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TEN_GIANGVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập tên giảng viên!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập tên giảng viên!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtTenSV.Focus();
                     return false;
                 }
-                //if (this.iDataSoure.Rows[0]["PATH_ANH"].ToString() == string.Empty)
-                //{
-                //    CTMessagebox.Show("Vui lòng chọn file ảnh!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
-                //    PathAnh.Focus();
-                //    return false;
-                //}
                 if (this.iDataSoure.Rows[0]["NGAYSINH"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập ngày sinh", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập ngày sinh", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNgaySinh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["DIENTHOAI"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập số điện thoại!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập số điện thoại!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtDT.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["DIACHI"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập địa chỉ!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập địa chỉ!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtDCHI.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["CMND"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtCMND.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NGAYCAP"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập ngày cấp CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập ngày cấp CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNgayCap.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NOICAP"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập nơi cấp CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập nơi cấp CMND!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNoiCap.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NGAYSINH"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập ngày sinh!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập ngày sinh!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNgaySinh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NOISINH"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập nơi sinh!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập nơi sinh!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNoiSinh.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NAM_LAMVIEC"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập năm làm việc!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập năm làm việc!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNamVaoLam.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["NAM_KETTHUC"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập năm hết hợp đồng!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập năm hết hợp đồng!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtNamHetHopDong.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TRANGTHAI"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập năm hết hợp đồng!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập năm hết hợp đồng!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     cbbTrangThai.Focus();
                     return false;
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -503,9 +511,9 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -540,9 +548,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["ID_KHOA"] = r["ID_KHOA"];
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -554,13 +562,19 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 SetIsNull();
                 txtMaSV.Focus();
+                this.iDataSoure.Rows[0]["GIOITINH"] = "False";
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -568,6 +582,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (Validate())
                 {
                     if (flagsave)
@@ -601,9 +616,13 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                CTMessagebox.Show("Lỗi", "Lưu", "", CTICON.Error, CTBUTTON.YesNo);
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -611,6 +630,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (CTMessagebox.Show("Bạn có muốn xóa", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     bool res = client.Delete_GiangVien(this.iDataSoure.Copy());
@@ -624,9 +644,13 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 

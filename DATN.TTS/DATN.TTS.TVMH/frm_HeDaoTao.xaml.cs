@@ -374,7 +374,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (MessageBox.Show("Bạn có muốn xóa", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (CTMessagebox.Show("Bạn có muốn xóa", "Xóa", "", CTICON.Information, CTBUTTON.OK) == CTRESPONSE.OK)
                 {
                     bool res = client.Delete_HeDaoTao(int.Parse(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()), this.iDataSoure.Rows[0]["USER"].ToString());
                     if (!res)

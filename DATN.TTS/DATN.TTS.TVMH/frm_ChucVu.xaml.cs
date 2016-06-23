@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
@@ -97,24 +98,31 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (this.iDataSoure.Rows[0]["MA_CHUCVU"].ToString().Equals(string.Empty))
                 {
+                   
+                    CTMessagebox.Show("Vui lòng nhập mã chức vụ", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMaChucVu.Focus();
-                    MessageBox.Show("Vui lòng nhập mã chức vụ");
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TEN_CHUCVU"].ToString().Equals(string.Empty))
                 {
+                    
+                    CTMessagebox.Show("Vui lòng nhập tên chức vụ", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMaChucVu.Focus();
-                    MessageBox.Show("Vui lòng nhập tên chức vụ");
                     return false;
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -122,14 +130,19 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 this.iDataSoure.Rows[0]["MA_CHUCVU"] = string.Empty;
                 this.iDataSoure.Rows[0]["TEN_CHUCVU"] = string.Empty;
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -137,6 +150,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 DataTable dt = null;
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 dic.Add("ID_CHUCVU", typeof(Decimal));
@@ -148,10 +162,14 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -159,15 +177,20 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 txtMaChucVu.Focus();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -175,6 +198,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (CheckIsNull())
                 {
                     if (flagsave)
@@ -182,25 +206,43 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_CVU(this.iDataSoure.Copy());
                         if (!res)
                         {
-                            MessageBox.Show("Thêm mới không thành công", "Thêm mới");
+                            CTMessagebox.Show("Thêm mới không thành công.", "Thêm mới", "", CTICON.Error, CTBUTTON.OK);
+                            return;
                         }
-                        GetGrid();
-                        SetIsNull();
-                        txtMaChucVu.Focus();
+                        else
+                        {
+                            CTMessagebox.Show("Thêm mới thành công.", "Thêm mới", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtMaChucVu.Focus();
+                        }
                     }
                     else
                     {
-                        client.Update_CVU();
-                        GetGrid();
-                        SetIsNull();
-                        txtMaChucVu.Focus();
+                       bool res = client.Update_CVU(this.iDataSoure.Copy());
+                        if (!res)
+                        {
+                            CTMessagebox.Show("Cập nhật không thành công.", "Cập nhật", "", CTICON.Error, CTBUTTON.OK);
+                            return;
+                        }
+                        else
+                        {
+                            CTMessagebox.Show("Cập nhật thành công.", "Cập nhật", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtMaChucVu.Focus();
+                        }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -208,21 +250,34 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (!this.iDataSoure.Rows[0]["ID_CHUCVU"].ToString().Equals(string.Empty))
                 {
-                    if (MessageBox.Show("Bạn có muốn xóa?", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    if (CTMessagebox.Show("Bạn có muốn xóa?", "Xóa", "", CTICON.Information, CTBUTTON.OK) == CTRESPONSE.OK)
                     {
-                        client.Delete_CVU(this.iDataSoure.Copy());
-                        GetGrid();
-                        SetIsNull();
-                        txtMaChucVu.Focus();
+                        bool res  = client.Delete_CVU(this.iDataSoure.Copy());
+                        if (!res)
+                        {
+                            CTMessagebox.Show("Xóa không thành công.", "Xóa", "", CTICON.Error, CTBUTTON.OK);
+                            return;
+                        }
+                        else
+                        {
+                            CTMessagebox.Show("Xóa thành công.", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtMaChucVu.Focus();
+                        }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -230,15 +285,20 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 txtMaChucVu.Focus();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -258,10 +318,10 @@ namespace DATN.TTS.TVMH
 
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
             finally
             {

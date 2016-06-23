@@ -785,14 +785,14 @@ namespace DATN.TTS.TVMH
                 
                 if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo","", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo","", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
                 }
                 int idsinhvien = DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
                 if (idsinhvien == 0)
                 {
-                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!"+"\n"+"Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!"+"\n"+"Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
                 }
@@ -865,7 +865,7 @@ namespace DATN.TTS.TVMH
                         }
                         else
                         {
-                            CTMessagebox.Show("Đăng ký học phần không thành công", "Đăng ký học phần", "", CTICON.Information, CTBUTTON.OK);
+                            CTMessagebox.Show("Đăng ký học phần không thành công", "Đăng ký học phần", "", CTICON.Error, CTBUTTON.OK);
                         }
                     }
                 }
@@ -887,13 +887,13 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập mã sinh viên. Và bấm xem học phần đã đăng ký." + "\n" + "Rồi thực hiện đăng đăng ký học phần", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên. Và bấm xem học phần đã đăng ký." + "\n" + "Rồi thực hiện đăng đăng ký học phần", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
                 }
                 if (this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString() == "0" || this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Không tìm thấy sinh viên có mã này trong hệ thống." + "\n" + "Vui lòng kiểm tra lại.!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Không tìm thấy sinh viên có mã này trong hệ thống." + "\n" + "Vui lòng kiểm tra lại.!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
                 }

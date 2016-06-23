@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
@@ -50,8 +51,8 @@ namespace DATN.TTS.TVMH
                 DataTable dt = new DataTable();
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 //dic.Add("USER", typeof(string));
-                dic.Add("ID_HE_DAOTAO", typeof(Decimal));
-                dic.Add("ID_KHOAHOC", typeof(Decimal));
+                dic.Add("ID_HE_DAOTAO", typeof(int));
+                dic.Add("ID_KHOAHOC", typeof(int));
                 dic.Add("TEN_HE_DAOTAO", typeof(string));
                 dic.Add("TEN_KHOAHOC", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
@@ -65,24 +66,12 @@ namespace DATN.TTS.TVMH
 
         void SetComBo()
         {
-            DataTable iDataCombo = new DataTable();
-            iDataCombo.Columns.Add("ID_HE_DAOTAO", typeof(Decimal));
-            iDataCombo.Columns.Add("TEN_HE_DAOTAO", typeof(string));
-            //DataRow r = iDataCombo.NewRow();
-            //r["ID_HE_DAOTAO"] = 0;
-            //r["TEN_HE_DAOTAO"] = "----------------Chọn----------------";
-            //iDataCombo.Rows.Add(r);
-            DataTable dt = client.GetAllHDT();
-            foreach (DataRow dr in dt.Rows)
+           DataTable dt = client.GetAllHDT();
+            if (dt.Rows.Count > 0)
             {
-                DataRow ir = iDataCombo.NewRow();
-                ir["ID_HE_DAOTAO"] = dr["ID_HE_DAOTAO"];
-                ir["TEN_HE_DAOTAO"] = dr["TEN_HE_DAOTAO"];
-
-                iDataCombo.Rows.Add(ir);
-                iDataCombo.AcceptChanges();
+                ComboBoxUtil.SetComboBoxEdit(cboHeDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHeDT.GetKeyValue(0);
             }
-            cboHeDT.ItemsSource = iDataCombo;
         }
 
         void InitGridKhoa()

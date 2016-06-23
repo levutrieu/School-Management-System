@@ -94,7 +94,8 @@
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewUI" RowStyle="{StaticResource SelectedRowStyle}"
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" ShowIndicator="True" 
-                                   CellValueChanging="GrdViewUI_OnCellValueChanging" CellValueChanged="GrdViewUI_OnCellValueChanged" >
+                                   MouseDown="GrdViewUI_OnMouseDown"
+                                   CellValueChanged="GrdViewUI_OnCellValueChanged" AllowSorting="False" >
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>

@@ -457,19 +457,53 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
+        private void GrdViewUI_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            ////Mouse.OverrideCursor = Cursors.Wait;
+            //int index = this.grdViewUI.FocusedRowHandle;
+            //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
+            //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "True";
 
-        private void GrdViewUI_OnCellValueChanging(object sender, CellValueChangedEventArgs e)
+            //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "False")
+            //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "False";
+        }
+
+        private void GrdViewUI_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                //int index = this.grdViewUI.FocusedRowHandle;
-                //for (int i = 0; i < iGridDataSoureUI.Rows.Count; i++)
-                //{
-                //    if(i == index)
-                //}
-                //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
-                //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = 1;
+                if (this.grdUI.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grdUI.GetFocusedRow()).Row;
+                string index = (row["MaManHinh"].ToString());
+                int vtri = -1;
+                for (int i = 0; i < iGridDataSoureUI.Rows.Count; i++)
+                {
+                    string MaManHinh = (iGridDataSoureUI.Rows[i]["MaManHinh"].ToString());
+                    if (index.Equals(MaManHinh))
+                    {
+                        vtri = i;
+                        break;
+                    }
+                }
+                if (iGridDataSoureUI.Rows[vtri]["IsNew"].ToString() == "True")
+                {
+                    iGridDataSoureUI.Rows[vtri]["IsNew"] = "False";
+                }
+                else
+                {
+                    iGridDataSoureUI.Rows[vtri]["IsNew"] = "True";
+                }
+
+                if (iGridDataSoureUI.Rows[vtri]["CoQuyen"].ToString() == "True")
+                {
+                    iGridDataSoureUI.Rows[vtri]["CoQuyen"] = "False";
+                }
+                else
+                {
+                    iGridDataSoureUI.Rows[vtri]["CoQuyen"] = "True";
+                }
             }
             catch (Exception err)
             {
@@ -479,17 +513,6 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
-        }
-
-        private void GrdViewUI_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
-        {
-            //Mouse.OverrideCursor = Cursors.Wait;
-            int index = this.grdViewUI.FocusedRowHandle;
-            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
-                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "True";
-
-            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "False")
-                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "False";
         }
     }
 }
