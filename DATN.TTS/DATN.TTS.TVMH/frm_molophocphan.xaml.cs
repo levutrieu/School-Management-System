@@ -532,11 +532,13 @@ namespace DATN.TTS.TVMH
                 bus_molophocphan bus = new bus_molophocphan();
                 //Thong tin nam hoc
                 iGridData_TTHK = bus.GetAll_Tso_Hocky();
-                iDataSource.Rows[0]["HOCKY_Search"] = iGridData_TTHK.Rows[0]["HOCKY"];
-                iDataSource.Rows[0]["NAMHOC_Search"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
-                iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
-                iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
-
+                if (iGridData_TTHK != null && iGridData_TTHK.Rows.Count > 0)
+                {
+                    iDataSource.Rows[0]["HOCKY_Search"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                    iDataSource.Rows[0]["NAMHOC_Search"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                    iDataSource.Rows[0]["HOCKY_Search_ds"] = iGridData_TTHK.Rows[0]["HOCKY"];
+                    iDataSource.Rows[0]["NAMHOC_Search_ds"] = iGridData_TTHK.Rows[0]["NAMHOC_TU"];
+                }
                 DataTable xdtbm = bus.GetAll_HDT();
                 cboHeDT.ItemsSource = xdtbm;
                 cboHeDTLQL.ItemsSource = xdtbm;
@@ -549,7 +551,7 @@ namespace DATN.TTS.TVMH
                 DataRow xdr = null;
                 xdr = dt_hocky.NewRow();
                 xdr["hocky"] = 0;
-                xdr["tenhocky"] = "-----Chọn-----";
+                xdr["tenhocky"] = "--Chọn--";
                 dt_hocky.Rows.Add(xdr);
                 for (int i = 1; i <= 8; i++)
                 {
