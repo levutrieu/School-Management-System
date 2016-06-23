@@ -26,7 +26,7 @@
                 <Button Click="BtnKeThua_OnClick" Content="Kế thừa khóa ngành" Style="{StaticResource Button_Style}" HorizontalAlignment="Left" Name="btnKeThua" VerticalAlignment="Center"/>
                 <Button Click="BtnThemLop_OnClick" Content="Thêm mới lớp học" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnThemLop" VerticalAlignment="Center"/>
                 <Button Click="BtnThemKhoaNganh_OnClick" Content="Lưu khóa ngành" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnThemKhoaNganh" VerticalAlignment="Center"/>
-                <Button Click="BtnCapNhat_OnClick" Content="Cập nhật" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnCapNhat" VerticalAlignment="Center"/>
+                <Button Click="BtnCapNhat_OnClick" Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnCapNhat" VerticalAlignment="Center"/>
                 <Button Click="BtnExcel_OnClick" Content="Xuất Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnExcel" VerticalAlignment="Center"/>
             </StackPanel>
         </Border>
