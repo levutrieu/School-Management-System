@@ -110,33 +110,30 @@ namespace DATN.TTS.BUS
                 DataRow r = dt.Rows[0];
 
                 tbl_HEDAOTAO hdt = new tbl_HEDAOTAO();
-                //hdt.ID_HE_DAOTAO = GetLastId();
                 hdt.ID_BAC_DAOTAO = int.Parse(r["ID_BAC_DAOTAO"].ToString());
                 hdt.ID_LOAIHINH_DTAO = int.Parse(r["ID_LOAIHINH_DTAO"].ToString());
                 hdt.MA_HE_DAOTAO = r["MA_HE_DAOTAO"].ToString();
                 hdt.TEN_HE_DAOTAO = r["TEN_HE_DAOTAO"].ToString();
-                hdt.TRANGTHAI = r["TRANGTHAI"].ToString();
                 hdt.CREATE_USER = r["USER"].ToString();
                 hdt.CREATE_TIME = System.DateTime.Today;
+                hdt.SO_NAMHOC = Convert.ToInt32(r["SO_NAMHOC"].ToString());
                 hdt.IS_DELETE = 0;
 
                 db.tbl_HEDAOTAOs.InsertOnSubmit(hdt);
                 db.SubmitChanges();
-                if (!string.IsNullOrEmpty(hdt.ID_HE_DAOTAO.ToString()))
+                if (hdt.ID_HE_DAOTAO > 0)
                 {
-                    db.Transaction.Commit();
                     return true;
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                db.Transaction.Rollback();
-                throw;
+                throw err;
             }
         }
 
-        public void Update_HeDaoTao(params object[] param)
+        public bool Update_HeDaoTao(params object[] param)
         {
             try
             {
@@ -147,23 +144,23 @@ namespace DATN.TTS.BUS
                 hdt.ID_LOAIHINH_DTAO = int.Parse(r["ID_LOAIHINH_DTAO"].ToString());
                 hdt.MA_HE_DAOTAO = r["MA_HE_DAOTAO"].ToString();
                 hdt.TEN_HE_DAOTAO = r["TEN_HE_DAOTAO"].ToString();
-                hdt.TRANGTHAI = r["TRANGTHAI"].ToString();
                 hdt.UPDATE_USER = r["USER"].ToString();
                 hdt.UPDATE_TIME = System.DateTime.Today;
+                hdt.SO_NAMHOC = Convert.ToInt32(r["SO_NAMHOC"].ToString());
                 hdt.IS_DELETE = 0;
 
                 db.SubmitChanges();
-
-                //db.Transaction.Commit();
+                if (hdt.ID_HE_DAOTAO > 0)
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                //db.Transaction.Rollback();
-                throw;
+                throw err;
             }
         }
 
-        public void Delete_HeDaoTao(int pId, string pUser)
+        public bool Delete_HeDaoTao(int pId, string pUser)
         {
             try
             {
@@ -173,11 +170,13 @@ namespace DATN.TTS.BUS
                 hdt.IS_DELETE = 1;
                 //db.Transaction.Commit();
                 db.SubmitChanges();
+                if (hdt.ID_HE_DAOTAO > 0)
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                //db.Transaction.Rollback();
-                throw;
+                throw err;
             }
         }
     }
