@@ -131,10 +131,10 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -148,10 +148,10 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["EMAIL"] = string.Empty;
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
@@ -173,10 +173,10 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 

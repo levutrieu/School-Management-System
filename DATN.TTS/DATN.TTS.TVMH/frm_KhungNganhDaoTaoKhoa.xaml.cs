@@ -89,7 +89,6 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_HE_DAOTAO", typeof(Decimal));
                 dic.Add("TEN_HE_DAOTAO", typeof(string));
                 dic.Add("ID_KHOAHOC_NGANH", typeof(Decimal));
-                //dic.Add("KHOAHOC_NGANH", typeof(string));
                 dic.Add("SO_TC", typeof(Decimal));
                 dic.Add("HOCKY", typeof(Decimal));
                 dic.Add("SOTIET_LT", typeof(Decimal));
@@ -543,13 +542,13 @@ namespace DATN.TTS.TVMH
                     bool res = client.Delete_KhoaNganhCT(dt.Copy(), UserCommon.UserName);
                     if (!res)
                     {
-                        CTMessagebox.Show("Xóa chi tiết ngành không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Xóa chi tiết ngành không thành công", "Xóa", "", CTICON.Error, CTBUTTON.OK);
                         LoadKhoaNganhCT();
                         return;
                     }
                     else
                     {
-                        CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganhCT();
                         LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
                     }
@@ -575,14 +574,13 @@ namespace DATN.TTS.TVMH
                     bool res = client.Insert_KhoaNganhCT(this.iGridDataSoureNganhCT.Copy(), UserCommon.UserName);
                     if (!res)
                     {
-                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Information,
-                            CTBUTTON.YesNo);
+                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Error,CTBUTTON.OK);
                         LoadKhoaNganhCT();
                         return;
                     }
                     else
                     {
-                        CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganhCT();
                         LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
                     }

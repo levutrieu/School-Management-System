@@ -20,6 +20,7 @@ using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 using CustomMessage;
+using DATN.TTS.TVMH.Resource;
 
 namespace DATN.TTS.TVMH
 {
@@ -45,7 +46,12 @@ namespace DATN.TTS.TVMH
 
         private void SetCombox()
         {
-            cbbHDT.ItemsSource = client.GetAllHeDaoTao();
+            DataTable dt = client.GetAllHeDaoTao();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cbbHDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cbbHDT.GetKeyValue(0);
+            }
         }
 
         private DataTable TableChelmabinding()
@@ -259,7 +265,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "0";
+                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cbbHDT.GetKeyValue(0);
                 this.iDataSoure.Rows[0]["MA_KHOAHOC"] = string.Empty;
                 this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = string.Empty;
                 this.iDataSoure.Rows[0]["NAM_BD"] = 0;

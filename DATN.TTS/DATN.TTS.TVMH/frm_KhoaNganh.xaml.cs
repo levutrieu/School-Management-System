@@ -599,13 +599,13 @@ namespace DATN.TTS.TVMH
                     bool res = client.Insert_Khoa_Nganh(this.iGridDataSoureKhoaNganh.Copy(), UserCommon.UserName);
                     if (!res)
                     {
-                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Lưu khóa ngành không thành công", "Lưu", "", CTICON.Error, CTBUTTON.OK);
                         LoadKhoaNganh();
                         return;
                     }
                     else
                     {
-                        CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganh();
                         iGridDataSoureNganh = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
                         iGridDataSoureNganh.Columns.Add("CHK");
@@ -645,13 +645,13 @@ namespace DATN.TTS.TVMH
                     bool res = client.Delete_Khoa_Nganh(dt.Copy(), UserCommon.UserName);
                     if (!res)
                     {
-                        CTMessagebox.Show("Xóa ngành không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Xóa ngành không thành công", "Xóa", "", CTICON.Error, CTBUTTON.OK);
                         LoadKhoaNganh();
                         return;
                     }
                     else
                     {
-                        CTMessagebox.Show("Xóa ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        CTMessagebox.Show("Xóa ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganh();
                         iGridDataSoureNganh = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
                         iGridDataSoureNganh.Columns.Add("CHK");

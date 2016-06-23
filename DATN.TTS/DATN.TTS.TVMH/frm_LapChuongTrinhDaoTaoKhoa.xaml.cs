@@ -85,7 +85,7 @@ namespace DATN.TTS.TVMH
                         if (frm_ChonKhoa.iDataSoure == null || frm_ChonKhoa.iDataSoure.Rows.Count == 0 || 
                             frm_ChonKhoa.iGridDataSoure == null || frm_ChonKhoa.iGridDataSoure.Rows.Count ==0)
                         {
-                            CTMessagebox.Show("Vui lòng chọn khóa học!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "",CTICON.Information, CTBUTTON.YesNo);
+                            CTMessagebox.Show("Vui lòng chọn khóa học!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "",CTICON.Information, CTBUTTON.OK);
                             DataTable dt = new DataTable();
                             frm_KhoaNganh.LoadNganh(dt);
                             return;
@@ -98,12 +98,12 @@ namespace DATN.TTS.TVMH
                         if (frm_KhungNganhDaoTaoKhoa.iDataSoure == null || frm_KhungNganhDaoTaoKhoa.iDataSoure.Rows.Count == 0 ||
                             frm_KhoaNganh.iGridDataSoureKhoaNganh == null || frm_KhoaNganh.iGridDataSoureKhoaNganh.Rows.Count == 0)
                         {
-                            CTMessagebox.Show("Vui lòng chọn khóa ngành!" +"\n"+" Trước khi bước sang bước tiếp", "Thông báo", "",CTICON.Information, CTBUTTON.YesNo);
+                            CTMessagebox.Show("Vui lòng chọn khóa ngành!" +"\n"+" Trước khi bước sang bước tiếp", "Thông báo", "",CTICON.Information, CTBUTTON.OK);
                             return;
                         }
                         if (string.IsNullOrEmpty(frm_KhoaNganh.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()))
                         {
-                            CTMessagebox.Show("Vui lòng chọn khóa ngành!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                            CTMessagebox.Show("Vui lòng chọn khóa ngành!" + "\n" + " Trước khi bước sang bước tiếp", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                             return;
                         }
                         DataTable xdt = frm_KhoaNganh.iGridDataSoureKhoaNganh;
@@ -141,7 +141,7 @@ namespace DATN.TTS.TVMH
             if (frm_ChonKhoa.iDataSoure == null || frm_ChonKhoa.iDataSoure.Rows.Count == 0)
             {
                 CTMessagebox.Show("Vui lòng chọn khóa học trước khi bước sang bước tiếp", "Thông báo", "",
-                    CTICON.Information, CTBUTTON.YesNo);
+                    CTICON.Information, CTBUTTON.OK);
                 return;
             }
             if (PageController.SelectedIndex < PageController.Items.Count - 1)
