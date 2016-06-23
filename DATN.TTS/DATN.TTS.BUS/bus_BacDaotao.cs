@@ -48,7 +48,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public void Delete_BacDaoTao(int pId, string pUser)
+        public bool Delete_BacDaoTao(int pId, string pUser)
         {
             try
             {
@@ -57,11 +57,16 @@ namespace DATN.TTS.BUS
                 bac.UPDATE_TIME = System.DateTime.Today;
                 bac.IS_DELETE = 1;
                 db.SubmitChanges();
+                if (!string.IsNullOrEmpty(bac.ID_BAC_DAOTAO.ToString()))
+                {
+                    return true;
+                }
+                return false;
+
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
@@ -75,7 +80,6 @@ namespace DATN.TTS.BUS
                 tbl_BACDAOTAO bac = new tbl_BACDAOTAO();
                 bac.MA_BAC_DAOTAO = r["MA_BAC_DAOTAO"].ToString();
                 bac.TEN_BAC_DAOTAO = r["TEN_BAC_DAOTAO"].ToString();
-                bac.TRANGTHAI = r["TRANGTHAI"].ToString();
                 bac.CREATE_USER = r["USER"].ToString();
                 bac.CREATE_TIME = System.DateTime.Today;
                 bac.IS_DELETE = 0;
@@ -88,14 +92,13 @@ namespace DATN.TTS.BUS
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
-        public void Update_BacDaoTao(params object[] param)
+        public bool Update_BacDaoTao(params object[] param)
         {
             try
             {
@@ -104,16 +107,19 @@ namespace DATN.TTS.BUS
                 tbl_BACDAOTAO bac = db.tbl_BACDAOTAOs.Single(t => t.ID_BAC_DAOTAO == int.Parse(r["ID_BAC_DAOTAO"].ToString()));
                 bac.MA_BAC_DAOTAO = r["MA_BAC_DAOTAO"].ToString();
                 bac.TEN_BAC_DAOTAO = r["TEN_BAC_DAOTAO"].ToString();
-                bac.TRANGTHAI = r["TRANGTHAI"].ToString();
                 bac.UPDATE_USER = r["USER"].ToString();
                 bac.UPDATE_TIME = System.DateTime.Today;
                 bac.IS_DELETE = 0;
                 db.SubmitChanges();
+                if (!string.IsNullOrEmpty(bac.ID_BAC_DAOTAO.ToString()))
+                {
+                    return true;
+                }
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
-                throw;
+                throw err;
             }
         }
     }
