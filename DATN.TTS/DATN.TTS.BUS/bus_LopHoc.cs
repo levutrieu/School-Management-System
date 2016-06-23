@@ -58,9 +58,9 @@ namespace DATN.TTS.BUS
                 }
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -71,9 +71,9 @@ namespace DATN.TTS.BUS
                 var gv = from gvien in db.tbl_GIANGVIENs where gvien.IS_DELETE == 0 select new {gvien.ID_GIANGVIEN, gvien.TEN_GIANGVIEN};
                 return TableUtil.LinqToDataTable(gv);
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -93,8 +93,6 @@ namespace DATN.TTS.BUS
                         l.ID_KHOAHOC_NGANH,
                         l.MA_LOP,
                         l.TEN_LOP,
-                        l.NGAY_MOLOP,
-                        l.NGAY_KETTHUC,
                         l.SOLUONG_SV,
                         l.GHICHU,
                         l.ID_GIANGVIEN_CN,
@@ -105,10 +103,9 @@ namespace DATN.TTS.BUS
                 dt = TableUtil.LinqToDataTable(lop);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
@@ -122,8 +119,6 @@ namespace DATN.TTS.BUS
                 lop.ID_KHOAHOC_NGANH = Convert.ToInt32(r["ID_KHOAHOC_NGANH"].ToString());
                 lop.MA_LOP = r["MA_LOP"].ToString();
                 lop.TEN_LOP = r["TEN_LOP"].ToString();
-                lop.NGAY_MOLOP = DateTime.Parse(r["NGAY_MOLOP"].ToString());
-                lop.NGAY_KETTHUC = DateTime.Parse(r["NGAY_KETTHUC"].ToString());
                 lop.GHICHU = r["GHICHU"].ToString();
                 lop.ID_GIANGVIEN_CN = Convert.ToInt32(r["ID_GIANGVIEN"].ToString());// giáo viên quản lý lớp
                 lop.SOLUONG_SV = Convert.ToInt32(r["SOLUONG_SV"].ToString());
@@ -137,13 +132,13 @@ namespace DATN.TTS.BUS
                     return true;
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
-        public void Update_Lop(params object[] oParams)
+        public bool Update_Lop(params object[] oParams)
         {
             try
             {
@@ -154,22 +149,23 @@ namespace DATN.TTS.BUS
                 lop.ID_KHOAHOC_NGANH = Convert.ToInt32(r["ID_KHOAHOC_NGANH"].ToString());
                 lop.MA_LOP = r["MA_LOP"].ToString();
                 lop.TEN_LOP = r["TEN_LOP"].ToString();
-                lop.NGAY_MOLOP = DateTime.Parse(r["NGAY_MOLOP"].ToString());
-                lop.NGAY_KETTHUC = DateTime.Parse(r["NGAY_KETTHUC"].ToString());
                 lop.GHICHU = r["GHICHU"].ToString();
                 lop.ID_GIANGVIEN_CN = Convert.ToInt32(r["ID_GIANGVIEN"].ToString());// giáo viên quản lý lớp
                 lop.SOLUONG_SV = Convert.ToInt32(r["SOLUONG_SV"].ToString());
                 lop.UPDATE_USER = r["USER"].ToString();
                 lop.UPDATE_TIME = System.DateTime.Today;
                 db.SubmitChanges();
+                if (!lop.ID_LOPHOC.GetTypeCode().Equals(TypeCode.DBNull))
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
-        public void Delete_Lop(params object[] oParams)
+        public bool Delete_Lop(params object[] oParams)
         {
             try
             {
@@ -182,10 +178,13 @@ namespace DATN.TTS.BUS
                 lop.IS_DELETE = 1;
 
                 db.SubmitChanges();
+                if (!lop.ID_LOPHOC.GetTypeCode().Equals(TypeCode.DBNull))
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -212,8 +211,6 @@ namespace DATN.TTS.BUS
                                   l.ID_KHOAHOC_NGANH,
                                   l.MA_LOP,
                                   l.TEN_LOP,
-                                  l.NGAY_MOLOP,
-                                  l.NGAY_KETTHUC,
                                   l.SOLUONG_SV,
                                   l.GHICHU,
                                   l.ID_GIANGVIEN_CN,
