@@ -240,93 +240,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetData(int pID_NAMHOC_HIENTAI, int pHOCKY)
-        {
-            try
-            {
-                DataTable dt = null;
-                if (pID_NAMHOC_HIENTAI != 0 && pHOCKY != 0)
-                {
-                    #region Truong hop 1 "Có điều kiện giữa hocky và nam hoc hiện tại"
-
-                    dt = GetData_2(pID_NAMHOC_HIENTAI, pHOCKY);
-
-                    #endregion
-                }
-                else
-                {
-                    if (pID_NAMHOC_HIENTAI == 0 && pHOCKY != 0)
-                    {
-                        #region Truong hop 2 chỉ có điều kiện ở học kỳ
-
-                        dt = GetData_3(pHOCKY);
-
-                        #endregion
-                    }
-                    else
-                    {
-                        if (pID_NAMHOC_HIENTAI != 0 && pHOCKY == 0)
-                        {
-                            #region Truong hop 3 chỉ có điều kiện ở năm học hiện tại
-
-                            dt = GetData_4(pID_NAMHOC_HIENTAI);
-
-                            #endregion
-                        }
-                        else
-                        {
-                            if (pID_NAMHOC_HIENTAI == 0 && pHOCKY == 0)
-                            {
-                                #region Truong hop 4 "Không có điều kiện
-
-                                dt = GetData_1();
-
-                                #endregion
-                            }
-                        }
-                    }
-
-                }
-                return dt;
-            }
-            catch (Exception er)
-            {
-                throw er;
-            }
-        }
-
-        private DataTable GetData_1()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
-                                  join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
-                                  where
-                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
-                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
-                                    (b.IS_HIENTAI == 1)
-                                  select new
-                                  {
-                                      ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
-                                      a.ID_NAMHOC_HKY_HTAI,
-                                      a.IS_HIENTAI,
-                                      a.TUAN_BD_HKY,
-                                      a.HOCKY,
-                                      b.NAMHOC_TU,
-                                      b.NAMHOC_DEN,
-                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
-                                  };
-                dt = TableUtil.LinqToDataTable(hockynamhoc);
-                return dt;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        private DataTable GetData_2(int pID_NAMHOC_HIENTAI, int pHOCKY)
+        public DataTable GetData(int pID_NAMHOC_HIENTAI)
         {
             try
             {
@@ -337,7 +251,6 @@ namespace DATN.TTS.BUS
                                     (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
                                     (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
                                     a.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI &&
-                                    a.HOCKY == pHOCKY &&
                                     (b.IS_HIENTAI == 1)
                                   select new
                                   {
@@ -359,82 +272,6 @@ namespace DATN.TTS.BUS
                 throw err;
             }
         }
-
-        private DataTable GetData_3(int pHOCKY)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("ID_NAMHOC_HKY_HTAI", typeof(Decimal));
-                dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                dt.Columns.Add("NAMHOC_TU", typeof(Decimal));
-                dt.Columns.Add("NAMHOC", typeof(string));
-                dt.Columns.Add("HOCKY", typeof(Decimal));
-                dt.Columns.Add("IS_HIENTAI", typeof(Decimal));
-                var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
-                                  join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
-                                  where
-                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
-                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
-                                    a.HOCKY == pHOCKY &&
-                                    (b.IS_HIENTAI == 1)
-                                  select new
-                                  {
-                                      ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
-                                      a.ID_NAMHOC_HKY_HTAI,
-                                      a.IS_HIENTAI,
-                                      a.HOCKY,
-                                      a.TUAN_BD_HKY,
-                                      b.NAMHOC_TU,
-                                      b.NAMHOC_DEN,
-                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
-                                  };
-                dt = TableUtil.LinqToDataTable(hockynamhoc);
-                return dt;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        private DataTable GetData_4(int pID_NAMHOC_HIENTAI)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("ID_NAMHOC_HKY_HTAI", typeof(Decimal));
-                dt.Columns.Add("ID_NAMHOC_HIENTAI", typeof(Decimal));
-                dt.Columns.Add("NAMHOC_TU", typeof(Decimal));
-                dt.Columns.Add("NAMHOC", typeof(string));
-                dt.Columns.Add("HOCKY", typeof(Decimal));
-                dt.Columns.Add("IS_HIENTAI", typeof(Decimal));
-                var hockynamhoc = from a in db.tbl_NAMHOC_HKY_HTAIs
-                                  join b in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(a.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = b.ID_NAMHOC_HIENTAI }
-                                  where
-                                    (a.IS_DELETE != 1 || a.IS_DELETE == null) &&
-                                    (b.IS_DELETE != 1 || b.IS_DELETE == null) &&
-                                    a.ID_NAMHOC_HIENTAI == pID_NAMHOC_HIENTAI &&
-                                    (b.IS_HIENTAI == 1)
-                                  select new
-                                  {
-                                      ID_NAMHOC_HIENTAI = (int?)a.ID_NAMHOC_HIENTAI,
-                                      a.ID_NAMHOC_HKY_HTAI,
-                                      a.IS_HIENTAI,
-                                      a.HOCKY,
-                                      a.TUAN_BD_HKY,
-                                      b.NAMHOC_TU,
-                                      b.NAMHOC_DEN,
-                                      NAMHOC = b.NAMHOC_TU + "_" + b.NAMHOC_DEN
-                                  };
-                dt = TableUtil.LinqToDataTable(hockynamhoc);
-                return dt;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        } 
         #endregion
 
         public bool Insert_HocKyNamHoc(int pID_NAMHOC_HIENTAI, int pHOCKY, int TuanBD_HKY, string pUser)

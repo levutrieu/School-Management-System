@@ -133,5 +133,33 @@ namespace DATN.TTS.BUS
                 return 0;
             }
         }
+
+        public DataTable GetAllKhoaNganh_ForDiem(int pID_KHOAHOC)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                if (pID_KHOAHOC != 0 || !string.IsNullOrEmpty(pID_KHOAHOC.ToString()))
+                {
+                    var khoanganh = from khoanganhs in db.tbl_KHOAHOC_NGANHs
+                                    where (khoanganhs.IS_DELETE != 1 || khoanganhs.IS_DELETE == null) && khoanganhs.ID_KHOAHOC == pID_KHOAHOC
+                                    join k in db.tbl_KHOAHOCs on khoanganhs.ID_KHOAHOC equals k.ID_KHOAHOC
+                                    where (k.IS_DELETE != 1 || k.IS_DELETE == null)
+                                    join ng in db.tbl_NGANHs on khoanganhs.ID_NGANH equals ng.ID_NGANH
+                                    where (ng.IS_DELETE != 1 || ng.IS_DELETE == null)
+                                    select new
+                                    {
+                                        khoanganhs.ID_KHOAHOC_NGANH,
+                                        ng.TEN_NGANH
+                                    };
+                    dt = TableUtil.LinqToDataTable(khoanganh);
+                }
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

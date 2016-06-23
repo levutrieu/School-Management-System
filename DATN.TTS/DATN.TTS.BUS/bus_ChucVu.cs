@@ -47,14 +47,14 @@ namespace DATN.TTS.BUS
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
-        public void Update_CVU(params object[] param)
+        public bool Update_CVU(params object[] param)
         {
             try
             {
@@ -68,15 +68,20 @@ namespace DATN.TTS.BUS
                 cv.UPDATE_TIME = System.DateTime.Today;
 
                 db.SubmitChanges();
+                if (!cv.ID_CHUCVU.GetTypeCode().Equals(TypeCode.DBNull))
+                {
+                    return true;
+                }
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
         }
 
-        public void Delete_CVU(params object[] param)
+        public bool Delete_CVU(params object[] param)
         {
             try
             {
@@ -89,11 +94,16 @@ namespace DATN.TTS.BUS
                 cv.UPDATE_TIME = System.DateTime.Today;
 
                 db.SubmitChanges();
+                if (!cv.ID_CHUCVU.GetTypeCode().Equals(TypeCode.DBNull))
+                {
+                    return true;
+                }
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
         }
     }

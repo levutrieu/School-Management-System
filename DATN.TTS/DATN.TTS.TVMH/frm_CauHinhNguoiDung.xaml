@@ -114,6 +114,7 @@
             <dxg:GridControl Margin="3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdUI" dx:ThemeManager.ThemeName="MetropolisLight" >
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewUI" RowStyle="{StaticResource SelectedRowStyle}"
+                                   MouseDown="GrdViewUI_OnMouseDown"
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" ShowIndicator="True">
                     </dxg:TableView>
                 </dxg:GridControl.View>

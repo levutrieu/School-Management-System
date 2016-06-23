@@ -26,10 +26,10 @@ namespace DATN.TTS.BUS
                 dt = TableUtil.LinqToDataTable(khoa);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -49,7 +49,6 @@ namespace DATN.TTS.BUS
                                 ng.KYHIEU,
                                 ng.TRANGTHAI,
                                 ng.GHICHU,
-                                ng.CAP_NGANH,
                                 ng.ID_KHOA,
                                 k.TEN_KHOA
                             }
@@ -58,10 +57,10 @@ namespace DATN.TTS.BUS
                 dt = TableUtil.LinqToDataTable(nganh);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
@@ -76,9 +75,7 @@ namespace DATN.TTS.BUS
                 nganh.TEN_NGANH = r["TEN_NGANH"].ToString();
                 nganh.KYHIEU = r["KYHIEU"].ToString();
                 nganh.GHICHU = r["GHICHU"].ToString();
-                nganh.TRANGTHAI = r["TRANGTHAI"].ToString();
                 nganh.ID_KHOA = Convert.ToInt32(r["ID_KHOA"].ToString());
-                nganh.CAP_NGANH = r["CAP_NGANH"].ToString();
                 nganh.CREATE_USER = r["USER"].ToString();
                 nganh.CREATE_TIME = System.DateTime.Today;
                 nganh.IS_DELETE = 0;
@@ -88,14 +85,14 @@ namespace DATN.TTS.BUS
                     return true;
                 return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
-        public void Update_Nganh(params object[] oParams)
+        public bool Update_Nganh(params object[] oParams)
         {
             try
             {
@@ -106,22 +103,23 @@ namespace DATN.TTS.BUS
                 nganh.TEN_NGANH = r["TEN_NGANH"].ToString();
                 nganh.KYHIEU = r["KYHIEU"].ToString();
                 nganh.GHICHU = r["GHICHU"].ToString();
-                nganh.TRANGTHAI = r["TRANGTHAI"].ToString();
                 nganh.ID_KHOA = Convert.ToInt32(r["ID_KHOA"].ToString());
-                nganh.CAP_NGANH = r["CAP_NGANH"].ToString();
                 nganh.UPDATE_USER = r["USER"].ToString();
                 nganh.UPDATE_TIME = System.DateTime.Today;
 
                 db.SubmitChanges();
+                if (!nganh.ID_NGANH.GetTypeCode().Equals(TypeCode.DBNull))
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
-        public void Delete_Nganh(params object[] oParams)
+        public bool Delete_Nganh(params object[] oParams)
         {
             try
             {
@@ -133,11 +131,14 @@ namespace DATN.TTS.BUS
                 nganh.UPDATE_TIME = System.DateTime.Today;
 
                 db.SubmitChanges();
+                if (!nganh.ID_NGANH.GetTypeCode().Equals(TypeCode.DBNull))
+                    return true;
+                return false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
         }
     }

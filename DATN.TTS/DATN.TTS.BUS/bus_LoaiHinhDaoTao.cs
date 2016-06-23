@@ -21,10 +21,10 @@ namespace DATN.TTS.BUS
                 dt = TableUtil.LinqToDataTable(lhdt);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -37,7 +37,6 @@ namespace DATN.TTS.BUS
                 tbl_LOAIHINH_DTAO lhdt = new tbl_LOAIHINH_DTAO();
                 lhdt.MA_LOAIHINH_DTAO = r["MA_LOAIHINH_DTAO"].ToString();
                 lhdt.TEN_LOAIHINH_DTAO = r["TEN_LOAIHINH_DTAO"].ToString();
-                lhdt.TRANGTHAI = r["TRANGTHAI"].ToString();
                 lhdt.GHICHU = r["GHICHU"].ToString();
                 lhdt.CREATE_USER = r["USER"].ToString();
                 lhdt.CREATE_TIME = System.DateTime.Today;
@@ -50,14 +49,14 @@ namespace DATN.TTS.BUS
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
-        public void Update_LoaiHinhDaoTao(params object[] param)
+        public bool Update_LoaiHinhDaoTao(params object[] param)
         {
             try
             {
@@ -67,20 +66,24 @@ namespace DATN.TTS.BUS
                 tbl_LOAIHINH_DTAO lhdt = db.tbl_LOAIHINH_DTAOs.Single(t => t.ID_LOAIHINH_DTAO.ToString().Equals(r["ID_LOAIHINH_DTAO"].ToString()));
                 lhdt.MA_LOAIHINH_DTAO = r["MA_LOAIHINH_DTAO"].ToString();
                 lhdt.TEN_LOAIHINH_DTAO = r["TEN_LOAIHINH_DTAO"].ToString();
-                lhdt.TRANGTHAI = r["TRANGTHAI"].ToString();
                 lhdt.GHICHU = r["GHICHU"].ToString();
                 lhdt.UPDATE_USER = r["USER"].ToString();
                 lhdt.UPDATE_TIME = System.DateTime.Today;
                 db.SubmitChanges();
+                if (lhdt.ID_LOAIHINH_DTAO.ToString().Equals(string.Empty))
+                {
+                    return false;
+                }
+                return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
-        public void Delete_LoaiHinhDaoTao(params object[] param)
+        public bool Delete_LoaiHinhDaoTao(params object[] param)
         {
             try
             {
@@ -92,11 +95,16 @@ namespace DATN.TTS.BUS
                 lhdt.UPDATE_TIME = System.DateTime.Today;
                 lhdt.IS_DELETE = 1;
                 db.SubmitChanges();
+                if (lhdt.ID_LOAIHINH_DTAO.ToString().Equals(string.Empty))
+                {
+                    return false;
+                }
+                return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
     }

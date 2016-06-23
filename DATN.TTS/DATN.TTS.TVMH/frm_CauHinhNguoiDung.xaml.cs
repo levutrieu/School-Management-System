@@ -63,9 +63,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureND = client.GetAllNguoiDung();
                 grd.ItemsSource = iGridDataSoureND.Copy();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -237,9 +237,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GhiChu"] = String.Empty;
                 this.iDataSoure.Rows[0]["ID_NHANVIEN"] = 0;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
         }
 
@@ -249,28 +249,28 @@ namespace DATN.TTS.TVMH
             {
                 if (this.iDataSoure.Rows[0]["UserName"].ToString() == String.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập", "Thông báo");
+                    CTMessagebox.Show("Vui lòng nhập UserName.", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtUser.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["Pass"].ToString() == String.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập", "Thông báo");
+                    CTMessagebox.Show("Vui lòng nhập Pass", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtPass.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["ID_NhanVien"].ToString() == "0")
                 {
-                    MessageBox.Show("Vui lòng nhập", "Thông báo");
+                    CTMessagebox.Show("Vui lòng chọn người dùng tài khoản.", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     cbbNhanVien.Focus();
                     return false;
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -278,13 +278,18 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 client.Delete_NhanSu(iDataSoure.Copy());
                 LoadGridNDung();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -292,13 +297,18 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 LoadGridNDung();
                 SetNullValue();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -378,9 +388,9 @@ namespace DATN.TTS.TVMH
                                         }
                                     }
                                     catch
-                                        (Exception)
+                                        (Exception err)
                                     {
-                                        throw;
+                                        throw err;
                                     }
                                 }
                             }
@@ -394,9 +404,9 @@ namespace DATN.TTS.TVMH
                                         {
                                             client.DeleteNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
                                         }
-                                        catch (Exception)
+                                        catch (Exception err)
                                         {
-                                            throw;
+                                            throw err;
                                         }
                                     }
                                 }
@@ -413,7 +423,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -425,6 +435,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 SetNullValue();
                 //this.iDataSoure.Clear();
                 iGridDataSoure = client.GetAllNhom();
@@ -432,10 +443,14 @@ namespace DATN.TTS.TVMH
                 flagSave = true;
                 txtUser.IsReadOnly = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -443,15 +458,22 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 frm_NhanVien frm = new frm_NhanVien();
+                frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
                 GetAllNhanVien();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+
+                throw err;
             }
-            
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+
         }
 
         private void GrdViewNDung_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
@@ -531,9 +553,9 @@ namespace DATN.TTS.TVMH
                 txtUser.IsReadOnly = true;
                 grdUI.ItemsSource = iGridDataSoure;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -543,6 +565,44 @@ namespace DATN.TTS.TVMH
 
         private void GrdViewNDung_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
+        }
+
+        private void GrdViewUI_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.grdUI.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grdUI.GetFocusedRow()).Row;
+                string index = (row["MaNhomNguoiDung"].ToString());
+                int vtri = -1;
+                for (int i = 0; i < iGridDataSoure.Rows.Count; i++)
+                {
+                    string MaNhomNguoiDung = (iGridDataSoure.Rows[i]["MaNhomNguoiDung"].ToString());
+                    if (index.Equals(MaNhomNguoiDung))
+                    {
+                        vtri = i;
+                        break;
+                    }
+                }
+                if (iGridDataSoure.Rows[vtri]["IsNew"].ToString() == "True")
+                {
+                    iGridDataSoure.Rows[vtri]["IsNew"] = "False";
+                }
+                else
+                {
+                    iGridDataSoure.Rows[vtri]["IsNew"] = "True";
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
         }
     }
 }
