@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
@@ -37,7 +38,6 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
-
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             SetComBo();
             InitGrid();
@@ -62,7 +62,7 @@ namespace DATN.TTS.TVMH
             col.Header = string.Empty;
             col.Width = 50;
             col.AutoFilterValue = true;
-            
+
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
@@ -89,34 +89,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "NGAY_MOLOP";
-            col.Header = "Ngày mở";
-            col.Width = 40;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.EditSettings = new TextEditSettings();
-            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.EditSettings = new TextEditSettings {DisplayFormat = "dd/MM/yyyy"};
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "NGAY_KETTHUC";
-            col.Header = "Ngày kết thúc";
-            col.Width = 40;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.EditSettings = new TextEditSettings();
-            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.EditSettings = new TextEditSettings {DisplayFormat = "dd/MM/yyyy"};
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-           
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -161,27 +133,36 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            
+
             GetGrid();
         }
 
         void SetIsNull()
         {
-            this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = "0";
+            this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = cbbKhoaNganh.GetKeyValue(0);
             this.iDataSoure.Rows[0]["KHOA_NGANH"] = string.Empty;
-            this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = "0";
+            this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = cbbGiangVienCN.GetKeyValue(0);
             this.iDataSoure.Rows[0]["MA_LOP"] = string.Empty;
             this.iDataSoure.Rows[0]["TEN_LOP"] = string.Empty;
-            this.iDataSoure.Rows[0]["NGAY_MOLOP"] = DateTime.Today;
-            this.iDataSoure.Rows[0]["NGAY_KETTHUC"] = DateTime.Today;
             this.iDataSoure.Rows[0]["SOLUONG_SV"] = 0;
             this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
         }
 
         void SetComBo()
         {
-            cbbKhoaNganh.ItemsSource = client.GetAllKhoaNganh();
-            cbbGiangVienCN.ItemsSource = client.GetGV();
+            DataTable dt = null;
+            dt = client.GetAllKhoaNganh();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cbbKhoaNganh, "KHOA_NGANH", "ID_KHOAHOC_NGANH", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = cbbKhoaNganh.GetKeyValue(0);
+            }
+            dt = client.GetGV();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cbbGiangVienCN, "TEN_GIANGVIEN", "ID_GIANGVIEN", dt, SelectionTypeEnum.Native);
+                this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = cbbGiangVienCN.GetKeyValue(0);
+            }
         }
 
         void GetGrid()
@@ -202,18 +183,6 @@ namespace DATN.TTS.TVMH
             {
                 CTMessagebox.Show("Vui lòng nhập tên lớp!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 txtTenLop.Focus();
-                return false;
-            }
-            if (this.iDataSoure.Rows[0]["NGAY_MOLOP"].ToString() == string.Empty)
-            {
-                CTMessagebox.Show("Vui lòng nhập ngày mở lớp", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
-                txtNgayMo.Focus();
-                return false;
-            }
-            if (this.iDataSoure.Rows[0]["NGAY_KETTHUC"].ToString() == string.Empty)
-            {
-                CTMessagebox.Show("Vui lòng nhập ngày kết thúc lớp", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
-                txtNgayKetThuc.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["ID_GIANGVIEN"].ToString() == "0")
@@ -249,8 +218,6 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_GIANGVIEN", typeof(int));
                 dic.Add("MA_LOP", typeof(string));
                 dic.Add("TEN_LOP", typeof(string));
-                dic.Add("NGAY_MOLOP", typeof(DateTime));
-                dic.Add("NGAY_KETTHUC", typeof(DateTime));
                 dic.Add("SOLUONG_SV", typeof(Decimal));
                 dic.Add("GHICHU", typeof(string));
                 dic.Add("USER", typeof(string));
@@ -301,18 +268,30 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_Lop(this.iDataSoure.Copy());
                         if (!res)
                         {
-                            CTMessagebox.Show("Thêm mới không thành công", "Thêm mới", "", CTICON.Information, CTBUTTON.OK);
+                            CTMessagebox.Show("Thêm mới không thành công", "Thêm mới", "", CTICON.Error, CTBUTTON.OK);
                         }
-                        GetGrid();
-                        SetIsNull();
-                        txtMaLop.Focus();
+                        else
+                        {
+                            CTMessagebox.Show("Thêm mới thành công", "Thêm mới", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtMaLop.Focus();
+                        }
                     }
                     else
                     {
-                        client.Update_Lop(this.iDataSoure.Copy());
-                        GetGrid();
-                        SetIsNull();
-                        txtMaLop.Focus();
+                        bool res = client.Update_Lop(this.iDataSoure.Copy());
+                        if (!res)
+                        {
+                            CTMessagebox.Show("Cập nhật không thành công", "Cập nhật", "", CTICON.Error, CTBUTTON.OK);
+                        }
+                        else
+                        {
+                            CTMessagebox.Show("Cập nhật thành công", "Cập nhật", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtMaLop.Focus();
+                        }
                     }
                 }
             }
@@ -333,10 +312,18 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 if (CTMessagebox.Show("Bạn muốn xóa?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
-                    client.Delete_Lop(this.iDataSoure.Copy());
-                    GetGrid();
-                    SetIsNull();
-                    txtMaLop.Focus();
+                    bool res = client.Delete_Lop(this.iDataSoure.Copy());
+                    if (!res)
+                    {
+                        CTMessagebox.Show("Xóa không thành công", "Xóa", "", CTICON.Error, CTBUTTON.OK);
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Xóa thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                        GetGrid();
+                        SetIsNull();
+                        txtMaLop.Focus();
+                    }
                 }
             }
             catch (Exception err)
@@ -377,12 +364,9 @@ namespace DATN.TTS.TVMH
                 r = ((DataRowView)this.grd.GetFocusedRow()).Row;
                 this.iDataSoure.Rows[0]["ID_LOPHOC"] = r["ID_LOPHOC"];
                 this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"] = r["ID_KHOAHOC_NGANH"];
-                //this.iDataSoure.Rows[0]["KHOA_NGANH"] = r["KHOA_NGANH"];
                 this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = r["ID_GIANGVIEN_CN"];
                 this.iDataSoure.Rows[0]["MA_LOP"] = r["MA_LOP"];
                 this.iDataSoure.Rows[0]["TEN_LOP"] = r["TEN_LOP"];
-                this.iDataSoure.Rows[0]["NGAY_MOLOP"] = r["NGAY_MOLOP"];
-                this.iDataSoure.Rows[0]["NGAY_KETTHUC"] = r["NGAY_KETTHUC"];
                 this.iDataSoure.Rows[0]["SOLUONG_SV"] = r["SOLUONG_SV"];
                 this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
                 flagsave = false;
