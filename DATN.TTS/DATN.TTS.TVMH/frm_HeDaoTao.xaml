@@ -59,22 +59,19 @@
                             <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtTenHDT" Style="{StaticResource TextEditStyle}" EditValue="{Binding TEN_HE_DAOTAO}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="Số năm học:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:SpinEdit Grid.Row="0" Grid.Column="6" Name="txtSonam" Style="{StaticResource TextEditStyle}" MaskType="Numeric" AcceptsReturn="True" EditValue="{Binding SO_NAMHOC}" MinValue="0" MaxValue="6"/>
+                            <dxe:SpinEdit Grid.Row="0" Grid.Column="6" Name="txtSonam" Style="{StaticResource TextEditStyle}" MaskType="Numeric" 
+                                          AcceptsReturn="True" EditValue="{Binding SO_NAMHOC, UpdateSourceTrigger=PropertyChanged}" MinValue="0" MaxValue="6"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="7" Text="Loại hình đào tạo:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="8" Name="cbbloaihinhdt" Style="{StaticResource ComboBoxEditStyle}" 
                                               AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
-                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_LOAIHINH_DTAO}" ValueMember="ID_LOAIHINH_DTAO" DisplayMember="TEN_LOAIHINH_DTAO"/>
+                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_LOAIHINH_DTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_LOAIHINH_DTAO" DisplayMember="TEN_LOAIHINH_DTAO"/>
 
 
                             <TextBlock Grid.Row="0" Grid.Column="9" Text="Bậc đào tạo:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="10" Name="cbbbacdt" Style="{StaticResource ComboBoxEditStyle}" 
                                               AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
-                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_BAC_DAOTAO}" ValueMember="ID_BAC_DAOTAO" DisplayMember="TEN_BAC_DAOTAO"/>
-
-                            <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtTrangThai" Grid.ColumnSpan="5" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding TRANGTHAI}" MaxLength="255"/>-->
+                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_BAC_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_BAC_DAOTAO" DisplayMember="TEN_BAC_DAOTAO"/>
                         </Grid>
                     </StackPanel>
 
@@ -82,7 +79,7 @@
             </StackPanel>
         </Expander>
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="2">
             <dxg:GridControl  AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd"
                              dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" >
                 <dxg:GridControl.View>

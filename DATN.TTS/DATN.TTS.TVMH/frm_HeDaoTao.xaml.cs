@@ -13,8 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
@@ -35,7 +37,6 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSoure = TableSchemabinding();
             this.DataContext = iDataSoure;
-
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
             InitGrid();
             SetComBo();
@@ -47,23 +48,22 @@ namespace DATN.TTS.TVMH
             {
                 DataTable dt = null;
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
-                dic.Add("ID_HE_DAOTAO", typeof(Int32));
-                dic.Add("ID_BAC_DAOTAO", typeof(Int32));
-                dic.Add("ID_LOAIHINH_DTAO", typeof(Int32));
+                dic.Add("ID_HE_DAOTAO", typeof(int));
+                dic.Add("ID_BAC_DAOTAO", typeof(int));
+                dic.Add("ID_LOAIHINH_DTAO", typeof(int));
                 dic.Add("MA_HE_DAOTAO", typeof(string));
                 dic.Add("TEN_HE_DAOTAO", typeof(string));
                 dic.Add("SO_NAMHOC", typeof(Decimal));
-                dic.Add("TRANGTHAI", typeof(string));
                 dic.Add("TEN_BAC_DAOTAO", typeof(string));
                 dic.Add("TEN_LOAIHINH_DTAO", typeof(string));
                 dic.Add("USER", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -168,13 +168,23 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                cbbbacdt.ItemsSource = client.GetAllBacDaoTao();
-                cbbloaihinhdt.ItemsSource = client.GetAllLoaiHinhDaoTao();
+                DataTable dt = client.GetAllBacDaoTao();
+                if (dt.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cbbbacdt, "TEN_BAC_DAOTAO", "ID_BAC_DAOTAO", dt, SelectionTypeEnum.Native);
+                    this.iDataSoure.Rows[0]["ID_BAC_DAOTAO"] = cbbbacdt.GetKeyValue(0);
+                }
+                DataTable xdt = client.GetAllLoaiHinhDaoTao();
+                if (xdt.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cbbloaihinhdt, "TEN_LOAIHINH_DTAO", "ID_LOAIHINH_DTAO", xdt, SelectionTypeEnum.Native);
+                    this.iDataSoure.Rows[0]["ID_LOAIHINH_DTAO"] = cbbloaihinhdt.GetKeyValue(0);
+                }
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 
-                throw;
+                throw err;
             }
         }
 
@@ -182,20 +192,15 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                //this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "0";
-                this.iDataSoure.Rows[0]["ID_BAC_DAOTAO"] = "0";
-                this.iDataSoure.Rows[0]["ID_LOAIHINH_DTAO"] = "0";
+                this.iDataSoure.Rows[0]["ID_BAC_DAOTAO"] = cbbbacdt.GetKeyValue(0);
+                this.iDataSoure.Rows[0]["ID_LOAIHINH_DTAO"] =  cbbloaihinhdt.GetKeyValue(0);
                 this.iDataSoure.Rows[0]["MA_HE_DAOTAO"] = string.Empty;
                 this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = string.Empty;
                 this.iDataSoure.Rows[0]["SO_NAMHOC"] = 0;
-                this.iDataSoure.Rows[0]["TRANGTHAI"] = string.Empty;
-                //this.iDataSoure.Rows[0]["TEN_LOAIHINH_DTAO"] = string.Empty;
-
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
@@ -203,31 +208,31 @@ namespace DATN.TTS.TVMH
         {
             if (this.iDataSoure.Rows[0]["ID_BAC_DAOTAO"].ToString() == "0")
             {
-                MessageBox.Show("Vui lòng chọn bậc đào tạo");
+                CTMessagebox.Show("Vui lòng chọn bậc đào tạo", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 cbbbacdt.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["ID_LOAIHINH_DTAO"].ToString() == "0")
             {
-                MessageBox.Show("Vui lòng chọn loại hình đào tạo");
+                CTMessagebox.Show("Vui lòng chọn loại hình đào tạo", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 cbbloaihinhdt.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["MA_HE_DAOTAO"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập mã hệ đào tạo");
+                CTMessagebox.Show("Vui lòng nhập mã hệ đào tạo", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 txtMaHDT.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập tên hệ đào tạo");
+                CTMessagebox.Show("Vui lòng nhập tên hệ đào tạo", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 txtTenHDT.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["SO_NAMHOC"].ToString() == string.Empty)
             {
-                MessageBox.Show("Vui lòng nhập số năm học");
+                CTMessagebox.Show("Vui lòng nhập số năm học", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                 txtSonam.Focus();
                 return false;
             }
@@ -239,7 +244,6 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-
                 DataRow row = null;
                 if (this.grd.GetFocusedRow() == null)
                     return;
@@ -250,13 +254,12 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["MA_HE_DAOTAO"] = row["MA_HE_DAOTAO"];
                 this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
                 this.iDataSoure.Rows[0]["SO_NAMHOC"] = row["SO_NAMHOC"];
-                this.iDataSoure.Rows[0]["TRANGTHAI"] = row["TRANGTHAI"];
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
 
-                throw;
+                throw err;
             }
             finally
             {
@@ -268,13 +271,19 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 flagsave = true;
                 SetIsNull();
                 txtMaHDT.Focus();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -282,6 +291,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (ValiDate())
                 {
                     if (flagsave)
@@ -291,30 +301,51 @@ namespace DATN.TTS.TVMH
                             bool res = client.Insert_HeDaoTao(this.iDataSoure.Copy());
                             if (!res)
                             {
-                                MessageBox.Show("Thêm mới không thành công", "Thêm mới");
+                                CTMessagebox.Show("Thêm mới không thành công.", "Thêm mới", "", CTICON.Error,
+                                    CTBUTTON.OK);
                                 return;
                             }
-                            SetIsNull();
-                            GetGrid();
+                            else
+                            {
+                                CTMessagebox.Show("Thêm mới thành công.", "Thêm mới", "", CTICON.Information,
+                                    CTBUTTON.OK);
+                                SetIsNull();
+                                GetGrid();
+                            }
+
                         }
                         else
                         {
-                            MessageBox.Show("Mã bị trùng. Vui lòng nhập lại", "Thông báo");
+                            CTMessagebox.Show("Trùng mã.", "Thêm mới", "", CTICON.Error, CTBUTTON.OK);
                             txtMaHDT.Focus();
                         }
                     }
                     else
                     {
-                        client.Update_HeDaoTao(this.iDataSoure.Copy());
-                        SetIsNull();
-                        GetGrid();
+                        bool res = client.Update_HeDaoTao(this.iDataSoure.Copy());
+                        if (!res)
+                        {
+                            CTMessagebox.Show("Cập nhật không thành công.", "Cập nhật", "", CTICON.Error, CTBUTTON.OK);
+                            return;
+                        }
+                        else
+                        {
+                            CTMessagebox.Show("Cập nhật thành công.", "Cập nhật", "", CTICON.Information, CTBUTTON.OK);
+                            SetIsNull();
+                            GetGrid();
+                        }
+
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -322,14 +353,19 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 txtMaHDT.Focus();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -337,16 +373,31 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (MessageBox.Show("Bạn có muốn xóa", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    client.Delete_HeDaoTao(int.Parse(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()), this.iDataSoure.Rows[0]["USER"].ToString());
-                    GetGrid();
-                    SetIsNull();
+                    bool res = client.Delete_HeDaoTao(int.Parse(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()), this.iDataSoure.Rows[0]["USER"].ToString());
+                    if (!res)
+                    {
+                        CTMessagebox.Show("Xóa không thành công.", "Xóa", "", CTICON.Error, CTBUTTON.OK);
+                        return;
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Xóa thành công.", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                        SetIsNull();
+                        GetGrid();
+                    }
+                            
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                MessageBox.Show("Xóa Không thành công", "Xóa", MessageBoxButton.OKCancel);
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
     }
