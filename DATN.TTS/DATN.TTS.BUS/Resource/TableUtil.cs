@@ -67,13 +67,13 @@ namespace DATN.TTS.BUS
 
                 if (columns == null)
                 {
-                    columns = ((Type) record.GetType()).GetProperties();
+                    columns = ((Type)record.GetType()).GetProperties();
                     foreach (PropertyInfo getProperty in columns)
                     {
                         Type colType = getProperty.PropertyType;
 
                         if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition()
-                                                        == typeof (Nullable<>)))
+                                                        == typeof(Nullable<>)))
                         {
                             colType = colType.GetGenericArguments()[0];
                         }
@@ -91,7 +91,33 @@ namespace DATN.TTS.BUS
 
                 dt.Rows.Add(dr);
             }
+            if (dt.Rows.Count < 1)
+            {
+                var resultType =
+                    linqlist.GetType()
+                        .GetInterfaces()
+                        .Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IEnumerable<>))
+                        .Single()
+                        .GetGenericArguments()
+                        .Single();
+                var colum = resultType.GetProperties();
+                string[] columnNames = colum.Select(column => column.Name)
+                    .ToArray();
+                Type[] columnTypes = colum.Select(column => column.PropertyType)
+                    .ToArray();
+                for (int i = 0; i < columnNames.Count(); i++)
+                {
+                    Type tmp = columnTypes[i];
+                    if ((tmp.IsGenericType) && (tmp.GetGenericTypeDefinition()
+                                                == typeof (Nullable<>)))
+                    {
+                        tmp = tmp.GetGenericArguments()[0];
+                    }
+
+                    dt.Columns.Add(columnNames[i], tmp);
+                }
+            }
             return dt;
         }
-   }
+    }
 }
