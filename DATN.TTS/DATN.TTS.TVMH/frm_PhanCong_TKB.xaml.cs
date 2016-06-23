@@ -1229,9 +1229,9 @@ namespace DATN.TTS.TVMH
                 }
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -1295,9 +1295,9 @@ namespace DATN.TTS.TVMH
                 #endregion
                 XepTKB.EndUpdate();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -1330,9 +1330,13 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -1403,9 +1407,9 @@ namespace DATN.TTS.TVMH
                     Load_TKBHPCT(iDataSoureHPCT.Copy());
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {
@@ -1429,9 +1433,13 @@ namespace DATN.TTS.TVMH
                         Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TONG"].ToString()) - (Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_DASEP"].ToString()) * Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString()));
                 }
             }
-            catch
+            catch (Exception err)
             {
-                return;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -1445,9 +1453,13 @@ namespace DATN.TTS.TVMH
                 frm.MinHeight = 600;
                 frm.ShowDialog();
             }
-            catch
+            catch (Exception err)
             {
-                return;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -1486,9 +1498,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["SO_TIET"] = r["SO_TIET"];
                 #endregion
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                throw;
+                throw err;
             }
             finally
             {

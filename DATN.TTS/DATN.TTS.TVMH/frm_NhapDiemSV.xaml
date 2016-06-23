@@ -18,10 +18,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Button thuc hien chuc nang-->
-        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
-                <Button  Content="Nhập từ Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnimport" VerticalAlignment="Bottom" Margin="3,0,3,2" Click="Btnimport_OnClick"/>
-                <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center" Click="BtnRefresh_OnClick"/>
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button  Content="Lưu điểm" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnLuu" VerticalAlignment="Bottom" 
+                         />
+                <Button  Content="Nhập từ Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnimport" VerticalAlignment="Bottom" 
+                         Click="Btnimport_OnClick"/>
+                <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center" 
+                         Click="BtnRefresh_OnClick"/>
             </StackPanel>
         </Border>
         <!--Controls nhap du lieu-->
@@ -31,15 +35,73 @@
                     <!--Design hiển thị các controls-->
                     <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.5*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.5*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Sinh viên" Style="{StaticResource TextBlockStyle}" />
-                            <dxe:ComboBoxEdit Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboSinhVien" DisplayMember="TEN_SINHVIEN" ValueMember="ID_SINHVIEN" EditValue="{Binding id_sinhvien_s, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboSinhVien_OnEditValueChanged"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="26"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Nhập mã sinh viên" Style="{StaticResource TextBlockStyle}"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="1" Name="txtMASV" Style="{StaticResource TextEditStyle}" Width="300" HorizontalAlignment="Left"
+                                              EditValue="{Binding MA_SINHVIEN, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Grid.Row="0" Grid.Column="2" Name="btnXemHocPhanDK" Content="Tìm sinh viên" Style="{StaticResource Button_Style_2}"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                    </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                                        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
+                              EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboHDT_OnEditValueChanged"
+                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
+                                        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
+                                                          EditValueChanged="CboKhoa_OnEditValueChanged"
+                              EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC"/>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="Ngành:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
+                                                          EditValueChanged="CboNganh_OnEditValueChanged"
+                              EditValue="{Binding ID_KHOAHOC_NGANH, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC_NGANH" DisplayMember="TEN_NGANH"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Học kỳ:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHocKy"
+                              EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" ValueMember="HOCKY" DisplayMember="HOCKY_NAME"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Môn học:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboMonHoc"
+                              EditValue="{Binding ID_MONHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_MONHOC" DisplayMember="TEN_MONHOC"/>
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="Lớp học phần:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboThu"
+                              EditValue="{Binding THU, UpdateSourceTrigger=PropertyChanged}" ValueMember="THU" DisplayMember="NGAY"/>
+
+                                 
+                                </Grid>
+                               </Grid>
                         </Grid>
+                        
                     </StackPanel>
                 </Border>
             </StackPanel>

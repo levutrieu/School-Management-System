@@ -66,11 +66,11 @@
 
                             <TextBlock Grid.Row="0" Grid.Column="7" Text="Số học kỳ trong năm:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="0" Grid.Column="8" Name="txtHKTrongNam" Style="{StaticResource SpinEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding SO_HKY_TRONGNAM}" MaxValue="3" MinValue="1"/>
+                                          TextWrapping="Wrap" EditValue="{Binding SO_HKY_TRONGNAM}" MaxValue="3" MinValue="0"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="9" Text="Số tuần:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="0" Grid.Column="10" Name="txtSotuan" Style="{StaticResource SpinEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding SO_TUAN}" MaxLength="2" MinValue="1" MaxValue="52"/>
+                                          TextWrapping="Wrap" EditValue="{Binding SO_TUAN}" MaxLength="2" MinValue="0" MaxValue="52"/>
                         </Grid>
                     </StackPanel>
 

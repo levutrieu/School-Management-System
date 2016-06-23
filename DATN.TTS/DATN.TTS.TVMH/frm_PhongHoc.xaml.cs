@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Data;
@@ -70,10 +71,9 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
@@ -198,16 +198,15 @@ namespace DATN.TTS.TVMH
                 GetGrid();
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
             }
         }
 
         void ValiCheck()
         {
-            if(rdLT.IsChecked == true)
+            if (rdLT.IsChecked == true)
             {
                 this.iDataSoure.Rows[0]["LOAIPHONG"] = "Lý Thuyết";
             }
@@ -261,46 +260,46 @@ namespace DATN.TTS.TVMH
             {
                 if (this.iDataSoure.Rows[0]["MA_PHONG"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập mã phòng.", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     txtMaPhong.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TEN_PHONG"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập tên phòng.", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     txtTenPhong.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["SUCCHUA"].ToString() == "0")
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập sức chứa phòng.", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     txtSucChua.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["LOAIPHONG"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng chọn loại phòng", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     rdLT.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["DAY"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng chọn dãy phòng.", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     txtDay.Focus();
                     return false;
                 }
                 if (this.iDataSoure.Rows[0]["TANG"].ToString() == string.Empty)
                 {
-                    MessageBox.Show("Vui lòng nhập");
+                    CTMessagebox.Show("Vui lòng nhập tầng của phòng.", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
                     txtTang.Focus();
                     return false;
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
             }
         }
 
@@ -338,16 +337,21 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 flagsave = true;
                 txtMaPhong.Focus();
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -355,6 +359,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 ValiCheck();
                 if (ValiDate())
                 {
@@ -363,11 +368,16 @@ namespace DATN.TTS.TVMH
                         bool res = client.Insert_Phong(this.iDataSoure.Copy());
                         if (!res)
                         {
-                            MessageBox.Show("Thêm mới không thành công", "Thêm mới");
+                            CTMessagebox.Show("Thêm mới không thành công", "Thêm mới","", CTICON.Error, CTBUTTON.OK);
                         }
-                        GetGrid();
-                        SetIsNull();
-                        txtDay.Focus();
+                        else
+                        {
+                            CTMessagebox.Show("Thêm mới thành công", "Thêm mới", "", CTICON.Information, CTBUTTON.OK);
+                            GetGrid();
+                            SetIsNull();
+                            txtDay.Focus();
+                        }
+                      
                     }
                     else
                     {
@@ -377,11 +387,14 @@ namespace DATN.TTS.TVMH
                         txtDay.Focus();
                     }
                 }
-             }
-            catch (Exception)
+            }
+            catch (Exception err)
             {
-                
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -389,7 +402,8 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if(MessageBox.Show("Bạn có muốn xóa?","Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (CTMessagebox.Show("Bạn có muốn xóa?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_Phong(this.iDataSoure.Copy());
                     GetGrid();
@@ -397,10 +411,14 @@ namespace DATN.TTS.TVMH
                     txtDay.Focus();
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -408,15 +426,20 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 GetGrid();
                 SetIsNull();
                 txtMaPhong.Focus();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-                
-                throw;
+
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -445,10 +468,9 @@ namespace DATN.TTS.TVMH
                 CheckRadio();
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
-                throw;
+                throw err;
             }
             finally
             {

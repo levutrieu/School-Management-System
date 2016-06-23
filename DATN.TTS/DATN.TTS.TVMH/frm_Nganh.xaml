@@ -77,17 +77,8 @@
                                               AutoComplete="True"
                                               EditValue="{Binding ID_KHOA, UpdateSourceTrigger=PropertyChanged}" 
                                               ValueMember="ID_KHOA" DisplayMember="TEN_KHOA"/>
-                            
-
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Cấp ngành:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="4" Name="txtCapNganh" Style="{StaticResource TextEditStyle}" 
-                                          EditValue="{Binding CAP_NGANH}" MaxLength="255"/>
-                            <!--<TextBlock Grid.Row="2" Grid.Column="5" Text="Trạng thái:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="6" Name="txtTThai" Style="{StaticResource TextEditStyle}" 
-                                          EditValue="{Binding TRANGTHAI}" MaxLength="255"/>-->
-                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="6" 
-                                          Name="txtGhiChu" Style="{StaticResource TextEditStyle}" 
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Name="txtGhiChu" Style="{StaticResource TextEditStyle}" 
                                           EditValue="{Binding GHICHU}" MaxLength="255"/>
                         </Grid>
                     </StackPanel>

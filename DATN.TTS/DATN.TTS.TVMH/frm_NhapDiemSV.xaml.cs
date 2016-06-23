@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
@@ -33,19 +34,31 @@ namespace DATN.TTS.TVMH
         bus_SinhVien sv = new bus_SinhVien();
         bus_NhapDiemSV diem = new bus_NhapDiemSV();
         bus_molophocphan lhp = new bus_molophocphan();
-
+        bus_DangKyHocPhan client = new bus_DangKyHocPhan();
+        bus_LapKeHoachDaoTaoKhoa kehoach = new bus_LapKeHoachDaoTaoKhoa();
         private DataTable iDataSource = null;
         private DataTable iGridDataSource = null;
-
+        private int idHedaoTao = 0;
         public frm_NhapDiemSV()
         {
             InitializeComponent();
             this.iDataSource = TableSchemaBinding();
             this.DataContext = this.iDataSource;
             iDataSource.Rows[0]["USER"] = UserCommon.UserName;
-            Load_cbo();
             Init_Grid();
             Load_data();
+            SetCombo();
+            LoadHocKy();
+        }
+
+        void SetCombo()
+        {
+            DataTable dt = kehoach.GetAllHDT();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cboHDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
+                this.iDataSource.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
+            }
         }
 
         DataTable TableSchemaBinding()
@@ -56,6 +69,11 @@ namespace DATN.TTS.TVMH
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 dic.Add("USER", typeof(string));
                 dic.Add("id_sinhvien_s", typeof(int));
+                dic.Add("ID_HE_DAOTAO", typeof(int));
+                dic.Add("ID_KHOAHOC_NGANH", typeof(int));
+                dic.Add("ID_KHOAHOC", typeof(int));
+                dic.Add("ID_NGANH", typeof(int));
+                dic.Add("HOCKY", typeof(int));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -208,17 +226,21 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void Load_cbo()
+        void LoadHocKy()
         {
-            try
+            DataTable dt = new DataTable();
+            dt.Columns.Add("HOCKY", typeof(int));
+            dt.Columns.Add("HOCKY_NAME", typeof(string));
+            for (int i = 1; i <= 8; i++)
             {
-                DataTable idatasv = sv.GetAllSinhVien();
-                cboSinhVien.ItemsSource = idatasv;
+                DataRow r = dt.NewRow();
+                r["HOCKY"] = i;
+                r["HOCKY_NAME"] = i;
+                dt.Rows.Add(r);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            ComboBoxUtil.SetComboBoxEdit(cboHocKy, "HOCKY_NAME", "HOCKY", dt, SelectionTypeEnum.Native);
+            ComboBoxUtil.InsertItem(cboHocKy,"----------------------------Tất cả--------------------------","0",0, false);
+            this.iDataSource.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
         }
 
         private void Btnimport_OnClick(object sender, RoutedEventArgs e)
@@ -323,20 +345,66 @@ namespace DATN.TTS.TVMH
             Load_data();
         }
 
-        private void CboSinhVien_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             try
             {
-                DataTable idatasearch = null;
-                DataRow[] xcheck = iGridDataSource.Select("ID_SINHVIEN = " + iDataSource.Rows[0]["id_sinhvien_s"].ToString());
-                idatasearch = xcheck.CopyToDataTable();
-                grd.ItemsSource = idatasearch;
+                Mouse.OverrideCursor = Cursors.Wait;
+                CboKhoa.ItemsSource = null;
+
+                if (this.iDataSource.Rows[0]["ID_HE_DAOTAO"].ToString() != string.Empty)
+                {
+                    int pid = Convert.ToInt32(this.iDataSource.Rows[0]["ID_HE_DAOTAO"].ToString());
+                    idHedaoTao = pid;
+                    DataTable dt = kehoach.GetAllKhoaHoc(pid);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", dt, SelectionTypeEnum.Native);
+                        this.iDataSource.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                throw ex;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
+        private void CboNganh_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            
+        }
+
+        private void CboKhoa_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iDataSource.Rows[0]["ID_KHOAHOC"].ToString() != string.Empty)
+                {
+                    int pid = Convert.ToInt32(this.iDataSource.Rows[0]["ID_KHOAHOC"].ToString());
+                    int idkhoahoc = pid;
+                    DataTable dt = diem.GetAllKhoaNganh_ForDiem(idkhoahoc);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ComboBoxUtil.SetComboBoxEdit(cboNganh, "TEN_NGANH", "ID_KHOAHOC_NGANH", dt, SelectionTypeEnum.Native);
+                        //ComboBoxUtil.InsertItem(cboNganh, "---------------------Tất cả--------------------", "0", 0, false);
+                        this.iDataSource.Rows[0]["ID_KHOAHOC_NGANH"] = cboNganh.GetKeyValue(0);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
     }
 }

@@ -45,23 +45,6 @@ namespace DATN.TTS.TVMH
             InitGrid();
         }
 
-        void SetComboHK(int id_hocky_namhoc)
-        {
-            try
-            {
-                DataTable dt = client.GetHocKyAll(id_hocky_namhoc);
-                if (dt.Rows.Count > 0)
-                {
-                    ComboBoxUtil.SetComboBoxEdit(cboHocKy, "HOCKY_NAME", "HOCKY", dt, SelectionTypeEnum.Native);
-                    this.iDataSoure.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
-                }
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
         void SetComboNamHoc()
         {
             DataTable dt = client.GetAllNamHoc();
@@ -187,8 +170,7 @@ namespace DATN.TTS.TVMH
 
         private void GetGrid()
         {
-            this.iGridDataSoure = client.GetData(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()),
-                    Convert.ToInt32(this.iDataSoure.Rows[0]["HOCKY"].ToString()));
+            this.iGridDataSoure = client.GetData(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()));
 
             grd.ItemsSource = this.iGridDataSoure;
         }
@@ -241,12 +223,12 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (!string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()))
-                {
-                    int idNamhocHientai = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString());
-                    SetComboHK(idNamhocHientai);
-                }
-                GetGrid();
+                //if (!string.IsNullOrEmpty(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()))
+                //{
+                //    int idNamhocHientai = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString());
+                //    SetComboHK(idNamhocHientai);
+                //}
+                //GetGrid();
             }
             catch (Exception er)
             {

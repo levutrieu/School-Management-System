@@ -38,7 +38,7 @@ namespace DATN.TTS.TVMH
 
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
 
-            
+
             InitGrid();
         }
 
@@ -230,6 +230,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (ValiDate())
                 {
                     if (flagsave)
@@ -250,9 +251,13 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch
+            catch (Exception err)
             {
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -260,6 +265,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 if (MessageBox.Show("Bạn có muốn xóa không?", "Xóa", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     client.Delete_Khoa(this.iDataSoure.Copy());
@@ -267,10 +273,13 @@ namespace DATN.TTS.TVMH
                     SetIsNull();
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -278,16 +287,20 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Mouse.OverrideCursor = Cursors.Wait;
                 KiemTraGioHopLe(this.iDataSoure.Rows[0]["GIO_BD"].ToString(), this.iDataSoure.Rows[0]["GIO_KT"].ToString());
 
                 GetGrid();
                 SetIsNull();
                 txtTietHoc.Focus();
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
-                throw;
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -295,31 +308,22 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                try
-                {
-                    Mouse.OverrideCursor = Cursors.Wait;
-                    DataRow r = null;
-                    if (this.grd.GetFocusedRow() == null)
-                        return;
-                    r = ((DataRowView)grd.GetFocusedRow()).Row;
-                    this.iDataSoure.Rows[0]["ID_TIETHOC"] = r["ID_TIETHOC"];
-                    this.iDataSoure.Rows[0]["TEN_TIETHOC"] = r["TEN_TIETHOC"];
-                    this.iDataSoure.Rows[0]["GIO_BD"] = r["GIO_BD"];
-                    this.iDataSoure.Rows[0]["GIO_KT"] = r["GIO_KT"];
-                    this.iDataSoure.Rows[0]["CA"] = r["CA"];
+                Mouse.OverrideCursor = Cursors.Wait;
+                DataRow r = null;
+                if (this.grd.GetFocusedRow() == null)
+                    return;
+                r = ((DataRowView)grd.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_TIETHOC"] = r["ID_TIETHOC"];
+                this.iDataSoure.Rows[0]["TEN_TIETHOC"] = r["TEN_TIETHOC"];
+                this.iDataSoure.Rows[0]["GIO_BD"] = r["GIO_BD"];
+                this.iDataSoure.Rows[0]["GIO_KT"] = r["GIO_KT"];
+                this.iDataSoure.Rows[0]["CA"] = r["CA"];
 
-                    flagsave = false;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                flagsave = false;
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
-                throw;
+                throw err;
             }
             finally
             {
