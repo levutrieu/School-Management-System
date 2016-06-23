@@ -459,13 +459,13 @@ namespace DATN.TTS.TVMH
         }
         private void GrdViewUI_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
         {
-            ////Mouse.OverrideCursor = Cursors.Wait;
-            //int index = this.grdViewUI.FocusedRowHandle;
-            //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
-            //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "True";
+            //Mouse.OverrideCursor = Cursors.Wait;
+            int index = this.grdViewUI.FocusedRowHandle;
+            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "True")
+                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "True";
 
-            //if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "False")
-            //    this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "False";
+            if (this.iGridDataSoureUI.Rows[index]["IsNew"].ToString() == "False")
+                this.iGridDataSoureUI.Rows[index]["CoQuyen"] = "False";
         }
 
         private void GrdViewUI_OnMouseDown(object sender, MouseButtonEventArgs e)
