@@ -18,6 +18,8 @@ namespace DATN.TTS.TVMH
         {
             InitializeComponent();
             Init_Grid();
+
+
         }
 
         private void Init_Grid()
