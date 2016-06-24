@@ -637,6 +637,20 @@ namespace DATN.TTS.TVMH
                 }
                 iGridDataSource = xdtbm.Copy();
                 grd_KN.ItemsSource = iGridDataSource;
+
+                DataTable tmp = bus.Get_HK_HT(Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC"]));
+                int hkht = 0;
+                if (tmp != null && tmp.Rows.Count > 0)
+                {
+                    int hk = Convert.ToInt32(iGridData_TTHK.Rows[0]["HOCKY"]);
+                    if (hk == 3)
+                    {
+                        hk = 2;
+                    }
+                    hkht = (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) -
+                                Convert.ToInt32(tmp.Rows[0]["NAM_BD"]))*2 + hk;
+                    iDataSource.Rows[0]["HOCKY"] = hkht;
+                }
             }
             catch (Exception ex)
             {
