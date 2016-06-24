@@ -293,7 +293,7 @@ namespace DATN.TTS.TVMH
 
         private bool IsCheck(DataTable dt, string pMaMH)
         {
-            if (dt != null)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 DataRow[] xcheck = dt.Select("MA_MONHOC = '" + pMaMH + "'");
                 if (xcheck.Count() > 0)
