@@ -204,8 +204,23 @@ namespace DATN.TTS.BUS
                 where
                     Tbl_MONHOC.ID_MONHOC == Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC"])
                 select Tbl_MONHOC).FirstOrDefault();
-            query.ID_LOAI_MONHOC = Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]);
-            query.ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]);
+            if (Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]) == 0)
+            {
+                query.ID_LOAI_MONHOC = null;
+            }
+            else
+            {
+                query.ID_LOAI_MONHOC = Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]);                
+            }
+
+            if (Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]) == 0)
+            {
+                query.ID_BOMON = null;
+            }
+            else
+            {
+                query.ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]);
+            }
             query.MA_MONHOC = idatasource.Rows[0]["MA_MONHOC"].ToString();
             query.TEN_MONHOC = idatasource.Rows[0]["TEN_MONHOC"].ToString();
             query.KY_HIEU = idatasource.Rows[0]["KY_HIEU"].ToString();
@@ -218,7 +233,14 @@ namespace DATN.TTS.BUS
             query.UPDATE_USER = idatasource.Rows[0]["USER"].ToString();
             query.UPDATE_TIME = DateTime.Now;
             query.ISBATBUOC = Convert.ToInt32(idatasource.Rows[0]["ISBATBUOC"]);
-            query.ID_MONHOC_SONGHANH = Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]);
+            if (Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]) == 0)
+            {
+                query.ID_MONHOC_SONGHANH = null;                
+            }
+            else
+            {
+                query.ID_MONHOC_SONGHANH = Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]);                
+            }
             query.GHICHU = idatasource.Rows[0]["GHICHU"].ToString();
             db.SubmitChanges();
             i = query.ID_MONHOC;

@@ -671,6 +671,20 @@ namespace DATN.TTS.BUS
             return xdt;
         }
 
+        public DataTable Get_HK_HT(int pID_KHOAHOC)
+        {
+            var query = from Tbl_KHOAHOC in db.tbl_KHOAHOCs
+                        where
+                          Tbl_KHOAHOC.ID_KHOAHOC == pID_KHOAHOC
+                        select new
+                        {
+                            Tbl_KHOAHOC.NAM_BD
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
         public int Insert_NamHocHT_Excel(DataTable idatasource, string pUser)
         {
             try
