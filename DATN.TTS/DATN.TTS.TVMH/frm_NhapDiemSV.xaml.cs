@@ -102,6 +102,16 @@ namespace DATN.TTS.TVMH
                 xcolumn = new GridColumn();
                 xcolumn.FieldName = "ID_LOPHOCPHAN";
                 xcolumn.Visible = false;
+                grd.Columns.Add(xcolumn); 
+
+                xcolumn = new GridColumn();
+                xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                xcolumn.AllowCellMerge = true;
+                xcolumn.FieldName = "MA_SINHVIEN";
+                xcolumn.Header = "Mã sinh viên";
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
                 grd.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -128,6 +138,16 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.FieldName = "TEN_LOP_HOCPHAN";
                 xcolumn.Header = "Tên học phần";
+                xcolumn.AllowCellMerge = false;
+                xcolumn.Width = 150;
+                xcolumn.AllowEditing = DefaultBoolean.False;
+                xcolumn.Visible = true;
+                grd.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
+                xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                xcolumn.FieldName = "HOCKY";
+                xcolumn.Header = "Học kỳ";
                 xcolumn.AllowCellMerge = false;
                 xcolumn.Width = 150;
                 xcolumn.AllowEditing = DefaultBoolean.False;
@@ -259,11 +279,11 @@ namespace DATN.TTS.TVMH
                 DataTable dtSV = sv.GetAllSinhVien();
                 DataTable dtDiemSV = diem.GetAll_DiemSV();
                 DataTable dtlhp = lhp.Getall_lopHocPhan();
-                if (dtDiemSV.Rows.Count == 0)
-                {
-                    dtDiemSV.Columns.Add("ID_SINHVIEN", typeof(int));
-                    dtDiemSV.Columns.Add("ID_LOPHOCPHAN", typeof(int));
-                }
+                //if (dtDiemSV.Rows.Count == 0)
+                //{
+                    //dtDiemSV.Columns.Add("ID_SINHVIEN", typeof(int));
+                    //dtDiemSV.Columns.Add("ID_LOPHOCPHAN", typeof(int));
+                //}
                 DataTable dtNewInsert = dtExcel.Clone();
                 foreach (DataRow dr in dtExcel.Rows)
                 {
@@ -276,8 +296,10 @@ namespace DATN.TTS.TVMH
                         dr["ID_LOPHOCPHAN"] = Convert.ToDecimal(id_lhp);
                         dtNewInsert.ImportRow(dr);
                         DataRow m = dtDiemSV.NewRow();
-                        m["ID_SINHVIEN"] = Convert.ToInt32(dr["ID_SINHVIEN"].ToString());
-                        m["ID_LOPHOCPHAN"] =Convert.ToInt32(dr["f_mamhhtd"].ToString());
+                        //m["ID_SINHVIEN"] = Convert.ToInt32(dr["ID_SINHVIEN"].ToString());
+                        //m["ID_LOPHOCPHAN"] =Convert.ToInt32(dr["f_mamhhtd"].ToString());
+                        m["ID_SINHVIEN"] = Convert.ToInt32(id_sinhvien);
+                        m["ID_LOPHOCPHAN"] = Convert.ToInt32(id_lhp);
                         dtDiemSV.Rows.Add(m);
                     }
                 }
@@ -330,7 +352,7 @@ namespace DATN.TTS.TVMH
                 string sheet = schemaRow["TABLE_NAME"].ToString();
                 if (!sheet.EndsWith("_"))
                 {
-                    string query = "SELECT f_mamhhtd,f_masv,f_diembt,f_diem1,f_diem2,f_diemtk1,f_diemch1,f_diemstk1 FROM [" + sheet + "]";
+                    string query = "SELECT f_mamhhtd,f_masv,f_diembt,f_diem1,f_diem2,f_diemtk1,f_diemch1,f_diemstk1 FROM [" + sheet + "] where f_mamhhtd in ('1200022-1-11-1','1201023-1-11-1', '1201023-1-11-2','1200001-1-11-1','1201002-1-11-1','18200013-1-11-1','19200004-1-11-1','1200003-1-11-1','19200001-1-11-1','18200001-1-11-1','1200006-2-11-1')";
                     OleDbDataAdapter daexcel = new OleDbDataAdapter(query, conn);
                     dtexcel.Locale = CultureInfo.CurrentCulture;
                     daexcel.Fill(dtexcel);
