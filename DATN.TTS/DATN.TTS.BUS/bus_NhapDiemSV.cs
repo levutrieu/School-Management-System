@@ -25,40 +25,48 @@ namespace DATN.TTS.BUS
                         Tbl_DIEM_SINHVIEN.ID_KETQUA,
                         Tbl_DIEM_SINHVIEN.ID_SINHVIEN,
                         TEN_SINHVIEN =
-                              ((from m in db.tbL_SINHVIENs
+                            ((from m in db.tbL_SINHVIENs
                                 where
-                                  m.ID_SINHVIEN == Tbl_DIEM_SINHVIEN.ID_SINHVIEN
+                                    m.ID_SINHVIEN == Tbl_DIEM_SINHVIEN.ID_SINHVIEN
                                 select new
                                 {
                                     m.TEN_SINHVIEN
                                 }).First().TEN_SINHVIEN),
+                        MA_SINHVIEN =
+                            ((from m in db.tbL_SINHVIENs
+                                where
+                                    m.ID_SINHVIEN == Tbl_DIEM_SINHVIEN.ID_SINHVIEN
+                                select new
+                                {
+                                    m.MA_SINHVIEN
+                                }).First().MA_SINHVIEN),
                         Tbl_DIEM_SINHVIEN.ID_LOPHOCPHAN,
                         MA_LOP_HOCPHAN =
-                              ((from m in db.tbl_LOP_HOCPHANs
+                            ((from m in db.tbl_LOP_HOCPHANs
                                 where
-                                  m.ID_LOPHOCPHAN == Tbl_DIEM_SINHVIEN.ID_LOPHOCPHAN
+                                    m.ID_LOPHOCPHAN == Tbl_DIEM_SINHVIEN.ID_LOPHOCPHAN
                                 select new
                                 {
                                     m.MA_LOP_HOCPHAN
                                 }).First().MA_LOP_HOCPHAN),
                         TEN_LOP_HOCPHAN =
-                              ((from m in db.tbl_LOP_HOCPHANs
+                            ((from m in db.tbl_LOP_HOCPHANs
                                 where
-                                  m.ID_LOPHOCPHAN == Tbl_DIEM_SINHVIEN.ID_LOPHOCPHAN
+                                    m.ID_LOPHOCPHAN == Tbl_DIEM_SINHVIEN.ID_LOPHOCPHAN
                                 select new
                                 {
                                     m.TEN_LOP_HOCPHAN
                                 }).First().TEN_LOP_HOCPHAN),
                         Tbl_DIEM_SINHVIEN.ID_KHOAHOC,
                         TEN_KHOAHOC =
-                              ((from m in db.tbl_KHOAHOCs
+                            ((from m in db.tbl_KHOAHOCs
                                 where
-                                  m.ID_KHOAHOC == Tbl_DIEM_SINHVIEN.ID_KHOAHOC
+                                    m.ID_KHOAHOC == Tbl_DIEM_SINHVIEN.ID_KHOAHOC
                                 select new
                                 {
                                     m.TEN_KHOAHOC
                                 }).First().TEN_KHOAHOC),
-                        Tbl_DIEM_SINHVIEN.ID_HOCKY,
+                        HOCKY = Tbl_DIEM_SINHVIEN.ID_HOCKY,
                         Tbl_DIEM_SINHVIEN.DIEM_BT,
                         Tbl_DIEM_SINHVIEN.DIEM_GK,
                         Tbl_DIEM_SINHVIEN.DIEM_CK,
@@ -84,30 +92,50 @@ namespace DATN.TTS.BUS
                 int i = 0;
                 foreach (DataRow dr in idatasource.Rows)
                 {
-                    double diembt = 0;
-                    double diemgk = 0;
-                    double diemck = 0;
-                    double diemtk = 0;
-                    double diemhe4 = 0;
+                    double? diembt;
+                    double? diemgk;
+                    double? diemck;
+                    double? diemtk;
+                    double? diemhe4;
                     if (!string.IsNullOrEmpty(dr["f_diembt"].ToString()))
                     {
                         diembt = Convert.ToDouble(dr["f_diembt"]);
+                    }
+                    else
+                    {
+                        diembt = null;
                     }
                     if (!string.IsNullOrEmpty(dr["f_diem1"].ToString()))
                     {
                         diemgk = Convert.ToDouble(dr["f_diem1"]);
                     }
+                    else
+                    {
+                        diemgk = null;
+                    }
                     if (!string.IsNullOrEmpty(dr["f_diem2"].ToString()))
                     {
                         diemck = Convert.ToDouble(dr["f_diem2"]);
+                    }
+                    else
+                    {
+                        diemck = null;
                     }
                     if (!string.IsNullOrEmpty(dr["f_diemtk1"].ToString()))
                     {
                         diemtk = Convert.ToDouble(dr["f_diemtk1"]);
                     }
+                    else
+                    {
+                        diemtk = null;
+                    }
                     if (!string.IsNullOrEmpty(dr["f_diemstk1"].ToString()))
                     {
                         diemhe4 = Convert.ToDouble(dr["f_diemstk1"]);
+                    }
+                    else
+                    {
+                        diemhe4 = null;
                     }
                     tbl_DIEM_SINHVIEN query = new tbl_DIEM_SINHVIEN
                     {
@@ -133,6 +161,20 @@ namespace DATN.TTS.BUS
                 return 0;
             }
         }
+
+        //private double ConvertToDouble(string ivalue)
+        //{
+        //    double? ireturn = null;
+        //    if (!string.IsNullOrEmpty(ivalue))
+        //    {
+        //        ireturn = Convert.ToDouble(ivalue);
+        //    }
+        //    else
+        //    {
+        //        ireturn = null;
+        //    }
+        //    return ireturn;
+        //}
 
         public DataTable GetAllKhoaNganh_ForDiem(int pID_KHOAHOC)
         {
