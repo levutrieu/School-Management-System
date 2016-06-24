@@ -120,7 +120,7 @@ namespace DATN.TTS.TVMH
                 col = new TreeListColumn();
                 col.FieldName = "CACH_TINHDIEM";
                 col.Header = "Tính điểm";
-                col.Width = 100;
+                col.Width = 70;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
@@ -185,6 +185,8 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 GridDiem.Columns.Add(col);
 
 
