@@ -33,7 +33,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSource = TableChelmabinding();
             this.DataContext = this.iDataSource;
-            this.iDataSource.Rows[0]["USER"] = UserCommon.IdNhanVien;
+            this.iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             Load_combo();
         }
 
@@ -43,7 +43,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 dtaTable = frm_MonHoc.idatasource;
-                dtaTable.Columns.Add("USER", typeof (decimal));
+                dtaTable.Columns.Add("USER", typeof (string));
             }
             catch (Exception ex)
             {
