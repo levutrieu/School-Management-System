@@ -367,43 +367,57 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = null;
                 var hpdky = from hp in db.tbl_LOP_HOCPHANs
-                            join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
-                            join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
-                            where
-                                (hp.IS_DELETE != 1 ||
-                                 hp.IS_DELETE == null) &&
-                                (from hkht in db.tbl_NAMHOC_HKY_HTAIs
-                                 where hkht.IS_HIENTAI == 1
-                                 select new
-                                 {
-                                     hkht.ID_NAMHOC_HKY_HTAI
-                                 }).Contains(new { ID_NAMHOC_HKY_HTAI = (System.Int32)hp.ID_NAMHOC_HKY_HTAI }) &&
-                                    (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                    join mh in db.tbl_MONHOCs on new {ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC)} equals
+                        new {ID_MONHOC = mh.ID_MONHOC}
+                    join thu in db.tbl_LOP_HOCPHAN_CTs on hp.ID_LOPHOCPHAN equals thu.ID_LOPHOCPHAN
+                    where
+                        (hp.IS_DELETE != 1 ||
+                         hp.IS_DELETE == null) &&
+                        (from hkht in db.tbl_NAMHOC_HKY_HTAIs
+                            where hkht.IS_HIENTAI == 1
                             select new
                             {
-                                hp.ID_LOPHOCPHAN,
-                                hp.ID_KHOAHOC_NGANH_CTIET,
-                                hp.ID_NAMHOC_HKY_HTAI,
-                                hp.ID_HEDAOTAO,
-                                ID_MONHOC = (int?)hp.ID_MONHOC,
-                                hp.ID_LOPHOC,
-                                hp.ID_GIANGVIEN,
-                                hp.MA_LOP_HOCPHAN,
-                                hp.TEN_LOP_HOCPHAN,
-                                mh.MA_MONHOC,
-                                mh.TEN_MONHOC,
-                                mh.SO_TC,
-                                hp.SOLUONG,
-                                hp.TUAN_BD,
-                                hp.TUAN_KT,
-                                SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
-                                TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString(),
-                                thu.THU,
-                                thu.TIET_BD,
-                                thu.TIET_KT,
-                                thu.SO_TIET,
-                                TEN_PHONG = (from p in db.tbl_PHONGHOCs where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null) select p).FirstOrDefault().TEN_PHONG.ToString()
-                            };
+                                hkht.ID_NAMHOC_HKY_HTAI
+                            }).Contains(new {ID_NAMHOC_HKY_HTAI = (System.Int32) hp.ID_NAMHOC_HKY_HTAI}) &&
+                        (thu.IS_DELETE != 1 || thu.IS_DELETE == null)
+                    select new
+                    {
+                        hp.ID_LOPHOCPHAN,
+                        hp.ID_KHOAHOC_NGANH_CTIET,
+                        hp.ID_NAMHOC_HKY_HTAI,
+                        hp.ID_HEDAOTAO,
+                        ID_MONHOC = (int?) hp.ID_MONHOC,
+                        ISBATBUOC =
+                            ((from n in db.tbl_MONHOCs
+                                where
+                                    n.ID_MONHOC == hp.ID_MONHOC
+                                select new
+                                {
+                                    n.ISBATBUOC
+                                }).First().ISBATBUOC),
+                        hp.ID_LOPHOC,
+                        hp.ID_GIANGVIEN,
+                        hp.MA_LOP_HOCPHAN,
+                        hp.TEN_LOP_HOCPHAN,
+                        mh.MA_MONHOC,
+                        mh.TEN_MONHOC,
+                        mh.SO_TC,
+                        hp.SOLUONG,
+                        hp.TUAN_BD,
+                        hp.TUAN_KT,
+                        SOSVDKY = db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                        TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs
+                            where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null)
+                            select new {gv.TEN_GIANGVIEN}).FirstOrDefault().TEN_GIANGVIEN.ToString(),
+                        thu.THU,
+                        thu.TIET_BD,
+                        thu.TIET_KT,
+                        thu.SO_TIET,
+                        TEN_PHONG =
+                            (from p in db.tbl_PHONGHOCs
+                                where p.ID_PHONG == thu.ID_PHONG && (p.IS_DELETE != 1 || p.IS_DELETE == null)
+                                select p).FirstOrDefault().TEN_PHONG.ToString()
+                    };
                 dt = TableUtil.LinqToDataTable(hpdky);
                 return dt;
             }
