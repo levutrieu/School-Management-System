@@ -9,7 +9,23 @@
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="1050"
 	Title="Bộ môn">
-
+    <Page.Resources>
+        <DataTemplate x:Key="txtDiemBT">
+            <dxe:TextEdit Name="txtDiemBT" Width="auto" Style="{StaticResource TextEditStyle}" MaskType="Numeric" MaxLength="4" Mask="##.#" DisplayFormatString="0.0"/>
+        </DataTemplate>
+        <DataTemplate x:Key="txtDiemGK">
+            <dxe:TextEdit Name="txtDiemGK" Width="auto" Style="{StaticResource TextEditStyle}" MaskType="Numeric" MaxLength="4" Mask="##.#" DisplayFormatString="0.0"/>
+        </DataTemplate>
+        <DataTemplate x:Key="txtDiemCK">
+            <dxe:TextEdit Name="txtDiemCK" Width="auto" Style="{StaticResource TextEditStyle}" MaskType="Numeric" MaxLength="4" Mask="##.#" DisplayFormatString="0.0"/>
+        </DataTemplate>
+        <DataTemplate x:Key="txtDiemTong">
+            <dxe:TextEdit Name="txtDiemTong" Width="auto" Style="{StaticResource TextEditStyle}" MaskType="Numeric" MaxLength="4" Mask="##.#" DisplayFormatString="0.0"/>
+        </DataTemplate>
+        <DataTemplate x:Key="txtDiem_HE4">
+            <dxe:TextEdit Name="txtDiem_HE4" Width="auto" Style="{StaticResource TextEditStyle}" MaskType="Numeric" MaxLength="1"/>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
         <!--Định nghĩa các phần riêng biệt-->
         <Grid.RowDefinitions>
@@ -21,7 +37,8 @@
         <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button  Content="Lưu điểm" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnLuu" VerticalAlignment="Bottom" 
-                         />
+                         Click="BtnLuu_OnClick"/>
+                
                 <Button  Content="Nhập từ Excel" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnimport" VerticalAlignment="Bottom" 
                          Click="Btnimport_OnClick"/>
                 <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center" 
@@ -85,17 +102,19 @@
                                                           EditValueChanged="CboNganh_OnEditValueChanged"
                               EditValue="{Binding ID_KHOAHOC_NGANH, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC_NGANH" DisplayMember="TEN_NGANH"/>
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Học kỳ:" Style="{StaticResource TextBlockStyle}"/>
+                                    <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Học kỳ:" Style="{StaticResource TextBlockStyle}"/>
                                     <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHocKy"
-                              EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" ValueMember="HOCKY" DisplayMember="HOCKY_NAME"/>
+                              EditValue="{Binding HOCKY, UpdateSourceTrigger=PropertyChanged}" ValueMember="HOCKY" DisplayMember="HOCKY_NAME"/>-->
 
-                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Môn học:" Style="{StaticResource TextBlockStyle}"/>
-                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboMonHoc"
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Môn học:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboMonHoc"
+                                                      EditValueChanged="CboMonHoc_OnEditValueChanged"
                               EditValue="{Binding ID_MONHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_MONHOC" DisplayMember="TEN_MONHOC"/>
                                     
-                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="Lớp học phần:" Style="{StaticResource TextBlockStyle}"/>
-                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboThu"
-                              EditValue="{Binding THU, UpdateSourceTrigger=PropertyChanged}" ValueMember="THU" DisplayMember="NGAY"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Lớp học phần:" Style="{StaticResource TextBlockStyle}"/>
+                                    <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboLopHocPhan"
+                                                      EditValueChanged="CboLopHocPhan_OnEditValueChanged"
+                              EditValue="{Binding ID_LOPHOCPHAN, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_LOPHOCPHAN" DisplayMember="TEN_LOP_HOCPHAN"/>
 
                                  
                                 </Grid>
@@ -108,10 +127,12 @@
         </Expander>
         <!--Luoi du lieu-->
 
-        <dxg:GridControl Grid.Row="2" Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
+        <dxg:GridControl Grid.Row="2" Margin="3" AutoPopulateColumns="True" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
             <dxg:GridControl.View>
-                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" AllowCellMerge="True"
-                                   ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}"/>
+                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" CellValueChanged="GrdView_OnCellValueChanged"
+                                   ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}" 
+                               AllowSorting="False"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>
