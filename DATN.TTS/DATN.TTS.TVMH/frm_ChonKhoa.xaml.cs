@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DATN.TTS.TVMH.Resource;
@@ -228,12 +231,30 @@ namespace DATN.TTS.TVMH
         #region Chưa dùng
         private void BtnChon_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            GrdKhoa_OnFocusedRowChanged(sender, null);
         }
 
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                if (File.Exists(@"D:\DataExport") == false)
+                {
+                    Directory.CreateDirectory(@"D:\DataExport");
+                }
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                options.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Value;
+                options.ExportMode = DevExpress.XtraPrinting.XlsExportMode.SingleFile;
+                ((TableView)grd.View).ExportToXls(@"D:\DataExport\KhoaHoc.xls", options);
+                sw.Stop();
+                CTMessagebox.Show("File đã được lưu trên D:DataExport");
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
 
         private void GrdKhoa_OnMouseDown(object sender, MouseButtonEventArgs e)
