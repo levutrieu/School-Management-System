@@ -459,6 +459,7 @@ namespace DATN.TTS.TVMH
                 frmKeThua.Owner = System.Windows.Window.GetWindow(this);
                 frmKeThua.ShowDialog();
                 DataTable xdt = frmKeThua.iDataReturn.Copy();
+                #region 
                 if (iGridDataSoureKhoaNganh.Rows.Count == 0)
                 {
                     iGridDataSoureKhoaNganh = TableSchemaBindings_Grid();
@@ -480,7 +481,8 @@ namespace DATN.TTS.TVMH
                         iGridDataSoureKhoaNganh.Rows.Add(r);
                         iGridDataSoureKhoaNganh.AcceptChanges();
                     }
-                }
+                } 
+                #endregion
                 else
                 {
                     DataTable dt = new DataTable();
