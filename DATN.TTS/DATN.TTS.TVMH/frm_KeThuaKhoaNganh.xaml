@@ -44,7 +44,7 @@
                              dx:ThemeManager.ThemeName="MetropolisLight"  >
                 <dxg:GridControl.View>
                     <dxg:TableView BorderBrush="#27415d" x:Name="grdViewKhoaNganh"  NavigationStyle="Cell"
-                                   RowStyle="{StaticResource SelectedRowStyle}"
+                                   RowStyle="{StaticResource SelectedRowStyle}" MouseDown="GrdViewKhoaNganh_OnMouseDown"
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible">
                     </dxg:TableView>
                 </dxg:GridControl.View>

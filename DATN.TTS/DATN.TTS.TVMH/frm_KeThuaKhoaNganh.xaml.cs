@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DATN.TTS.BUS;
+using DATN.TTS.TVMH.Resource;
 using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
@@ -38,7 +39,6 @@ namespace DATN.TTS.TVMH
             this.DataContext = iDataSoure;
             InitGrid();
             SetCombo();
-            this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = "0";
         }
 
         DataTable TableSchemaBinding()
@@ -47,9 +47,9 @@ namespace DATN.TTS.TVMH
             {
                 DataTable dt = null;
                 Dictionary<string, Type> dic = new Dictionary<string, Type>();
-                dic.Add("ID_KHOAHOC", typeof(Decimal));
+                dic.Add("ID_KHOAHOC", typeof(int));
                 dic.Add("TEN_KHOAHOC", typeof(string));
-                dic.Add("ID_HE_DAOTAO", typeof(Decimal));
+                dic.Add("ID_HE_DAOTAO", typeof(int));
                 dic.Add("TEN_HE_DAOTAO", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
 
@@ -199,24 +199,12 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                DataTable iDataCombo = new DataTable();
-                iDataCombo.Columns.Add("ID_HE_DAOTAO", typeof(Decimal));
-                iDataCombo.Columns.Add("TEN_HE_DAOTAO", typeof(string));
-                DataRow r = iDataCombo.NewRow();
-                r["ID_HE_DAOTAO"] = 0;
-                r["TEN_HE_DAOTAO"] = "----------------Chọn----------------";
-                iDataCombo.Rows.Add(r);
                 DataTable dt = client.GetAllHDT();
-                foreach (DataRow dr in dt.Rows)
+                if (dt.Rows.Count > 0)
                 {
-                    DataRow ir = iDataCombo.NewRow();
-                    ir["ID_HE_DAOTAO"] = dr["ID_HE_DAOTAO"];
-                    ir["TEN_HE_DAOTAO"] = dr["TEN_HE_DAOTAO"];
-
-                    iDataCombo.Rows.Add(ir);
-                    iDataCombo.AcceptChanges();
+                    ComboBoxUtil.SetComboBoxEdit(cboHDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
+                    this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
                 }
-                cboHDT.ItemsSource = iDataCombo;
             }
             catch (Exception err)
             {
@@ -228,20 +216,12 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("ID_KHOAHOC", typeof(Decimal));
-                dt.Columns.Add("TEN_KHOAHOC", typeof(string));
                 DataTable xdt = client.GetKhoaWhereHDT(IdHedaoTao);
-                foreach (DataRow r in xdt.Rows)
+                if (xdt.Rows.Count > 0)
                 {
-                    DataRow dr = dt.NewRow();
-                    dr["ID_KHOAHOC"] = r["ID_KHOAHOC"];
-                    dr["TEN_KHOAHOC"] = r["TEN_KHOAHOC"];
-
-                    dt.Rows.Add(dr);
-                    dt.AcceptChanges();
+                    ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", xdt, SelectionTypeEnum.Native);
+                    this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
                 }
-                CboKhoa.ItemsSource = dt;
             }
             catch (Exception err)
             {
@@ -289,8 +269,11 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                iGridDataSoure = null;
+                CboKhoa.ItemsSource = null;
                 int IdHedaoTao = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
                 SetComboKhoa(IdHedaoTao);
+                grd.ItemsSource = iGridDataSoure;
             }
             catch (Exception err)
             {
@@ -308,9 +291,48 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                iGridDataSoure = null;
                 iGridDataSoure = client.GetAllKhoaNganh(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
                 iGridDataSoure.Columns.Add("CHK");
                 this.grd.ItemsSource = iGridDataSoure;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void GrdViewKhoaNganh_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.grd.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                int index = Convert.ToInt32(row["ID_NGANH"].ToString());
+                int vtri = -1;
+                for (int i = 0; i < iGridDataSoure.Rows.Count; i++)
+                {
+                    int idnganh = Convert.ToInt32(iGridDataSoure.Rows[i]["ID_NGANH"].ToString());
+                    if (index == idnganh)
+                    {
+                        vtri = i;
+                        break;
+                    }
+                }
+                if (iGridDataSoure.Rows[vtri]["CHK"].ToString() == "True")
+                {
+                    iGridDataSoure.Rows[vtri]["CHK"] = "False";
+                }
+                else
+                {
+                    iGridDataSoure.Rows[vtri]["CHK"] = "True";
+                }
             }
             catch (Exception err)
             {
