@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -706,7 +708,25 @@ namespace DATN.TTS.TVMH
         #region Chưa xử lý
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                if (File.Exists(@"D:\DataExport") == false)
+                {
+                    Directory.CreateDirectory(@"D:\DataExport");
+                }
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                options.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Value;
+                options.ExportMode = DevExpress.XtraPrinting.XlsExportMode.SingleFile;
+                ((TableView)grdKhoaNganhCT.View).ExportToXls(@"D:\DataExport\KhoaHocNganhCT.xls", options);
+                sw.Stop();
+                CTMessagebox.Show("File đã được lưu trên D:DataExport");
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
 
         private void GrdViewKhoaNganhCT_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
