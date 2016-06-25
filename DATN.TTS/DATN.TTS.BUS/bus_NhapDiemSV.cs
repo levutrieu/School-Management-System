@@ -203,5 +203,280 @@ namespace DATN.TTS.BUS
                 throw;
             }
         }
+
+        public DataTable GetMonHocWhereKhoaNganh(int idkhoanganh)
+        {
+            try
+            {
+                DataTable dt = null;
+                var monhoc = from knct in db.tbl_KHOAHOC_NGANH_CTIETs
+                    join mh in db.tbl_MONHOCs on new {ID_MONHOC = Convert.ToInt32(knct.ID_MONHOC)} equals
+                        new {ID_MONHOC = mh.ID_MONHOC} into mh_join
+                    from mh in mh_join.DefaultIfEmpty()
+                    where
+                        (knct.IS_DELETE != 1 ||
+                         knct.IS_DELETE == null) &&
+                        (mh.IS_DELETE != 1 ||
+                         mh.IS_DELETE == null) &&
+                        knct.ID_KHOAHOC_NGANH == idkhoanganh
+                    select new
+                    {
+                        ID_MONHOC = (int) knct.ID_MONHOC,
+                        TEN_MONHOC = mh.TEN_MONHOC
+                    };
+                dt = TableUtil.LinqToDataTable(monhoc);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public DataTable GetLopHocPhanWhereIdMonHoc(int idmonhoc)
+        {
+            try
+            {
+                DataTable dt = null;
+                if (idmonhoc == 0)
+                {
+                    var lophocphan = from hp in db.tbl_LOP_HOCPHANs
+                                     join hkht in db.tbl_NAMHOC_HKY_HTAIs on
+                                         new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals
+                                         new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI } into hkht_join
+                                     from hkht in hkht_join.DefaultIfEmpty()
+                                     where
+                                         (hp.IS_DELETE != 1 ||
+                                          hp.IS_DELETE == null) &&
+                                         (hkht.IS_DELETE != 1 ||
+                                          hkht.IS_DELETE == null) &&
+                                         hkht.IS_HIENTAI == 1
+                                     select new
+                                     {
+                                         hp.ID_LOPHOCPHAN,
+                                         TEN_LOP_HOCPHAN=hp.MA_LOP_HOCPHAN.Trim()+"_"+ hp.TEN_LOP_HOCPHAN
+                                     };
+                    dt = TableUtil.LinqToDataTable(lophocphan);
+                }
+                else
+                {
+                    var lophocphan = from hp in db.tbl_LOP_HOCPHANs
+                                     join hkht in db.tbl_NAMHOC_HKY_HTAIs on
+                                         new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals
+                                         new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI } into hkht_join
+                                     from hkht in hkht_join.DefaultIfEmpty()
+                                     where
+                                         (hp.IS_DELETE != 1 ||
+                                          hp.IS_DELETE == null) &&
+                                         (hkht.IS_DELETE != 1 ||
+                                          hkht.IS_DELETE == null) &&
+                                         hkht.IS_HIENTAI == 1 &&
+                                         hp.ID_MONHOC == idmonhoc
+                                     select new
+                                     {
+                                         hp.ID_LOPHOCPHAN,
+                                         hp.TEN_LOP_HOCPHAN
+                                     };
+                    dt = TableUtil.LinqToDataTable(lophocphan);
+                }
+                
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public DataTable GetDanhSachSinhVienDK(int idlophocphan)
+        {
+            try
+            {
+                DataTable dt = null;
+                var danhsachsvien = from dk in db.tbl_HP_DANGKies
+                                    join sv in db.tbL_SINHVIENs on new { ID_SINHVIEN = Convert.ToInt32(dk.ID_SINHVIEN) } equals new { ID_SINHVIEN = sv.ID_SINHVIEN } into sv_join
+                                    from sv in sv_join.DefaultIfEmpty()
+                                    join l in db.tbl_LOPHOCs on new { ID_LOPHOC = Convert.ToInt32(sv.ID_LOPHOC) } equals new { ID_LOPHOC = l.ID_LOPHOC } into l_join
+                                    from l in l_join.DefaultIfEmpty()
+                                    join hp in db.tbl_LOP_HOCPHANs on new { ID_LOPHOCPHAN = Convert.ToInt32(dk.ID_LOPHOCPHAN) } equals new { ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN } into hp_join
+                                    from hp in hp_join.DefaultIfEmpty()
+                                    join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC } into mh_join
+                                    from mh in mh_join.DefaultIfEmpty()
+                                    where
+                                      (dk.IS_DELETE != 1 ||
+                                      dk.IS_DELETE == null) &&
+                                      (sv.IS_DELETE != 1 ||
+                                      sv.IS_DELETE == null) &&
+                                      (l.IS_DELETE != 1 ||
+                                      l.IS_DELETE == null) &&
+                                      (hp.IS_DELETE != 1 ||
+                                      hp.IS_DELETE == null) &&
+                                      (mh.IS_DELETE != 1 ||
+                                      mh.IS_DELETE == null) &&
+                                      dk.ID_LOPHOCPHAN == idlophocphan
+                                    select new
+                                    {
+                                        ID_SINHVIEN = (int?)dk.ID_SINHVIEN,
+                                        MA_SINHVIEN = sv.MA_SINHVIEN,
+                                        TEN_SINHVIEN = sv.TEN_SINHVIEN,
+                                        TEN_LOP = l.TEN_LOP,
+                                        ID_LOPHOCPHAN =hp.ID_LOPHOCPHAN,
+                                        MA_LOP_HOCPHAN = hp.MA_LOP_HOCPHAN,
+                                        TEN_LOP_HOCPHAN = hp.TEN_LOP_HOCPHAN,
+                                        MA_MONHOC = mh.MA_MONHOC,
+                                        TEN_MONHOC = mh.TEN_MONHOC,
+                                        CACH_TINHDIEM=hp.CACH_TINHDIEM
+                                    };
+                dt = TableUtil.LinqToDataTable(danhsachsvien);
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public bool InsertDiemSinhVien(DataTable dt, string pUser)
+        {
+            try
+            {
+                int count = 0;
+                foreach (DataRow r in dt.Rows)
+                {
+                    if (Convert.ToInt32(r["ID_KETQUA"].ToString()) == 0)
+                    {
+                        #region Insert
+
+                        try
+                        {
+                            tbl_DIEM_SINHVIEN diem = new tbl_DIEM_SINHVIEN();
+                            diem.ID_SINHVIEN = Convert.ToInt32(r["ID_SINHVIEN"].ToString());
+                            diem.ID_LOPHOCPHAN = Convert.ToInt32(r["ID_LOPHOCPHAN"].ToString());
+                            diem.ID_KHOAHOC = Convert.ToInt32(r["ID_KHOAHOC"].ToString());
+                            diem.ID_HOCKY = Convert.ToInt32(r["ID_HOCKY"].ToString());
+                            if (r["DIEM_BT"].ToString() == string.Empty)
+                            {
+                                diem.DIEM_BT = null;
+                            }
+                            else
+                            {
+                                diem.DIEM_BT = (double?) Convert.ToDouble(r["DIEM_BT"].ToString());
+                            }
+                            if (r["DIEM_GK"].ToString() == string.Empty)
+                            {
+                                diem.DIEM_GK = null;
+                            }
+                            else
+                            {
+                                diem.DIEM_GK = (double?) Convert.ToDouble(r["DIEM_GK"].ToString());
+                            }
+                            if (r["DIEM_CK"].ToString() == string.Empty)
+                            {
+                                diem.DIEM_CK = null;
+                            }
+                            else
+                            {
+                                diem.DIEM_CK = (double?) Convert.ToDouble(r["DIEM_CK"].ToString());
+                            }
+                            diem.DIEM_TONG = (double?) Convert.ToDouble(r["DIEM_TONG"].ToString());
+                            diem.DIEM_HE4 = (double?) Convert.ToDouble(r["DIEM_HE4"].ToString());
+                            diem.DIEM_CHU = r["DIEM_CHU"].ToString();
+                            diem.IS_DELETE = 0;
+                            diem.CREATE_TIME = DateTime.Now;
+                            diem.CREATE_USER = pUser;
+
+                            db.tbl_DIEM_SINHVIENs.InsertOnSubmit(diem);
+                            db.SubmitChanges();
+                            count++;
+                        }
+                        catch
+                        {
+                            db.Transaction.Rollback();
+                            return false;
+                        }
+
+                        #endregion
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(r["ID_KETQUA"].ToString()) > 0)
+                        {
+                        }
+                    }
+                }
+                if (count > 0)
+                    return true;
+                return false;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public DataTable GetDanhSachDiemWhereIdLopHocPhan(int idlophocphan)
+        {
+            try
+            {
+                DataTable dt = null;
+                var xxxx = from diem in db.tbl_DIEM_SINHVIENs
+                           join hp in db.tbl_LOP_HOCPHANs on new { ID_LOPHOCPHAN = Convert.ToInt32(diem.ID_LOPHOCPHAN) } equals new { ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN } into hp_join
+                           from hp in hp_join.DefaultIfEmpty()
+                           join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC } into mh_join
+                           from mh in mh_join.DefaultIfEmpty()
+                           join hkht in db.tbl_NAMHOC_HKY_HTAIs on new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI } into hkht_join
+                           from hkht in hkht_join.DefaultIfEmpty()
+                           join nhht in db.tbl_NAMHOC_HIENTAIs on new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI } into nhht_join
+                           from nhht in nhht_join.DefaultIfEmpty()
+                           join sv in db.tbL_SINHVIENs on new { ID_SINHVIEN = Convert.ToInt32(diem.ID_SINHVIEN) } equals new { ID_SINHVIEN = sv.ID_SINHVIEN } into sv_join
+                           from sv in sv_join.DefaultIfEmpty()
+                           join l in db.tbl_LOPHOCs on new { ID_LOPHOC = Convert.ToInt32(sv.ID_LOPHOC) } equals new { ID_LOPHOC = l.ID_LOPHOC } into l_join
+                           from l in l_join.DefaultIfEmpty()
+                           join dk in db.tbl_HP_DANGKies on new { ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN } equals new { ID_LOPHOCPHAN = Convert.ToInt32(dk.ID_LOPHOCPHAN) } into dk_join
+                           from dk in dk_join.DefaultIfEmpty()
+                           where
+                             (diem.IS_DELETE != 1 ||
+                             diem.IS_DELETE == null) &&
+                             (hp.IS_DELETE != 1 ||
+                             hp.IS_DELETE == null) &&
+                             (mh.IS_DELETE != 1 ||
+                             mh.IS_DELETE == null) &&
+                             (hkht.IS_DELETE != 1 ||
+                             hkht.IS_DELETE == null) &&
+                             (sv.IS_DELETE != 1 ||
+                             sv.IS_DELETE == null) &&
+                             (l.IS_DELETE != 1 ||
+                             l.IS_DELETE == null) &&
+                             diem.ID_LOPHOCPHAN == idlophocphan
+                           select new
+                           {
+                               diem.ID_KETQUA,
+                               ID_SINHVIEN = (int?)diem.ID_SINHVIEN,
+                               ID_LOPHOCPHAN = (int?)diem.ID_LOPHOCPHAN,
+                               diem.ID_KHOAHOC,
+                               diem.ID_HOCKY,
+                               MA_SINHVIEN = sv.MA_SINHVIEN,
+                               TEN_SINHVIEN = sv.TEN_SINHVIEN,
+                               TEN_LOP = l.TEN_LOP,
+                               TEN_MONHOC = mh.TEN_MONHOC,
+                               MA_MONHOC = mh.MA_MONHOC,
+                               SO_TC = (int?)mh.SO_TC,
+                               DIEM_BT=(double?)diem.DIEM_BT,
+                               DIEM_GK = (double?)diem.DIEM_GK,
+                               DIEM_CK = (double?)diem.DIEM_CK,
+                               DIEM_TONG = (double?)diem.DIEM_TONG,
+                               DIEM_HE4 = (double?)diem.DIEM_HE4,
+                               diem.DIEM_CHU,
+                               CACH_TINHDIEM = hp.CACH_TINHDIEM
+                           };
+
+                dt = TableUtil.LinqToDataTable(xxxx);
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }   
     }
 }
