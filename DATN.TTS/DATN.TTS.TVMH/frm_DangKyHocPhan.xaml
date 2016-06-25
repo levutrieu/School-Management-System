@@ -122,9 +122,8 @@
             <dxg:GridControl Grid.Row="1" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdLopHP"
                              dx:ThemeManager.ThemeName="MetropolisLight" >
                 <dxg:GridControl.View>
-                    <dxg:TableView BorderBrush="#27415d" x:Name="grdViewLopHP"  NavigationStyle="Cell"
-                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewLopHP_OnCellValueChanged"
-                                   ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" AutoWidth="True">
+                    <dxg:TableView BorderBrush="#27415d" x:Name="grdViewLopHP" RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewLopHP_OnCellValueChanged"
+                                   ShowGroupPanel="False" AutoWidth="True">
                     </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>
