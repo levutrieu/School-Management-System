@@ -47,7 +47,7 @@
                 <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Style="{StaticResource ComboBoxEditStyle}" x:Name="cboXemTuan" Width="250" HorizontalAlignment="Left"
 					EditValue="{Binding TUAN, UpdateSourceTrigger=PropertyChanged}" ValueMember="TUAN" DisplayMember="NAME_TUAN" EditValueChanged="CboXemTuan_OnEditValueChanged"/>
 
-                <Button Grid.Row="0" Grid.Column="7" Content="In thời khóa biểu" Style="{StaticResource Button_Style_2}" Name="btnIN_TKB"/>
+                <Button Grid.Row="0" Grid.Column="7" Content="In thời khóa biểu" Style="{StaticResource Button_Style_2}" Name="btnIN_TKB" Click="BtnIN_TKB_OnClick"/>
 
                 <!--Row 1-->
                 <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" FontSize="15" Foreground="Red" FontWeight="Bold" Text="THỜI KHÓA BIỂU" Style="{StaticResource TextBlockStyle}" HorizontalAlignment="Center"/>

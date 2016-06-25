@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -488,14 +489,18 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                if (File.Exists(@"D:\DataExport") == false)
+                {
+                    Directory.CreateDirectory(@"D:\DataExport");
+                }
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
                 DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
                 options.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Value;
                 options.ExportMode = DevExpress.XtraPrinting.XlsExportMode.SingleFile;
-                ((TreeListView)GridDiem.View).ExportToXls(@"C:\Users\MINHTHONG\Desktop\grid.xls", options);
+                ((TreeListView)GridDiem.View).ExportToXls(@"D:\DataExport\DiemSinhVien.xls", options);
                 sw.Stop();
-                CTMessagebox.Show(string.Format("Done in {0} sec.", sw.ElapsedMilliseconds / 1000));
+                CTMessagebox.Show("File đã được lưu trên D:DataExport");
             }
             catch (Exception err)
             {

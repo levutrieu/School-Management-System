@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,7 @@ using DevExpress.Spreadsheet;
 using DevExpress.Spreadsheet.Functions;
 using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Grid;
 using DevExpress.XtraSpreadsheet;
 using Color = System.Drawing.Color;
 using Range = DevExpress.Spreadsheet.Range;
@@ -663,6 +666,23 @@ namespace DATN.TTS.TVMH
                     this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = iDataThongTin.Rows[0]["TEN_HE_DAOTAO"];
                 }
                 CboXemTuan_OnEditValueChanged(sender, null);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void BtnIN_TKB_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                XepTKB.SaveDocumentAs();
             }
             catch (Exception err)
             {
