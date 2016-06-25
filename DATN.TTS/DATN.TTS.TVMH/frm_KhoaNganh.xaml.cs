@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -204,10 +205,10 @@ namespace DATN.TTS.TVMH
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
-                SpinEditSettings txtSOHK = new SpinEditSettings();
+                TextEditSettings txtSOHK = new TextEditSettings();
                 txtSOHK.MaskType = MaskType.Numeric;
-                txtSOHK.MinValue = 0;
-                txtSOHK.MaxValue = 10;
+                txtSOHK.Mask = "##";
+                txtSOHK.MaxLength = 2;
                 col.EditSettings = txtSOHK;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.FieldName = "SO_HKY";
@@ -565,6 +566,11 @@ namespace DATN.TTS.TVMH
                 int index = this.grdViewKhoaNganh.FocusedRowHandle;
                 DataRow r = ((DataRowView)this.grdKhoaNganh.GetFocusedRow()).Row;
                 int temp = Convert.ToInt32(r["SO_HKY"].ToString());
+                if (temp < 0 || temp > 10)
+                {
+                    CTMessagebox.Show("Số học kỳ phải nằm trong khoảng 0 -> 10", "Thông báo", "", CTICON.Warning,CTBUTTON.OK);
+                    return;
+                }
                 string HOCKY_TRONGKHOA = string.Empty;
                 for (int i = 1; i <= temp; i++)
                 {
@@ -729,7 +735,21 @@ namespace DATN.TTS.TVMH
 
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                options.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Value;
+                options.ExportMode = DevExpress.XtraPrinting.XlsExportMode.SingleFile;
+                ((TableView)grdKhoaNganh.View).ExportToXls(@"C:\Users\MINHTHONG\Desktop\khoanganh.xls", options);
+                sw.Stop();
+                CTMessagebox.Show(string.Format("Done in {0} sec.", sw.ElapsedMilliseconds / 1000));
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
 
         #region Bỏ
