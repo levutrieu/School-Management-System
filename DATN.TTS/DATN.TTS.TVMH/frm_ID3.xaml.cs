@@ -190,16 +190,59 @@ namespace DATN.TTS.TVMH
 
                             if (Double.IsNaN(diem_dudoan))
                             {
-                                //DataTable iDataNew = iGridDataSource.Clone();
+                                #region Không tìm được điểm chính xác
+
                                 foreach (DataRow dr in iGridDataSource.Rows)
                                 {
-                                    if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) >= (double) 5)
+                                    if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)4)
                                     {
-                                        dr[mdr["ID_MONHOC"].ToString()] = 10;
+                                        dr[mdr["ID_MONHOC"].ToString()] = 4;// 0 -> 3.9
                                     }
                                     else
                                     {
-                                        dr[mdr["ID_MONHOC"].ToString()] = 0;
+                                        if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)5)
+                                        {
+                                            dr[mdr["ID_MONHOC"].ToString()] = 5;// 4.0 -> 4.9
+                                        }
+                                        else
+                                        {
+                                            if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)5.5)
+                                            {
+                                                dr[mdr["ID_MONHOC"].ToString()] = 5.5;// 5.0 -> 5.4
+                                            }
+                                            else
+                                            {
+                                                if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)6.5)
+                                                {
+                                                    dr[mdr["ID_MONHOC"].ToString()] = 6.5;// 5.5 -> 6.4
+                                                }
+                                                else
+                                                {
+                                                    if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)7)
+                                                    {
+                                                        dr[mdr["ID_MONHOC"].ToString()] = 7;// 6.5 -> 6.9
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)8)
+                                                        {
+                                                            dr[mdr["ID_MONHOC"].ToString()] = 8;// 7.0 -> 7.9
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)8.5)
+                                                            {
+                                                                dr[mdr["ID_MONHOC"].ToString()] = 8.5;// 8.0 -> 8.4
+                                                            }
+                                                            else
+                                                            {
+                                                                dr[mdr["ID_MONHOC"].ToString()] = 10;// 8.5 -> 10
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 if (iGridDataSource.Rows.Count < 1)
@@ -208,33 +251,158 @@ namespace DATN.TTS.TVMH
                                              "\n- Kết quả: Không thể dự đoán \n- Điểm dự đoán: Không có dữ liệu mẫu nên không thể dự đoán được\n\n";
                                 }
                                 else
-                                {
+                                {//4-F 5-D 5.5-D+ 6.5-C 7-C+ 8-B 8.5-B+ 10-A
                                     diem_dudoan = TuVanMH(iGridDataSource, Diem_SV);
+                                    if (diem_dudoan == 4)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Không đạt \n- Điểm dự đoán: 0 -> 3.9 (F)\n\n";
+                                    }
+                                    if (diem_dudoan == 5)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 4.0 -> 4.9 (D) \n\n";
+                                    }
+                                    if (diem_dudoan == 5.5)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 5.0 -> 5.4 (D+) \n\n";
+                                    }
+                                    if (diem_dudoan == 6.5)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 5.5 -> 6.4 (C) \n\n";
+                                    }
+                                    if (diem_dudoan == 7)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 6.5 -> 6.9 (C+) \n\n";
+                                    }
+                                    if (diem_dudoan == 8)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 7.0 -> 7.9 (B) \n\n";
+                                    }
+                                    if (diem_dudoan == 8.5)
+                                    {
+                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                 " :" +
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 8.0 -> 8.4 (B+) \n\n";
+                                    }
                                     if (diem_dudoan == 10)
                                     {
                                         ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
                                                  " :" +
-                                                 "\n- Kết quả: Qua môn \n- Điểm dự đoán: Dữ liệu quá ít không thể dự đoán được\n\n";
+                                                 "\n- Kết quả: Đạt \n- Điểm dự đoán: 8.5 -> 10 (A) \n\n";
                                     }
-                                    else
+                                    if (Double.IsNaN(diem_dudoan))
                                     {
-                                        ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
-                                                 " :" +
-                                                 "\n- Kết quả: Không qua môn \n- Điểm dự đoán: Dữ liệu quá ít không thể dự đoán được\n\n";
+                                        #region Xét đậu rớt khi không tìm được điểm
+
+                                        foreach (DataRow dr in iGridDataSource.Rows)
+                                        {
+                                            if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) == (double)4)
+                                            {
+                                                dr[mdr["ID_MONHOC"].ToString()] = 0;
+                                            }
+                                            else
+                                            {
+                                                dr[mdr["ID_MONHOC"].ToString()] = 10;
+                                            }
+                                        }
+                                        diem_dudoan = TuVanMH(iGridDataSource, Diem_SV);
+                                        if (diem_dudoan == 10)
+                                        {
+                                            ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                     " :" +
+                                                     "\n- Kết quả: Đạt \n- Điểm dự đoán: Dữ liệu quá ít không thể dự đoán được\n\n";
+                                        }
+                                        else
+                                        {
+                                            ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() +
+                                                     " :" +
+                                                     "\n- Kết quả: Không đạt \n- Điểm dự đoán: Dữ liệu quá ít không thể dự đoán được\n\n";
+                                        }
+
+                                        #endregion
                                     }
                                 }
+
+                                #endregion
                             }
                             else
                             {
-                                if (diem_dudoan >= (double) 5)
+                                #region Diem chu
+
+                                string diemchu = "";
+                                if (diem_dudoan < (double)4)
+                                {
+                                    diemchu = " (F)";
+                                }
+                                else
+                                {
+                                    if (diem_dudoan < (double)5)
+                                    {
+                                        diemchu = " (D)";
+                                    }
+                                    else
+                                    {
+                                        if (diem_dudoan < (double)5.5)
+                                        {
+                                            diemchu = " (D+)";
+                                        }
+                                        else
+                                        {
+                                            if (diem_dudoan < (double)6.5)
+                                            {
+                                                diemchu = " (C)";
+                                            }
+                                            else
+                                            {
+                                                if (diem_dudoan < (double)7)
+                                                {
+                                                    diemchu = " (C+)";
+                                                }
+                                                else
+                                                {
+                                                    if (diem_dudoan < (double)8)
+                                                    {
+                                                        diemchu = " (B)";
+                                                    }
+                                                    else
+                                                    {
+                                                        if (diem_dudoan < (double)8.5)
+                                                        {
+                                                            diemchu = " (B+)";
+                                                        }
+                                                        else
+                                                        {
+                                                            diemchu = " (A)";
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                #endregion
+
+                                if (diem_dudoan >= (double)4)
                                 {
                                     ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() + " :" +
-                                             "\n- Kết quả: Qua môn \n- Điểm dự đoán: " + diem_dudoan.ToString() + "\n\n";
+                                             "\n- Kết quả: Đạt \n- Điểm dự đoán: " + diem_dudoan.ToString() + diemchu + "\n\n";
                                 }
                                 else
                                 {
                                     ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() + " :" +
-                                             "\n- Kết quả: Không qua môn \n- Điểm dự đoán: " + diem_dudoan.ToString() +
+                                             "\n- Kết quả: Không đạt \n- Điểm dự đoán: " + diem_dudoan.ToString() + diemchu +
                                              "\n\n";
                                 }
                             }
