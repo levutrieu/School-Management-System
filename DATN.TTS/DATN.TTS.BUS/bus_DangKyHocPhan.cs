@@ -1136,6 +1136,7 @@ namespace DATN.TTS.BUS
                         ng.TEN_NGANH,
                         kh.TEN_KHOAHOC,
                         hdt.TEN_HE_DAOTAO,
+                        kh.ID_KHOAHOC,
                         KHOAHOC= kh.NAM_BD +"-"+kh.NAM_KT
                     };
                 dt = TableUtil.LinqToDataTable(thongtinsinhvien);
