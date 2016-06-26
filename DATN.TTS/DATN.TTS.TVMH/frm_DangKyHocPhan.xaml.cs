@@ -47,6 +47,9 @@ namespace DATN.TTS.TVMH
         private int idMonHoc;
         private int idkhoanganh;
         private int idkhoahoc;
+        public static string Masinhvien = "";
+        public static DataTable iDataID3 = null;
+        public static DataTable iDataC45 = null;
 
         public frm_DangKyHocPhan()
         {
@@ -55,7 +58,7 @@ namespace DATN.TTS.TVMH
             this.DataContext = iDataSoure;
 
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
-            this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120021";
+            this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120008";
             InitGrid_LopHP();
             InitGrid_HPDangKy();
             //LoadGridLopHocPhan();
@@ -732,6 +735,25 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Masinhvien = this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString();
+                if (iGridDataSoureHP != null && iGridDataSoureHP.Rows.Count > 0)
+                {
+                    DataRow[] xDataSearch = (from x in
+                        iGridDataSoureHP.AsEnumerable()
+                            .Where(
+                                d =>
+                                    d.Field<int>("ISBATBUOC") == 0)
+                        select x).ToArray();
+                    if (xDataSearch.Count() > 0)
+                    {
+                        iDataID3 = xDataSearch.CopyToDataTable();
+
+                    }
+                    else
+                    {
+                        iDataID3 = iGridDataSoureHP.Clone();
+                    }
+                }
                 frm_ID3 frm = new frm_ID3();
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
@@ -746,6 +768,25 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                Masinhvien = this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString();
+                if (iGridDataSoureHP != null && iGridDataSoureHP.Rows.Count > 0)
+                {
+                    DataRow[] xDataSearch = (from x in
+                                                 iGridDataSoureHP.AsEnumerable()
+                                                     .Where(
+                                                         d =>
+                                                             d.Field<int>("ISBATBUOC") == 0)
+                                             select x).ToArray();
+                    if (xDataSearch.Count() > 0)
+                    {
+                        iDataID3 = xDataSearch.CopyToDataTable();
+
+                    }
+                    else
+                    {
+                        iDataID3 = iGridDataSoureHP.Clone();
+                    }
+                }
                 frm_C45 frm = new frm_C45();
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
