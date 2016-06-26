@@ -1188,16 +1188,17 @@ namespace DATN.TTS.BUS
                         from diem in db.tbl_DIEM_SINHVIENs
                         join hp in db.tbl_LOP_HOCPHANs on 
                             new {ID_LOPHOCPHAN = Convert.ToInt32(diem.ID_LOPHOCPHAN)} equals new {ID_LOPHOCPHAN = hp.ID_LOPHOCPHAN}
+
                         join mh in db.tbl_MONHOCs on 
                             new {ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC)} equals new {ID_MONHOC = mh.ID_MONHOC}
                         join hkht in db.tbl_NAMHOC_HKY_HTAIs on
                             new {ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI)} equals new {ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI}
+
                         join nhht in db.tbl_NAMHOC_HIENTAIs on 
                         new {ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI)} equals new {ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI}
+
                         where
-                            (diem.IS_DELETE != 1 ||
-                             diem.IS_DELETE == null) &&
-                            diem.ID_SINHVIEN == id_sinhvien
+                            (diem.IS_DELETE != 1 || diem.IS_DELETE == null) && diem.ID_SINHVIEN == id_sinhvien
                         select new
                         {
                             ID = ("D" + Convert.ToString(diem.ID_KETQUA)),
