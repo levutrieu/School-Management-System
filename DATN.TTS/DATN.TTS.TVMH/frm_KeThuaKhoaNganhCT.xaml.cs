@@ -355,7 +355,11 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                iDataReturn = (from temp in iGridDataSoure.AsEnumerable() where temp.Field<string>("CHK") == "True" select temp).CopyToDataTable();
+                DataRow[] check = (from temp in iGridDataSoure.AsEnumerable() where temp.Field<string>("CHK") == "True" select temp).ToArray();
+                if (check.Count() > 0)
+                {
+                    iDataReturn = check.CopyToDataTable();
+                }
                 this.Close();
             }
             catch (Exception err)
