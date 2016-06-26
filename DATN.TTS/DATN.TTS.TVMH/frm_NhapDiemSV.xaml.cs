@@ -47,16 +47,7 @@ namespace DATN.TTS.TVMH
             iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             SetCombo();
             Init_Grid();
-        }
-
-        void SetCombo()
-        {
-            DataTable dt = kehoach.GetAllHDT();
-            if (dt.Rows.Count > 0)
-            {
-                ComboBoxUtil.SetComboBoxEdit(cboHDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
-                this.iDataSource.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
-            }
+            Init_GridDiemSV();
         }
 
         DataTable TableSchemaBinding()
@@ -75,6 +66,16 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_MONHOC", typeof(int));
                 dic.Add("ID_LOPHOCPHAN", typeof(int));
                 dic.Add("ID_DANGKY", typeof(int));
+
+                dic.Add("ID_NAMHOC_HKY_HTAI", typeof(int));
+                dic.Add("ID_SINHVIEN", typeof(Decimal));
+                dic.Add("MA_SINHVIEN", typeof(string));
+                dic.Add("TEN_SINHVIEN", typeof(string));
+                dic.Add("TEN_NGANH", typeof(string));
+                dic.Add("TEN_KHOAHOC", typeof(string));
+                dic.Add("TEN_HE_DAOTAO", typeof(string));
+                dic.Add("KHOAHOC", typeof(string));
+                dic.Add("TEN_LOP", typeof(string));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -107,6 +108,114 @@ namespace DATN.TTS.TVMH
             dic.Add("ID_DANGKY", typeof(int));
             DataTable dt = TableUtil.ConvertDictionaryToTable(dic, false);
             return dt;
+        }
+
+        double TinhDiemTong(double bt, double gk, double ck, string cachtinh)
+        {
+            double result = 0.0;
+            if (cachtinh == "20-30-50")
+            {
+                result = Math.Round((double)((bt * 0.2) + (gk * 0.3) + (ck * 0.5)), 2);
+            }
+            if (cachtinh == "0-30-70")
+            {
+                result = Math.Round((double)((gk * 0.3) + (ck * 0.7)), 2);
+            }
+            if (cachtinh == "100")
+            {
+                result = Math.Round((double)(ck * 1), 2);
+            }
+            return result;
+        }
+
+        string QuiDoiDiemHe4(double diemtong)
+        {
+            string result = string.Empty;
+            if (diemtong < 4.0)
+            {
+                result = "F";
+            }
+            else
+            {
+                if (diemtong < 5)
+                {
+                    result = "D";
+                }
+                else
+                {
+                    if (diemtong < 5.5)
+                    {
+                        result = "D+";
+                    }
+                    else
+                    {
+                        if (diemtong < 6.5)
+                        {
+                            result = "C";
+                        }
+                        else
+                        {
+                            if (diemtong < 7)
+                            {
+                                result = "C+";
+                            }
+                            else
+                            {
+                                if (diemtong < 9)
+                                {
+                                    result = "B";
+                                }
+                                else
+                                {
+                                    if (diemtong < 8.5)
+                                    {
+                                        result = "B+";
+                                    }
+                                    else
+                                    {
+                                        result = "A";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        double QuiDiemChu(string diemhe4)
+        {
+            double res = 0.0;
+            if (diemhe4 == "A")
+                res = 4;
+            if (diemhe4 == "B+")
+                res = 3.5;
+            if (diemhe4 == "B")
+                res = 3;
+            if (diemhe4 == "C+")
+                res = 2.5;
+            if (diemhe4 == "C")
+                res = 2;
+            if (diemhe4 == "D+")
+                res = 1.5;
+            if (diemhe4 == "D")
+                res = 1;
+            if (diemhe4 == "F")
+                res = 0;
+            return res;
+        }
+
+        #region Nhap diem theo lop hoc phan
+
+        void SetCombo()
+        {
+            DataTable dt = kehoach.GetAllHDT();
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cboHDT, "TEN_HE_DAOTAO", "ID_HE_DAOTAO", dt, SelectionTypeEnum.Native);
+                this.iDataSource.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
+            }
         }
 
         private void Init_Grid()
@@ -208,7 +317,7 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 10
@@ -221,7 +330,7 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
                 #endregion
 
@@ -235,7 +344,7 @@ namespace DATN.TTS.TVMH
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 12
@@ -253,11 +362,11 @@ namespace DATN.TTS.TVMH
                 txtDiemBT.DisplayFormat = "0.0";
                 col.EditSettings = txtDiemBT;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 13
-                col = new GridColumn() ;
+                col = new GridColumn();
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.FieldName = "DIEM_GK";
                 col.Header = "% GK";
@@ -271,7 +380,7 @@ namespace DATN.TTS.TVMH
                 txtDiemGK.DisplayFormat = "0.0";
                 col.EditSettings = txtDiemGK;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 14
@@ -289,7 +398,7 @@ namespace DATN.TTS.TVMH
                 txtDiemCK.DisplayFormat = "0.0";
                 col.EditSettings = txtDiemCK;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 15
@@ -304,7 +413,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = txtDiemTong;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 16
@@ -319,7 +428,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = txtDiem_HE4;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 #region 17
@@ -333,7 +442,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                grd.Columns.Add(col); 
+                grd.Columns.Add(col);
                 #endregion
 
                 grdView.AutoWidth = true;
@@ -344,23 +453,6 @@ namespace DATN.TTS.TVMH
                 throw ex;
             }
         }
-
-        //void LoadHocKy()
-        //{
-        //    DataTable dt = new DataTable();
-        //    dt.Columns.Add("HOCKY", typeof(int));
-        //    dt.Columns.Add("HOCKY_NAME", typeof(string));
-        //    for (int i = 1; i <= 8; i++)
-        //    {
-        //        DataRow r = dt.NewRow();
-        //        r["HOCKY"] = i;
-        //        r["HOCKY_NAME"] = i;
-        //        dt.Rows.Add(r);
-        //    }
-        //    ComboBoxUtil.SetComboBoxEdit(cboHocKy, "HOCKY_NAME", "HOCKY", dt, SelectionTypeEnum.Native);
-        //    ComboBoxUtil.InsertItem(cboHocKy, "----------------------------Tất cả--------------------------", "0", 0, false);
-        //    this.iDataSource.Rows[0]["HOCKY"] = cboHocKy.GetKeyValue(0);
-        //}
 
         private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
@@ -505,72 +597,72 @@ namespace DATN.TTS.TVMH
 
                 if (!string.IsNullOrEmpty(this.iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString()))
                 {
-                    
+
                     int idlophocphan = Convert.ToInt32(this.iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString());
                     DataTable dt = diem.GetDanhSachSinhVienDK(idlophocphan);// lay danh sach sinh vien da dang ky lop hoc phan
-                    #region Load mới khi chưa nhập dòng recore
-                        if (dt.Rows.Count > 0)
+                    #region
+                    if (dt.Rows.Count > 0)
+                    {
+                        iGridDataSource = TableSchemaBinding_GridDiem();
+
+                        foreach (DataRow r in dt.Rows)
                         {
-                            iGridDataSource = TableSchemaBinding_GridDiem();
-                            
-                            foreach (DataRow r in dt.Rows)
+                            string cachtinhdiem = r["CACH_TINHDIEM"].ToString();
+                            DataRow dr = iGridDataSource.NewRow();
+                            #region Bỏ
+                            if (cachtinhdiem == "20-30-50")
                             {
-                                string cachtinhdiem = r["CACH_TINHDIEM"].ToString();
-                                DataRow dr = iGridDataSource.NewRow();
-                                #region Bỏ
-                                if (cachtinhdiem == "20-30-50")
-                                {
-                                    grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.True;
-                                    grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
-                                    grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
-                                    dr["DIEM_BT"] = (r["DIEM_BT"].ToString() == "" ? "0.0" : r["DIEM_BT"].ToString());
-                                    dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
-                                    dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
-                                }
-                                if (cachtinhdiem == "0-30-70")
-                                {
-                                    grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
-                                    grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
-                                    grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
-                                    dr["DIEM_BT"] = DBNull.Value;
-                                    dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
-                                    dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
-                                }
-                                if (cachtinhdiem == "100")
-                                {
-                                    grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
-                                    grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.False;
-                                    grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
-                                    dr["DIEM_BT"] = DBNull.Value;
-                                    dr["DIEM_GK"] = DBNull.Value;
-                                    dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
-                                }
-                                #endregion
-                                
-                                dr["DIEM_TONG"] = r["DIEM_TONG"];
-                                dr["DIEM_HE4"] = r["DIEM_HE4"];
-                                dr["DIEM_CHU"] = r["DIEM_CHU"];
-
-                                dr["ID_KETQUA"] = r["ID_KETQUA"];
-                                dr["ID_SINHVIEN"] = r["ID_SINHVIEN"];
-                                dr["ID_LOPHOCPHAN"] = r["ID_LOPHOCPHAN"];
-                                dr["ID_KHOAHOC"] = this.iDataSource.Rows[0]["ID_KHOAHOC"];
-                                dr["ID_HOCKY"] = dangkyhocphan.GetHocKy(UserCommon.IdNamhocHkyHtai);
-                                dr["MA_SINHVIEN"] = r["MA_SINHVIEN"];
-                                dr["TEN_SINHVIEN"] = r["TEN_SINHVIEN"];
-                                dr["TEN_LOP"] = r["TEN_LOP"];
-                                dr["MA_MONHOC"] = r["MA_MONHOC"];
-                                dr["TEN_MONHOC"] = r["TEN_MONHOC"];
-                                dr["CACH_TINHDIEM"] = r["CACH_TINHDIEM"];
-                                dr["ID_DANGKY"] = r["ID_DANGKY"];
-
-                                iGridDataSource.Rows.Add(dr);
-                                iGridDataSource.AcceptChanges();
+                                grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.True;
+                                grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
+                                grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = (r["DIEM_BT"].ToString() == "" ? "0.0" : r["DIEM_BT"].ToString());
+                                dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
                             }
-                            this.grd.ItemsSource = iGridDataSource;
+                            if (cachtinhdiem == "0-30-70")
+                            {
+                                grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
+                                grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
+                                grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = DBNull.Value;
+                                dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
+                            }
+                            if (cachtinhdiem == "100")
+                            {
+                                grd.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
+                                grd.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.False;
+                                grd.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = DBNull.Value;
+                                dr["DIEM_GK"] = DBNull.Value;
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
+                            }
+                            #endregion
+
+                            dr["DIEM_TONG"] = r["DIEM_TONG"];
+                            dr["DIEM_HE4"] = r["DIEM_HE4"];
+                            dr["DIEM_CHU"] = r["DIEM_CHU"];
+
+                            dr["ID_KETQUA"] = r["ID_KETQUA"];
+                            dr["ID_SINHVIEN"] = r["ID_SINHVIEN"];
+                            dr["ID_LOPHOCPHAN"] = r["ID_LOPHOCPHAN"];
+                            dr["ID_KHOAHOC"] = this.iDataSource.Rows[0]["ID_KHOAHOC"];
+                            dr["ID_HOCKY"] = dangkyhocphan.GetHocKy(UserCommon.IdNamhocHkyHtai);
+                            dr["MA_SINHVIEN"] = r["MA_SINHVIEN"];
+                            dr["TEN_SINHVIEN"] = r["TEN_SINHVIEN"];
+                            dr["TEN_LOP"] = r["TEN_LOP"];
+                            dr["MA_MONHOC"] = r["MA_MONHOC"];
+                            dr["TEN_MONHOC"] = r["TEN_MONHOC"];
+                            dr["CACH_TINHDIEM"] = r["CACH_TINHDIEM"];
+                            dr["ID_DANGKY"] = r["ID_DANGKY"];
+
+                            iGridDataSource.Rows.Add(dr);
+                            iGridDataSource.AcceptChanges();
                         }
-                        #endregion
+                    }
+                    #endregion
                 }
+                this.grd.ItemsSource = iGridDataSource;
             }
             catch (Exception err)
             {
@@ -582,102 +674,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        double TinhDiemTong(double bt, double gk, double ck, string cachtinh)
-        {
-            double result = 0.0;
-            if (cachtinh == "20-30-50")
-            {
-                result = Math.Round((double)((bt*0.2) + (gk*0.3) + (ck*0.5)), 2);
-            }
-            if (cachtinh == "0-30-70")
-            {
-                result = Math.Round((double)((gk * 0.3) + (ck * 0.7)), 2);
-            }
-            if (cachtinh == "100")
-            {
-                result = Math.Round((double)(ck * 1), 2);
-            }
-            return result;
-        }
-
-        string QuiDoiDiemHe4(double diemtong)
-        {
-            string result = string.Empty;
-            if (diemtong < 4.0)
-            {
-                result = "F";
-            }
-            else
-            {
-                if (diemtong < 5)
-                {
-                    result = "D";
-                }
-                else
-                {
-                    if (diemtong < 5.5)
-                    {
-                        result = "D+";
-                    }
-                    else
-                    {
-                        if (diemtong < 6.5)
-                        {
-                            result = "C";
-                        }
-                        else
-                        {
-                            if (diemtong < 7)
-                            {
-                                result = "C+";
-                            }
-                            else
-                            {
-                                if (diemtong < 9)
-                                {
-                                    result = "B";
-                                }
-                                else
-                                {
-                                    if (diemtong < 8.5)
-                                    {
-                                        result = "B+";
-                                    }
-                                    else
-                                    {
-                                        result = "A";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
-        double QuiDiemChu(string diemhe4)
-        {
-            double res = 0.0;
-            if (diemhe4 == "A")
-                res = 4;
-            if (diemhe4 == "B+")
-                res = 3.5;
-            if (diemhe4 == "B")
-                res = 3;
-            if (diemhe4 == "C+")
-                res = 2.5;
-            if (diemhe4 == "C")
-                res = 2;
-            if (diemhe4 == "D+")
-                res = 1.5;
-            if (diemhe4 == "D")
-                res = 1;
-            if (diemhe4 == "F")
-                res = 0;
-            return res;
-        }
-
         private void GrdView_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             try
@@ -687,7 +683,7 @@ namespace DATN.TTS.TVMH
                     return;
                 int index = this.grdView.FocusedRowHandle;
                 DataRow r = ((DataRowView)this.grd.GetFocusedRow()).Row;
-               string cachtinh = r["CACH_TINHDIEM"].ToString();
+                string cachtinh = r["CACH_TINHDIEM"].ToString();
                 if (cachtinh == "20-30-50")
                 {
                     if (Convert.ToDouble(r["DIEM_BT"].ToString()) < 0 || Convert.ToDouble(r["DIEM_BT"].ToString()) > 10)
@@ -753,7 +749,7 @@ namespace DATN.TTS.TVMH
                     }
                     this.iGridDataSource.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
                 }
-                
+
             }
             catch (Exception err)
             {
@@ -793,7 +789,478 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
+        } 
+        #endregion
+
+        #region Nhập điểm theo sinh viên
+        private DataTable iGridDataSoureTheoSV = null;
+
+        void setcombobox(int idsinhvien)
+        {
+            DataTable dt = diem.GetDanhSachLopHocPhanSVDK(idsinhvien);
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cboLopHPSVDK, "TEN_LOP_HOCPHAN", "ID_LOPHOCPHAN", dt, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboLopHPSVDK, "--------------------------Tất cả-------------------------", "0", 0, false);
+                this.iDataSource.Rows[0]["ID_LOPHOCPHAN"] = cboLopHPSVDK.GetKeyValue(0);
+            }
         }
+
+        private void Init_GridDiemSV()
+        {
+            try
+            {
+                GridColumn col;
+
+                #region Hide
+                #region 1
+                col = new GridColumn();
+                col.FieldName = "ID_KETQUA";
+                col.Visible = false;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 2
+                col = new GridColumn();
+                col.FieldName = "ID_SINHVIEN";
+                col.Visible = false;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 3
+                col = new GridColumn();
+                col.FieldName = "ID_LOPHOCPHAN";
+                col.Visible = false;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 4
+                col = new GridColumn();
+                col.FieldName = "ID_KHOAHOC";
+                col.Visible = false;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 5
+                col = new GridColumn();
+                col.FieldName = "ID_HOCKY";
+                col.Visible = false;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 5.1
+                col = new GridColumn();
+                col.FieldName = "ID_DANGKY";
+                col.Visible = false;
+                col.Width = 10;
+                grddiemsv.Columns.Add(col);
+                #endregion
+                #region 9
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "MA_MONHOC";
+                col.Header = "Mã môn học";
+                col.Width = 70;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 10
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "TEN_MONHOC";
+                col.Header = "Tên môn học";
+                col.Width = 100;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                grddiemsv.Columns.Add(col);
+                #endregion
+                #endregion
+
+                #region 11
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "CACH_TINHDIEM";
+                col.Header = "% Điểm";
+                col.Width = 45;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 12
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_BT";
+                col.Header = "% BT";
+                col.Width = 35;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                TextEditSettings txtDiemBT = new TextEditSettings();
+                txtDiemBT.MaskType = MaskType.Numeric;
+                txtDiemBT.Mask = "##.#";
+                txtDiemBT.MaxLength = 4;
+                txtDiemBT.DisplayFormat = "0.0";
+                col.EditSettings = txtDiemBT;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 13
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_GK";
+                col.Header = "% GK";
+                col.Width = 35;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                TextEditSettings txtDiemGK = new TextEditSettings();
+                txtDiemGK.MaskType = MaskType.Numeric;
+                txtDiemGK.Mask = "##.#";
+                txtDiemGK.MaxLength = 4;
+                txtDiemGK.DisplayFormat = "0.0";
+                col.EditSettings = txtDiemGK;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 14
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_CK";
+                col.Header = "% CK";
+                col.Width = 35;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                TextEditSettings txtDiemCK = new TextEditSettings();
+                txtDiemCK.MaskType = MaskType.Numeric;
+                txtDiemCK.Mask = "##.#";
+                txtDiemCK.MaxLength = 4;
+                txtDiemCK.DisplayFormat = "0.0";
+                col.EditSettings = txtDiemCK;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 15
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_TONG";
+                col.Header = "TK(10/100)";
+                col.Width = 45;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                TextEditSettings txtDiemTong = new TextEditSettings();
+                col.EditSettings = txtDiemTong;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 16
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_HE4";
+                col.Header = "TK(4/10)";
+                col.Width = 45;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                TextEditSettings txtDiem_HE4 = new TextEditSettings();
+                col.EditSettings = txtDiem_HE4;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                #region 17
+                col = new GridColumn();
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.FieldName = "DIEM_CHU";
+                col.Header = "Điểm chữ";
+                col.Width = 45;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                grddiemsv.Columns.Add(col);
+                #endregion
+
+                grddiemtheosv.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void CboLopHPSVDK_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (!string.IsNullOrEmpty(this.iDataSource.Rows[0]["ID_SINHVIEN"].ToString()) &&
+                    !string.IsNullOrEmpty(this.iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString()))
+                {
+                    int idsinhvien = Convert.ToInt32(this.iDataSource.Rows[0]["ID_SINHVIEN"].ToString());
+                    int idlophocphan = Convert.ToInt32(this.iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString());
+
+                    DataTable dt = diem.GetDanhSachDiemSinhVien_LopHocPhan(idsinhvien, idlophocphan);
+                    if (dt.Rows.Count > 0)
+                    {
+                        iGridDataSoureTheoSV = TableSchemaBinding_GridDiem();
+                        foreach (DataRow r in dt.Rows)
+                        {
+                            DataRow dr = iGridDataSoureTheoSV.NewRow();
+                            #region Cho phep chinh sua
+                            string cachtinhdiem = r["CACH_TINHDIEM"].ToString().Trim();
+
+                            if (cachtinhdiem == "20-30-50")
+                            {
+                                grddiemsv.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.True;
+                                grddiemsv.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
+                                grddiemsv.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = (r["DIEM_BT"].ToString() == "" ? "0.0" : r["DIEM_BT"].ToString());
+                                dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
+                            }
+                            if (cachtinhdiem == "0-30-70")
+                            {
+                                grddiemsv.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
+                                grddiemsv.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
+                                grddiemsv.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = DBNull.Value;
+                                dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
+                            }
+                            if (cachtinhdiem == "100")
+                            {
+                                grddiemsv.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
+                                grddiemsv.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.False;
+                                grddiemsv.Columns["DIEM_CK"].AllowEditing = DefaultBoolean.True;
+                                dr["DIEM_BT"] = DBNull.Value;
+                                dr["DIEM_GK"] = DBNull.Value;
+                                dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
+                            }
+                            #endregion
+                            dr["DIEM_TONG"] = r["DIEM_TONG"];
+                            dr["DIEM_HE4"] = r["DIEM_HE4"];
+                            dr["DIEM_CHU"] = r["DIEM_CHU"];
+
+                            dr["ID_KETQUA"] = r["ID_KETQUA"];
+                            dr["ID_SINHVIEN"] = r["ID_SINHVIEN"];
+                            dr["ID_LOPHOCPHAN"] = r["ID_LOPHOCPHAN"];
+                            dr["ID_KHOAHOC"] = r["ID_KHOAHOC"];
+                            dr["ID_HOCKY"] = dangkyhocphan.GetHocKy(UserCommon.IdNamhocHkyHtai);
+                            dr["MA_MONHOC"] = r["MA_MONHOC"];
+                            dr["TEN_MONHOC"] = r["TEN_MONHOC"];
+                            dr["CACH_TINHDIEM"] = r["CACH_TINHDIEM"];
+                            dr["ID_DANGKY"] = r["ID_DANGKY"];
+
+                            iGridDataSoureTheoSV.Rows.Add(dr);
+                            iGridDataSoureTheoSV.AcceptChanges();
+
+                        }
+                        grddiemsv.ItemsSource = iGridDataSoureTheoSV;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void Btnsave_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iGridDataSoureTheoSV.Rows.Count > 0)
+                {
+                    bool res = diem.InsertDiemSinhVien(iGridDataSoureTheoSV, UserCommon.UserName);
+                    if (res)
+                    {
+                        CTMessagebox.Show("Nhập điểm thành công", "Nhập điểm", "", CTICON.Information, CTBUTTON.OK);
+                        CboLopHocPhan_OnEditValueChanged(sender, null);
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Nhập điểm không thành công", "Nhập điểm", "", CTICON.Error, CTBUTTON.OK);
+                        return;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void BtnLamMoi_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                BtnTimSV_OnClick(sender, e);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void BtnTimSV_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iDataSource.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
+                {
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo",
+                        "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                int idsinhvien = dangkyhocphan.GetIDSinhVien(this.iDataSource.Rows[0]["MA_SINHVIEN"].ToString());
+                if (idsinhvien == 0)
+                {
+                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!",
+                        "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    txtMASV.Focus();
+                    return;
+                }
+                this.iDataSource.Rows[0]["ID_SINHVIEN"] = idsinhvien;
+
+                DataTable iDataThongTin = dangkyhocphan.GetThongTinSinhVien(idsinhvien);
+                if (iDataThongTin.Rows.Count > 0)
+                {
+                    this.iDataSource.Rows[0]["MA_SINHVIEN"] = iDataThongTin.Rows[0]["MA_SINHVIEN"];
+                    this.iDataSource.Rows[0]["TEN_SINHVIEN"] = iDataThongTin.Rows[0]["TEN_SINHVIEN"];
+                    this.iDataSource.Rows[0]["TEN_NGANH"] = iDataThongTin.Rows[0]["TEN_NGANH"];
+                    this.iDataSource.Rows[0]["TEN_KHOAHOC"] = iDataThongTin.Rows[0]["TEN_KHOAHOC"];
+                    this.iDataSource.Rows[0]["TEN_HE_DAOTAO"] = iDataThongTin.Rows[0]["TEN_HE_DAOTAO"];
+                    this.iDataSource.Rows[0]["KHOAHOC"] = iDataThongTin.Rows[0]["KHOAHOC"];
+                    this.iDataSource.Rows[0]["TEN_LOP"] = iDataThongTin.Rows[0]["TEN_LOP"];
+                }
+                setcombobox(idsinhvien);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void Grddiemtheosv_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.grddiemsv.GetFocusedRow() == null)
+                    return;
+                int index = this.grddiemtheosv.FocusedRowHandle;
+                DataRow r = ((DataRowView)this.grddiemsv.GetFocusedRow()).Row;
+                string cachtinh = r["CACH_TINHDIEM"].ToString();
+                if (cachtinh == "20-30-50")
+                {
+                    if (Convert.ToDouble(r["DIEM_BT"].ToString()) < 0 || Convert.ToDouble(r["DIEM_BT"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài tập phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grddiemsv.GetFocusedRow();
+                        return;
+                    }
+                    if (Convert.ToDouble(r["DIEM_GK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_GK"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài giữa kỳ phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grddiemsv.GetFocusedRow();
+                        return;
+                    }
+                    if (Convert.ToDouble(r["DIEM_CK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_CK"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài cuối kỳ phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grddiemsv.GetFocusedRow();
+                        return;
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"] =
+                    TinhDiemTong(Convert.ToDouble(r["DIEM_BT"].ToString()), Convert.ToDouble(r["DIEM_GK"].ToString()), Convert.ToDouble(r["DIEM_CK"].ToString()), cachtinh);
+                    if (this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"].ToString() != string.Empty)
+                    {
+                        this.iGridDataSoureTheoSV.Rows[index]["DIEM_CHU"] = QuiDoiDiemHe4(Convert.ToDouble(this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"]));
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
+                }
+                if (cachtinh == "0-30-70")
+                {
+                    if (Convert.ToDouble(r["DIEM_GK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_GK"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài giữa kỳ phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grd.GetFocusedRow();
+                        return;
+                    }
+                    if (Convert.ToDouble(r["DIEM_CK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_CK"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài cuối kỳ phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grd.GetFocusedRow();
+                        return;
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"] =
+                   TinhDiemTong(0, Convert.ToDouble(r["DIEM_GK"].ToString()), Convert.ToDouble(r["DIEM_CK"].ToString()), cachtinh);
+                    if (this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"].ToString() != string.Empty)
+                    {
+                        this.iGridDataSoureTheoSV.Rows[index]["DIEM_CHU"] = QuiDoiDiemHe4(Convert.ToDouble(this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"]));
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
+                }
+                if (cachtinh == "100")
+                {
+                    if (Convert.ToDouble(r["DIEM_CK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_CK"].ToString()) > 10)
+                    {
+                        CTMessagebox.Show("Điểm bài cuối kỳ phải nằm trong khoảng 0->10", "Thông báo", "", CTICON.Error, CTBUTTON.OK);
+                        grd.GetFocusedRow();
+                        return;
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"] = TinhDiemTong(0, 0, Convert.ToDouble(r["DIEM_CK"].ToString()), cachtinh);
+                    if (this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"].ToString() != string.Empty)
+                    {
+                        this.iGridDataSoureTheoSV.Rows[index]["DIEM_CHU"] = QuiDoiDiemHe4(Convert.ToDouble(this.iGridDataSoureTheoSV.Rows[index]["DIEM_TONG"]));
+                    }
+                    this.iGridDataSoureTheoSV.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        #endregion
 
         #region Trieu
         #region Bỏ
