@@ -895,8 +895,13 @@ namespace DATN.TTS.TVMH
                 }
                 if (iGridDataSoureHPDK.Rows.Count > 0)
                 {
-                    DataTable dt = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).CopyToDataTable();
-                    if (dt.Rows.Count > 0)
+                    DataTable dt = null;
+                    DataRow[] check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).ToArray();
+                    if (check.Count() > 0)
+                    {
+                        dt = check.CopyToDataTable();
+                    }
+                    if (dt != null && dt.Rows.Count > 0)
                     {
                         bool res = DangKyHocPhan.Insert_HocPhanDK(dt.Copy(), UserCommon.UserName);
                         if (res)
@@ -940,8 +945,13 @@ namespace DATN.TTS.TVMH
                 }
                 if (iGridDataSoureHPDK.Rows.Count > 0)
                 {
-                    DataTable dt = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).CopyToDataTable();
-                    if (dt.Rows.Count > 0)
+                    DataTable dt = null;
+                    DataRow[]check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).ToArray();
+                    if (check.Count() > 0)
+                    {
+                        dt = check.CopyToDataTable();
+                    }
+                    if (dt != null&&dt.Rows.Count > 0)
                     {
 
                         bool res = DangKyHocPhan.Insert_DangKyHuy(dt.Copy(), UserCommon.UserName);
