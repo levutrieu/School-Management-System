@@ -288,7 +288,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetDanhSachSinhVienDK(int idlophocphan)
+        public DataTable GetDanhSachSinhVienDK(int idlophocphan, int idkhoahoc)
         {
             try
             {
@@ -301,8 +301,11 @@ namespace DATN.TTS.BUS
                                     join hkht in db.tbl_NAMHOC_HKY_HTAIs on new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
                                     join sv in db.tbL_SINHVIENs on new { ID_SINHVIEN = Convert.ToInt32(dk.ID_SINHVIEN) } equals new { ID_SINHVIEN = sv.ID_SINHVIEN }
                                     join l in db.tbl_LOPHOCs on new { ID_LOPHOC = Convert.ToInt32(sv.ID_LOPHOC) } equals new { ID_LOPHOC = l.ID_LOPHOC }
+                                    join kh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals kh.ID_KHOAHOC_NGANH
                                     where
                                       dk.ID_LOPHOCPHAN == idlophocphan &&
+                                      kh.ID_KHOAHOC == idkhoahoc &&
+
                                       dk.ID_SINHVIEN == 18 &&
                                       (dk.IS_DELETE != 1 ||
                                       dk.IS_DELETE == null) &&
@@ -315,7 +318,8 @@ namespace DATN.TTS.BUS
                                       (l.IS_DELETE != 1 ||
                                       l.IS_DELETE == null) &&
                                       (hkht.IS_DELETE != 1 ||
-                                      hkht.IS_DELETE == null) 
+                                      hkht.IS_DELETE == null) &&
+                                      (kh.IS_DELETE !=1 || kh.IS_DELETE == null)
                                     select new
                                     {
                                         dk.ID_DANGKY,
