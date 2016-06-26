@@ -135,6 +135,7 @@
                     <Button Click="BtnHoTroC45_OnClick"  Content="Hỗ trợ tư vấn C45" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnHoTroC45" VerticalAlignment="Center"/>
                     <Button Click="BtnLuuDK_OnClick"  Content="Lưu đăng ký" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnLuuDK" VerticalAlignment="Center"/>
                     <Button Click="BtnHuyDK_OnClick" Content="Hủy đăng ký" Style="{StaticResource Button_Style_2}" HorizontalAlignment="Right" Name="btnHuyDK" VerticalAlignment="Center"/>
+                    <Button Click="BtnXuatPhieu_OnClick" Name="btnXuatPhieu" Content="Xuất phiếu đăng ký" Style="{StaticResource Button_Style_2}"></Button>
                 </StackPanel>
             </Border>
         </Grid>
