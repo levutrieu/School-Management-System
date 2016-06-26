@@ -309,6 +309,7 @@ namespace DATN.TTS.TVMH
             {
                 DataTable dt = client.GetDanhSachDiem(idsinhvien);
                 DataTable xdt = dt.Clone();
+                #region 
                 foreach (DataRow r in dt.Rows)
                 {
                     if (r["ID_PARENT"].ToString() == "")
@@ -329,105 +330,117 @@ namespace DATN.TTS.TVMH
                     {
                         xdt.ImportRow(r);
                     }
-                }
+                } 
+                #endregion
                 DataTable dtcopy = xdt.Copy();
                 int count = 1;
                 foreach (DataRow xdr in xdt.Rows)
                 {
                     if (xdr["ID_PARENT"].ToString() == "")
                     {
+                        DataTable zdt = new DataTable();
                         string x = (xdr["ID"].ToString());
-                        DataTable zdt = (from temp in xdt.AsEnumerable()
+                        DataRow[] row = (from temp in xdt.AsEnumerable()
                                     .Where(t => t.Field<string>("ID_PARENT") == x)
-                                         select temp).CopyToDataTable();
-                        double res = TinhDiemTong(zdt);
-                        double diemtong = TinhDiemHe10(zdt);
-                        DataRow r = null;
+                                         select temp).ToArray();
+                        if (row.Count() > 0)
+                        {
+                            zdt = row.CopyToDataTable();
+                            double res = TinhDiemTong(zdt);
+                            double diemtong = TinhDiemHe10(zdt);
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count + 12121);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "";
-                        dtcopy.Rows.Add(r);
+                            DataRow r = null;
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count + 11222);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "";
-                        dtcopy.Rows.Add(r);
-                       
+                            #region 
+                            r = dtcopy.NewRow();
+                            r["ID"] = x + r["ID"].ToString() + (count + 12121);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "";
+                            dtcopy.Rows.Add(r);
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count + 9999);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "Điểm tổng hệ 4:   " + res;
-                        dtcopy.Rows.Add(r);
+                            r = dtcopy.NewRow();
+                            r["ID"] = x + r["ID"].ToString() + (count + 11222);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "";
+                            dtcopy.Rows.Add(r); 
+                            #endregion
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count + 7173183);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "Điểm tổng hệ 10:   " + diemtong;
-                        dtcopy.Rows.Add(r);
+                            r = dtcopy.NewRow();
+                            r["ID"] = x + r["ID"].ToString() + (count + 9999);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "Điểm tổng hệ 4:   " + res;
+                            dtcopy.Rows.Add(r);
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count + 453453);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "Số TC đã đạt:   " + TinhSOTCDat(zdt);
-                        dtcopy.Rows.Add(r);
+                            r = dtcopy.NewRow();
+                            r["ID"] = x + r["ID"].ToString() + (count + 7173183);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "Điểm tổng hệ 10:   " + diemtong;
+                            dtcopy.Rows.Add(r);
 
-                        r = dtcopy.NewRow();
-                        r["ID"] = x + r["ID"].ToString() + (count +1000);
-                        r["MA_MONHOC"] = "";
-                        r["SO_TC"] = DBNull.Value;
-                        r["DIEM_BT"] = DBNull.Value;
-                        r["DIEM_GK"] = DBNull.Value;
-                        r["DIEM_CK"] = DBNull.Value;
-                        r["DIEM_TONG"] = DBNull.Value;
-                        r["DIEM_HE4"] = DBNull.Value;
-                        r["DIEM_CHU"] = DBNull.Value;
-                        r["ID_PARENT"] = x;
-                        r["NAME"] = "";
-                        dtcopy.Rows.Add(r);
+                            r = dtcopy.NewRow();
+                            r["ID"] = x + r["ID"].ToString() + (count + 453453);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "Số TC đã đạt:   " + TinhSOTCDat(zdt);
+                            dtcopy.Rows.Add(r);
+
+                            r = dtcopy.NewRow();
+                            #region 
+                            r["ID"] = x + r["ID"].ToString() + (count + 1000);
+                            r["MA_MONHOC"] = "";
+                            r["SO_TC"] = DBNull.Value;
+                            r["DIEM_BT"] = DBNull.Value;
+                            r["DIEM_GK"] = DBNull.Value;
+                            r["DIEM_CK"] = DBNull.Value;
+                            r["DIEM_TONG"] = DBNull.Value;
+                            r["DIEM_HE4"] = DBNull.Value;
+                            r["DIEM_CHU"] = DBNull.Value;
+                            r["ID_PARENT"] = x;
+                            r["NAME"] = "";
+                            dtcopy.Rows.Add(r); 
+                            #endregion
+                        }
+                        
+                        
                     }
                     count++;
                 }
