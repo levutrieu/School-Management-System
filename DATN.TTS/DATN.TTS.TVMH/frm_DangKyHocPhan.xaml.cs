@@ -823,7 +823,14 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                
+                lstIDLopHocPhanDK.Clear();
+                LstMonHocCheckTrung.Clear();
+                for (int i = 0; i < iGridDataSoureHP.Rows.Count; i++)
+                {
+                    this.iGridDataSoureHP.Rows[i]["CHK"] = "False";
+                }
+                this.grdLopHP.ItemsSource = iGridDataSoureHP;
+
                 if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
                     CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo","", CTICON.Information, CTBUTTON.OK);
@@ -838,6 +845,7 @@ namespace DATN.TTS.TVMH
                     return;
                 }
                 this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
+
                 iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
                  iGridDataSoureHPDK.Columns.Add("CHK");
                 this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
