@@ -30,7 +30,7 @@
 
         <dxg:GridControl Grid.Row="1" Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
             <dxg:GridControl.View>
-                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" AllowCellMerge="True"
+                <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView"
                                    ShowGroupPanel="False" RowStyle="{StaticResource SelectedRowStyle}"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
