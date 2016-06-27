@@ -53,7 +53,7 @@ namespace DATN.TTS.TVMH
                 col.Header = string.Empty;
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
                 grd.Columns.Add(col);
@@ -63,7 +63,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -75,7 +75,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm kết thúc";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -87,7 +87,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Ngày bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 grd.Columns.Add(col);
@@ -97,7 +97,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số tuần";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -109,7 +109,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số học kỳ trong năm";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -121,7 +121,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm hiện tại";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new CheckEditSettings();
                 col.Visible = true;

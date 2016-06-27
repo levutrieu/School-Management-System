@@ -32,7 +32,7 @@ namespace DATN.TTS.TVMH
             xcolumn.EditSettings=new ComboBoxEditSettings();
             xcolumn.Visible = true;
 
-            xcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             grd.Columns.Add(xcolumn);
 
             GridColumn xxcolumn = new GridColumn();
@@ -41,7 +41,7 @@ namespace DATN.TTS.TVMH
             xxcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xxcolumn.AllowEditing = DefaultBoolean.False;
             xxcolumn.Visible = true;
-            xxcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             grd.Columns.Add(xxcolumn);
 
             GridColumn xxxcolumn = new GridColumn();
@@ -50,7 +50,6 @@ namespace DATN.TTS.TVMH
             xxxcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xxxcolumn.AllowEditing = DefaultBoolean.False;
             xxxcolumn.Visible = true;
-            xxxcolumn.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(xxxcolumn);
         }
 

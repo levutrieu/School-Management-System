@@ -243,7 +243,7 @@ namespace DATN.TTS.TVMH
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -253,7 +253,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -264,7 +264,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -275,7 +275,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -287,7 +287,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.DisplayFormat = "dd/MM/yyyy";
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -297,7 +297,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -307,7 +307,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -317,7 +317,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -327,7 +327,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -337,7 +337,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -347,7 +347,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -357,7 +357,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -367,7 +367,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -377,7 +377,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -387,7 +387,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 LoadAll();

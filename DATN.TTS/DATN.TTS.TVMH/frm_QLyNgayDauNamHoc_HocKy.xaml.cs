@@ -86,7 +86,7 @@ namespace DATN.TTS.TVMH
                 col.Header = string.Empty;
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
                 grd.Columns.Add(col);
@@ -96,7 +96,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
                 grd.Columns.Add(col);
@@ -106,7 +106,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
@@ -118,7 +118,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm học";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
@@ -130,7 +130,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Học kỳ";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
@@ -142,7 +142,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Tuần bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.EditSettings = new TextEditSettings();
@@ -154,7 +154,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Học kỳ hiện tại";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new CheckEditSettings();
                 col.Visible = true;
