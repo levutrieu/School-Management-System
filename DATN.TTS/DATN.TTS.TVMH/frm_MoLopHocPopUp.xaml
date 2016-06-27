@@ -36,9 +36,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.2*"/>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.1*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.1*"/>
@@ -48,11 +46,6 @@
                                 <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="0.1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã lớp:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaLop" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_LOP}" MaxLength="50"/>
@@ -65,32 +58,25 @@
                                           MaskType="Numeric" MinValue="0" AcceptsReturn="True" TextWrapping="Wrap" 
                                           EditValue="{Binding SOLUONG_SV}" MaxLength="255"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="8" Name="txtGhiChu" Grid.ColumnSpan="4" Style="{StaticResource TextEditStyle}" EditValue="{Binding GHICHU}" MaxLength="255"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Ngày mở lớp:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:DateEdit Grid.Row="2" Grid.Column="2" Name="txtNgayMo" Style="{StaticResource DateEditStyle}" 
-                                          EditValue="{Binding NGAY_MOLOP, UpdateSourceTrigger=PropertyChanged}"
-                                           Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyy"/>
-
-
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Ngày kết thúc" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:DateEdit Grid.Row="2" Grid.Column="4" Name="txtNgayKetThuc" Style="{StaticResource DateEditStyle}" 
-                                          EditValue="{Binding NGAY_KETTHUC, UpdateSourceTrigger=PropertyChanged}"
-                                           Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyy"/>
-
-                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Giảng viên CN:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="6" Name="cbbGiangVienCN" Style="{StaticResource ComboBoxEditStyle}" 
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Khóa học ngành:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="1" Name="cbbKhoaNganh" Grid.Column="2" Style="{StaticResource ComboBoxEditStyle}" 
+                                              EditValue="{Binding ID_KHOAHOC_NGANH, UpdateSourceTrigger=PropertyChanged}" 
+                                              ValueMember="ID_KHOAHOC_NGANH" DisplayMember="KHOA_NGANH" 
+                                             AutoComplete="True" IsTextEditable="True" IsReadOnly="True"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Giảng viên CN:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="4" Name="cbbGiangVienCN" Style="{StaticResource ComboBoxEditStyle}" 
                                               EditValue="{Binding ID_GIANGVIEN, UpdateSourceTrigger=PropertyChanged}" 
                                               DisplayMember="TEN_GIANGVIEN" ValueMember="ID_GIANGVIEN"
                                               AutoComplete="True"/>
 
+                            <TextBlock Grid.Row="1" Grid.Column="5" Text="Ghi chú:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="6" Name="txtGhiChu" Style="{StaticResource TextEditStyle}" EditValue="{Binding GHICHU}" MaxLength="255"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="7" Text="Khóa học ngành:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Row="0" Name="cbbKhoaNganh" Grid.Column="8" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxEditStyle}" 
-                                              EditValue="{Binding ID_KHOAHOC_NGANH, UpdateSourceTrigger=PropertyChanged}" 
-                                              ValueMember="ID_KHOAHOC_NGANH" DisplayMember="KHOA_NGANH" 
-                                             AutoComplete="True" IsTextEditable="True" IsReadOnly="True"/>
+                            
+
+
                         </Grid>
                     </StackPanel>
 

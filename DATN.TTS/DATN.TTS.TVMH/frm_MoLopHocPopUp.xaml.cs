@@ -60,18 +60,6 @@ namespace DATN.TTS.TVMH
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
             grd.Columns.Add(col);
 
-            //col = new GridColumn();
-            //col.FieldName = "ID_KHOAHOC_NGANH";
-            //col.Header = string.Empty;
-            //col.Width = 50;
-            //col.AutoFilterValue = true;
-
-            //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            //col.AllowEditing = DefaultBoolean.False;
-            //col.Visible = false;
-            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            //grd.Columns.Add(col);
-
             col = new GridColumn();
             col.FieldName = "MA_LOP";
             col.Header = "Mã lớp";
@@ -92,34 +80,6 @@ namespace DATN.TTS.TVMH
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
             col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "NGAY_MOLOP";
-            col.Header = "Ngày mở";
-            col.Width = 40;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.EditSettings = new TextEditSettings();
-            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.EditSettings = new TextEditSettings { DisplayFormat = "dd/MM/yyyy" };
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-
-            grd.Columns.Add(col);
-
-            col = new GridColumn();
-            col.FieldName = "NGAY_KETTHUC";
-            col.Header = "Ngày kết thúc";
-            col.Width = 40;
-            col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-            col.AllowEditing = DefaultBoolean.False;
-            col.EditSettings = new TextEditSettings();
-            col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-            col.EditSettings = new TextEditSettings { DisplayFormat = "dd/MM/yyyy" };
-            col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -173,8 +133,6 @@ namespace DATN.TTS.TVMH
             this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = "0";
             this.iDataSoure.Rows[0]["MA_LOP"] = string.Empty;
             this.iDataSoure.Rows[0]["TEN_LOP"] = string.Empty;
-            this.iDataSoure.Rows[0]["NGAY_MOLOP"] = DateTime.Today;
-            this.iDataSoure.Rows[0]["NGAY_KETTHUC"] = DateTime.Today;
             this.iDataSoure.Rows[0]["SOLUONG_SV"] = 0;
             this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
         }
@@ -190,7 +148,7 @@ namespace DATN.TTS.TVMH
             if (this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString() != string.Empty)
             {
                 this.iGridDataSoure = client.GetAllLopWhere(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
-                this.grd.ItemsSource = iGridDataSoure;
+                this.grd.ItemsSource = iGridDataSoure.Copy();
             }
         }
 
@@ -206,18 +164,6 @@ namespace DATN.TTS.TVMH
             {
                 CTMessagebox.Show("Vui lòng nhập tên lớp!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 txtTenLop.Focus();
-                return false;
-            }
-            if (this.iDataSoure.Rows[0]["NGAY_MOLOP"].ToString() == string.Empty)
-            {
-                CTMessagebox.Show("Vui lòng nhập ngày mở lớp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
-                txtNgayMo.Focus();
-                return false;
-            }
-            if (this.iDataSoure.Rows[0]["NGAY_KETTHUC"].ToString() == string.Empty)
-            {
-                CTMessagebox.Show("Vui lòng nhập ngày kết thúc lớp", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
-                txtNgayKetThuc.Focus();
                 return false;
             }
             if (this.iDataSoure.Rows[0]["ID_GIANGVIEN"].ToString() == "0")
@@ -247,8 +193,6 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_GIANGVIEN", typeof(int));
                 dic.Add("MA_LOP", typeof(string));
                 dic.Add("TEN_LOP", typeof(string));
-                dic.Add("NGAY_MOLOP", typeof(DateTime));
-                dic.Add("NGAY_KETTHUC", typeof(DateTime));
                 dic.Add("SOLUONG_SV", typeof(Decimal));
                 dic.Add("GHICHU", typeof(string));
                 dic.Add("USER", typeof(string));
@@ -359,8 +303,6 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["ID_GIANGVIEN"] = r["ID_GIANGVIEN_CN"];
                 this.iDataSoure.Rows[0]["MA_LOP"] = r["MA_LOP"];
                 this.iDataSoure.Rows[0]["TEN_LOP"] = r["TEN_LOP"];
-                this.iDataSoure.Rows[0]["NGAY_MOLOP"] = r["NGAY_MOLOP"];
-                this.iDataSoure.Rows[0]["NGAY_KETTHUC"] = r["NGAY_KETTHUC"];
                 this.iDataSoure.Rows[0]["SOLUONG_SV"] = r["SOLUONG_SV"];
                 this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
                 flagsave = false;
