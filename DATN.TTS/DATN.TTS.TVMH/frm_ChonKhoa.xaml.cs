@@ -58,6 +58,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("ID_KHOAHOC", typeof(int));
                 dic.Add("TEN_HE_DAOTAO", typeof(string));
                 dic.Add("TEN_KHOAHOC", typeof(string));
+                dic.Add("SO_HKY", typeof(int));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -231,7 +232,20 @@ namespace DATN.TTS.TVMH
         #region Chưa dùng
         private void BtnChon_OnClick(object sender, RoutedEventArgs e)
         {
-            GrdKhoa_OnFocusedRowChanged(sender, null);
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                SetComBo();
+                CboHeDT_OnEditValueChanged(sender, null);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
         }
 
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
@@ -309,6 +323,7 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["ID_KHOAHOC"] = row["ID_KHOAHOC"];
                 this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = row["TEN_KHOAHOC"];
                 this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
+                this.iDataSoure.Rows[0]["SO_HKY"] = row["SO_HKY"];
             }
             catch (Exception err)
             {
