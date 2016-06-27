@@ -95,11 +95,10 @@
                 </dxg:GridControl>
             </Grid>
             <Grid  Grid.Column="2">
-                <dxg:GridControl AutoPopulateColumns="False" 
-                             Margin="0"  FontSize="12" x:Name="grdKhoaNganhCT" dx:ThemeManager.ThemeName="MetropolisLight" 
+                <dxg:GridControl AutoPopulateColumns="False" FontSize="12" x:Name="grdKhoaNganhCT" dx:ThemeManager.ThemeName="MetropolisLight" 
                              >
                     <dxg:GridControl.View>
-                        <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewKhoaNganhCT"
+                        <dxg:TableView  ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdViewKhoaNganhCT"
                                    RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewKhoaNganhCT_OnCellValueChanged"
                                    >
                         </dxg:TableView>

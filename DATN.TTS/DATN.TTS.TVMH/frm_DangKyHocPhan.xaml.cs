@@ -196,7 +196,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -210,7 +210,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -219,7 +219,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
 
@@ -229,7 +229,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -238,7 +238,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -247,7 +247,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -256,7 +256,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -265,7 +265,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 #endregion
@@ -278,7 +278,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -290,7 +290,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 #endregion
@@ -303,7 +303,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -315,7 +315,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -325,7 +325,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -337,7 +337,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -349,7 +349,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -361,7 +361,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -373,7 +373,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -385,7 +385,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -397,7 +397,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -409,7 +409,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -421,7 +421,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -433,7 +433,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -457,7 +457,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -467,7 +467,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -477,7 +477,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -487,7 +487,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -499,7 +499,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -509,7 +509,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -521,7 +521,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -533,7 +533,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -546,7 +546,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 //col.EditSettings = new TextEditSettings();
                 //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -558,7 +558,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -570,7 +570,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;

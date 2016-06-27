@@ -113,7 +113,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số TC";
                 col.Width = 60;
                 col.AllowEditing = DefaultBoolean.False;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 col.Visible = true;

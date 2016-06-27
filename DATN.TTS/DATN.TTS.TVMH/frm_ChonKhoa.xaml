@@ -36,9 +36,10 @@
         </Grid>
         <!--Controls nhap du lieu-->
         <Grid Grid.Row="2" Grid.Column="0">
-            <dxg:GridControl AutoPopulateColumns="True" Margin="0"  FontSize="12" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" >
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="12" 
+                             x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
                 <dxg:GridControl.View>
-                    <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="GrdKhoa"
+                    <dxg:TableView  ShowGroupPanel="False" x:Name="GrdKhoa" BorderBrush="#27415d" AllowSorting="False"
                                    RowStyle="{StaticResource SelectedRowStyle}" MouseDown="GrdKhoa_OnMouseDown" FocusedRowChanged="GrdKhoa_OnFocusedRowChanged"/>
                 </dxg:GridControl.View>
             </dxg:GridControl>

@@ -66,7 +66,7 @@ namespace DATN.TTS.TVMH
                         xdtKhoaNganhCt.Rows[0]["KHOAHOC_NGANH"] = xdtKhoaNganh.Rows[0]["KHOAHOC_NGANH"];
                         xdtKhoaNganhCt.Rows[0]["ID_KHOAHOC_NGANH"] = xdtKhoaNganh.Rows[0]["ID_KHOAHOC_NGANH"];
 
-                        frm_KhungNganhDaoTaoKhoa.LoadMonHoc(Convert.ToInt32(xdtKhoaNganhCt.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                        frm_KhungNganhDaoTaoKhoa.LoadMonHoc(Convert.ToInt32(xdtKhoaNganhCt.Rows[0]["ID_KHOAHOC_NGANH"].ToString()), Convert.ToInt32(xdtKhoaNganhCt.Rows[0]["ID_HE_DAOTAO"].ToString()));
                         frm_KhungNganhDaoTaoKhoa.LoadKhoaNganhCT();
                     }
                     break;

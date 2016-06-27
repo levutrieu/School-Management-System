@@ -60,7 +60,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -73,7 +73,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -83,7 +83,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -95,7 +95,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -107,7 +107,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -117,7 +117,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
             }
             catch (Exception er)
@@ -139,7 +139,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -148,7 +148,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
 
@@ -158,7 +158,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
                 #endregion
@@ -170,7 +170,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -183,7 +183,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganh.Columns.Add(col);
@@ -195,7 +195,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -205,7 +205,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 TextEditSettings txtSoSV = new TextEditSettings();
                 txtSoSV.Mask = "####";
                 txtSoSV.MaskType = MaskType.Numeric;
@@ -220,7 +220,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 TextEditSettings txtSOLOP = new TextEditSettings();
                 txtSOLOP.Mask = "####";
                 txtSoSV.MaskType = MaskType.Numeric;
@@ -241,7 +241,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -251,7 +251,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -261,7 +261,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganh.Columns.Add(col);
             }
             catch (Exception er)
@@ -754,9 +754,13 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(this.iDataSoure.Copy());
-                frm.Owner = Window.GetWindow(this);
-                frm.ShowDialog();
+                if (this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString() != "0" ||
+                    this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString() != string.Empty)
+                {
+                    frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(this.iDataSoure.Copy());
+                    frm.Owner = Window.GetWindow(this);
+                    frm.ShowDialog();
+                }
             }
             catch (Exception err)
             {

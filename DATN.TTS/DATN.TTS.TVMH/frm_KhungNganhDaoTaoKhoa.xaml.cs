@@ -113,6 +113,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 GridColumn col;
+                #region 
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "Chọn";
@@ -134,17 +135,18 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                grdMonHoc.Columns.Add(col);
+                
+                grdMonHoc.Columns.Add(col); 
+                #endregion
 
                 col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
-                col.Width = 150;
+                col.Width = 80;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -152,22 +154,40 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "TEN_MONHOC";
                 col.Header = "Tên môn học";
-                col.Width = 250;
+                col.Width = 200;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdMonHoc.Columns.Add(col);
 
                 col = new GridColumn();
-                col.FieldName = "KY_HIEU";
-                col.Header = "Ký hiệu";
-                col.Width = 80;
+                col.FieldName = "SOTIET_LT";
+                col.Header = "Số tiết LT";
+                col.Width = 60;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                col.EditSettings = new TextEditSettings();
+                
+                TextEditSettings txtSTLT = new TextEditSettings();
+                txtSTLT.MaskType = MaskType.Numeric;
+                txtSTLT.MaskAutoComplete = AutoCompleteType.Default;
+                col.EditSettings = txtSTLT;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grdMonHoc.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "SOTIET_TH";
+                col.Header = "Số tiết TH";
+                col.Width = 60;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                
+                TextEditSettings txtSTTH = new TextEditSettings();
+                txtSTTH.MaskType = MaskType.Numeric;
+                txtSTTH.MaskAutoComplete = AutoCompleteType.Default;
+                col.EditSettings = txtSTTH;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
 
@@ -178,9 +198,22 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 SpinEditSettings txtSTC = new SpinEditSettings();
                 col.EditSettings = txtSTC;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grdMonHoc.Columns.Add(col);
+
+
+                col = new GridColumn();
+                col.FieldName = "KY_HIEU";
+                col.Header = "Ký hiệu";
+                col.Width = 80;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                
+                col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
 
@@ -191,7 +224,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -203,7 +236,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -215,7 +248,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -227,7 +260,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -239,7 +272,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdMonHoc.Columns.Add(col);
@@ -255,6 +288,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 GridColumn col;
+                #region 
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "Xóa";
@@ -262,11 +296,12 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdKhoaNganhCT.Columns.Add(col);
+                grdKhoaNganhCT.Columns.Add(col); 
+                #endregion
 
                 #region Properties hide
                 col = new GridColumn();
@@ -276,7 +311,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganhCT.Columns.Add(col);
 
                 col = new GridColumn();
@@ -286,7 +321,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
@@ -300,7 +335,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganhCT.Columns.Add(col);
 
                 col = new GridColumn();
@@ -310,12 +345,13 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
                 #endregion
 
+                #region môn học
                 col = new GridColumn();
                 col.FieldName = "TEN_MONHOC";
                 col.Header = "Tên môn học";
@@ -323,7 +359,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grdKhoaNganhCT.Columns.Add(col);
 
                 col = new GridColumn();
@@ -333,14 +369,15 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 SpinEditSettings txtSTC = new SpinEditSettings();
                 txtSTC.MaskType = MaskType.Numeric;
                 txtSTC.MinValue = 0;
                 txtSTC.MaskAutoComplete = AutoCompleteType.Default;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdKhoaNganhCT.Columns.Add(col);
+                grdKhoaNganhCT.Columns.Add(col); 
+                #endregion
 
                 col = new GridColumn();
                 col.FieldName = "HOCKY";
@@ -349,7 +386,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 TextEditSettings txtHK = new TextEditSettings();
                 txtHK.MaskType = MaskType.Numeric;
                 txtHK.MaskAutoComplete = AutoCompleteType.Default;
@@ -364,7 +401,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 TextEditSettings txtSTLT = new TextEditSettings();
                 txtSTLT.MaskType = MaskType.Numeric;
                 txtSTLT.MaskAutoComplete = AutoCompleteType.Default;
@@ -379,7 +416,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 TextEditSettings txtSTTH = new TextEditSettings();
                 txtSTTH.MaskType = MaskType.Numeric;
                 txtSTTH.MaskAutoComplete = AutoCompleteType.Default;
@@ -387,6 +424,7 @@ namespace DATN.TTS.TVMH
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
+                #region
                 col = new GridColumn();
                 col.Header = "Môn học trước";
                 col.FieldName = "ID_MONHOC_TRUOC";
@@ -394,8 +432,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-
+                
                 LookUpEditSettings cboMonHocTruoc = new LookUpEditSettings();
                 col.EditSettings = cboMonHocTruoc;
                 cboMonHocTruoc.ItemsSource = client.GetMonHocTruoc();
@@ -411,33 +448,15 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-
+                
                 LookUpEditSettings cbbMonHocSongHanh = new LookUpEditSettings();
                 col.EditSettings = cbbMonHocSongHanh;
                 cbbMonHocSongHanh.ItemsSource = client.GetMonHocSongHanh();
                 cbbMonHocSongHanh.DisplayMember = "TEN_MONHOC";
                 cbbMonHocSongHanh.ValueMember = "ID_MONHOC_SONGHANH";
-
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdKhoaNganhCT.Columns.Add(col);
-
-                //col = new GridColumn();
-                //col.Header = "Môn học tiên quyết";
-                //col.FieldName = "MONHOC_TIENQUYET";
-                //col.Width = 150;
-                //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                //col.AllowEditing = DefaultBoolean.True;
-                //col.Visible = true;
-                //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-
-                //LookUpEditSettings cbbMonHocTienQuyet = new LookUpEditSettings();
-                //col.EditSettings = cbbMonHocTienQuyet;
-                //cbbMonHocTienQuyet.ItemsSource = client.GetMonHocTienQuyet();
-                //cbbMonHocTienQuyet.DisplayMember = "TEN_MONHOC";
-                //cbbMonHocTienQuyet.ValueMember = "MONHOC_TIENQUYET";
-                //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                //grdKhoaNganhCT.Columns.Add(col);
+                grdKhoaNganhCT.Columns.Add(col); 
+                #endregion
             }
             catch (Exception err)
             {
@@ -445,11 +464,11 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        public void LoadMonHoc(int idkhoanganh)
+        public void LoadMonHoc(int idkhoanganh, int idhedaotao)
         {
             try
             {
-                iGridDataMonHoc = client.GetData_1(idkhoanganh);
+                iGridDataMonHoc = client.GetData_1(idkhoanganh, idhedaotao);
                 iGridDataMonHoc.Columns.Add("CHK");
                 this.grdMonHoc.ItemsSource = iGridDataMonHoc;
             }
@@ -503,8 +522,8 @@ namespace DATN.TTS.TVMH
                         r["ID_HE_DAOTAO"] = this.iDataSoure.Rows[0]["ID_HE_DAOTAO"];
                         r["ID_KHOAHOC_NGANH"] = this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"];
                         r["HOCKY"] = "0";
-                        r["SOTIET_LT"] = "0";
-                        r["SOTIET_TH"] = "0";
+                        r["SOTIET_LT"] = (dr["SOTIET_LT"].ToString() == "" ? "0" : dr["SOTIET_LT"].ToString());
+                        r["SOTIET_TH"] = (dr["SOTIET_TH"].ToString() == "" ? "0" : dr["SOTIET_TH"].ToString());
                         r["ID_MONHOC_TRUOC"] = "0";
                         r["ID_MONHOC_SONGHANH"] = "0";
                         r["MONHOC_TIENQUYET"] = "0";
@@ -578,7 +597,7 @@ namespace DATN.TTS.TVMH
                     {
                         CTMessagebox.Show("Xóa chi tiết ngành thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganhCT();
-                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()), Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"]));
                     }
                 }
             }
@@ -610,7 +629,7 @@ namespace DATN.TTS.TVMH
                     {
                         CTMessagebox.Show("Lưu khóa ngành thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
                         LoadKhoaNganhCT();
-                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()), Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"]));
                     }
                 }
             }
@@ -645,11 +664,11 @@ namespace DATN.TTS.TVMH
                     {
                         BtnThemMHKhoaNganh_OnClick(null, null);
                         LoadKhoaNganhCT();
-                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()), Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"]));
                     }
                 }
                 LoadKhoaNganhCT();
-                LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()), Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"]));
             }
             catch (Exception err)
             {
@@ -776,6 +795,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                DataTable dt = iDataSoure;
                 if (File.Exists(@"D:\DataExport") == false)
                 {
                     Directory.CreateDirectory(@"D:\DataExport");

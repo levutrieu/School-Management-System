@@ -91,7 +91,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -101,7 +101,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+               
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -111,7 +111,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -121,7 +120,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -134,7 +132,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -146,7 +143,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -156,7 +152,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -168,7 +163,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -180,7 +174,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -191,8 +184,7 @@ namespace DATN.TTS.TVMH
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                col.Visible = true;;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grd.Columns.Add(col);
@@ -204,7 +196,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grd.Columns.Add(col);
 
                 GrdKhoa.AutoWidth = true;
@@ -229,7 +220,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        #region Chưa dùng
         private void BtnChon_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -273,27 +263,27 @@ namespace DATN.TTS.TVMH
 
         private void GrdKhoa_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //try
-            //{
-            //    Mouse.OverrideCursor = Cursors.Wait;
-            //    if (this.grd.GetFocusedRow() == null)
-            //        return;
-            //    DataRow  row = ((DataRowView)this.grd.GetFocusedRow()).Row;
-            //    this.iDataSoure.Rows[0]["ID_KHOAHOC"] = row["ID_KHOAHOC"];
-            //    this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = row["TEN_KHOAHOC"];
-            //    this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
-            //}
-            //catch (Exception err)
-            //{
-            //    throw err;
-            //}
-            //finally
-            //{
-            //    Mouse.OverrideCursor = Cursors.Arrow;
-            //}
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (!e.Device.Target.Focus())
+                    return;
+                if (this.grd.GetFocusedRow() == null)
+                    return;
+                DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                this.iDataSoure.Rows[0]["ID_KHOAHOC"] = row["ID_KHOAHOC"];
+                this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = row["TEN_KHOAHOC"];
+                this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
         }
-
-        #endregion
 
         private void CboHeDT_OnEditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
@@ -317,6 +307,9 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                //if (!e.Device.Target.Focus())
+                //    return;
+                
                 if (this.grd.GetFocusedRow() == null)
                     return;
                 DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;

@@ -122,7 +122,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -133,7 +133,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -144,7 +144,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -155,7 +155,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             grd.Columns.Add(col);
 
             //col = new GridColumn();
@@ -165,7 +165,7 @@ namespace DATN.TTS.TVMH
             //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             //col.AllowEditing = DefaultBoolean.False;
             //col.Visible = true;
-            //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            //
             //col.AllowCellMerge = false;
             //grd.Columns.Add(col);
 
@@ -176,7 +176,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -187,7 +187,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -198,7 +198,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -209,7 +209,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -220,7 +220,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             grd.Columns.Add(col);
 
             col = new GridColumn();
@@ -230,7 +230,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -241,7 +241,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -253,7 +253,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -264,7 +264,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -275,7 +275,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -286,7 +286,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -297,7 +297,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -308,7 +308,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -319,7 +319,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
             
@@ -330,7 +330,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -341,7 +341,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = true;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
@@ -352,7 +352,7 @@ namespace DATN.TTS.TVMH
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
             col.Visible = false;
-            col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+            
             col.AllowCellMerge = false;
             grd.Columns.Add(col);
 
