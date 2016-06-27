@@ -79,9 +79,24 @@ namespace DATN.TTS.TVMH
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
+                col.FieldName = "CACH_TINHDIEM";
+                col.Visible = false;
+                grd.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "ID_HE_DAOTAO";
+                col.Visible = false;
+                grd.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "ID_MONHOC_SONGHANH";
+                col.Visible = false;
+                grd.Columns.Add(col);
+
+                col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
-                col.AllowCellMerge = false;
+                col.AllowCellMerge = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Width = 90;
                 grd.Columns.Add(col);
@@ -89,25 +104,49 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "TEN_MONHOC";
                 col.Header = "Tên môn học";
-                col.AllowCellMerge = false;
+                col.AllowCellMerge = true;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Width =150;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
                 col.FieldName = "SO_TC";
-                col.Header = "Số tín chỉ";
+                col.Header = "STC";
                 col.AllowCellMerge = false;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Width = 50;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
-                col.FieldName = "TEN_LOAIMH";
+                col.FieldName = "KIEUHOC";
                 col.Header = "Loại môn học";
                 col.AllowCellMerge = false;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Width = 90;
+                grd.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "TEN_HE_DAOTAO";
+                col.Header = "Hệ đào tạo";
+                col.AllowCellMerge = false;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Width = 150;
+                grd.Columns.Add(col); 
+
+                col = new GridColumn();
+                col.FieldName = "SOTIET";
+                col.Header = "Số tiết";
+                col.AllowCellMerge = false;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Width = 50;
+                grd.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "CACH_TINHDIEM_CHU";
+                col.Header = "Cách tính điểm";
+                col.AllowCellMerge = false;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Width = 120;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -119,12 +158,12 @@ namespace DATN.TTS.TVMH
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
-                col.FieldName = "TEN_MONHOC_TQ";
-                col.Header = "Môn học tiên quyết";
+                col.FieldName = "TEN_MONHOC_SONGHANH";
+                col.Header = "Môn học song hành";
                 col.AllowCellMerge = false;
-                col.Visible = false;
+                col.Visible = true;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Width = 90;
+                col.Width = 150;
                 grd.Columns.Add(col);
 
                 col = new GridColumn();
@@ -135,6 +174,7 @@ namespace DATN.TTS.TVMH
                 col.Width = 150;
                 grd.Columns.Add(col);
 
+                grdView.AutoWidth = false;
             }
             catch (Exception ex)
             {
@@ -149,6 +189,34 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 DataTable xdt = null;
                 xdt = bus.GetAllMonHoc();
+                xdt.Columns.Add("KIEUHOC", typeof (string));
+                xdt.Columns.Add("CACH_TINHDIEM_CHU", typeof (string));
+                foreach (DataRow dr in xdt.Rows)
+                {
+                    if (!string.IsNullOrEmpty(dr["IS_THUCHANH"].ToString()) && Convert.ToInt32(dr["IS_THUCHANH"]) == 1)
+                    {
+                        dr["KIEUHOC"] = "Thực hành";
+                    }
+                    if (!string.IsNullOrEmpty(dr["IS_LYTHUYET"].ToString()) && Convert.ToInt32(dr["IS_LYTHUYET"]) == 1)
+                    {
+                        dr["KIEUHOC"] = "Lý thuyết";
+                    }
+                    if (!string.IsNullOrEmpty(dr["CACH_TINHDIEM"].ToString()))
+                    {
+                        if (dr["CACH_TINHDIEM"].ToString().Trim().Equals("20-30-50"))
+                        {
+                            dr["CACH_TINHDIEM_CHU"] = "20% - 30% - 50%";
+                        }
+                        if (dr["CACH_TINHDIEM"].ToString().Trim().Equals("30-70"))
+                        {
+                            dr["CACH_TINHDIEM_CHU"] = "30% - 70%";
+                        }
+                        if (dr["CACH_TINHDIEM"].ToString().Trim().Equals("100"))
+                        {
+                            dr["CACH_TINHDIEM_CHU"] = "100%";
+                        }
+                    }
+                }
                 grd.ItemsSource = xdt;
                 this.iGridDataSource = xdt;
             }

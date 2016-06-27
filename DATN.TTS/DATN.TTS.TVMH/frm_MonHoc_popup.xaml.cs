@@ -44,6 +44,17 @@ namespace DATN.TTS.TVMH
             {
                 dtaTable = frm_MonHoc.idatasource;
                 dtaTable.Columns.Add("USER", typeof (string));
+                if (string.IsNullOrEmpty(dtaTable.Rows[0]["ID_MONHOC"].ToString()))
+                {
+                    dtaTable.Rows[0]["SOTIET"] = 1;
+                    dtaTable.Rows[0]["SO_TC"] = 1;
+                    dtaTable.Rows[0]["IS_THUCHANH"] = 0;
+                    dtaTable.Rows[0]["IS_LYTHUYET"] = 1;
+                    dtaTable.Rows[0]["IS_TINHDIEM"] = 1;
+                    dtaTable.Rows[0]["ISBATBUOC"] = 1;
+                    dtaTable.Rows[0]["IS_THUHOCPHI"] = 1;
+                    dtaTable.Rows[0]["TRANGTHAI"] = 1;
+                }
             }
             catch (Exception ex)
             {
@@ -59,30 +70,63 @@ namespace DATN.TTS.TVMH
                 bus_bomon bm = new bus_bomon();
                 DataTable xdtbm = bm.GetAllBoMon();
                 cboboMon.ItemsSource = xdtbm;
-                //DataTable table = ((DataView) cboboMon.ItemsSource).Table;
-                //DataRow row = table.NewRow();
-                //row[cboboMon.DisplayMember] = "--Chọn--";
-                //row[cboboMon.ValueMember] = 0;
-                //table.Rows.InsertAt(row, 0);
-                ////table.AcceptChanges();
                 if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_BOMON"].ToString()))
                 {
                     iDataSource.Rows[0]["ID_BOMON"] = 0;
                 }
-                bus_loaimonhoc lmh = new bus_loaimonhoc();
-                DataTable xdtlmh = lmh.GetAll();
-                cboLoaimonhoc.ItemsSource = xdtlmh;
-                if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_LOAI_MONHOC"].ToString()))
-                {
-                    iDataSource.Rows[0]["ID_LOAI_MONHOC"] = 0;
-                }
-                bus_MonHoc mh=new bus_MonHoc();
-                DataTable xdtmh = mh.GetAllMonHoc();
-                cboMHsonghanh.ItemsSource = xdtmh;
+                //bus_loaimonhoc lmh = new bus_loaimonhoc();
+                //DataTable xdtlmh = lmh.GetAll();
+                //cboLoaimonhoc.ItemsSource = xdtlmh;
+                //if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_LOAI_MONHOC"].ToString()))
+                //{
+                //    iDataSource.Rows[0]["ID_LOAI_MONHOC"] = 0;
+                //}
+                
                 if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_MONHOC_SONGHANH"].ToString()))
                 {
                     iDataSource.Rows[0]["ID_MONHOC_SONGHANH"] = 0;
                 }
+
+                #region Load He dao tao
+
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdt_hdt = bus.GetAll_HDT();
+                cbohedaotao.ItemsSource = xdt_hdt;
+                cbohedaotao.ItemsSource = xdt_hdt;
+
+                #endregion
+
+                #region Load cach tinh diem
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("CACHTINH", typeof(string));
+                dt.Columns.Add("CACHTINH_NAME", typeof(string));
+
+                DataRow dr = null;
+                dr = dt.NewRow();
+                dr["CACHTINH"] = "0";
+                dr["CACHTINH_NAME"] = "-----Chọn-----";
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr["CACHTINH"] = "20-30-50";
+                dr["CACHTINH_NAME"] = "20% - 30% - 50%";
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr["CACHTINH"] = "30-70";
+                dr["CACHTINH_NAME"] = "30% - 70%";
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr["CACHTINH"] = "100";
+                dr["CACHTINH_NAME"] = "100%";
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+                cboCachTinhDiem.ItemsSource = dt;
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -123,6 +167,23 @@ namespace DATN.TTS.TVMH
             finally
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void Cbohedaotao_OnSelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_HE_DAOTAO"].ToString()))
+                {
+                    bus_MonHoc mh = new bus_MonHoc();
+                    DataTable xdtmh = mh.GetAllMonHoc_ByHDT(Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]));
+                    cboMHsonghanh.ItemsSource = xdtmh;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

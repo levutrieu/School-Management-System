@@ -33,7 +33,7 @@
                                   KeyFieldName="ID" ParentFieldName="ID_PARENT"/>
                 </dxg:TreeListControl.View>
             </dxg:TreeListControl>-->
-            <dxg:GridControl Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
+            <dxg:GridControl Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdView" 
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" ShowIndicator="True" AllowCellMerge="True" RowStyle="{StaticResource SelectedRowStyle}" MouseDoubleClick="GrdView_OnMouseDoubleClick" FocusedRowChanged="GrdView_OnFocusedRowChanged">
