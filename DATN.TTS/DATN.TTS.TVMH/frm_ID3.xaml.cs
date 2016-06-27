@@ -192,51 +192,62 @@ namespace DATN.TTS.TVMH
                             {
                                 #region Không tìm được điểm chính xác
 
+                                #region Tao lai du lieu mau
+
                                 foreach (DataRow dr in iGridDataSource.Rows)
                                 {
-                                    if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)4)
+                                    foreach (DataColumn xdc in iGridDataSource.Columns)
                                     {
-                                        dr[mdr["ID_MONHOC"].ToString()] = 4;// 0 -> 3.9
-                                    }
-                                    else
-                                    {
-                                        if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)5)
+                                        if (!string.IsNullOrEmpty(dr[xdc.ColumnName].ToString()))
                                         {
-                                            dr[mdr["ID_MONHOC"].ToString()] = 5;// 4.0 -> 4.9
-                                        }
-                                        else
-                                        {
-                                            if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)5.5)
+                                            if (Convert.ToDouble(dr[xdc.ColumnName]) < (double)4)
                                             {
-                                                dr[mdr["ID_MONHOC"].ToString()] = 5.5;// 5.0 -> 5.4
+                                                dr[xdc.ColumnName] = 4; // 0 -> 3.9
                                             }
                                             else
                                             {
-                                                if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)6.5)
+                                                if (Convert.ToDouble(dr[xdc.ColumnName]) < (double)5)
                                                 {
-                                                    dr[mdr["ID_MONHOC"].ToString()] = 6.5;// 5.5 -> 6.4
+                                                    dr[xdc.ColumnName] = 5; // 4.0 -> 4.9
                                                 }
                                                 else
                                                 {
-                                                    if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)7)
+                                                    if (Convert.ToDouble(dr[xdc.ColumnName]) < (double)5.5)
                                                     {
-                                                        dr[mdr["ID_MONHOC"].ToString()] = 7;// 6.5 -> 6.9
+                                                        dr[xdc.ColumnName] = 5.5; // 5.0 -> 5.4
                                                     }
                                                     else
                                                     {
-                                                        if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)8)
+                                                        if (Convert.ToDouble(dr[xdc.ColumnName]) < (double)6.5)
                                                         {
-                                                            dr[mdr["ID_MONHOC"].ToString()] = 8;// 7.0 -> 7.9
+                                                            dr[xdc.ColumnName] = 6.5; // 5.5 -> 6.4
                                                         }
                                                         else
                                                         {
-                                                            if (Convert.ToDouble(dr[mdr["ID_MONHOC"].ToString()]) < (double)8.5)
+                                                            if (Convert.ToDouble(dr[xdc.ColumnName]) <
+                                                                (double)7)
                                                             {
-                                                                dr[mdr["ID_MONHOC"].ToString()] = 8.5;// 8.0 -> 8.4
+                                                                dr[xdc.ColumnName] = 7; // 6.5 -> 6.9
                                                             }
                                                             else
                                                             {
-                                                                dr[mdr["ID_MONHOC"].ToString()] = 10;// 8.5 -> 10
+                                                                if (Convert.ToDouble(dr[xdc.ColumnName]) <
+                                                                    (double)8)
+                                                                {
+                                                                    dr[xdc.ColumnName] = 8; // 7.0 -> 7.9
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (Convert.ToDouble(dr[xdc.ColumnName]) <
+                                                                        (double)8.5)
+                                                                    {
+                                                                        dr[xdc.ColumnName] = 8.5; // 8.0 -> 8.4
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dr[xdc.ColumnName] = 10; // 8.5 -> 10
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -245,13 +256,87 @@ namespace DATN.TTS.TVMH
                                         }
                                     }
                                 }
+
+                                #endregion
+
                                 if (iGridDataSource.Rows.Count < 1)
                                 {
                                     ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() + " :" +
                                              "\n- Kết quả: Không thể dự đoán \n- Điểm dự đoán: Không có dữ liệu mẫu nên không thể dự đoán được\n\n";
                                 }
                                 else
-                                {//4-F 5-D 5.5-D+ 6.5-C 7-C+ 8-B 8.5-B+ 10-A
+                                {
+                                    //4-F 5-D 5.5-D+ 6.5-C 7-C+ 8-B 8.5-B+ 10-A
+                                    #region Tao lai diem DK
+
+                                    foreach (DataColumn xdc in Diem_SV.Columns)
+                                    {
+                                        if (string.IsNullOrEmpty(Diem_SV.Rows[0][xdc.ColumnName].ToString()))
+                                        {
+                                            Diem_SV.Rows[0][xdc.ColumnName] = 4;
+                                        }
+                                        else
+                                        {
+                                            if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) < (double)4)
+                                            {
+                                                Diem_SV.Rows[0][xdc.ColumnName] = 4;
+                                            }
+                                            else
+                                            {
+                                                if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) < (double)5)
+                                                {
+                                                    Diem_SV.Rows[0][xdc.ColumnName] = 5;
+                                                }
+                                                else
+                                                {
+                                                    if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) < (double)5.5)
+                                                    {
+                                                        Diem_SV.Rows[0][xdc.ColumnName] = 5.5;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) <
+                                                            (double)6.5)
+                                                        {
+                                                            Diem_SV.Rows[0][xdc.ColumnName] = 6.5;
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) <
+                                                                (double)7)
+                                                            {
+                                                                Diem_SV.Rows[0][xdc.ColumnName] = 7;
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) <
+                                                                    (double)8)
+                                                                {
+                                                                    Diem_SV.Rows[0][xdc.ColumnName] = 8;
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (
+                                                                        Convert.ToDouble(Diem_SV.Rows[0][xdc.ColumnName]) <
+                                                                        (double)8.5)
+                                                                    {
+                                                                        Diem_SV.Rows[0][xdc.ColumnName] = 8.5;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Diem_SV.Rows[0][xdc.ColumnName] = 10;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    #endregion
+
                                     diem_dudoan = TuVanMH(iGridDataSource, Diem_SV);
                                     if (diem_dudoan == 4)
                                     {
@@ -343,47 +428,47 @@ namespace DATN.TTS.TVMH
                                 string diemchu = "";
                                 if (diem_dudoan < (double)4)
                                 {
-                                    diemchu = " (F)";
+                                    diemchu = " 0 -> 3.9 (F)";
                                 }
                                 else
                                 {
                                     if (diem_dudoan < (double)5)
                                     {
-                                        diemchu = " (D)";
+                                        diemchu = " 4.0 -> 4.9 (D)";
                                     }
                                     else
                                     {
                                         if (diem_dudoan < (double)5.5)
                                         {
-                                            diemchu = " (D+)";
+                                            diemchu = " 5.0 -> 5.4 (D+)";
                                         }
                                         else
                                         {
                                             if (diem_dudoan < (double)6.5)
                                             {
-                                                diemchu = " (C)";
+                                                diemchu = " 5.5 -> 6.4 (C)";
                                             }
                                             else
                                             {
                                                 if (diem_dudoan < (double)7)
                                                 {
-                                                    diemchu = " (C+)";
+                                                    diemchu = " 6.5 -> 6.9 (C+)";
                                                 }
                                                 else
                                                 {
                                                     if (diem_dudoan < (double)8)
                                                     {
-                                                        diemchu = " (B)";
+                                                        diemchu = " 7.0 -> 7.9 (B)";
                                                     }
                                                     else
                                                     {
                                                         if (diem_dudoan < (double)8.5)
                                                         {
-                                                            diemchu = " (B+)";
+                                                            diemchu = " 8.0 -> 8.4 (B+)";
                                                         }
                                                         else
                                                         {
-                                                            diemchu = " (A)";
+                                                            diemchu = " 8.5 -> 10 (A)";
                                                         }
                                                     }
                                                 }
@@ -397,12 +482,12 @@ namespace DATN.TTS.TVMH
                                 if (diem_dudoan >= (double)4)
                                 {
                                     ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() + " :" +
-                                             "\n- Kết quả: Đạt \n- Điểm dự đoán: " + diem_dudoan.ToString() + diemchu + "\n\n";
+                                             "\n- Kết quả: Đạt \n- Điểm dự đoán:" + diemchu + "\n\n";
                                 }
                                 else
                                 {
                                     ketqua = ketqua + "Dự đoán kết quả môn học " + mdr["TEN_MONHOC"].ToString() + " :" +
-                                             "\n- Kết quả: Không đạt \n- Điểm dự đoán: " + diem_dudoan.ToString() + diemchu +
+                                             "\n- Kết quả: Không đạt \n- Điểm dự đoán:" + diemchu +
                                              "\n\n";
                                 }
                             }
