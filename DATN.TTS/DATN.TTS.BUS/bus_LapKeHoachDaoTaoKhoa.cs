@@ -306,42 +306,20 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetData(int pID_bomon, int pID_loaimon)
-        {
-            try
-            {
-                DataTable dt = null;
-
-
-
-                return dt;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-        public DataTable GetData_1(int idkhoanganh)
+        public DataTable GetData_1(int idkhoanganh, int idhedaotao)
         {
             try
             {
                 DataTable dt = null;
                 var mhoc = from mh in db.tbl_MONHOCs
                            where
-                             (mh.IS_DELETE != 1 ||
-                             mh.IS_DELETE == null) &&
-                             !
-                               (from knct in db.tbl_KHOAHOC_NGANH_CTIETs
+                             (mh.IS_DELETE != 1 || mh.IS_DELETE == null) && mh.ID_HE_DAOTAO == idhedaotao &&
+                             !(from knct in db.tbl_KHOAHOC_NGANH_CTIETs
                                 join khoanganh in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(knct.ID_KHOAHOC_NGANH) } equals new { ID_KHOAHOC_NGANH = khoanganh.ID_KHOAHOC_NGANH }
                                 where
-                                  (knct.IS_DELETE != 1 ||
-                                  knct.IS_DELETE == null) &&
+                                  (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
                                     (from khoanganh0 in db.tbl_KHOAHOC_NGANHs
-                                     where
-                                       (khoanganh0.IS_DELETE != 1 ||
-                                       khoanganh0.IS_DELETE == null) &&
-                                       khoanganh0.ID_KHOAHOC_NGANH == idkhoanganh
+                                     where (khoanganh0.IS_DELETE != 1 || khoanganh0.IS_DELETE == null) && khoanganh0.ID_KHOAHOC_NGANH == idkhoanganh
                                      select new
                                      {
                                          khoanganh0.ID_KHOAHOC_NGANH
@@ -371,7 +349,10 @@ namespace DATN.TTS.BUS
                                mh.UPDATE_TIME,
                                mh.ISBATBUOC,
                                mh.ID_MONHOC_SONGHANH,
-                               mh.GHICHU
+                               mh.GHICHU,
+                               SOTIET_LT =(int?)mh.SOTIET_LT,
+                               SOTIET_TH=(int?)mh.SOTIET_TH,
+                               mh.CACH_TINHDIEM
                            };
                 
                 dt = TableUtil.LinqToDataTable(mhoc);
