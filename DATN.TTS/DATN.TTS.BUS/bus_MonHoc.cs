@@ -108,10 +108,26 @@ namespace DATN.TTS.BUS
         //    return xdt;
         //}
 
+        public DataTable GetAllMonHoc_ByHDT(int id_hedaotao)
+        {
+            var query = from MH in db.tbl_MONHOCs
+                        where (MH.IS_DELETE != 1 || MH.IS_DELETE == null) && MH.ID_HE_DAOTAO == id_hedaotao
+                        orderby MH.MA_MONHOC
+                        select new
+                        {
+                            MH.ID_MONHOC,
+                            MH.TEN_MONHOC
+                        };
+            DataTable xdt = null;
+            xdt = TableUtil.LinqToDataTable(query);
+            return xdt;
+        }
+
         public DataTable GetAllMonHoc()
         {
             var query = from MH in db.tbl_MONHOCs
                         where (MH.IS_DELETE != 1 || MH.IS_DELETE == null)
+                        orderby MH.MA_MONHOC
                         select new
                         {
                             MH.ID_MONHOC,
@@ -143,16 +159,17 @@ namespace DATN.TTS.BUS
                             MH.IS_TINHDIEM,
                             MH.TRANGTHAI,
                             MH.ISBATBUOC,
+                            MH.ID_HE_DAOTAO,
+                            TEN_HE_DAOTAO = ((from m in db.tbl_HEDAOTAOs
+                                              where
+                                                  m.ID_HE_DAOTAO == MH.ID_HE_DAOTAO
+                                              select new
+                                              {
+                                                  m.TEN_HE_DAOTAO
+                                              }).First().TEN_HE_DAOTAO),
+                            SOTIET = ((MH.SOTIET_LT ?? 0) + (MH.SOTIET_TH ?? 0)),
+                            MH.CACH_TINHDIEM,
                             MH.GHICHU,
-                            //ID_MONHOC_TQ = (int?)TQ.ID_MONHOC_TQ,
-                            //TEN_MONHOC_TQ =
-                            //    ((from m in db.tbl_MONHOCs
-                            //      where
-                            //          m.ID_MONHOC == TQ.ID_MONHOC_TQ
-                            //      select new
-                            //      {
-                            //          m.TEN_MONHOC
-                            //      }).First().TEN_MONHOC),
                             MH.ID_MONHOC_SONGHANH,
                             TEN_MONHOC_SONGHANH =
                                 ((from n in db.tbl_MONHOCs
@@ -171,10 +188,9 @@ namespace DATN.TTS.BUS
         public int InsertObject(DataTable idatasource)
         {
             int i = 0;
+            
             tbl_MONHOC query = new tbl_MONHOC
             {
-                ID_LOAI_MONHOC = Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]),
-                ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]),
                 MA_MONHOC = idatasource.Rows[0]["MA_MONHOC"].ToString(),
                 TEN_MONHOC = idatasource.Rows[0]["TEN_MONHOC"].ToString(),
                 KY_HIEU = idatasource.Rows[0]["KY_HIEU"].ToString(),
@@ -184,6 +200,7 @@ namespace DATN.TTS.BUS
                 IS_LYTHUYET = Convert.ToInt32(idatasource.Rows[0]["IS_LYTHUYET"]),
                 IS_TINHDIEM = Convert.ToInt32(idatasource.Rows[0]["IS_TINHDIEM"]),
                 TRANGTHAI = Convert.ToInt32(idatasource.Rows[0]["TRANGTHAI"]),
+                CACH_TINHDIEM = idatasource.Rows[0]["CACH_TINHDIEM"].ToString(),
                 CREATE_USER = idatasource.Rows[0]["USER"].ToString(),
                 CREATE_TIME = DateTime.Now,
                 ISBATBUOC = Convert.ToInt32(idatasource.Rows[0]["ISBATBUOC"]),
@@ -191,6 +208,22 @@ namespace DATN.TTS.BUS
                 GHICHU = idatasource.Rows[0]["GHICHU"].ToString(),
                 IS_DELETE = 0
             };
+            if (!string.IsNullOrEmpty(idatasource.Rows[0]["ID_BOMON"].ToString()))
+            {
+                query.ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]);
+            }
+            if (!string.IsNullOrEmpty(idatasource.Rows[0]["ID_HE_DAOTAO"].ToString()))
+            {
+                query.ID_HE_DAOTAO = Convert.ToInt32(idatasource.Rows[0]["ID_HE_DAOTAO"]);
+            }
+            if (Convert.ToInt32(idatasource.Rows[0]["IS_THUCHANH"]) == 1)
+            {
+                query.SOTIET_TH = Convert.ToInt32(idatasource.Rows[0]["SOTIET"]);
+            }
+            if (Convert.ToInt32(idatasource.Rows[0]["IS_LYTHUYET"]) == 1)
+            {
+                query.SOTIET_LT = Convert.ToInt32(idatasource.Rows[0]["SOTIET"]);
+            }
             db.tbl_MONHOCs.InsertOnSubmit(query);
             db.SubmitChanges();
             i = query.ID_MONHOC;
@@ -204,23 +237,6 @@ namespace DATN.TTS.BUS
                 where
                     Tbl_MONHOC.ID_MONHOC == Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC"])
                 select Tbl_MONHOC).FirstOrDefault();
-            if (Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]) == 0)
-            {
-                query.ID_LOAI_MONHOC = null;
-            }
-            else
-            {
-                query.ID_LOAI_MONHOC = Convert.ToInt32(idatasource.Rows[0]["ID_LOAI_MONHOC"]);                
-            }
-
-            if (Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]) == 0)
-            {
-                query.ID_BOMON = null;
-            }
-            else
-            {
-                query.ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]);
-            }
             query.MA_MONHOC = idatasource.Rows[0]["MA_MONHOC"].ToString();
             query.TEN_MONHOC = idatasource.Rows[0]["TEN_MONHOC"].ToString();
             query.KY_HIEU = idatasource.Rows[0]["KY_HIEU"].ToString();
@@ -233,14 +249,30 @@ namespace DATN.TTS.BUS
             query.UPDATE_USER = idatasource.Rows[0]["USER"].ToString();
             query.UPDATE_TIME = DateTime.Now;
             query.ISBATBUOC = Convert.ToInt32(idatasource.Rows[0]["ISBATBUOC"]);
-            if (Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]) == 0)
+            query.CACH_TINHDIEM = idatasource.Rows[0]["CACH_TINHDIEM"].ToString();
+            if (!string.IsNullOrEmpty(idatasource.Rows[0]["ID_BOMON"].ToString()))
             {
-                query.ID_MONHOC_SONGHANH = null;                
+                query.ID_BOMON = Convert.ToInt32(idatasource.Rows[0]["ID_BOMON"]);
             }
-            else
+            if (!string.IsNullOrEmpty(idatasource.Rows[0]["ID_HE_DAOTAO"].ToString()))
+            {
+                query.ID_HE_DAOTAO = Convert.ToInt32(idatasource.Rows[0]["ID_HE_DAOTAO"]);
+            }
+            if (Convert.ToInt32(idatasource.Rows[0]["IS_THUCHANH"]) == 1)
+            {
+                query.SOTIET_TH = Convert.ToInt32(idatasource.Rows[0]["SOTIET"]);
+                query.SOTIET_LT = null;
+            }
+            if (Convert.ToInt32(idatasource.Rows[0]["IS_LYTHUYET"]) == 1)
+            {
+                query.SOTIET_LT = Convert.ToInt32(idatasource.Rows[0]["SOTIET"]);
+                query.SOTIET_TH = null;
+            }
+            if (!string.IsNullOrEmpty(idatasource.Rows[0]["ID_MONHOC_SONGHANH"].ToString()))
             {
                 query.ID_MONHOC_SONGHANH = Convert.ToInt32(idatasource.Rows[0]["ID_MONHOC_SONGHANH"]);                
             }
+
             query.GHICHU = idatasource.Rows[0]["GHICHU"].ToString();
             db.SubmitChanges();
             i = query.ID_MONHOC;
