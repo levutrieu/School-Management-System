@@ -48,6 +48,7 @@ namespace DATN.TTS.TVMH
                         dtKhoaNganh.Rows[0]["TEN_HE_DAOTAO"] = dtKhoa.Rows[0]["TEN_HE_DAOTAO"];
                         dtKhoaNganh.Rows[0]["ID_KHOAHOC"] = dtKhoa.Rows[0]["ID_KHOAHOC"];
                         dtKhoaNganh.Rows[0]["TEN_KHOAHOC"] = dtKhoa.Rows[0]["TEN_KHOAHOC"];
+                        dtKhoaNganh.Rows[0]["SO_HKY"] = dtKhoa.Rows[0]["SO_HKY"];
                         DataTable dt = frm_KhoaNganh.client.GetNganhWhereHDT(Convert.ToInt32(dtKhoa.Rows[0]["ID_KHOAHOC"].ToString()));
                         frm_KhoaNganh.LoadKhoaNganh();
                         frm_KhoaNganh.LoadNganh(dt);

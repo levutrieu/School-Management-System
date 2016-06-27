@@ -42,14 +42,8 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
 
             this.iDataSoure = TableSchemBinding();
-
-            //this.iGridDataSoureKhoaNganh = TableSchemaBindings_Grid();
-
             this.DataContext = iDataSoure;
-
             this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
-            
-            //SetComBo();
             InitGridNganh();
             InitGridKhoaNganh();
         }
@@ -62,7 +56,7 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "Chọn";
-                col.Width = 100;
+                col.Width = 40;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
@@ -172,7 +166,7 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "CHK";
                 col.Header = "Xóa";
-                col.Width = 100;
+                col.Width = 40;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
@@ -205,6 +199,36 @@ namespace DATN.TTS.TVMH
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
+                col.FieldName = "SO_SINHVIEN_DK";
+                col.Header = "Chỉ tiêu sinh viên";
+                col.Width = 100;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.True;
+                col.Visible = true;
+                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                TextEditSettings txtSoSV = new TextEditSettings();
+                txtSoSV.Mask = "####";
+                txtSoSV.MaskType = MaskType.Numeric;
+                col.EditSettings = txtSoSV;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grdKhoaNganh.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "SO_LOP";
+                col.Header = "Số lớp mở";
+                col.Width = 100;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.True;
+                col.Visible = true;
+                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                TextEditSettings txtSOLOP = new TextEditSettings();
+                txtSOLOP.Mask = "####";
+                txtSoSV.MaskType = MaskType.Numeric;
+                col.EditSettings = txtSOLOP;
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grdKhoaNganh.Columns.Add(col);
+
+                col = new GridColumn();
                 TextEditSettings txtSOHK = new TextEditSettings();
                 txtSOHK.MaskType = MaskType.Numeric;
                 txtSOHK.Mask = "##";
@@ -215,7 +239,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số học kỳ";
                 col.Width = 100;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
                 grdKhoaNganh.Columns.Add(col);
@@ -228,36 +252,6 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                grdKhoaNganh.Columns.Add(col);
-
-                col = new GridColumn();
-                col.FieldName = "SO_SINHVIEN_DK";
-                col.Header = "Số sinh viên dự kiến";
-                col.Width = 180;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
-                col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                SpinEditSettings txtSoSV = new SpinEditSettings();
-                txtSoSV.MinValue = 0;
-                txtSoSV.MaskType = MaskType.Numeric;
-                col.EditSettings = txtSoSV;
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdKhoaNganh.Columns.Add(col);
-
-                col = new GridColumn();
-                col.FieldName = "SO_LOP";
-                col.Header = "Số lớp";
-                col.Width = 100;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
-                col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                SpinEditSettings txtSOLOP = new SpinEditSettings();
-                txtSOLOP.MinValue = 0;
-                txtSoSV.MaskType = MaskType.Numeric;
-                col.EditSettings = txtSOLOP;
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganh.Columns.Add(col);
 
                 col = new GridColumn();
@@ -286,7 +280,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception er)
             {
-                throw er; 
+                throw er;
             }
         }
 
@@ -307,6 +301,7 @@ namespace DATN.TTS.TVMH
                 //===============================
                 dic.Add("KHOAHOC_NGANH", typeof(string));
                 dic.Add("ID_KHOAHOC_NGANH", typeof(Decimal));
+                dic.Add("SO_HKY", typeof(int));
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
@@ -314,7 +309,7 @@ namespace DATN.TTS.TVMH
             {
                 throw err;
             }
-           
+
         }
 
         DataTable TableSchemaBindings_Grid()
@@ -333,7 +328,7 @@ namespace DATN.TTS.TVMH
                 dic.Add("SO_SINHVIEN_DK", typeof(Decimal));
                 dic.Add("SO_LOP", typeof(Decimal));
                 dic.Add("GHICHU", typeof(string));
-                dic.Add("CHK",typeof(bool));
+                dic.Add("CHK", typeof(bool));
                 dt = TableUtil.ConvertDictionaryToTable(dic, false);
                 return dt;
             }
@@ -377,11 +372,15 @@ namespace DATN.TTS.TVMH
             }
         }
 
+        List<int> lstViTri = new List<int>(); 
         private void BtnThem_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+
+                lstViTri.Clear();
+
                 if (iGridDataSoureKhoaNganh.Rows.Count == 0)
                 {
                     iGridDataSoureKhoaNganh = TableSchemaBindings_Grid();
@@ -396,7 +395,7 @@ namespace DATN.TTS.TVMH
                     }
                     else
                     {
-                        CTMessagebox.Show("Bạn chưa chọn ngành nào để them!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                        CTMessagebox.Show("Bạn chưa chọn ngành nào để thêm!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                         return;
                     }
                 }
@@ -410,16 +409,44 @@ namespace DATN.TTS.TVMH
                         r["TEN_KHOAHOC"] = this.iDataSoure.Rows[0]["TEN_KHOAHOC"];
                         r["ID_NGANH"] = xr["ID_NGANH"];
                         r["TEN_NGANH"] = xr["TEN_NGANH"];
-                        r["SO_HKY"] = "0";
-                        r["HOCKY_TRONGKHOA"] = "";
+                        r["SO_HKY"] = this.iDataSoure.Rows[0]["SO_HKY"];
+                        string HOCKY_TRONGKHOA = string.Empty;
+                        for (int j = 1; j <= Convert.ToInt32(this.iDataSoure.Rows[0]["SO_HKY"].ToString()); j++)
+                        {
+                            if (j == Convert.ToInt32(this.iDataSoure.Rows[0]["SO_HKY"].ToString()))
+                            {
+                                HOCKY_TRONGKHOA += j;
+                            }
+                            else
+                            {
+                                HOCKY_TRONGKHOA += j + ", ";
+                            }
+                        }
+                        r["HOCKY_TRONGKHOA"] = HOCKY_TRONGKHOA;
                         r["SO_SINHVIEN_DK"] = "0";
                         r["SO_LOP"] = "0";
                         r["GHICHU"] = "";
                         iGridDataSoureKhoaNganh.Rows.Add(r);
                         iGridDataSoureKhoaNganh.AcceptChanges();
+                        lstViTri.Add(Convert.ToInt32(xr["ID_NGANH"].ToString()));
                     }
                 }
                 grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
+
+
+                for (int i = 0; i < lstViTri.Count; i++)
+                {
+                    for (int j = 0; j < iGridDataSoureNganh.Rows.Count; j++)
+                    {
+                        if (lstViTri[i] == Convert.ToInt32(iGridDataSoureNganh.Rows[j]["ID_NGANH"].ToString()))
+                        {
+                            iGridDataSoureNganh.Rows.RemoveAt(j);
+                        }
+                    }
+                    //lstViTri.Remove(i);
+                }
+
+                grd.ItemsSource = iGridDataSoureNganh;
             }
             catch (Exception err)
             {
@@ -435,6 +462,8 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                lstViTri.Clear();
+
                 frm_KeThuaKhoaNganh frmKeThua = new frm_KeThuaKhoaNganh();
                 frmKeThua.Owner = System.Windows.Window.GetWindow(this);
                 frmKeThua.ShowDialog();
@@ -500,6 +529,8 @@ namespace DATN.TTS.TVMH
 
                                 iGridDataSoureKhoaNganh.Rows.Add(r);
                                 iGridDataSoureKhoaNganh.AcceptChanges();
+
+
                             }
                             DataTable xdtTable = iGridDataSoureKhoaNganh.AsEnumerable().GroupBy(a => a.Field<int>("ID_NGANH")).Select(b => b.First()).CopyToDataTable();
                             iGridDataSoureKhoaNganh = xdtTable.Copy();
@@ -507,8 +538,26 @@ namespace DATN.TTS.TVMH
                         #endregion
                     }
                 }
-                
-               grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
+                grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
+
+                foreach (DataRow r in iGridDataSoureKhoaNganh.Rows)
+                {
+                    lstViTri.Add(Convert.ToInt32(r["ID_NGANH"].ToString()));
+                }
+
+                for (int i = 0; i < lstViTri.Count; i++)
+                {
+                    for (int j = 0; j < iGridDataSoureNganh.Rows.Count; j++)
+                    {
+                        if (lstViTri[i] == Convert.ToInt32(iGridDataSoureNganh.Rows[j]["ID_NGANH"].ToString()))
+                        {
+                            iGridDataSoureNganh.Rows.RemoveAt(j);
+                        }
+                    }
+                    //lstViTri.Remove(i);
+                }
+
+                grd.ItemsSource = iGridDataSoureNganh;
             }
             catch
             {
@@ -521,29 +570,29 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (this.grdKhoaNganh.GetFocusedRow() == null)
-                    return;
-                int index = this.grdViewKhoaNganh.FocusedRowHandle;
-                DataRow r = ((DataRowView)this.grdKhoaNganh.GetFocusedRow()).Row;
-                int temp = Convert.ToInt32(r["SO_HKY"].ToString());
-                if (temp < 0 || temp > 10)
-                {
-                    CTMessagebox.Show("Số học kỳ phải nằm trong khoảng 0 -> 10", "Thông báo", "", CTICON.Warning,CTBUTTON.OK);
-                    return;
-                }
-                string HOCKY_TRONGKHOA = string.Empty;
-                for (int i = 1; i <= temp; i++)
-                {
-                    if (i == temp)
-                    {
-                        HOCKY_TRONGKHOA += i;
-                    }
-                    else
-                    {
-                        HOCKY_TRONGKHOA += i + ", ";
-                    }
-                }
-                this.iGridDataSoureKhoaNganh.Rows[index]["HOCKY_TRONGKHOA"] = HOCKY_TRONGKHOA;
+                //if (this.grdKhoaNganh.GetFocusedRow() == null)
+                //    return;
+                //int index = this.grdViewKhoaNganh.FocusedRowHandle;
+                //DataRow r = ((DataRowView)this.grdKhoaNganh.GetFocusedRow()).Row;
+                //int temp = Convert.ToInt32(r["SO_HKY"].ToString());
+                //if (temp < 0 || temp > 10)
+                //{
+                //    CTMessagebox.Show("Số học kỳ phải nằm trong khoảng 0 -> 10", "Thông báo", "", CTICON.Warning,CTBUTTON.OK);
+                //    return;
+                //}
+                //string HOCKY_TRONGKHOA = string.Empty;
+                //for (int i = 1; i <= temp; i++)
+                //{
+                //    if (i == temp)
+                //    {
+                //        HOCKY_TRONGKHOA += i;
+                //    }
+                //    else
+                //    {
+                //        HOCKY_TRONGKHOA += i + ", ";
+                //    }
+                //}
+                //this.iGridDataSoureKhoaNganh.Rows[index]["HOCKY_TRONGKHOA"] = HOCKY_TRONGKHOA;
             }
             catch (Exception err)
             {
@@ -602,11 +651,11 @@ namespace DATN.TTS.TVMH
                 }
                 if (count == 0)
                 {
-                    CTMessagebox.Show("Bạn chưa chọn ngành nào để xóa!", "Thông báo", "", CTICON.Information,CTBUTTON.OK);
+                    CTMessagebox.Show("Bạn chưa chọn ngành nào để xóa!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     return;
                 }
                 DataTable dt = null;
-                DataRow[]check =(from temp in iGridDataSoureKhoaNganh.AsEnumerable()where temp.Field<string>("CHK") == "True" select temp).ToArray();
+                DataRow[] check = (from temp in iGridDataSoureKhoaNganh.AsEnumerable() where temp.Field<string>("CHK") == "True" select temp).ToArray();
                 if (check.Count() > 0)
                 {
                     dt = check.CopyToDataTable();
@@ -645,7 +694,29 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                int count = 0;
+                foreach (DataRow r in iGridDataSoureKhoaNganh.Rows)
+                {
+                    if (r["ID_KHOAHOC_NGANH"].ToString().Trim() == "0")
+                    {
+                        count++;
+                    }
+                }
+                if (count > 0)
+                {
+                    if (
+                        CTMessagebox.Show("Có " + count + "dòng chưa lưu. Bạn có muốn lưu không?", "Thông báo", "",
+                            CTICON.Warning, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    {
+                        BtnThemKhoaNganh_OnClick(null, null);
+                        LoadKhoaNganh();
+                        DataTable xdt = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
+                        LoadNganh(xdt);
+                    }
+                }
                 LoadKhoaNganh();
+                DataTable xdtz = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
+                LoadNganh(xdtz);
             }
             catch (Exception err)
             {
@@ -683,7 +754,6 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                Mouse.OverrideCursor = Cursors.Wait;
                 frm_MoLopHocPopUp frm = new frm_MoLopHocPopUp(this.iDataSoure.Copy());
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
@@ -692,10 +762,7 @@ namespace DATN.TTS.TVMH
             {
                 throw err;
             }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            
         }
 
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
@@ -717,28 +784,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        #region Bỏ
-        // chua dung toi
-        bool CheckTrungKeThua(DataTable dtTable, int id)
-        {
-            try
-            {
-                if (dtTable.Rows.Count > 0)
-                {
-                    foreach (DataRow r in dtTable.Rows)
-                    {
-                        if (Convert.ToInt32(r["ID_NGANH"].ToString()) == id)
-                            return false;
-                    }
-                }
-                return true;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
         private void GrdNganh_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -749,7 +794,7 @@ namespace DATN.TTS.TVMH
                 DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
                 int index = Convert.ToInt32(row["ID_NGANH"].ToString());
                 int vtri = -1;
-                for (int i = 0 ; i <iGridDataSoureNganh.Rows.Count; i++)
+                for (int i = 0; i < iGridDataSoureNganh.Rows.Count; i++)
                 {
                     int idnganh = Convert.ToInt32(iGridDataSoureNganh.Rows[i]["ID_NGANH"].ToString());
                     if (index == idnganh)
@@ -760,7 +805,7 @@ namespace DATN.TTS.TVMH
                 }
                 if (iGridDataSoureNganh.Rows[vtri]["CHK"].ToString() == "True")
                 {
-                    iGridDataSoureNganh.Rows[vtri]["CHK"]= "False";
+                    iGridDataSoureNganh.Rows[vtri]["CHK"] = "False";
                 }
                 else
                 {
@@ -777,26 +822,9 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void GrdNganh_OnFocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        private void GrdViewKhoaNganh_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                if (this.grd.GetFocusedRow() == null)
-                    return;
-                DataRow row = ((DataRowView)this.grd.GetFocusedRow()).Row;
-                this.iDataSoure.Rows[0]["ID_NGANH"] = row["ID_NGANH"];
-                this.iDataSoure.Rows[0]["TEN_NGANH"] = row["TEN_NGANH"];
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            BtnThemLop_OnClick(sender, null);
         }
-        #endregion
     }
 }

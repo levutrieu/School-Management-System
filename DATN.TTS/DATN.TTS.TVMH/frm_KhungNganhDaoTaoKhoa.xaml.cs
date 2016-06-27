@@ -350,10 +350,8 @@ namespace DATN.TTS.TVMH
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                SpinEditSettings txtHK = new SpinEditSettings();
+                TextEditSettings txtHK = new TextEditSettings();
                 txtHK.MaskType = MaskType.Numeric;
-                txtHK.MinValue = 0;
-                txtHK.MaxValue = 8;
                 txtHK.MaskAutoComplete = AutoCompleteType.Default;
                 col.EditSettings = txtHK;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -364,12 +362,11 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số tiết LT";
                 col.Width = 80;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                SpinEditSettings txtSTLT = new SpinEditSettings();
+                TextEditSettings txtSTLT = new TextEditSettings();
                 txtSTLT.MaskType = MaskType.Numeric;
-                txtSTLT.MinValue = 0;
                 txtSTLT.MaskAutoComplete = AutoCompleteType.Default;
                 col.EditSettings = txtSTLT;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -380,12 +377,11 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số tiết TH";
                 col.Width = 80;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
+                col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
-                SpinEditSettings txtSTTH = new SpinEditSettings();
+                TextEditSettings txtSTTH = new TextEditSettings();
                 txtSTTH.MaskType = MaskType.Numeric;
-                txtSTTH.MinValue = 0;
                 txtSTTH.MaskAutoComplete = AutoCompleteType.Default;
                 col.EditSettings = txtSTTH;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -426,22 +422,22 @@ namespace DATN.TTS.TVMH
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdKhoaNganhCT.Columns.Add(col);
 
-                col = new GridColumn();
-                col.Header = "Môn học tiên quyết";
-                col.FieldName = "MONHOC_TIENQUYET";
-                col.Width = 150;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.True;
-                col.Visible = true;
-                col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
+                //col = new GridColumn();
+                //col.Header = "Môn học tiên quyết";
+                //col.FieldName = "MONHOC_TIENQUYET";
+                //col.Width = 150;
+                //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                //col.AllowEditing = DefaultBoolean.True;
+                //col.Visible = true;
+                //col.HeaderStyle = FindResource("ColumnsHeaderStyle") as Style;
 
-                LookUpEditSettings cbbMonHocTienQuyet = new LookUpEditSettings();
-                col.EditSettings = cbbMonHocTienQuyet;
-                cbbMonHocTienQuyet.ItemsSource = client.GetMonHocTienQuyet();
-                cbbMonHocTienQuyet.DisplayMember = "TEN_MONHOC";
-                cbbMonHocTienQuyet.ValueMember = "MONHOC_TIENQUYET";
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdKhoaNganhCT.Columns.Add(col);
+                //LookUpEditSettings cbbMonHocTienQuyet = new LookUpEditSettings();
+                //col.EditSettings = cbbMonHocTienQuyet;
+                //cbbMonHocTienQuyet.ItemsSource = client.GetMonHocTienQuyet();
+                //cbbMonHocTienQuyet.DisplayMember = "TEN_MONHOC";
+                //cbbMonHocTienQuyet.ValueMember = "MONHOC_TIENQUYET";
+                //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                //grdKhoaNganhCT.Columns.Add(col);
             }
             catch (Exception err)
             {
@@ -471,12 +467,17 @@ namespace DATN.TTS.TVMH
             this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
         }
 
+        List<int>lstViTri = new List<int>(); 
+
         private void BtnThemMH_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
 
                 Mouse.OverrideCursor = Cursors.Wait;
+
+                lstViTri.Clear();
+
                 if (iGridDataSoureNganhCT.Rows.Count == 0)
                 {
                     iGridDataSoureNganhCT = TableSchemaBinding_Grid();
@@ -509,9 +510,25 @@ namespace DATN.TTS.TVMH
                         r["MONHOC_TIENQUYET"] = "0";
                         iGridDataSoureNganhCT.Rows.Add(r);
                         iGridDataSoureNganhCT.AcceptChanges();
+
+                        lstViTri.Add(Convert.ToInt32(r["ID_MONHOC"].ToString()));
                     }
                 }
                 this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
+
+                for (int i = 0; i < lstViTri.Count; i++)
+                {
+                    for (int j = 0; j < iGridDataMonHoc.Rows.Count; j++)
+                    {
+                        if (lstViTri[i] == Convert.ToInt32(iGridDataMonHoc.Rows[j]["ID_MONHOC"].ToString()))
+                        {
+                            iGridDataMonHoc.Rows.RemoveAt(j);
+                        }
+                    }
+                    //lstViTri.Remove(i);
+                }
+
+                grdMonHoc.ItemsSource = iGridDataMonHoc;
             }
             catch (Exception err)
             {
@@ -612,7 +629,27 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                int count = 0;
+                foreach (DataRow r in iGridDataSoureNganhCT.Rows)
+                {
+                    if (r["ID_KHOAHOC_NGANH_CTIET"].ToString().Trim() == "0")
+                    {
+                        count++;
+                    }
+                }
+                if (count > 0)
+                {
+                    if (
+                        CTMessagebox.Show("Có " + count + " dòng chưa lưu. Bạn có muốn lưu không?", "Thông báo", "",
+                            CTICON.Warning, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    {
+                        BtnThemMHKhoaNganh_OnClick(null, null);
+                        LoadKhoaNganhCT();
+                        LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
+                    }
+                }
                 LoadKhoaNganhCT();
+                LoadMonHoc(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC_NGANH"].ToString()));
             }
             catch (Exception err)
             {
@@ -629,6 +666,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 frm_KeThuaKhoaNganhCT frm = new frm_KeThuaKhoaNganhCT();
+                lstViTri.Clear();
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
                 DataTable xdt = frm.iDataReturn.Copy();
@@ -708,6 +746,24 @@ namespace DATN.TTS.TVMH
                     }
                     this.grdKhoaNganhCT.ItemsSource = iGridDataSoureNganhCT;
                 }
+                foreach (DataRow r in iGridDataSoureNganhCT.Rows)
+                {
+                    lstViTri.Add(Convert.ToInt32(r["ID_MONHOC"].ToString()));
+                }
+
+                for (int i = 0; i < lstViTri.Count; i++)
+                {
+                    for (int j = 0; j < iGridDataMonHoc.Rows.Count; j++)
+                    {
+                        if (lstViTri[i] == Convert.ToInt32(iGridDataMonHoc.Rows[j]["ID_MONHOC"].ToString()))
+                        {
+                            iGridDataMonHoc.Rows.RemoveAt(j);
+                        }
+                    }
+                    //lstViTri.Remove(i);
+                }
+
+                grdMonHoc.ItemsSource = iGridDataMonHoc;
                
             }
             catch
@@ -716,7 +772,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        #region Chưa xử lý
         private void BtnExcel_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -744,29 +799,6 @@ namespace DATN.TTS.TVMH
         {
 
         }
-
-
-        private bool KiemTraThemChiTiet(Decimal idMonHon, DataTable temp)
-        {
-            try
-            {
-                if (temp.Rows.Count == 0)
-                    return true;
-                foreach (DataRow r in temp.Rows)
-                {
-                    if (Convert.ToDecimal(r["ID_MONHOC"].ToString()) == idMonHon)
-                        return false;
-                }
-                return true;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
-
-        #endregion
 
         private void GrdViewMonHoc_OnMouseDown(object sender, MouseButtonEventArgs e)
         {

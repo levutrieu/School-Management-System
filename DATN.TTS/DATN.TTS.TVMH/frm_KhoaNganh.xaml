@@ -74,7 +74,9 @@
                              >
                 <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False" x:Name="grdViewKhoaNganh"
-                                   RowStyle="{StaticResource SelectedRowStyle}" CellValueChanged="GrdViewKhoaNganh_OnCellValueChanged" FocusedRowChanged="GrdViewKhoaNganh_OnFocusedRowChanged"
+                                   RowStyle="{StaticResource SelectedRowStyle}"
+                                   MouseDoubleClick="GrdViewKhoaNganh_OnMouseDoubleClick"
+                                   CellValueChanged="GrdViewKhoaNganh_OnCellValueChanged" FocusedRowChanged="GrdViewKhoaNganh_OnFocusedRowChanged"
                                    >
                     </dxg:TableView>
                 </dxg:GridControl.View>
