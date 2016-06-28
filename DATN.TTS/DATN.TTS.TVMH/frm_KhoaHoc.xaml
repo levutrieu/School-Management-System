@@ -37,14 +37,9 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.2*"/>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="0.1*"/>
-                                <!--<RowDefinition Height="25"/>
-                                <RowDefinition Height="*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.1*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -54,33 +49,41 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="0.7*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Mã khóa học:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMaKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_KHOAHOC}" MaxLength="50"/>
-
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Tên khóa học:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtTenKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding TEN_KHOAHOC}"/>
-
-                            <TextBlock Grid.Row="0" Grid.Column="5" Text="Năm bắt đầu:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="6" Name="txtNamBD" Style="{StaticResource TextEditStyle}" MaskType="Numeric" DisplayFormatString="0000" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding NAM_BD}" MaxLength="255"/>
-
-                            <TextBlock Grid.Row="0" Grid.Column="7" Text="Năm kết thúc:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="8" Name="txtNamKT" Style="{StaticResource TextEditStyle}" MaskType="Numeric" DisplayFormatString="0000" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding NAM_KT}" MaxLength="255"/>
-
-                           
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Ký hiệu:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="2" Grid.Column="2" Name="txtKyHieu" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding KYHIEU}" MaxLength="255"/>
-
-
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Số học kỳ/Năm:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:SpinEdit Grid.Row="2" Grid.Column="4" Name="txtHocKyNam" Style="{StaticResource SpinEditStyle}" MinValue="0" MaxValue="4" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY_1NAM}" MaxLength="255"/>
-
-                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Số học kỳ:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:SpinEdit Grid.Row="2" Grid.Column="6" Name="txtSoHK" Style="{StaticResource SpinEditStyle}" MinValue="0" MaxValue="10" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY}" MaxLength="255"/>
-                            
-                            <TextBlock Grid.Row="2" Grid.Column="7" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="8" Name="cbbHDT" Style="{StaticResource ComboBoxEditStyle}" 
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" Name="cbbHDT" Style="{StaticResource ComboBoxEditStyle}" 
+                                              EditValueChanged="CbbHDT_OnEditValueChanged"
                                               AutoComplete="True" IsTextEditable="True" ValidateOnTextInput="False" IncrementalFiltering="True" ImmediatePopup="True"
-                                              AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding ID_HE_DAOTAO}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>
+                                             EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Năm bắt đầu:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="3" Name="txtNamBD" Style="{StaticResource TextEditStyle}"
+                                          EditValueChanged="TxtNamBD_OnEditValueChanged"
+                                          KeyDown="TxtNamBD_OnKeyDown"
+                                          MaskType="Numeric" DisplayFormatString="0000" AcceptsReturn="True" Mask="####"
+                                          EditValue="{Binding NAM_BD}" MaxLength="255"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="4" Text="Năm kết thúc:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="5" Name="txtNamKT" Style="{StaticResource TextEditStyle}" 
+                                          MaskType="Numeric" DisplayFormatString="0000" AcceptsReturn="True" Mask="####"
+                                          EditValue="{Binding NAM_KT}" MaxLength="255" IsReadOnly="True"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="6" Text="Số học kỳ:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:SpinEdit Grid.Row="0" Grid.Column="7" Name="txtSoHK" Style="{StaticResource SpinEditStyle}" IsReadOnly="True"
+                                          MinValue="0" MaxValue="10" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY}" MaxLength="255"/>
+
+                           <TextBlock Grid.Row="1" Grid.Column="0" Text="Mã khóa học:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="1" Name="txtMaKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_KHOAHOC}" MaxLength="50"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Tên khóa học:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="3" Name="txtTenKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding TEN_KHOAHOC}"/>
+                  
+                            <TextBlock Grid.Row="1" Grid.Column="4" Text="Ký hiệu:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="5" Name="txtKyHieu" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding KYHIEU}" MaxLength="255"/>
+
+
+                            <TextBlock Grid.Row="1" Grid.Column="6" Text="Số học kỳ/Năm:" Style="{StaticResource TextBlockStyle}"/>
+                            <dxe:SpinEdit Grid.Row="1" Grid.Column="7" Name="txtHocKyNam" Style="{StaticResource SpinEditStyle}" MinValue="0" MaxValue="4" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY_1NAM}" MaxLength="255"/>
+
                         </Grid>
                     </StackPanel>
 

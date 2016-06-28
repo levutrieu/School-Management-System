@@ -21,6 +21,7 @@ using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 using CustomMessage;
 using DATN.TTS.TVMH.Resource;
+using DevExpress.Xpf.Editors;
 
 namespace DATN.TTS.TVMH
 {
@@ -286,8 +287,9 @@ namespace DATN.TTS.TVMH
             try
             {
                 SetNullValue();
-                txtMaKH.Focus();
+                cbbHDT.Focus();
                 FlagSave = true;
+                this.iDataSoure.Rows[0]["SO_HKY_1NAM"] = 3;
             }
             catch (Exception)
             {
@@ -353,7 +355,7 @@ namespace DATN.TTS.TVMH
             {
                 SetNullValue();
                 GetGrid();
-                txtMaKH.Focus();
+                cbbHDT.Focus();
             }
             catch (Exception)
             {
@@ -406,6 +408,88 @@ namespace DATN.TTS.TVMH
             finally
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+
+        private int sonamhoc = 0;
+        private void CbbHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                string temp = cbbHDT.Text.ToString().Trim();
+                if (temp == "Đại học chính quy")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
+                }
+                if (temp == "Cao đẳng chính quy")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 6;
+                    sonamhoc = 3;
+                }
+                if (temp == "Trung cấp chuyên nghiệp")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Liên thông TC lên CĐ")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Liên thông CĐ lên ĐH")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Đại học DTTX")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
+                }
+                if (temp == "Đại học VHVL")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void TxtNamBD_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (txtNamBD.Text.ToString() != string.Empty)
+                {
+                    this.iDataSoure.Rows[0]["NAM_KT"] = Convert.ToInt32(txtNamBD.Text) + sonamhoc;
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void TxtNamBD_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                txtMaKH.Focus();
             }
         }
     }
