@@ -161,8 +161,9 @@ namespace DATN.TTS.BUS
                             m.TEN_MONHOC,
                             m.KY_HIEU,
                             m.SO_TC,
+                            m.CACH_TINHDIEM,
                             //SOTIET = (int?)(d.SOTIET_LT ?? 0 + d.SOTIET_TH ?? 0),
-                            SOTIET = (d.SOTIET_LT + d.SOTIET_TH ),
+                            SOTIET = (m.SOTIET_LT ?? 0 + m.SOTIET_TH ?? 0),
                             m.IS_THUHOCPHI,
                             m.IS_THUCHANH,
                             m.IS_LYTHUYET,
@@ -236,7 +237,7 @@ namespace DATN.TTS.BUS
                     MA_MONHOC = mh.MA_MONHOC,
                     TEN_MONHOC = mh.TEN_MONHOC,
                     SO_TC = (int?) mh.SO_TC,
-                    SOTIET = (int?)(ct.SOTIET_LT ?? 0 + ct.SOTIET_TH ?? 0),
+                    SOTIET = (int?)(mh.SOTIET_LT ?? 0 + mh.SOTIET_TH ?? 0),
                     ten_bm =
                         ((from m in db.tbl_BOMONs
                             where
@@ -254,7 +255,9 @@ namespace DATN.TTS.BUS
                                 n.TEN_LOAI_MONHOC
                             }).First().TEN_LOAI_MONHOC),
                     mh.IS_LYTHUYET,
-                    mh.IS_THUCHANH
+                    mh.IS_THUCHANH,
+                    mh.CACH_TINHDIEM,
+                    mh.ID_HE_DAOTAO
                 };
             DataTable xdt = null;
             xdt = TableUtil.LinqToDataTable(query);
