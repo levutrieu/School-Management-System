@@ -106,6 +106,11 @@ namespace DATN.TTS.TVMH
                 grd_KN.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
+                xcolumn.FieldName = "CACH_TINHDIEM";
+                xcolumn.Visible = false;
+                grd_KN.Columns.Add(xcolumn);
+
+                xcolumn = new GridColumn();
                 xcolumn.FieldName = "MA_MONHOC";
                 xcolumn.Header = "Mã môn học";
                 xcolumn.Width = 90;
@@ -412,6 +417,11 @@ namespace DATN.TTS.TVMH
                 grd_mh_lop.Columns.Add(col);
 
                 col = new GridColumn();
+                col.FieldName = "CACH_TINHDIEM";
+                col.Visible = false;
+                grd_mh_lop.Columns.Add(col);
+
+                col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
                 col.AllowCellMerge = false;
@@ -505,6 +515,7 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("SOTIET", typeof(decimal));
                 xDicUser.Add("SOLUONG", typeof(decimal));
                 xDicUser.Add("CACH_TINHDIEM", typeof(string));
+                xDicUser.Add("CACH_TINHDIEM_CHU", typeof(string));
 
                 xDicUser.Add("MA_MONHOC", typeof(string));
                 xDicUser.Add("TEN_MONHOC", typeof(string));
@@ -773,6 +784,20 @@ namespace DATN.TTS.TVMH
                 idata_send.Rows[0]["USER"] = iDataSource.Rows[0]["USER"];
                 idata_send.Rows[0]["TEN_HEDAOTAO"] = iDataSource.Rows[0]["TEN_HEDAOTAO_LQL"];
                 idata_send.Rows[0]["TEN_NGANH"] = iDataSource.Rows[0]["TEN_NGANH_LQL"];
+                idata_send.Rows[0]["CACH_TINHDIEM"] = RowSelGb["CACH_TINHDIEM"];
+
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("20-30-50"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "20%-30%-50%";
+                }
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("30-70"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "30%-70%";
+                }
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("100"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "100%";
+                }
 
                 iDataSource.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
                 iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"] = RowSelGb["ID_KHOAHOC_NGANH_CTIET"];
@@ -818,6 +843,20 @@ namespace DATN.TTS.TVMH
                 idata_send.Rows[0]["USER"] = iDataSource.Rows[0]["USER"];
                 idata_send.Rows[0]["TEN_HEDAOTAO"] = iDataSource.Rows[0]["TEN_HEDAOTAO"];
                 idata_send.Rows[0]["TEN_NGANH"] = iDataSource.Rows[0]["TEN_NGANH"];
+                idata_send.Rows[0]["CACH_TINHDIEM"] = RowSelGb["CACH_TINHDIEM"];
+
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("20-30-50"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "20%-30%-50%";
+                }
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("30-70"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "30%-70%";
+                }
+                if (RowSelGb["CACH_TINHDIEM"].ToString().Trim().Equals("100"))
+                {
+                    idata_send.Rows[0]["CACH_TINHDIEM_CHU"] = "100%";
+                }
 
                 iDataSource.Rows[0]["ID_MONHOC"] = RowSelGb["ID_MONHOC"];
                 iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"] = RowSelGb["ID_KHOAHOC_NGANH_CTIET"];
