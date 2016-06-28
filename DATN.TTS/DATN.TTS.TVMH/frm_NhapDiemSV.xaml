@@ -145,7 +145,9 @@
                                             <ColumnDefinition Width="0.6*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Nhập mã sinh viên:" Style="{StaticResource TextBlockStyle}"/>
-                                        <dxe:TextEdit Name="txtMASV" Grid.Row="0" Grid.Column="1" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN}"/>
+                                        <dxe:TextEdit Name="txtMASV" Grid.Row="0" Grid.Column="1" Style="{StaticResource TextEditStyle}" 
+                                                      PreviewKeyDown="TxtMASV_OnPreviewKeyDown"
+                                                      EditValue="{Binding MA_SINHVIEN}"/>
 
                                         <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource Button_Style_2}" Content="Tìm sinh viên" HorizontalAlignment="Left"
                                                 Name="btnTimSV" Click="BtnTimSV_OnClick"/>

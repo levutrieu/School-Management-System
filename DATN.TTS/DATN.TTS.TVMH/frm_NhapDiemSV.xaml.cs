@@ -1135,6 +1135,8 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                cboLopHPSVDK.ItemsSource = null;
+                iGridDataSoureTheoSV = null;
                 if (this.iDataSource.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
                     CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo",
@@ -1164,6 +1166,7 @@ namespace DATN.TTS.TVMH
                     this.iDataSource.Rows[0]["TEN_LOP"] = iDataThongTin.Rows[0]["TEN_LOP"];
                 }
                 setcombobox(idsinhvien);
+                grddiemsv.ItemsSource = iGridDataSoureTheoSV;
             }
             catch (Exception err)
             {
@@ -1379,5 +1382,13 @@ namespace DATN.TTS.TVMH
         {
         }
         #endregion
+
+        private void TxtMASV_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+              BtnTimSV_OnClick(null, null);  
+            }
+        }
     }
 }
