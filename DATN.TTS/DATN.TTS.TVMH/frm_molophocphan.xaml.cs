@@ -678,6 +678,7 @@ namespace DATN.TTS.TVMH
             frm.ShowDialog();
             idata_send.Clear();
             idata_send.Rows.Add(idata_send.NewRow());
+            GrdView_KN_OnMouseDown(null, null);
         }
 
         private void CboHeDTLQL_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
