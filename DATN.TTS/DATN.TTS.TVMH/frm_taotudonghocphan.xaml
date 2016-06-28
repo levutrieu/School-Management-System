@@ -86,7 +86,7 @@
                 <TextBlock Grid.Row="2" Grid.Column="2" Text="Số sinh viên" VerticalAlignment="Center"/>
                 <dxe:SpinEdit Grid.Row="2" Grid.Column="3" Style="{StaticResource SpinEditStyle}" Text="{Binding SOLUONG}" Mask="d" MinValue="0"/>
                 <TextBlock Grid.Row="2" Grid.Column="4" Text="Cách tính điểm" VerticalAlignment="Center"/>
-                <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboCanhtinh" EditValue="{Binding CACH_TINHDIEM, UpdateSourceTrigger=PropertyChanged}" DisplayMember="CACHTINH_NAME" ValueMember="CACHTINH"/>
+                <dxe:TextEdit Grid.Row="2" Grid.Column="5" Style="{StaticResource TextEditStyle}" Name="cboCanhtinh" EditValue="{Binding CACH_TINHDIEM_CHU, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
 
             </Grid>
         </GroupBox>

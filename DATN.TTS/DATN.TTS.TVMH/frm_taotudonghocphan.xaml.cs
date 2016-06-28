@@ -112,35 +112,6 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("CACHTINH", typeof(string));
-                dt.Columns.Add("CACHTINH_NAME", typeof(string));
-
-                DataRow dr =null;
-                dr = dt.NewRow();
-                dr["CACHTINH"] = "0";
-                dr["CACHTINH_NAME"] = "-----Chọn-----";
-                dt.Rows.Add(dr);
-
-                dr = dt.NewRow();
-                dr["CACHTINH"] = "20-30-50";
-                dr["CACHTINH_NAME"] = "20% - 30% - 50%";
-                dt.Rows.Add(dr);
-
-                dr = dt.NewRow();
-                dr["CACHTINH"] = "30-70";
-                dr["CACHTINH_NAME"] = "30% - 70%";
-                dt.Rows.Add(dr);
-
-                dr = dt.NewRow();
-                dr["CACHTINH"] = "100";
-                dr["CACHTINH_NAME"] = "100%";
-                dt.Rows.Add(dr);
-                dt.AcceptChanges();
-                
-                cboCanhtinh.ItemsSource = dt;
-                iDataSource.Rows[0]["CACH_TINHDIEM"] = "0";
-
                 DataTable xdt = bus.GetAll_NAMHOC();
                 cboNamhoc.ItemsSource = xdt;
             }
