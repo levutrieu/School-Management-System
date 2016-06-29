@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
 	Title="frm_PhanCongGV">
@@ -23,20 +24,53 @@
         <!--Button thuc hien chuc nang-->
         <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Content="Xếp random" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnAuto" VerticalAlignment="Center" Click="BtnAuto_OnClick"/>
                 <Button Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center" Click="BtnSave_OnClick"/>
                 <Button Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnrefresh" VerticalAlignment="Center" Click="Btnrefresh_OnClick"/>
             </StackPanel>
         </Border>
         <!--Luoi du lieu-->
-        <Grid Grid.Row="1" x:Name="Body_Area" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <dxg:GridControl Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" MouseDoubleClick="Grd_OnMouseDoubleClick">
-                <dxg:GridControl.View>
-                    <dxg:TableView AutoWidth="False" BorderBrush="#27415d" x:Name="grdView" 
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" x:Name="lblHeDT" VerticalAlignment="Center"><Run Text="Hệ đào tạo" /></TextBlock >
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" x:Name="cboHeDT" EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="TEN_HE_DAOTAO" ValueMember="ID_HE_DAOTAO" EditValueChanged="CboHeDT_OnEditValueChanged"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Khóa" VerticalAlignment="Center" />
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" x:Name="cboKhoa" Style="{StaticResource ComboBoxEditStyle}" EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" DisplayMember="TEN_KHOAHOC" ValueMember="ID_KHOAHOC" EditValueChanged="CboKhoa_OnEditValueChanged"/>
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="Ngành" VerticalAlignment="Center"></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" x:Name="cboNganh" Style="{StaticResource ComboBoxEditStyle}" EditValue="{Binding ID_KHOAHOC_NGANH, UpdateSourceTrigger=PropertyChanged}" DisplayMember="TEN_NGANH" ValueMember="ID_KHOAHOC_NGANH" EditValueChanged="CboNganh_OnEditValueChanged"/>
+                <TextBlock Grid.Column="6" Grid.Row="0" Name="tblHocKy" Text="Học kỳ" VerticalAlignment="Center"/>
+                <dxe:ComboBoxEdit Grid.Column="7" Grid.Row="0" Name="cboHocKy" Style="{StaticResource ComboBoxEditStyle}" EditValue="{Binding HOCKY,UpdateSourceTrigger=PropertyChanged}" DisplayMember="tenhocky" ValueMember="hocky" EditValueChanged="CboHocKy_OnEditValueChanged"/>
+                <TextBlock Grid.Column="8" Grid.Row="0" Name="tblMh" Text="Môn học" VerticalAlignment="Center"/>
+                <dxe:ComboBoxEdit Grid.Column="9" Grid.Row="0" Name="cbomonhoc" Style="{StaticResource ComboBoxEditStyle}" EditValue="{Binding ID_KHOAHOC_NGANH_CTIET,UpdateSourceTrigger=PropertyChanged}" DisplayMember="TEN_MONHOC" ValueMember="ID_KHOAHOC_NGANH_CTIET" EditValueChanged="Cbomonhoc_OnEditValueChanged"/>
+            </Grid>
+            
+            <Grid Grid.Row="1" x:Name="Body_Area" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <dxg:GridControl Margin="3" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row" MouseDoubleClick="Grd_OnMouseDoubleClick">
+                    <dxg:GridControl.View>
+                        <dxg:TableView AutoWidth="False" BorderBrush="#27415d" x:Name="grdView" 
                                    ShowGroupPanel="False" VerticalScrollbarVisibility="Visible" ShowIndicator="True" AllowCellMerge="True" 
                                    RowStyle="{StaticResource SelectedRowStyle}" FocusedRowChanged="GrdView_OnFocusedRowChanged">
-                    </dxg:TableView>
-                </dxg:GridControl.View>
-            </dxg:GridControl>
+                        </dxg:TableView>
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

@@ -29,8 +29,10 @@ namespace DATN.TTS.TVMH
     /// </summary>
     public partial class frm_PhanCongGV : Page
     {
-        private DataTable iDataSoure = null;
+        private DataTable iDataSource = null;
         private DataTable iGridDataSource = null;
+        private DataTable iGridDataSource_Search = null;
+        private DataTable iDataSource_MH = null;
         private ArrayList iDataChange = new ArrayList();
 
         public static int rowfocus = -1;
@@ -42,11 +44,12 @@ namespace DATN.TTS.TVMH
         public frm_PhanCongGV()
         {
             InitializeComponent();
-            iDataSoure = TableChelmabinding();
-            this.DataContext = this.iDataSoure;
-            this.iDataSoure.Rows[0]["USER"] = UserCommon.UserName;
+            iDataSource = TableChelmabinding();
+            this.DataContext = this.iDataSource;
+            this.iDataSource.Rows[0]["USER"] = UserCommon.UserName;
             Init_Grid();
-            Load_data();
+            Load_cbo();
+            //Load_data();
         }
 
         private DataTable TableChelmabinding()
@@ -59,6 +62,15 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("ID_BOMON", typeof(int));
                 xDicUser.Add("MA_BM", typeof(string));
                 xDicUser.Add("TEN_BM", typeof(string));
+                
+
+                xDicUser.Add("ID_HE_DAOTAO", typeof(int));
+                xDicUser.Add("ID_KHOAHOC", typeof(int));
+                xDicUser.Add("ID_KHOAHOC_NGANH", typeof(int));
+                xDicUser.Add("HOCKY", typeof(int));
+                //xDicUser.Add("ID_MONHOC", typeof(int));
+                xDicUser.Add("ID_KHOAHOC_NGANH_CTIET", typeof(int));
+
                 dtaTable = TableUtil.ConvertToTable(xDicUser);
             }
             catch (Exception ex)
@@ -218,32 +230,81 @@ namespace DATN.TTS.TVMH
             }
         }
 
+        private void Load_cbo()
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdtbm = bus.GetAll_HDT();
+                cboHeDT.ItemsSource = xdtbm;
+
+                #region LOAD HOC KY
+                DataTable dt_hocky = new DataTable();
+                dt_hocky.Columns.Add("hocky", typeof(int));
+                dt_hocky.Columns.Add("tenhocky", typeof(string));
+
+                DataRow xdr = null;
+                xdr = dt_hocky.NewRow();
+                xdr["hocky"] = 0;
+                xdr["tenhocky"] = "---Chọn---";
+                dt_hocky.Rows.Add(xdr);
+                for (int i = 1; i <= 8; i++)
+                {
+                    xdr = dt_hocky.NewRow();
+                    xdr["hocky"] = i;
+                    xdr["tenhocky"] = i.ToString();
+                    dt_hocky.Rows.Add(xdr);
+                }
+                dt_hocky.AcceptChanges();
+                cboHocKy.ItemsSource = dt_hocky;
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
         private void btndelete_Click(object sender, RoutedEventArgs e)
         {
             if (rowfocus != -1)
             {
-                if (string.IsNullOrEmpty(iGridDataSource.Rows[rowfocus]["ID_GIANGVIEN"].ToString()) ||
-                    Convert.ToInt32(iGridDataSource.Rows[rowfocus]["ID_GIANGVIEN"]) == 0) return;
-                string gv = iGridDataSource.Rows[rowfocus]["TEN_GIANGVIEN"].ToString();
+                if (string.IsNullOrEmpty(iGridDataSource_Search.Rows[rowfocus]["ID_GIANGVIEN"].ToString()) ||
+                    Convert.ToInt32(iGridDataSource_Search.Rows[rowfocus]["ID_GIANGVIEN"]) == 0) return;
+                string gv = iGridDataSource_Search.Rows[rowfocus]["TEN_GIANGVIEN"].ToString();
                 if (CTMessagebox.Show("Bạn muốn xóa giảng viên " + gv + " không ?", "Xóa giảng viên", "",
                     CTICON.Question,
                     CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
-                    iGridDataSource.Rows[rowfocus]["TEN_GIANGVIEN"] = "";
-                    iGridDataSource.Rows[rowfocus]["ID_GIANGVIEN"] = 0;
-
+                    iGridDataSource_Search.Rows[rowfocus]["TEN_GIANGVIEN"] = "";
+                    iGridDataSource_Search.Rows[rowfocus]["ID_GIANGVIEN"] = 0;
+                    for (int j = 0; j < iGridDataSource.Rows.Count; j++)
+                    {
+                        if (Convert.ToInt32(iGridDataSource.Rows[j]["ID_LOPHOCPHAN"]) ==
+                            Convert.ToInt32(iGridDataSource_Search.Rows[rowfocus]["ID_LOPHOCPHAN"]))
+                        {
+                            iGridDataSource.Rows[j]["ID_GIANGVIEN"] = 0;
+                            iGridDataSource.Rows[j]["TEN_GIANGVIEN"] = "";
+                            break;
+                        }
+                    }
                     int xcheck = 0;
                     foreach (object d in iDataChange)
                     {
                         int chk = Convert.ToInt32(d.ToString());
-                        if (Convert.ToInt32(this.iGridDataSource.Rows[rowfocus]["ID_LOPHOCPHAN"]) == chk)
+                        if (Convert.ToInt32(this.iGridDataSource_Search.Rows[rowfocus]["ID_LOPHOCPHAN"]) == chk)
                         {
                             xcheck = 1;
                         }
                     }
                     if (xcheck != 1)
                     {
-                        iDataChange.Add(Convert.ToInt32(this.iGridDataSource.Rows[rowfocus]["ID_LOPHOCPHAN"]));
+                        iDataChange.Add(Convert.ToInt32(this.iGridDataSource_Search.Rows[rowfocus]["ID_LOPHOCPHAN"]));
                     }
                 }
             }
@@ -254,11 +315,11 @@ namespace DATN.TTS.TVMH
             int rowHandle = -1;
 
             if (this.grd.GetFocusedRow() == null) return;
-            if (iGridDataSource.Rows.Count == 0) return;
+            if (iGridDataSource_Search.Rows.Count == 0) return;
             DataRow RowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
-            for (int i = 0; i < iGridDataSource.Rows.Count; i++)
+            for (int i = 0; i < iGridDataSource_Search.Rows.Count; i++)
             {
-                if (Convert.ToInt32(iGridDataSource.Rows[i]["ID_LOPHOCPHAN"]) ==
+                if (Convert.ToInt32(iGridDataSource_Search.Rows[i]["ID_LOPHOCPHAN"]) ==
                     Convert.ToInt32(RowSelGb["ID_LOPHOCPHAN"]))
                 {
                     rowHandle = i;
@@ -271,22 +332,32 @@ namespace DATN.TTS.TVMH
                 popup.ShowDialog();
                 if (id_giaovien != 0)
                 {
-                    this.iGridDataSource.Rows[rowHandle]["ID_GIANGVIEN"] = id_giaovien;
-                    this.iGridDataSource.Rows[rowHandle]["TEN_GIANGVIEN"] = ten_giaovien;
+                    this.iGridDataSource_Search.Rows[rowHandle]["ID_GIANGVIEN"] = id_giaovien;
+                    this.iGridDataSource_Search.Rows[rowHandle]["TEN_GIANGVIEN"] = ten_giaovien;
+                    for (int j = 0; j < iGridDataSource.Rows.Count; j++)
+                    {
+                        if (Convert.ToInt32(iGridDataSource.Rows[j]["ID_LOPHOCPHAN"]) ==
+                            Convert.ToInt32(RowSelGb["ID_LOPHOCPHAN"]))
+                        {
+                            iGridDataSource.Rows[j]["ID_GIANGVIEN"] = id_giaovien;
+                            iGridDataSource.Rows[j]["TEN_GIANGVIEN"] = ten_giaovien;
+                            break;
+                        }
+                    }
                 }
 
                 int xcheck = 0;
                 foreach (object d in iDataChange)
                 {
                     int chk = Convert.ToInt32(d.ToString());
-                    if (Convert.ToInt32(this.iGridDataSource.Rows[rowfocus]["ID_LOPHOCPHAN"]) == chk)
+                    if (Convert.ToInt32(this.iGridDataSource_Search.Rows[rowHandle]["ID_LOPHOCPHAN"]) == chk)
                     {
                         xcheck = 1;
                     }
                 }
                 if (xcheck != 1)
                 {
-                    iDataChange.Add(Convert.ToInt32(this.iGridDataSource.Rows[rowfocus]["ID_LOPHOCPHAN"]));
+                    iDataChange.Add(Convert.ToInt32(this.iGridDataSource_Search.Rows[rowHandle]["ID_LOPHOCPHAN"]));
                 }
             }
         }
@@ -308,7 +379,7 @@ namespace DATN.TTS.TVMH
                             {
                                 kq = bus.UpdateObject(Convert.ToInt32(dtr["ID_LOPHOCPHAN"].ToString()),
                                     Convert.ToInt32(dtr["ID_GIANGVIEN"].ToString()),
-                                    iDataSoure.Rows[0]["USER"].ToString());
+                                    iDataSource.Rows[0]["USER"].ToString());
                             }
                         }
                     }
@@ -331,10 +402,10 @@ namespace DATN.TTS.TVMH
                 DataRow RowSelGb = null;
                 if (this.grd.GetFocusedRow() == null) return;
                 RowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
-                for (int i = 0; i < iGridDataSource.Rows.Count; i++)
+                for (int i = 0; i < iGridDataSource_Search.Rows.Count; i++)
                 {
-                    if (string.IsNullOrEmpty(iGridDataSource.Rows[i]["ID_LOPHOCPHAN"].ToString())) continue;
-                    if (Convert.ToInt32(iGridDataSource.Rows[i]["ID_LOPHOCPHAN"]) ==
+                    if (string.IsNullOrEmpty(iGridDataSource_Search.Rows[i]["ID_LOPHOCPHAN"].ToString())) continue;
+                    if (Convert.ToInt32(iGridDataSource_Search.Rows[i]["ID_LOPHOCPHAN"]) ==
                         Convert.ToInt32(RowSelGb["ID_LOPHOCPHAN"]))
                     {
                         rowfocus = i;
@@ -351,6 +422,254 @@ namespace DATN.TTS.TVMH
         private void Btnrefresh_OnClick(object sender, RoutedEventArgs e)
         {
             Load_data();
+        }
+
+        private void CboHeDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdtbm = bus.GetAll_KhoaHoc(Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]));
+                cboKhoa.ItemsSource = xdtbm;
+                //iDataSource.Rows[0]["ID_KHOAHOC"] = xdtbm.Rows[0]["ID_KHOAHOC"];
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboKhoa_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan bus = new bus_molophocphan();
+                DataTable xdtbm = bus.GetAll_Khoa_Nganh(Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC"]));
+                cboNganh.ItemsSource = xdtbm;
+                if (xdtbm.Rows.Count > 0)
+                {
+                    iDataSource.Rows[0]["ID_KHOAHOC_NGANH"] = xdtbm.Rows[0]["ID_KHOAHOC_NGANH"];
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboNganh_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                bus_molophocphan lhp = new bus_molophocphan();
+
+                #region Load mon hoc cua nganh
+
+                iDataSource_MH = lhp.GetAll_monhoc(Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC_NGANH"]));
+                cbomonhoc.ItemsSource = iDataSource_MH;
+
+                #endregion
+
+                #region Load tat ca cac lop hoc phan
+
+                iGridDataSource = bus.GetAll_Hocphan();
+                iGridDataSource_Search = iGridDataSource.Copy();
+                grd.ItemsSource = iGridDataSource_Search;
+
+                #endregion
+
+                #region Load hoc ky hien tai cua khoa hoc
+
+                DataTable iGridData_TTHK = lhp.GetAll_Tso_Hocky();
+                DataTable tmp = lhp.Get_HK_HT(Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC"]));
+                int hkht = 0;
+                if (tmp != null && tmp.Rows.Count > 0)
+                {
+                    int hk = Convert.ToInt32(iGridData_TTHK.Rows[0]["HOCKY"]);
+                    if (hk == 3)
+                    {
+                        hk = 2;
+                    }
+                    hkht = (Convert.ToInt32(iGridData_TTHK.Rows[0]["NAMHOC_TU"]) -
+                                Convert.ToInt32(tmp.Rows[0]["NAM_BD"])) * 2 + hk;
+                    iDataSource.Rows[0]["HOCKY"] = hkht;
+                } 
+
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboHocKy_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["HOCKY"].ToString()))
+                {
+                    if (Convert.ToInt32(iDataSource.Rows[0]["HOCKY"]) == 0)
+                    {
+                        cbomonhoc.ItemsSource = iDataSource_MH;
+                        iGridDataSource_Search = iGridDataSource.Copy();
+                        grd.ItemsSource = iGridDataSource_Search;
+                    }
+                    else
+                    {
+                        #region Load mh theo hoc ky
+
+                        DataTable xdt_mh = iDataSource_MH.Clone();
+                        DataRow[] xcheck = (from x in
+                                                iDataSource_MH.AsEnumerable()
+                                                    .Where(
+                                                        d =>
+                                                            d.Field<int>("HOCKY") ==
+                                                            Convert.ToInt32(iDataSource.Rows[0]["HOCKY"].ToString()))
+                                            select x).ToArray();
+                        if (xcheck.Count() > 0)
+                        {
+                            xdt_mh = xcheck.CopyToDataTable();
+                            DataRow xnew = xdt_mh.NewRow();
+                            xnew["ID_KHOAHOC_NGANH_CTIET"] = 0;
+                            xnew["HOCKY"] = 0;
+                            xnew["TEN_MONHOC"] = "---------Chọn---------";
+                            xdt_mh.Rows.InsertAt(xnew, 0);
+                        }
+                        cbomonhoc.ItemsSource = xdt_mh;
+                        iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"] = 0;
+
+                        #endregion
+
+                        #region Load lop hoc phan theo hoc ky
+
+                        iGridDataSource_Search = iGridDataSource.Clone();
+                        if (xdt_mh.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in xdt_mh.Rows)
+                            {
+                                DataRow[] tmp = (from x in
+                                                     iGridDataSource.AsEnumerable()
+                                                            .Where(
+                                                                d =>
+                                                                    d.Field<int>("ID_KHOAHOC_NGANH_CTIET") ==
+                                                                    Convert.ToInt32(dr["ID_KHOAHOC_NGANH_CTIET"].ToString()))
+                                                    select x).ToArray();
+                                if (tmp.Count() > 0)
+                                {
+                                    DataTable xtmp = tmp.CopyToDataTable();
+                                    foreach (DataRow drtmp in xtmp.Rows)
+                                    {
+                                        iGridDataSource_Search.ImportRow(drtmp);
+                                    }
+                                }
+                            }
+                            grd.ItemsSource = iGridDataSource_Search;
+                        }
+                        else
+                        {
+                            grd.ItemsSource = iGridDataSource_Search;
+                        }
+
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+
+        private void Cbomonhoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"].ToString()))
+                {
+                    if (Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"]) == 0)
+                    {
+                        CboHocKy_OnEditValueChanged(null, null);
+                    }
+                    else
+                    {
+                        DataRow[] tmp = (from x in
+                                                iGridDataSource.AsEnumerable()
+                                                    .Where(
+                                                        d =>
+                                                            d.Field<int>("ID_KHOAHOC_NGANH_CTIET") ==
+                                                            Convert.ToInt32(iDataSource.Rows[0]["ID_KHOAHOC_NGANH_CTIET"].ToString()))
+                                            select x).ToArray();
+                        if (tmp.Count() > 0)
+                        {
+                            DataTable xtmp = tmp.CopyToDataTable();
+                            iGridDataSource_Search = xtmp.Copy();
+                        }
+                        grd.ItemsSource = iGridDataSource_Search;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+
+        private void BtnAuto_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable xdt = bus.GetAll_GV();
+                DataTable ds_gv = xdt.Copy();
+                foreach (DataRow dr in iGridDataSource_Search.Rows)
+                {
+                    if (string.IsNullOrEmpty(dr["ID_GIANGVIEN"].ToString()) ||
+                        Convert.ToInt32(dr["ID_GIANGVIEN"]) == 0)
+                    {
+                        Random rd = new Random();
+                        int i = rd.Next(0, ds_gv.Rows.Count - 1);
+                        dr["ID_GIANGVIEN"] = ds_gv.Rows[i]["ID_GIANGVIEN"];
+                        dr["TEN_GIANGVIEN"] = ds_gv.Rows[i]["TEN_GIANGVIEN"];
+                        for (int j = 0; j < iGridDataSource.Rows.Count; j++)
+                        {
+                            if (Convert.ToInt32(iGridDataSource.Rows[j]["ID_LOPHOCPHAN"]) ==
+                                Convert.ToInt32(dr["ID_LOPHOCPHAN"]))
+                            {
+                                iGridDataSource.Rows[j]["ID_GIANGVIEN"] = ds_gv.Rows[i]["ID_GIANGVIEN"];
+                                iGridDataSource.Rows[j]["TEN_GIANGVIEN"] = ds_gv.Rows[i]["TEN_GIANGVIEN"];
+                                int tmp = 0;
+                                foreach (object d in iDataChange)
+                                {
+                                    int chk = Convert.ToInt32(d.ToString());
+                                    if (Convert.ToInt32(this.iGridDataSource.Rows[j]["ID_LOPHOCPHAN"]) == chk)
+                                    {
+                                        tmp = 1;
+                                        break;
+                                    }
+                                }
+                                if (tmp != 1)
+                                {
+                                    iDataChange.Add(Convert.ToInt32(this.iGridDataSource.Rows[j]["ID_LOPHOCPHAN"]));
+                                }
+                                break;
+                            }
+                        }
+                        ds_gv.Rows.RemoveAt(i);
+                        if (ds_gv.Rows.Count < 1)
+                        {
+                            ds_gv = xdt.Copy();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
         }
     }
 }
