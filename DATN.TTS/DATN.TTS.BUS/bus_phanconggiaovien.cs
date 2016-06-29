@@ -166,5 +166,29 @@ namespace DATN.TTS.BUS
                 throw ex;
             }
         }
+
+        public DataTable GetAll_GV()
+        {
+            try
+            {
+                DataTable dtRes = null;
+                var query = from Tbl_GIANGVIEN in db.tbl_GIANGVIENs
+                    where
+                        Tbl_GIANGVIEN.IS_DELETE != 1 ||
+                        Tbl_GIANGVIEN.IS_DELETE == null
+                    select new
+                    {
+                        Tbl_GIANGVIEN.ID_GIANGVIEN,
+                        Tbl_GIANGVIEN.TEN_GIANGVIEN
+                    };
+                dtRes = TableUtil.LinqToDataTable(query);
+                return dtRes;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
     }
 }
