@@ -1212,7 +1212,7 @@ namespace DATN.TTS.BUS
                             DIEM_TONG = (double?) diem.DIEM_TONG,
                             DIEM_HE4 = (double?) diem.DIEM_HE4,
                             DIEM_CHU = diem.DIEM_CHU,
-                            CACH_TINHDIEM=hp.CACH_TINHDIEM,
+                            CACH_TINHDIEM=mh.CACH_TINHDIEM,
                             ID_PARENT = ("HK" + Convert.ToString(hp.ID_NAMHOC_HKY_HTAI))
                         }
                     );
