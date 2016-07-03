@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DATN.TTS.TVMH.Resource;
@@ -29,6 +30,7 @@ namespace DATN.TTS.TVMH
             Load_menu();
             UserCommon.IdNamhocHientai = GetNamHoc.GetNamHocHienTai();
             UserCommon.IdNamhocHkyHtai = GetNamHoc.GetHocKyHienTai();
+            NavBarItem_OnClick(null, null);
         }
 
         #region Add item menu
@@ -106,10 +108,9 @@ namespace DATN.TTS.TVMH
                 //    (object[]) null, (CultureInfo) null, (object[]) null);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Thông báo", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -195,5 +196,30 @@ namespace DATN.TTS.TVMH
         } 
 
         #endregion
+
+        private void NavBarItem_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                var uri = new Uri("pack://application:,,,/Images/item.png");
+                NavBarItem item = new NavBarItem();
+                item.Content = "Trang chủ";
+                item.ImageSource = new BitmapImage(uri);
+                item.SetCurrentValue(ContentStringFormatProperty,
+                    "Main" + "/" + "Trang chủ");
+                item.DisplayMode = DisplayMode.ImageAndText;
+                item.Click += OpenTabClick;
+                OpenTabClick(item, null);
+            }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Thông báo", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
     }
 }

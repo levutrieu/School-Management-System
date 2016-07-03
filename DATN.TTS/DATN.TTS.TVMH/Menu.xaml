@@ -5,7 +5,7 @@
         x:Class="DATN.TTS.TVMH.Menu"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         dx:ThemeManager.ThemeName="Azeze"
-        Title="Manager" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Quản lý đào tạo" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
         <DrawingImage x:Key="groupImage">
@@ -71,9 +71,9 @@
                             <ResourceDictionary Source="Resource/StyleMenu.xaml"/>
                         </dxn:NavBarControl.Resources>
                         <dxn:NavBarControl.Groups>
-                            <dxn:NavBarGroup Name="MenuGroup" Header="Menu" ImageSource="{StaticResource groupImage}" NavigationPaneVisible="False">
+                            <dxn:NavBarGroup Name="MenuGroup" Header="Danh mục" ImageSource="{StaticResource groupImage}" NavigationPaneVisible="False">
                                 <dxn:NavBarItem Content="Trang chủ"
-                                        ImageSource="Images/home.png"/>
+                                        ImageSource="Images/home.png" Click="NavBarItem_OnClick"/>
                             </dxn:NavBarGroup>
                         </dxn:NavBarControl.Groups>
                         <dxn:NavBarControl.View>
