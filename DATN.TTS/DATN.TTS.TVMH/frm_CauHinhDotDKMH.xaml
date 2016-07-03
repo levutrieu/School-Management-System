@@ -1,0 +1,101 @@
+﻿<Page x:Class="DATN.TTS.TVMH.frm_CauHinhDotDKMH"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="1200"
+	Title="frm_KhoaHoc">
+    <Grid>
+        <!--Định nghĩa các phần riêng biệt-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Button thuc hien chuc nang-->
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
+                <Button Click="BtnNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnNew" VerticalAlignment="Center"/>
+                <Button Click="BtnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
+                <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        <!--Controls nhap du lieu-->
+
+        <Expander Grid.Row="1" FlowDirection="RightToLeft" Style="{StaticResource ExpanderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="True" Margin="1,0,1,0">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Border Background="GhostWhite" BorderBrush="#27415d" BorderThickness="1,0,1,2" Height="auto">
+                    <!--Design hiển thị các controls-->
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="lblNH" Text="Năm học" VerticalAlignment="Center"/>
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" x:Name="cboNH" EditValue="{Binding ID_NAMHOC_HIENTAI, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="NAMHOC" ValueMember="ID_NAMHOC_HIENTAI" EditValueChanged="CboNH_OnEditValueChanged"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="lblHK" Text="Học kỳ" VerticalAlignment="Center"/>
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" x:Name="cboHK" EditValue="{Binding ID_NAMHOC_HKY_HTAI, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="HOCKY" ValueMember="ID_NAMHOC_HKY_HTAI" />
+                            <TextBlock Grid.Row="0" Grid.Column="4" x:Name="lblHDT" Text="Hệ đào tạo" VerticalAlignment="Center"/>
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" x:Name="cboHDT" EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="TEN_HE_DAOTAO" ValueMember="ID_HE_DAOTAO" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="lblMaDot" Text="Mã đợt ĐK" VerticalAlignment="Center"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="1" x:Name="cboMadot" Text="{Binding MA_DOT_DK}" Style="{StaticResource TextEditStyle}" IsReadOnly="True"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" x:Name="lblTenDot" Text="Tên đợt ĐK" VerticalAlignment="Center"/>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="3" x:Name="cboTendot" Text="{Binding TEN_DOT_DK}" Style="{StaticResource TextEditStyle}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="4" x:Name="lblNBD" Text="Ngày bắt đầu" VerticalAlignment="Center"/>
+                            <xctk:DateTimePicker Grid.Row="1" Grid.Column="5" x:Name="dtpStartTime" Value="{Binding NGAY_BDAU}"
+                                 Format="Custom" 
+                                 FormatString="dd/MM/yyyy hh:mm" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="6" x:Name="lblNKT" Text="Ngày kết thúc" VerticalAlignment="Center"/>
+                            <xctk:DateTimePicker Grid.Row="1" Grid.Column="7" x:Name="dtpStartTime_kthuc" Value="{Binding NGAY_KTHUC}"
+                                 Format="Custom" 
+                                 FormatString="dd/MM/yyyy hh:mm tt" />
+                            <!--<DatePicker Grid.Row="1" Grid.Column="7" x:Name="cboNKT" SelectedDate="{Binding NGAY_KTHUC}">
+                                <DatePicker.Resources >
+                                    <Style TargetType="DatePickerTextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <TextBox Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType=DatePicker}, StringFormat={}{0:dd/MM/yyyy hh:mm}}"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>-->
+                        </Grid>
+                    </StackPanel>
+
+                </Border>
+            </StackPanel>
+        </Expander>
+
+        <Grid Grid.Row="2">
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
+                <dxg:GridControl.View>
+                    <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" 
+                                   RowStyle="{StaticResource SelectedRowStyle}" AllowCellMerge="True" MouseDown="GrdViewNDung_OnMouseDown"
+                                   ShowGroupPanel="False">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </Grid>
+    </Grid>
+</Page>
