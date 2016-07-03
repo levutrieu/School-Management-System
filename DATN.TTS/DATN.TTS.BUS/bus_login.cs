@@ -116,5 +116,29 @@ namespace DATN.TTS.BUS
             return xdt;
         }
 
+        public int UpdatePass(string account, string pass)
+        {
+            try
+            {
+                string i = "";
+                tbl_NguoiDung query =
+                    (from nd in db.tbl_NguoiDungs
+                     where nd.UserName.Equals(account.Trim())
+                     select nd).FirstOrDefault();
+                query.Pass = pass;
+                db.SubmitChanges();
+                i = query.UserName;
+                if (!string.IsNullOrEmpty(i))
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
     }
 }
