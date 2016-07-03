@@ -29,16 +29,16 @@
         <dxe:TextEdit Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource TextEditStyle}" Text="{Binding account}" Name="AccountTextEdit" IsReadOnly="True"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Mật khẩu" Style="{StaticResource TextBlockStyle}" />
-        <dxe:PasswordBoxEdit Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+        <dxe:PasswordBoxEdit Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Name="passcbo" Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Mật khẩu mới" Style="{StaticResource TextBlockStyle}" />
-        <dxe:PasswordBoxEdit Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+        <dxe:PasswordBoxEdit Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding passwordnew}"/>
 
         <TextBlock Grid.Row="6" Grid.Column="0" Text="Xác nhận" Style="{StaticResource TextBlockStyle}" />
-        <dxe:PasswordBoxEdit Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding password}"/>
+        <dxe:PasswordBoxEdit Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"  Style="{StaticResource PasswordBoxEditStyle}" Text="{Binding passwordcheck}"/>
 
-        <Button Grid.Row="8" Grid.Column="1" Content="Đổi mật khẩu" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnsave"/>
-        <Button Grid.Row="8" Grid.Column="2" Content="Hủy" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnCancel" />
+        <Button Click="Btnsave_OnClick" Grid.Row="8" Grid.Column="1" Content="Đổi mật khẩu" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnsave"/>
+        <Button Click="BtnCancel_OnClick" Grid.Row="8" Grid.Column="2" Content="Hủy" HorizontalAlignment="Stretch" Style="{StaticResource Button_Style}" Name="btnCancel" />
 
     </Grid>
 </Window>
