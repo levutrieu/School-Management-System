@@ -22,7 +22,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,1">
                 <Button Click="BtnNew_OnClick" Content="Thêm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnNew" VerticalAlignment="Center"/>
                 <Button Click="BtnSave_OnClick" Content="Lưu" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Center"/>
-                <Button  Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center"/>
+                <Button Click="BtnDelete_OnClick" Content="Xóa" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnDelete" VerticalAlignment="Center"/>
+                <Button Click="BtnRefresh_OnClick" Content="Làm mới" Style="{StaticResource Button_Style}" HorizontalAlignment="Right" Name="btnRefresh" VerticalAlignment="Center"/>
             </StackPanel>
         </Border>
         <!--Controls nhap du lieu-->
@@ -50,9 +51,9 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" x:Name="lblNH" Text="Năm học" VerticalAlignment="Center"/>
                             <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" x:Name="cboNH" EditValue="{Binding ID_NAMHOC_HIENTAI, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="NAMHOC" ValueMember="ID_NAMHOC_HIENTAI" EditValueChanged="CboNH_OnEditValueChanged"/>
                             <TextBlock Grid.Row="0" Grid.Column="2" x:Name="lblHK" Text="Học kỳ" VerticalAlignment="Center"/>
-                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" x:Name="cboHK" EditValue="{Binding ID_NAMHOC_HKY_HTAI, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="HOCKY" ValueMember="ID_NAMHOC_HKY_HTAI" />
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" x:Name="cboHK" EditValue="{Binding ID_NAMHOC_HKY_HTAI, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="HOCKY" ValueMember="ID_NAMHOC_HKY_HTAI" EditValueChanged="CboHK_OnEditValueChanged"/>
                             <TextBlock Grid.Row="0" Grid.Column="4" x:Name="lblHDT" Text="Hệ đào tạo" VerticalAlignment="Center"/>
-                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" x:Name="cboHDT" EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="TEN_HE_DAOTAO" ValueMember="ID_HE_DAOTAO" />
+                            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" x:Name="cboHDT" EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxEditStyle}" DisplayMember="TEN_HE_DAOTAO" ValueMember="ID_HE_DAOTAO" EditValueChanged="CboHDT_OnEditValueChanged"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" x:Name="lblMaDot" Text="Mã đợt ĐK" VerticalAlignment="Center"/>
                             <dxe:TextEdit Grid.Row="1" Grid.Column="1" x:Name="cboMadot" Text="{Binding MA_DOT_DK}" Style="{StaticResource TextEditStyle}" IsReadOnly="True"/>
                             <TextBlock Grid.Row="1" Grid.Column="2" x:Name="lblTenDot" Text="Tên đợt ĐK" VerticalAlignment="Center"/>
@@ -88,7 +89,7 @@
         </Expander>
 
         <Grid Grid.Row="2">
-            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight" SelectionMode="Row">
+            <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grd" dx:ThemeManager.ThemeName="MetropolisLight">
                 <dxg:GridControl.View>
                     <dxg:TableView AutoWidth="True" BorderBrush="#27415d" x:Name="grdViewNDung"  NavigationStyle="Cell" 
                                    RowStyle="{StaticResource SelectedRowStyle}" AllowCellMerge="True" MouseDown="GrdViewNDung_OnMouseDown"

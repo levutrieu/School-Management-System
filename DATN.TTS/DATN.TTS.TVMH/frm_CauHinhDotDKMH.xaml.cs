@@ -233,6 +233,22 @@ namespace DATN.TTS.TVMH
                 iDataSource.Rows[0]["ID_NAMHOC_HIENTAI"] = 0;
                 iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"] = 0;
                 cboNH.Focus();
+
+                #region Load nam hoc vs hoc ky hien tai
+
+                DataTable xdt = hp.GetAll_NhocHientai();
+                if (xdt.Rows.Count > 0)
+                {
+                    iDataSource.Rows[0]["ID_NAMHOC_HIENTAI"] = xdt.Rows[0]["ID_NAMHOC_HIENTAI"];
+                }
+
+                DataTable xdt_hky = hp.GetAll_HKyHientai(Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HIENTAI"]));
+                if (xdt_hky.Rows.Count > 0)
+                {
+                    iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"] = xdt_hky.Rows[0]["ID_NAMHOC_HKY_HTAI"];
+                }
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -297,39 +313,145 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_DOTDK"].ToString()))
+                if (Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"]) == 0 ||
+                    Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]) == 0)
                 {
-                    if (Convert.ToInt32(iDataSource.Rows[0]["ID_DOTDK"]) == 0)
+                    CTMessagebox.Show("Vui lòng nhập đầy đủ thông tin", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_DOTDK"].ToString()))
                     {
-                        #region Insert
-
-                        int i = 0;
-                        i=hp.InsertObject(iDataSource);
-                        if (i != 0)
+                        if (Convert.ToInt32(iDataSource.Rows[0]["ID_DOTDK"]) == 0)
                         {
-                            CTMessagebox.Show("Thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
+                            #region Insert
+
+                            int i = 0;
+                            i = hp.InsertObject(iDataSource);
+                            if (i != 0)
+                            {
+                                CTMessagebox.Show("Thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
+                            }
+
+                            #endregion
                         }
-
-                        #endregion
-                    }
-                    else
-                    {
-                        #region Update
-
-                        int i = 0;
-                        i = hp.UpdateObject(iDataSource);
-                        if (i != 0)
+                        else
                         {
-                            CTMessagebox.Show("Thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
-                        }
+                            #region Update
 
-                        #endregion
+                            int i = 0;
+                            i = hp.UpdateObject(iDataSource);
+                            if (i != 0)
+                            {
+                                CTMessagebox.Show("Thành công", "Lưu", "", CTICON.Information, CTBUTTON.OK);
+                            }
+
+                            #endregion
+                        }
+                        BtnRefresh_OnClick(null, null);
                     }
                 }
             }
             catch (Exception ex)
             {
                 CTMessagebox.Show("Lỗi", "Lưu", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+        }
+
+        private void BtnRefresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            Load_data();
+            Load_cbo();
+        }
+
+        private void CboHK_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_DOTDK"].ToString()) ||
+                    Convert.ToInt32(iDataSource.Rows[0]["ID_DOTDK"]) == 0)
+
+                {
+                    if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_HE_DAOTAO"].ToString()) &&
+                        !string.IsNullOrEmpty(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"].ToString()))
+                    {
+                        if (Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]) != 0 &&
+                            Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"]) != 0)
+                        {
+                            MaDotDK_Auto(Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]),
+                                Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"]));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_DOTDK"].ToString()))
+                {
+                    if (
+                        CTMessagebox.Show("Bạn có muốn xóa đợt đăng ký môn học này không?", "Xóa", "", CTICON.Question,
+                            CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    {
+                        int i = 0;
+                        i = hp.DeleteObject(Convert.ToInt32(iDataSource.Rows[0]["ID_DOTDK"]),
+                            iDataSource.Rows[0]["USER"].ToString());
+                        if (i != 0)
+                        {
+                            CTMessagebox.Show("Thành công", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Xóa", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+        }
+
+        public void MaDotDK_Auto(int pID_HE_DAOTAO, int pID_NAMHOC_HKY_HTAI)
+        {
+            try
+            {
+                string newMaDotDKMH = hp.New_MaAuto(pID_HE_DAOTAO, pID_NAMHOC_HKY_HTAI);
+                iDataSource.Rows[0]["MA_DOT_DK"] = newMaDotDKMH;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(iDataSource.Rows[0]["ID_DOTDK"].ToString()) ||
+                    Convert.ToInt32(iDataSource.Rows[0]["ID_DOTDK"]) == 0)
+
+                {
+                    if (!string.IsNullOrEmpty(iDataSource.Rows[0]["ID_HE_DAOTAO"].ToString()) &&
+                        !string.IsNullOrEmpty(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"].ToString()))
+                    {
+                        if (Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]) != 0 &&
+                            Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"]) != 0)
+                        {
+                            MaDotDK_Auto(Convert.ToInt32(iDataSource.Rows[0]["ID_HE_DAOTAO"]),
+                                Convert.ToInt32(iDataSource.Rows[0]["ID_NAMHOC_HKY_HTAI"]));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
