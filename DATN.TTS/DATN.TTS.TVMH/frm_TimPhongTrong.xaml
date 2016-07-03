@@ -6,6 +6,7 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         Title="Tìm phòng trống"
          WindowStartupLocation="CenterScreen"
+        Icon="Images/user.ico"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeToContent="Height">

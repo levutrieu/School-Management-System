@@ -6,6 +6,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
+        Icon="Images/user.ico"
         SizeToContent="Height">
     <Grid Margin="3">
         <Grid.RowDefinitions>

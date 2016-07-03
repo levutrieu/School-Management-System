@@ -4,6 +4,7 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         Title="Đăng nhập" Height="220" Width="450"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/user.ico"
         ResizeMode="NoResize">
     <Grid>
         <Grid.Background>

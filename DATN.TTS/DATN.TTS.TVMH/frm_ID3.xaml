@@ -7,6 +7,7 @@
       xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
       mc:Ignorable="d" 
+        Icon="Images/user.ico"
       Title="Tư vấn môn học ID3" Height="500" Width="800"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"

@@ -7,6 +7,7 @@
       xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
       mc:Ignorable="d" 
+        Icon="Images/user.ico"
       d:DesignHeight="600" d:DesignWidth="1100" Title="Nhân sự" Width="1055" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>

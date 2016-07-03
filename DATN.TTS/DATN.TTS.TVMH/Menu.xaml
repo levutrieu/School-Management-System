@@ -5,6 +5,7 @@
         x:Class="DATN.TTS.TVMH.Menu"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         dx:ThemeManager.ThemeName="Azeze"
+        Icon="Images/user.ico"
         Title="Quản lý đào tạo" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
