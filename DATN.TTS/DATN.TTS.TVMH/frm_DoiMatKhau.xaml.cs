@@ -95,6 +95,7 @@ namespace DATN.TTS.TVMH
                             if (xcheck == 1)
                             {
                                 CTMessagebox.Show("Thành công", "Đổi mật khẩu", "", CTICON.Information, CTBUTTON.OK);
+                                this.Close();
                             }
                         }
                     }
