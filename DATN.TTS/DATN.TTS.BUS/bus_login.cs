@@ -107,11 +107,12 @@ namespace DATN.TTS.BUS
                 where
                     ndn.UserName == user &&
                     pq.CoQuyen == 1
+                orderby mh.TenManHinh.Substring(0, 1)
                 select new
                 {
-                    MaManHinh = mh.MaManHinh,
-                    TenManHinh = mh.TenManHinh
-                });
+                    mh.MaManHinh,
+                    mh.TenManHinh
+                }).Distinct();
             DataTable xdt = TableUtil.LinqToDataTable(query);
             return xdt;
         }
