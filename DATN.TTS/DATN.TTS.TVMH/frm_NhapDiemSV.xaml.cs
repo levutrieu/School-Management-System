@@ -599,7 +599,7 @@ namespace DATN.TTS.TVMH
                 {
 
                     int idlophocphan = Convert.ToInt32(this.iDataSource.Rows[0]["ID_LOPHOCPHAN"].ToString());
-                    DataTable dt = diem.GetDanhSachSinhVienDK(idlophocphan, Convert.ToInt32(this.iDataSource.Rows[0]["ID_KHOAHOC"].ToString()));// lay danh sach sinh vien da dang ky lop hoc phan
+                    DataTable dt = diem.GetDanhSachSinhVienDK(idlophocphan);// lay danh sach sinh vien da dang ky lop hoc phan
                     #region
                     if (dt.Rows.Count > 0)
                     {
