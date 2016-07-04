@@ -9,7 +9,12 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
 	Title="frm_DangKyHocPhan">
-
+    <!--<Page.Resources>
+        <DataTemplate x:Key="chkcheck">
+            <CheckBox Checked="chkcheck_OnChecked" Unchecked="chkcheck_OnUnchecked" HorizontalAlignment="Center" 
+                      HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+        </DataTemplate>
+    </Page.Resources>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -43,8 +48,8 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Chọn điều kiện lọc" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ListBoxRadioButton  Grid.Column="1"  Content="Không điều kiện" Name="RbdCheckAll" Checked="RbdCheckAll_OnChecked"/>
-                    <dxe:ListBoxRadioButton  Grid.Column="2"  Content="Lọc theo điều kiện" Name="rdbCheck" Checked="RdbCheck_OnChecked"/>
+                    <dxe:CheckEdit Style="{StaticResource CheckBoxStyle}"  Grid.Column="1"  Content="Không điều kiện" Name="RbdCheckAll" Checked="RbdCheckAll_OnChecked"/>
+                    <dxe:CheckEdit Style="{StaticResource CheckBoxStyle}" Grid.Column="2"  Content="Lọc theo điều kiện" Name="rdbCheck" Checked="RdbCheck_OnChecked"/>
                 </Grid>
             </StackPanel>
         </Grid>
