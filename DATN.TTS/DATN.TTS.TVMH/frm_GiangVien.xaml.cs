@@ -175,7 +175,7 @@ namespace DATN.TTS.TVMH
             col.Width = 50;
             col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             col.AllowEditing = DefaultBoolean.False;
-            col.Visible = true;
+            col.Visible = false;
             
             col.AllowCellMerge = false;
             grd.Columns.Add(col);

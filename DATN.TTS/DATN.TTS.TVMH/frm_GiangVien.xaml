@@ -111,9 +111,9 @@
                 <dxe:DateEdit Grid.Row="4" Grid.Column="6" Name="txtNgayCap" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
                                           TextWrapping="Wrap" EditValue="{Binding NGAYCAP}" Mask="dd/MM/yyyy" MaskUseAsDisplayFormat="True" DisplayFormatString="dd/MM/yyyyy"/>
 
-                <TextBlock Grid.Row="4" Grid.Column="7" Text="File Ảnh:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Grid.Row="4" Grid.Column="7" Text="File Ảnh:" Style="{StaticResource TextBlockStyle}" Visibility="Hidden"/>
                 <dxe:ComboBoxEdit Grid.Row="4" Grid.Column="8" Name="PathAnh" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" 
-                                           EditValue="{Binding PATH_ANH, UpdateSourceTrigger=PropertyChanged}"/>
+                                           EditValue="{Binding PATH_ANH, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden"/>
 
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="Năm vào làm việc:" Style="{StaticResource TextBlockStyle}"/>
                 <dxe:DateEdit Grid.Row="6" Grid.Column="2" Name="txtNamVaoLam" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 

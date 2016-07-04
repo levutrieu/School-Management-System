@@ -93,11 +93,11 @@
 
                             <TextBlock Grid.Row="2" Grid.Column="5" Text="Điện thoại:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="2" Grid.Column="6" Name="txtDT" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI}" MaxLength="13" MaskType="Numeric"/>
+                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI}" MaxLength="13" MaskType="Numeric" Mask="#############"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="7" Text="Điện thoại nhà:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="2" Grid.Column="8" Name="txtDTGD" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI_GD}" MaxLength="13" MaskType="Numeric"/>
+                                          TextWrapping="Wrap" EditValue="{Binding DIENTHOAI_GD}" MaxLength="13" MaskType="Numeric" Mask="#############"/>
 
                             <TextBlock Grid.Row="4" Grid.Column="1" Text="CMND:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="4" Grid.Column="2" Name="txtCMND" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
@@ -105,7 +105,7 @@
 
                             <TextBlock Grid.Row="4" Grid.Column="3" Text="Nơi cấp:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="4" Grid.Column="4" Name="txtNoiCap" Style="{StaticResource TextEditStyle}" AcceptsReturn="True" 
-                                          TextWrapping="Wrap" EditValue="{Binding NOICAP}" MaxLength="13" MaskType="Numeric"/>
+                                          TextWrapping="Wrap" EditValue="{Binding NOICAP}"/>
 
                             <TextBlock Grid.Row="4" Grid.Column="5" Text="Ngày cấp:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:DateEdit Grid.Row="4" Grid.Column="6" Name="txtNgayCap" Style="{StaticResource DateEditStyle}" AcceptsReturn="True" 
@@ -148,9 +148,9 @@
                 <dxe:ComboBoxEdit Grid.Row="8" Grid.Column="6" Name="cbbTrangThai" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" AutoComplete="True"
                                            EditValue="{Binding TRANGTHAI, UpdateSourceTrigger=PropertyChanged}" DisplayMember="NAME_TRANGTHAI" ValueMember="TRANGTHAI"/>
                             
-                            <TextBlock Grid.Row="8" Grid.Column="7" Text="File Ảnh:" Style="{StaticResource TextBlockStyle}"/>
+                            <TextBlock Grid.Row="8" Grid.Column="7" Text="File Ảnh:" Style="{StaticResource TextBlockStyle}" Visibility="Hidden"/>
                             <dxe:ComboBoxEdit Grid.Row="8" Grid.Column="8" Name="PathAnh" Style="{StaticResource ComboBoxEditStyle}" AcceptsReturn="True" 
-                                           EditValue="{Binding PATH_ANH, UpdateSourceTrigger=PropertyChanged}"/>
+                                           EditValue="{Binding PATH_ANH, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden"/>
                         </Grid>
             <!--</StackPanel>-->
 

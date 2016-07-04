@@ -103,7 +103,7 @@
                             <dxe:TextEdit Grid.Column="4"  Grid.Row="7" Name="txtLCB" Style="{StaticResource TextEditStyle}" EditValue="{Binding LUONGCB}" MaskType="Numeric"/>
 
                             <TextBlock Grid.Column="5" Grid.Row="7" Text="Hệ số lương:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:ComboBoxEdit Grid.Column="6"  Grid.Row="7" Name="txtHSl" Style="{StaticResource ComboBoxEditStyle}" EditValue="{Binding ID_HE_SOLUONG}"/>
+                            <dxe:SpinEdit Grid.Column="6"  Grid.Row="7" Name="txtHSl" Style="{StaticResource SpinEditStyle}" EditValue="{Binding ID_HE_SOLUONG}"/>
                         </Grid>
                     </StackPanel>
                     

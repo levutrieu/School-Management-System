@@ -549,6 +549,12 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+                bool kiemtra =client.KiemTraXoaSinhVien(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString()));
+                if (!kiemtra)
+                {
+                    CTMessagebox.Show("Bạn không thể xóa sinh viên này", "Xóa", "", CTICON.Information, CTBUTTON.OK);
+                    return;
+                }
                 if (CTMessagebox.Show("Bạn có muốn xóa", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     int res = client.Delete_SinhVien(this.iDataSoure.Copy());

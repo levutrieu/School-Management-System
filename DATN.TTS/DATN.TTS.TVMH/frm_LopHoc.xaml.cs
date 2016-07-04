@@ -343,6 +343,7 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Wait;
                 btnAddNew_OnClick(null, null);
+                SetComBo();
             }
             catch (Exception ex)
             {

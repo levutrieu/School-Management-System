@@ -69,7 +69,8 @@
 
                             <TextBlock Grid.Row="0" Grid.Column="6" Text="Số học kỳ:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:SpinEdit Grid.Row="0" Grid.Column="7" Name="txtSoHK" Style="{StaticResource SpinEditStyle}" IsReadOnly="True"
-                                          MinValue="0" MaxValue="10" AcceptsReturn="True" TextWrapping="Wrap" EditValue="{Binding SO_HKY}" MaxLength="255"/>
+                                          MinValue="0" MaxValue="10" AcceptsReturn="True" TextWrapping="Wrap" 
+                                          EditValue="{Binding SO_HKY, UpdateSourceTrigger=PropertyChanged}" MaxLength="255"/>
 
                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Mã khóa học:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="1" Grid.Column="1" Name="txtMaKH" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_KHOAHOC}" MaxLength="50"/>

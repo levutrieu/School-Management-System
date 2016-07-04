@@ -405,9 +405,9 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-
-
+        
         private int sonamhoc = 0;
+
         private void CbbHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             try
@@ -468,6 +468,42 @@ namespace DATN.TTS.TVMH
                 if (txtNamBD.Text.ToString() != string.Empty)
                 {
                     this.iDataSoure.Rows[0]["NAM_KT"] = Convert.ToInt32(txtNamBD.Text) + sonamhoc;
+                }
+                string temp = cbbHDT.Text.ToString().Trim();
+                if (temp == "Đại học chính quy")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
+                }
+                if (temp == "Cao đẳng chính quy")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 6;
+                    sonamhoc = 3;
+                }
+                if (temp == "Trung cấp chuyên nghiệp")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Liên thông TC lên CĐ")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Liên thông CĐ lên ĐH")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 4;
+                    sonamhoc = 2;
+                }
+                if (temp == "Đại học DTTX")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
+                }
+                if (temp == "Đại học VHVL")
+                {
+                    this.iDataSoure.Rows[0]["SO_HKY"] = 8;
+                    sonamhoc = 4;
                 }
             }
             catch (Exception ex)

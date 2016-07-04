@@ -353,6 +353,7 @@ namespace DATN.TTS.TVMH
                 GetGrid();
                 SetIsNull();
                 txtMaHDT.Focus();
+                SetComBo();
             }
             catch (Exception ex)
             {
