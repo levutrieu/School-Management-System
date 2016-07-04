@@ -110,9 +110,9 @@ namespace DATN.TTS.TVMH
                     this.iDataSoure.Rows[0]["ID_MONHOC"] = cboMonHoc.GetKeyValue(0);
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-               throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -135,10 +135,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
-            } 
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+            return null;
         }
 
         private DataTable TableSchemaBindingGridHPDK()
@@ -163,10 +164,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertDictionaryToTable(dic, false);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitGrid_LopHP()
@@ -426,9 +428,9 @@ namespace DATN.TTS.TVMH
                 grdLopHP.Columns.Add(col);
                 #endregion
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -563,9 +565,9 @@ namespace DATN.TTS.TVMH
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -581,9 +583,9 @@ namespace DATN.TTS.TVMH
                 }
                 this.grdLopHP.ItemsSource = iGridDataSoureHP;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -634,9 +636,9 @@ namespace DATN.TTS.TVMH
                 //} 
                 #endregion
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -673,7 +675,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -706,7 +708,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -794,9 +796,9 @@ namespace DATN.TTS.TVMH
                 }
               
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -844,9 +846,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -895,9 +897,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1107,9 +1109,9 @@ namespace DATN.TTS.TVMH
                     #endregion
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1131,9 +1133,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureHP.Columns.Add("CHK");
                 grdLopHP.ItemsSource = iGridDataSoureHP;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1158,9 +1160,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureHP.Columns.Add("CHK");
                 grdLopHP.ItemsSource = iGridDataSoureHP;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1179,9 +1181,9 @@ namespace DATN.TTS.TVMH
                     SetComboMonHoc(idLopHoc);
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1207,9 +1209,9 @@ namespace DATN.TTS.TVMH
                 sw.Stop();
                 CTMessagebox.Show("File đã được lưu trên D:DataExport");
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
         
@@ -1263,9 +1265,9 @@ namespace DATN.TTS.TVMH
                     grdLopHP.ItemsSource = iGridDataSoureHP;
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1290,9 +1292,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureHP.Columns.Add("CHK");
                 grdLopHP.ItemsSource = iGridDataSoureHP;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1311,9 +1313,9 @@ namespace DATN.TTS.TVMH
                 //SetComboMonHoc();
                 SetComBoThu();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
