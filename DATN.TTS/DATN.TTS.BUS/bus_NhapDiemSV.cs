@@ -292,7 +292,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-        public DataTable GetDanhSachSinhVienDK(int idlophocphan, int idkhoahoc)
+        public DataTable GetDanhSachSinhVienDK(int idlophocphan)
         {
             try
             {
@@ -308,9 +308,9 @@ namespace DATN.TTS.BUS
                                     join kh in db.tbl_KHOAHOC_NGANHs on l.ID_KHOAHOC_NGANH equals kh.ID_KHOAHOC_NGANH
                                     where
                                       dk.ID_LOPHOCPHAN == idlophocphan &&
-                                      kh.ID_KHOAHOC == idkhoahoc &&
+                                      //kh.ID_KHOAHOC == idkhoahoc &&
 
-                                      dk.ID_SINHVIEN == 18 &&
+                                      //dk.ID_SINHVIEN == 18 &&
                                       (dk.IS_DELETE != 1 ||
                                       dk.IS_DELETE == null) &&
                                       (hp.IS_DELETE != 1 ||
