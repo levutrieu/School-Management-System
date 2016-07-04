@@ -66,6 +66,8 @@ namespace DATN.TTS.BUS
                           join khn in db.tbl_KHOAHOC_NGANHs on new { ID_KHOAHOC_NGANH = Convert.ToInt32(knct.ID_KHOAHOC_NGANH) } equals new { ID_KHOAHOC_NGANH = khn.ID_KHOAHOC_NGANH }
                           join kh in db.tbl_KHOAHOCs on new { ID_KHOAHOC = Convert.ToInt32(khn.ID_KHOAHOC) } equals new { ID_KHOAHOC = kh.ID_KHOAHOC }
                           join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals new { ID_MONHOC = mh.ID_MONHOC }
+                          join hkht in db.tbl_NAMHOC_HKY_HTAIs on hp.ID_NAMHOC_HKY_HTAI equals hkht.ID_NAMHOC_HKY_HTAI
+                          join nhht in db.tbl_NAMHOC_HIENTAIs on hkht.ID_NAMHOC_HIENTAI equals nhht.ID_NAMHOC_HIENTAI
                           where
                             (hp.IS_DELETE != 1 ||
                             hp.IS_DELETE == null) &&
@@ -75,6 +77,10 @@ namespace DATN.TTS.BUS
                             khn.IS_DELETE == null) &&
                             (mh.IS_DELETE != 1 ||
                             mh.IS_DELETE == null) &&
+                            (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null)&&
+                            (nhht.IS_DELETE != 1 || nhht.IS_DELETE == null)&&
+                            hkht.IS_HIENTAI == 1 &&
+                            nhht.IS_HIENTAI == 1&&
                             kh.ID_KHOAHOC == pID_KHOAHOC &&
                             kh.ID_HE_DAOTAO == pID_HE_DATAO
                           select new
