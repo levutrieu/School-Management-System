@@ -750,13 +750,13 @@ namespace DATN.TTS.TVMH
                 DataTable thongtin = DangKyHocPhan.GetThongTinSinhVien(idsinhvien);
                 this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = thongtin.Rows[0]["ID_HE_DAOTAO"];
                 DataTable ThamSoDotDangKyHocPhan =DangKyHocPhan.GetThamSoDangDotDangKy(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
-                if (ThamSoDotDangKyHocPhan == null || ThamSoDotDangKyHocPhan.Rows.Count == 0)
-                {
-                    CTMessagebox.Show("Hiện tai chưa có đợt đăng ký học phần nào.", "Thongo báo", "", CTICON.Information,
-                        CTBUTTON.OK);
-                    return;
-                }
-                else
+                //if (ThamSoDotDangKyHocPhan == null || ThamSoDotDangKyHocPhan.Rows.Count == 0)
+                //{
+                //    CTMessagebox.Show("Hiện tai chưa có đợt đăng ký học phần nào.", "Thongo báo", "", CTICON.Information,
+                //        CTBUTTON.OK);
+                //    return;
+                //}
+                //else
                 {
                     
                     this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
