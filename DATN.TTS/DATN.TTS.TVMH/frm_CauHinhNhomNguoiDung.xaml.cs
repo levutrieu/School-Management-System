@@ -61,7 +61,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
-                
+
                 grd.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -71,17 +71,16 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
-                
+
                 grd.Columns.Add(xcolumn);
 
                 //iGridDataSoureNhom = client.GetAllNhom();
                 //grd.ItemsSource = iGridDataSoureNhom;
                 LoadGridNhom();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -101,7 +100,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.Visible = true;
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
-                
+
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -114,7 +113,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.Visible = false;
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
-                
+
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -124,8 +123,8 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = false;
-                
-                
+
+
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -135,7 +134,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
-                
+
                 xcolumn.EditSettings = new TextEditSettings();
                 xcolumn.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
                 grdUI.Columns.Add(xcolumn);
@@ -143,10 +142,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureUI = client.GetAllManHinh();
                 grdUI.ItemsSource = iGridDataSoureUI;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -163,10 +161,9 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("CoQuyen", typeof(Decimal));
                 dtaTable = TableUtil.ConvertToTable(xDicUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return dtaTable;
         }
@@ -213,10 +210,9 @@ namespace DATN.TTS.TVMH
                 LoadGridNhom();
                 SetNullValue();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -310,15 +306,9 @@ namespace DATN.TTS.TVMH
                                         //}
                                         #endregion
                                         this.iDataSoure.Rows[0]["MaManHinh"] = dr["MaManHinh"];
-                                        try
-                                        {
-                                            client.Delete_PhanQuyenUI(this.iDataSoure.Copy());
-                                        }
-                                        catch (Exception)
-                                        {
-                                            throw;
-                                        }
-                                        
+
+                                        client.Delete_PhanQuyenUI(this.iDataSoure.Copy());
+
                                     }
                                 }
                             }
@@ -327,13 +317,12 @@ namespace DATN.TTS.TVMH
                         #endregion
                     }
                 }
-               
-                
+
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -341,16 +330,15 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                if ( CTMessagebox.Show("Bạn có muốn xóa không?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                if (CTMessagebox.Show("Bạn có muốn xóa không?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
                     client.Delete_Nhom(this.iDataSoure.Rows[0]["MaNhomNguoiDung"].ToString().Trim());
                     LoadGridNhom();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -365,10 +353,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureUI = client.GetAllManHinh();
                 grdUI.ItemsSource = iGridDataSoureUI;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -377,11 +364,11 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                
+
                 DataRow row = null;
                 if (this.grd.GetFocusedRow() == null)
                     return;
-                row = ((DataRowView) this.grd.GetFocusedRow()).Row;
+                row = ((DataRowView)this.grd.GetFocusedRow()).Row;
 
                 this.iDataSoure.Rows[0]["MaNhomNguoiDung"] = row["MaNhomNguoiDung"];
                 this.iDataSoure.Rows[0]["TenNhomNguoiDUng"] = row["TenNhomNguoiDUng"];
@@ -448,9 +435,9 @@ namespace DATN.TTS.TVMH
                 txtMaManHinh.IsReadOnly = true;
                 grdUI.ItemsSource = iGridDataSoureUI;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -505,9 +492,9 @@ namespace DATN.TTS.TVMH
                     iGridDataSoureUI.Rows[vtri]["CoQuyen"] = "True";
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

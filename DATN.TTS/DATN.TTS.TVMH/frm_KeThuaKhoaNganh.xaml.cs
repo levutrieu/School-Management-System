@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.TVMH.Resource;
 using DevExpress.Data;
@@ -55,10 +56,11 @@ namespace DATN.TTS.TVMH
 
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitGrid()
@@ -189,9 +191,9 @@ namespace DATN.TTS.TVMH
                 
                 grd.Columns.Add(col);
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -206,9 +208,9 @@ namespace DATN.TTS.TVMH
                     this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err; 
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -223,9 +225,9 @@ namespace DATN.TTS.TVMH
                     this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -241,9 +243,9 @@ namespace DATN.TTS.TVMH
                 }
                 this.Close();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -258,9 +260,9 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 this.Close();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -279,10 +281,9 @@ namespace DATN.TTS.TVMH
                 SetComboKhoa(IdHedaoTao);
                 grd.ItemsSource = iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -300,9 +301,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoure.Columns.Add("CHK");
                 this.grd.ItemsSource = iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -338,9 +339,9 @@ namespace DATN.TTS.TVMH
                     iGridDataSoure.Rows[vtri]["CHK"] = "True";
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

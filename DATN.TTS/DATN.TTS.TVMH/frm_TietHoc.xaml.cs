@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CustomMessage;
 using DATN.TTS.BUS;
 using DATN.TTS.BUS.Resource;
 using DevExpress.Utils;
@@ -65,11 +66,11 @@ namespace DATN.TTS.TVMH
                 return false;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void InitGrid()
@@ -150,11 +151,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void SetIsNull()
@@ -166,10 +167,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GIO_KT"] = string.Empty;
                 this.iDataSoure.Rows[0]["CA"] = string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -203,11 +203,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -219,10 +219,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GIO_BD"] = "07:00:00";
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -251,9 +250,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -273,9 +272,9 @@ namespace DATN.TTS.TVMH
                     SetIsNull();
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -294,9 +293,9 @@ namespace DATN.TTS.TVMH
                 SetIsNull();
                 txtTietHoc.Focus();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -321,9 +320,9 @@ namespace DATN.TTS.TVMH
 
                 flagsave = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

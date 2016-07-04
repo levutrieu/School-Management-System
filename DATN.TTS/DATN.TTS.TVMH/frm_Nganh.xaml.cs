@@ -75,10 +75,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private bool ValiDate()
@@ -111,10 +112,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void SetNull()
@@ -127,10 +129,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["KYHIEU"] = string.Empty;
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -222,10 +223,9 @@ namespace DATN.TTS.TVMH
                 this.iGridDataSoure = client.GetAllNganh();
                 this.grd.ItemsSource = this.iGridDataSoure;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -239,10 +239,9 @@ namespace DATN.TTS.TVMH
                 txtMaNganh.Focus();
                 flagsave = true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -290,10 +289,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -322,10 +320,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -343,10 +340,9 @@ namespace DATN.TTS.TVMH
                 txtMaNganh.Focus();
                 SetComboBox();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -370,10 +366,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
                 flagsave = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

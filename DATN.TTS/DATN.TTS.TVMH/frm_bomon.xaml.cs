@@ -55,8 +55,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return dtaTable;
         }
@@ -93,8 +92,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -107,7 +105,8 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+
             }
         }
 
@@ -125,7 +124,8 @@ namespace DATN.TTS.TVMH
             }
              catch (Exception ex)
              {
-                 throw ex;
+                 CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+
              }
              finally
              {
@@ -155,7 +155,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show("Lỗi", "Xóa", "", CTICON.Information,
+                CTMessagebox.Show("Lỗi", "Xóa", ex.Message, CTICON.Information,
                         CTBUTTON.OK);
             }
         }

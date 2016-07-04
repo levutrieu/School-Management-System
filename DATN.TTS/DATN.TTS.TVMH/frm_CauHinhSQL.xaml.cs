@@ -52,7 +52,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return xDt;
         }
@@ -68,7 +68,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -85,7 +85,11 @@ namespace DATN.TTS.TVMH
                 DataTable table = System.Data.Sql.SqlDataSourceEnumerator.Instance.GetDataSources();
                 return table;
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+            return null;
         }
         public static DataTable GetSerVerName_ByRegistry()
         {
@@ -245,7 +249,8 @@ namespace DATN.TTS.TVMH
                 if (!string.IsNullOrEmpty(pUser))
                 {
                     SqlDataAdapter da = new SqlDataAdapter("SELECT name FROM sys.databases",
-                        "Data Source=" + pServerName + ";Initial Catalog=master;User ID=" + pUser + ";Password=" + pPass + "");
+                        "Data Source=" + pServerName + ";Initial Catalog=master;User ID=" + pUser + ";Password=" + pPass +
+                        "");
                     da.Fill(dt);
                 }
                 else
@@ -256,7 +261,11 @@ namespace DATN.TTS.TVMH
                 }
                 return dt;
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+            return null;
         }
 
         #endregion
@@ -277,7 +286,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show("Lỗi", "Cấu hình", ex.Message);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -301,7 +310,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

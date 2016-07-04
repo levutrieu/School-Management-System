@@ -245,10 +245,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -260,9 +261,9 @@ namespace DATN.TTS.TVMH
                 cbbKhoa.Focus();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -292,9 +293,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                CTMessagebox.Show("Lỗi", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
+                CTMessagebox.Show("Lỗi", "Lưu", ex.Message, CTICON.Information, CTBUTTON.YesNo);
             }
         }
 
@@ -310,9 +311,9 @@ namespace DATN.TTS.TVMH
                     cbbKhoa.Focus();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -324,9 +325,9 @@ namespace DATN.TTS.TVMH
                 SetIsNull();
                 cbbKhoa.Focus();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -349,9 +350,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["SO_LOP"] = r["SO_LOP"];
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -378,9 +379,9 @@ namespace DATN.TTS.TVMH
                 }
                 this.iDataSoure.Rows[0]["HOCKY_TRONGKHOA"] = HOCKY_TRONGKHOA;
                 }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             
         }

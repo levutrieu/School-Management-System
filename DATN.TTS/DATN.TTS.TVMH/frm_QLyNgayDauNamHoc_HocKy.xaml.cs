@@ -69,10 +69,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitGrid()
@@ -162,9 +163,9 @@ namespace DATN.TTS.TVMH
 
                 GetGrid();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -185,9 +186,9 @@ namespace DATN.TTS.TVMH
                 SetComboNamHoc();
                 GetGrid();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -208,9 +209,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["HOCKY"] = r["HOCKY"];
                 this.iDataSoure.Rows[0]["TUAN_BD_HKY"] = r["TUAN_BD_HKY"];
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -230,9 +231,9 @@ namespace DATN.TTS.TVMH
                 //}
                 //GetGrid();
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -259,9 +260,9 @@ namespace DATN.TTS.TVMH
                 }
                 GetGrid();
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -313,9 +314,9 @@ namespace DATN.TTS.TVMH
                 }
                 
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

@@ -113,11 +113,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void SetIsNull()
@@ -128,10 +128,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["TEN_LOAIHINH_DTAO"] = string.Empty;
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -139,7 +138,6 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                Mouse.OverrideCursor = Cursors.Wait;
                 if (this.iDataSoure.Rows[0]["MA_LOAIHINH_DTAO"].ToString() == string.Empty)
                 {
                     CTMessagebox.Show("Vui lòng nhập mã loại hình đào tạo","Thông báo","", CTICON.Information, CTBUTTON.OK);
@@ -154,15 +152,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            return false;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -174,10 +168,9 @@ namespace DATN.TTS.TVMH
                 SetIsNull();
                 flagsave = true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -225,10 +218,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -257,10 +249,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -277,10 +268,9 @@ namespace DATN.TTS.TVMH
                 SetIsNull();
                 txtMaloai.Focus();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -304,10 +294,9 @@ namespace DATN.TTS.TVMH
 
                 flagsave = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

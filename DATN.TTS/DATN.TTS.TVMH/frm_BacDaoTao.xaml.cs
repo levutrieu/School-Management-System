@@ -56,9 +56,9 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void GetGrid()
@@ -87,9 +87,9 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void InitGrid()
@@ -148,7 +148,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -200,7 +200,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -231,7 +231,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -250,7 +250,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -274,7 +274,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

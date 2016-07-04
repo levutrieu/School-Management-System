@@ -274,7 +274,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                Mouse.OverrideCursor = Cursors.Arrow;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -310,10 +310,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitGrid()
@@ -685,13 +686,12 @@ namespace DATN.TTS.TVMH
                 {
                     res = "I";
                 }
-                return res;
             }
             catch (Exception ex)
             {
-                throw;
-
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return res;
         }
 
         private List<string> Duyet()
@@ -785,12 +785,13 @@ namespace DATN.TTS.TVMH
                 {
                     res = "8";
                 }
-                return res;
+                
             }
             catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return res;
         }
 
         //get du lieu vao Datatable
@@ -1067,10 +1068,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1164,9 +1164,9 @@ namespace DATN.TTS.TVMH
                 XepTKB.ResetLayout();
                 XepTKB.EndUpdate();
             }
-            catch 
+            catch (Exception ex)
             {
-                return;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             //finally
             //{
@@ -1229,9 +1229,9 @@ namespace DATN.TTS.TVMH
                 }
 
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1295,9 +1295,9 @@ namespace DATN.TTS.TVMH
                 #endregion
                 XepTKB.EndUpdate();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1330,9 +1330,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1357,9 +1357,9 @@ namespace DATN.TTS.TVMH
                 grdLHP.ItemsSource = this.iGridDataSoure;
 
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1407,9 +1407,9 @@ namespace DATN.TTS.TVMH
                     Load_TKBHPCT(iDataSoureHPCT.Copy());
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1433,9 +1433,9 @@ namespace DATN.TTS.TVMH
                         Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_TONG"].ToString()) - (Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TIET_DASEP"].ToString()) * Convert.ToInt32(this.iDataSoure.Rows[0]["SO_TUAN"].ToString()));
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1453,9 +1453,9 @@ namespace DATN.TTS.TVMH
                 frm.MinHeight = 600;
                 frm.ShowDialog();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1498,9 +1498,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["SO_TIET"] = r["SO_TIET"];
                 #endregion
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

@@ -65,8 +65,9 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception err)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", err.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitGrid_LopHP()
@@ -120,9 +121,9 @@ namespace DATN.TTS.TVMH
 
                 grdView.AutoWidth = true;
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -171,7 +172,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show("Error", "Error", ex.Message, CTICON.Error, CTBUTTON.OK);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -511,7 +512,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show("Error", "Error", ex.Message, CTICON.Error, CTBUTTON.OK);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -673,8 +674,9 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return double.NaN;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace DATN.TTS.TVMH
             Init_GridNDung();
             Init_GridNhom();
 
-            
+
         }
 
         private bus_CauHinhNguoiDung client = new bus_CauHinhNguoiDung();
@@ -63,9 +63,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureND = client.GetAllNguoiDung();
                 grd.ItemsSource = iGridDataSoureND.Copy();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -82,13 +82,12 @@ namespace DATN.TTS.TVMH
                 xDicUser.Add("ID_NhanVien", typeof(Int32));
                 xDicUser.Add("NhanVien", typeof(string));
                 xDicUser.Add("HOTEN", typeof(string));
-                xDicUser.Add("ID_NHANVIEN",typeof(Int32));
+                xDicUser.Add("ID_NHANVIEN", typeof(Int32));
                 dtaTable = TableUtil.ConvertToTable(xDicUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return dtaTable;
         }
@@ -105,7 +104,7 @@ namespace DATN.TTS.TVMH
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = false;
-            
+
             grd.Columns.Add(xcolumn);
 
             xcolumn = new GridColumn();
@@ -115,7 +114,7 @@ namespace DATN.TTS.TVMH
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = true;
-            
+
             grd.Columns.Add(xcolumn);
 
             xcolumn = new GridColumn();
@@ -126,7 +125,7 @@ namespace DATN.TTS.TVMH
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = true;
             xcolumn.EditSettings = new CheckEditSettings();
-            
+
             grd.Columns.Add(xcolumn);
 
             xcolumn = new GridColumn();
@@ -136,7 +135,7 @@ namespace DATN.TTS.TVMH
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = true;
-            
+
             grd.Columns.Add(xcolumn);
 
             xcolumn = new GridColumn();
@@ -146,7 +145,7 @@ namespace DATN.TTS.TVMH
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = false;
-            
+
             grd.Columns.Add(xcolumn);
 
             xcolumn = new GridColumn();
@@ -156,7 +155,7 @@ namespace DATN.TTS.TVMH
             xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
             xcolumn.AllowEditing = DefaultBoolean.False;
             xcolumn.Visible = false;
-            
+
             grd.Columns.Add(xcolumn);
 
             iGridDataSoureND = client.GetAllNguoiDung();
@@ -181,7 +180,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.Visible = true;
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
-                
+
 
                 grdUI.Columns.Add(xcolumn);
 
@@ -192,7 +191,7 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = false;
-                
+
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
@@ -202,16 +201,15 @@ namespace DATN.TTS.TVMH
                 xcolumn.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 xcolumn.AllowEditing = DefaultBoolean.False;
                 xcolumn.Visible = true;
-                
+
                 grdUI.Columns.Add(xcolumn);
 
                 iGridDataSoure = client.GetAllNhom();
                 grdUI.ItemsSource = iGridDataSoure;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -237,9 +235,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GhiChu"] = String.Empty;
                 this.iDataSoure.Rows[0]["ID_NHANVIEN"] = 0;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -267,11 +265,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void btnDelete_OnClick(object sender, RoutedEventArgs e)
@@ -282,10 +280,9 @@ namespace DATN.TTS.TVMH
                 client.Delete_NhanSu(iDataSoure.Copy());
                 LoadGridNDung();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -301,10 +298,9 @@ namespace DATN.TTS.TVMH
                 LoadGridNDung();
                 SetNullValue();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -357,7 +353,7 @@ namespace DATN.TTS.TVMH
                             {
                                 if (dr["IsNew"].ToString() == "True")
                                 {
-                                    client.InsertNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(),dr["MaNhomNguoiDung"].ToString());
+                                    client.InsertNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString());
                                 }
                             }
                             LoadGridNDung();
@@ -371,27 +367,21 @@ namespace DATN.TTS.TVMH
                     else
                     {
                         #region Update, Delete, Insert new recore for user already
-                        client.UpdateNguoiDung(iDataSoure.Copy());        
+                        client.UpdateNguoiDung(iDataSoure.Copy());
                         foreach (DataRow dr in dt.Rows)
                         {
-                            DataTable idt = client.GetAllNDungNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(),dr["MaNhomNguoiDung"].ToString().Trim());
+                            DataTable idt = client.GetAllNDungNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
                             if (dr["IsNew"].ToString() == "True")
                             {
                                 if (idt.Rows.Count <= 0)
                                 {
-                                    try
+
+                                    bool res = client.InsertNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
+                                    if (!res)
                                     {
-                                        bool res =client.InsertNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
-                                        if (!res)
-                                        {
-                                            CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
-                                        }
+                                        CTMessagebox.Show("Lưu dữ liệu thất bại", "Lưu", "", CTICON.Information, CTBUTTON.YesNo);
                                     }
-                                    catch
-                                        (Exception err)
-                                    {
-                                        throw err;
-                                    }
+
                                 }
                             }
                             else
@@ -400,14 +390,8 @@ namespace DATN.TTS.TVMH
                                 {
                                     if (idt.Rows.Count > 0)
                                     {
-                                        try
-                                        {
-                                            client.DeleteNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
-                                        }
-                                        catch (Exception err)
-                                        {
-                                            throw err;
-                                        }
+
+                                        client.DeleteNDungVaoNhom(this.iDataSoure.Rows[0]["UserName"].ToString().Trim(), dr["MaNhomNguoiDung"].ToString().Trim());
                                     }
                                 }
                                 else
@@ -421,9 +405,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -443,10 +427,9 @@ namespace DATN.TTS.TVMH
                 flagSave = true;
                 txtUser.IsReadOnly = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -464,10 +447,9 @@ namespace DATN.TTS.TVMH
                 frm.ShowDialog();
                 GetAllNhanVien();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -493,7 +475,7 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GhiChu"] = row["GhiChu"];
                 this.iDataSoure.Rows[0]["ID_NHANVIEN"] = row["ID_NHANVIEN"];
                 this.iDataSoure.Rows[0]["HOTEN"] = row["HOTEN"];
-                
+
                 if (!string.IsNullOrEmpty(this.iDataSoure.Rows[0]["UserName"].ToString()))
                 {
                     #region
@@ -534,7 +516,7 @@ namespace DATN.TTS.TVMH
                         }
                         if (xdt.Rows.Count > 0)
                         {
-                            iGridDataSoure = xdt.AsEnumerable() .OrderByDescending(a => a.Field<string>("IsNew"))
+                            iGridDataSoure = xdt.AsEnumerable().OrderByDescending(a => a.Field<string>("IsNew"))
                                                                 .GroupBy(a => a.Field<string>("MaNhomNguoiDung")).Select(group => group.First()).CopyToDataTable();
                         }
                         else
@@ -553,9 +535,9 @@ namespace DATN.TTS.TVMH
                 txtUser.IsReadOnly = true;
                 grdUI.ItemsSource = iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -595,9 +577,9 @@ namespace DATN.TTS.TVMH
                     iGridDataSoure.Rows[vtri]["IsNew"] = "True";
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

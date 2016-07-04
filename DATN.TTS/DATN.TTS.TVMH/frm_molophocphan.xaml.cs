@@ -83,8 +83,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return dtaTable;
         }
@@ -168,8 +167,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -261,8 +259,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -338,8 +335,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -395,8 +391,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -490,7 +485,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -530,8 +525,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return dtaTable;
         }
@@ -592,7 +586,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -606,7 +600,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -620,7 +614,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -665,7 +659,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -691,7 +685,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -705,7 +699,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -743,7 +737,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -814,7 +808,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -873,7 +867,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -899,7 +893,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -915,7 +909,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -927,7 +921,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -940,7 +934,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -952,7 +946,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -984,7 +978,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1093,7 +1087,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -1173,7 +1167,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1212,7 +1206,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1236,7 +1230,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1257,7 +1251,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1271,7 +1265,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1288,7 +1282,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1314,7 +1308,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1330,7 +1324,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1386,7 +1380,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -1407,7 +1401,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
     }

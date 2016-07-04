@@ -62,10 +62,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void SetComBo()
@@ -201,9 +202,9 @@ namespace DATN.TTS.TVMH
                 GrdKhoa.AutoWidth = true;
                 LoadKhoa();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -214,9 +215,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoure = client.GetAllKhoaHoc(Convert.ToInt32(iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
                 grd.ItemsSource = iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -228,9 +229,9 @@ namespace DATN.TTS.TVMH
                 SetComBo();
                 CboHeDT_OnEditValueChanged(sender, null);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -255,9 +256,9 @@ namespace DATN.TTS.TVMH
                 sw.Stop();
                 CTMessagebox.Show("File đã được lưu trên D:DataExport");
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -275,9 +276,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["TEN_KHOAHOC"] = row["TEN_KHOAHOC"];
                 this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -292,9 +293,9 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 LoadKhoa();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -318,9 +319,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["TEN_HE_DAOTAO"] = row["TEN_HE_DAOTAO"];
                 this.iDataSoure.Rows[0]["SO_HKY"] = row["SO_HKY"];
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

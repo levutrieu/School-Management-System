@@ -65,9 +65,9 @@ namespace DATN.TTS.TVMH
                 }
                 cbbTrangThai.ItemsSource = dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -345,10 +345,10 @@ namespace DATN.TTS.TVMH
                 this.iGridDataSoure = client.GetAllSinhVien();
                 grd.ItemsSource = this.iGridDataSoure;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-            }   
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }  
         }
 
         bool Validate()
@@ -435,10 +435,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         DataTable TableSchemaBinding()
@@ -473,10 +474,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -488,9 +490,9 @@ namespace DATN.TTS.TVMH
                 flagsave = true;
                 txtMaSV.Focus();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -537,9 +539,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -560,9 +562,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -572,9 +574,9 @@ namespace DATN.TTS.TVMH
             {
                 btnAddNew_OnClick(sender, e);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -613,9 +615,9 @@ namespace DATN.TTS.TVMH
 
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

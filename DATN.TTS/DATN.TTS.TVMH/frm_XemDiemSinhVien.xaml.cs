@@ -61,10 +61,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         void InitDiem()
@@ -205,9 +206,9 @@ namespace DATN.TTS.TVMH
 
                 GridViewDiem.AutoWidth = true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -224,10 +225,11 @@ namespace DATN.TTS.TVMH
                 }
                 return Math.Round(((double)res / stc), 2);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return double.NaN;
         }
 
         double TinhDiemTong(DataTable xdt)
@@ -283,9 +285,10 @@ namespace DATN.TTS.TVMH
 
         int TinhSOTCDat(DataTable xdt)
         {
+            int stc = 0;
             try
             {
-                int stc = 0;
+                
                 foreach (DataRow r in xdt.Rows)
                 {
                     string temp = r["DIEM_CHU"].ToString().ToUpper().Trim();
@@ -295,12 +298,12 @@ namespace DATN.TTS.TVMH
                     }
 
                 }
-                return stc;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return stc;
         }
 
         void LoadDiemToGrid(int idsinhvien)
@@ -447,9 +450,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoure = dtcopy.Copy();
                 GridDiem.ItemsSource = iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -488,9 +491,9 @@ namespace DATN.TTS.TVMH
                 }
                 LoadDiemToGrid(idsinhvien);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                CTMessagebox.Show(err.Message);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -515,9 +518,9 @@ namespace DATN.TTS.TVMH
                 sw.Stop();
                 CTMessagebox.Show("File đã được lưu trên D:DataExport");
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
     }

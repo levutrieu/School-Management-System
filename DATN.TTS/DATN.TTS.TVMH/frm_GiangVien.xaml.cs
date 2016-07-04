@@ -64,9 +64,9 @@ namespace DATN.TTS.TVMH
                 ComboBoxUtil.SetComboBoxEdit(cbbTrangThai, "NAME_TRANGTHAI", "TRANGTHAI", dt, SelectionTypeEnum.Native);
                 this.iDataSoure.Rows[0]["TRANGTHAI"] = cbbTrangThai.GetKeyValue(0);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -367,9 +367,9 @@ namespace DATN.TTS.TVMH
                 this.iGridDataSoure = client.GetAllGiangVien();
                 grd.ItemsSource = this.iGridDataSoure;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -475,10 +475,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         DataTable TableSchemaBinding()
@@ -511,10 +512,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void GrdViewNDung_OnFocusedRowChanged(object sender, DevExpress.Xpf.Grid.FocusedRowChangedEventArgs e)
@@ -548,9 +550,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["ID_KHOA"] = r["ID_KHOA"];
                 flagsave = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -568,9 +570,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GIOITINH"] = "False";
                 flagsave = true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -616,9 +618,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -644,9 +646,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

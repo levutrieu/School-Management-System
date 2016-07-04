@@ -131,11 +131,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void SetIsNull()
@@ -148,10 +148,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["EMAIL"] = string.Empty;
                 this.iDataSoure.Rows[0]["GHICHU"] = string.Empty;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -173,11 +172,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void GrdViewNDung_OnFocusedRowChanged(object sender, DevExpress.Xpf.Grid.FocusedRowChangedEventArgs e)
@@ -198,10 +197,9 @@ namespace DATN.TTS.TVMH
 
                 flagsave = false;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -219,10 +217,9 @@ namespace DATN.TTS.TVMH
                 txtMaKhoa.Focus();
                 flagsave = true;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -256,9 +253,9 @@ namespace DATN.TTS.TVMH
                 }
                 btnAddNew_OnClick(null, null);
             }
-            catch(Exception err)
+            catch(Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -278,10 +275,9 @@ namespace DATN.TTS.TVMH
                     SetIsNull();
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -299,9 +295,9 @@ namespace DATN.TTS.TVMH
                 txtMaKhoa.Focus();
                 
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

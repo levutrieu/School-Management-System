@@ -200,11 +200,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -216,9 +216,9 @@ namespace DATN.TTS.TVMH
                 txtMaLop.Focus();
                 flagsave = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -254,9 +254,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -272,9 +272,9 @@ namespace DATN.TTS.TVMH
                     txtMaLop.Focus();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -284,9 +284,9 @@ namespace DATN.TTS.TVMH
             {
                 btnAddNew_OnClick(null, null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -307,9 +307,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["GHICHU"] = r["GHICHU"];
                 flagsave = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

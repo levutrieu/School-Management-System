@@ -48,7 +48,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             return xDt;
         }
@@ -138,7 +138,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                throw ex;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -181,7 +181,10 @@ namespace DATN.TTS.TVMH
                     return;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
         }
 
         private void LuuMK_OnUnchecked(object sender, RoutedEventArgs e)

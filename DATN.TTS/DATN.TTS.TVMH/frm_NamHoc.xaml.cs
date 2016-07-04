@@ -53,7 +53,7 @@ namespace DATN.TTS.TVMH
                 col.Header = string.Empty;
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
                 grd.Columns.Add(col);
@@ -63,7 +63,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -75,7 +75,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm kết thúc";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -87,7 +87,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Ngày bắt đầu";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
                 grd.Columns.Add(col);
@@ -97,7 +97,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số tuần";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -109,7 +109,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Số học kỳ trong năm";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -121,7 +121,7 @@ namespace DATN.TTS.TVMH
                 col.Header = "Năm hiện tại";
                 col.Width = 50;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                
+
                 col.AllowEditing = DefaultBoolean.False;
                 col.EditSettings = new CheckEditSettings();
                 col.Visible = true;
@@ -129,9 +129,9 @@ namespace DATN.TTS.TVMH
 
                 GetGrid();
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -158,10 +158,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         private void SetIsNull()
@@ -175,10 +176,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["SO_HKY_TRONGNAM"] = "2";
                 this.iDataSoure.Rows[0]["SO_TUAN"] = "52";
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -205,7 +205,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show(ex.Message, "Lỗi", "", CTICON.Error, CTBUTTON.YesNo);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -250,10 +250,11 @@ namespace DATN.TTS.TVMH
                 }
                 return true;
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         private void btnAddNew_OnClick(object sender, RoutedEventArgs e)
@@ -265,9 +266,9 @@ namespace DATN.TTS.TVMH
                 txtNamBD.Focus();
                 flagsave = true;
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -297,7 +298,7 @@ namespace DATN.TTS.TVMH
                         else
                         {
                             bool res = client.Update_NamHocHienTai(this.iDataSoure.Copy());
-                            
+
                             if (!res)
                             {
                                 CTMessagebox.Show("Cập nhật thất bại", "Cập nhật", "", CTICON.Information, CTBUTTON.YesNo);
@@ -316,13 +317,12 @@ namespace DATN.TTS.TVMH
                         CTMessagebox.Show("Ngày bắt đầu năm học phải là thứ 2", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                         txtNgayBD.Focus();
                     }
-                    
+
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -330,31 +330,23 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                try
+                if (CTMessagebox.Show("Bạn muốn xóa?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
                 {
-                    if (CTMessagebox.Show("Bạn muốn xóa?", "Xóa", "", CTICON.Information, CTBUTTON.YesNo) == CTRESPONSE.Yes)
+                    bool res = client.Delete_NamHocHienTai(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()), UserCommon.UserName);
+                    if (!res)
                     {
-                        bool res = client.Delete_NamHocHienTai(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()), UserCommon.UserName);
-                        if (!res)
-                        {
-                            CTMessagebox.Show("Xóa không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
-                        }
-                        else
-                        {
-                            CTMessagebox.Show("Xóa thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
-                            GetGrid();
-                        }
+                        CTMessagebox.Show("Xóa không thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Xóa thành công", "Xóa", "", CTICON.Information, CTBUTTON.YesNo);
+                        GetGrid();
                     }
                 }
-                catch (Exception)
-                {
-                    throw;
-                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -362,11 +354,11 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                btnAddNew_OnClick(sender,e);
+                btnAddNew_OnClick(sender, e);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -387,9 +379,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["IS_HIENTAI"] = r["IS_HIENTAI"];
                 this.iDataSoure.Rows[0]["SO_TUAN"] = r["SO_TUAN"];
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -402,7 +394,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (!this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString().Equals(string.Empty) && this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString() !="0")
+                if (!this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString().Equals(string.Empty) && this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString() != "0")
                 {
                     bool res = client.SetNamHocHienTai(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NAMHOC_HIENTAI"].ToString()));
                     if (!res)
@@ -420,9 +412,9 @@ namespace DATN.TTS.TVMH
                     CTMessagebox.Show("Bạn chưa chọn năm học để thiết lập", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                 }
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -445,7 +437,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show(ex.Message, "Lỗi", "", CTICON.Error, CTBUTTON.YesNo);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {

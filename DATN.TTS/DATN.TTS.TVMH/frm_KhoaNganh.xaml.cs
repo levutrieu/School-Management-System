@@ -120,9 +120,9 @@ namespace DATN.TTS.TVMH
                 
                 grd.Columns.Add(col);
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -264,9 +264,9 @@ namespace DATN.TTS.TVMH
                 
                 grdKhoaNganh.Columns.Add(col);
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -278,9 +278,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureNganh.Columns.Add("CHK");
                 grd.ItemsSource = iGridDataSoureNganh;
             }
-            catch (Exception er)
+            catch (Exception ex)
             {
-                throw er;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -305,11 +305,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertToTable(dic);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
-
+            return null;
         }
 
         DataTable TableSchemaBindings_Grid()
@@ -332,10 +332,11 @@ namespace DATN.TTS.TVMH
                 dt = TableUtil.ConvertDictionaryToTable(dic, false);
                 return dt;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return null;
         }
 
         public void LoadKhoaNganh()
@@ -346,9 +347,9 @@ namespace DATN.TTS.TVMH
                 iGridDataSoureKhoaNganh.Columns.Add("CHK");
                 grdKhoaNganh.ItemsSource = iGridDataSoureKhoaNganh;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -366,10 +367,11 @@ namespace DATN.TTS.TVMH
                 return true;
 
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
+            return false;
         }
 
         List<int> lstViTri = new List<int>(); 
@@ -448,9 +450,9 @@ namespace DATN.TTS.TVMH
 
                 grd.ItemsSource = iGridDataSoureNganh;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -559,9 +561,9 @@ namespace DATN.TTS.TVMH
 
                 grd.ItemsSource = iGridDataSoureNganh;
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -594,9 +596,9 @@ namespace DATN.TTS.TVMH
                 //}
                 //this.iGridDataSoureKhoaNganh.Rows[index]["HOCKY_TRONGKHOA"] = HOCKY_TRONGKHOA;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -628,9 +630,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -679,9 +681,9 @@ namespace DATN.TTS.TVMH
                     }
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -718,9 +720,9 @@ namespace DATN.TTS.TVMH
                 DataTable xdtz = client.GetNganhWhereHDT(Convert.ToInt32(iDataSoure.Rows[0]["ID_KHOAHOC"].ToString()));
                 LoadNganh(xdtz);
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -740,9 +742,9 @@ namespace DATN.TTS.TVMH
                 this.iDataSoure.Rows[0]["KHOAHOC_NGANH"] = row["TEN_KHOAHOC"] + " Ngành: " + row["TEN_NGANH"];
                 this.iDataSoure.Rows[0]["SO_LOP"] = row["SO_LOP"];
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
@@ -762,9 +764,9 @@ namespace DATN.TTS.TVMH
                     frm.ShowDialog();
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             
         }
@@ -782,9 +784,9 @@ namespace DATN.TTS.TVMH
                 sw.Stop();
                 CTMessagebox.Show(string.Format("Done in {0} sec.", sw.ElapsedMilliseconds / 1000));
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
         }
 
@@ -816,9 +818,9 @@ namespace DATN.TTS.TVMH
                     iGridDataSoureNganh.Rows[vtri]["CHK"] = "True";
                 }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                throw err;
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
