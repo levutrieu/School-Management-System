@@ -6,7 +6,7 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         dx:ThemeManager.ThemeName="Azeze"
         Icon="Images/user.ico"
-        Title="Quản lý đào tạo" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="HỆ THỐNG QUẢN LÝ GIÁO DỤC" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
         <DrawingImage x:Key="groupImage">

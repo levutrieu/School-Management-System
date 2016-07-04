@@ -110,7 +110,7 @@ namespace DATN.TTS.TVMH
             }
             catch (Exception ex)
             {
-                CTMessagebox.Show("Lỗi", "Thông báo", ex.Message, CTICON.Error, CTBUTTON.OK);
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
             finally
             {
