@@ -63,10 +63,6 @@ namespace DATN.TTS.TVMH
             this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120008";
             InitGrid_LopHP();
             InitGrid_HPDangKy();
-            //LoadGridLopHocPhan();
-            //RbdCheckAll.IsChecked = true;
-            EnableGroupBox();
-            //LoadThamSoDieuKien();
         }
 
         private DataTable GetNgayHoc()
@@ -102,11 +98,11 @@ namespace DATN.TTS.TVMH
             this.iDataSoure.Rows[0]["THU"] = cboThu.GetKeyValue(0);
         }
 
-        private void SetComboMonHoc()
+        private void SetComboMonHoc(int idlophoc)
         {
             try
             {
-                DataTable dt = DangKyHocPhan.GetMonHoc();
+                DataTable dt = DangKyHocPhan.GetMonHoc(idlophoc);
                 if (dt.Rows.Count > 0)
                 {
                     ComboBoxUtil.SetComboBoxEdit(cboMonHoc, "TEN_MONHOC", "ID_MONHOC", dt, SelectionTypeEnum.Native);
@@ -191,7 +187,6 @@ namespace DATN.TTS.TVMH
                 CheckEditSettings chkcheck = new CheckEditSettings();
                 col.EditSettings = chkcheck;
                 col.UnboundType = UnboundColumnType.Boolean;
-                
                 grdLopHP.Columns.Add(col);
 
                 #region Hide
@@ -574,21 +569,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        void SetComboHDT()
-        {
-            try
-            {
-                DataTable dt = client.GetAllHDT();
-                cboHDT.ItemsSource = dt;
-                if (dt.Rows.Count > 0)
-                    this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-        }
-
         void LoadGridLopHocPhan()
         {
             try
@@ -607,38 +587,16 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        void SetComBoboxKhoa()
         {
-            try
+            int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
+            idHedaoTao = pid;
+            DataTable dt = client.GetAllKhoaHoc(pid);
+            if (dt.Rows.Count > 0)
             {
-                Mouse.OverrideCursor = Cursors.Wait;
-                cboLopHoc.ItemsSource = null;
-                //cboNganh.ItemsSource = null;
-                CboKhoa.ItemsSource = null;
-
-                if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() != string.Empty)
-                {
-                    int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
-                    idHedaoTao = pid;
-                    DataTable dt = client.GetAllKhoaHoc(pid);
-                    if (dt.Rows.Count > 0)
-                    {
-                        ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC",dt, SelectionTypeEnum.Native);
-                        //ComboBoxUtil.InsertItem(CboKhoa, "-----------------Tất cả--------------------", "0", 0, false);
-                        this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
-                    }
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
-                    iGridDataSoureHP.Columns.Add("CHK");
-                    grdLopHP.ItemsSource = iGridDataSoureHP;
-                }
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
+                ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", dt, SelectionTypeEnum.Native);
+                //ComboBoxUtil.InsertItem(CboKhoa, "-----------------Tất cả--------------------", "0", 0, false);
+                //this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
             }
         }
 
@@ -655,7 +613,7 @@ namespace DATN.TTS.TVMH
                     if (dt.Rows.Count > 0)
                     {
                         ComboBoxUtil.SetComboBoxEdit(cboLopHoc, "TEN_LOP", "ID_LOPHOC", dt, SelectionTypeEnum.Native);
-                        ComboBoxUtil.InsertItem(cboLopHoc, "-------------------------------------------Tất cả-------------------------------------", "0", 0, false);
+                        //ComboBoxUtil.InsertItem(cboLopHoc, "-------------------------------------------Tất cả-------------------------------------", "0", 0, false);
                         this.iDataSoure.Rows[0]["ID_LOPHOC"] = cboLopHoc.GetKeyValue(0);
                     }
                 }
@@ -752,15 +710,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        void EnableGroupBox()
-        {
-            if (RbdCheckAll.IsChecked == true)
-            {
-                GroupBoxKhoaNganh.IsEnabled = false;
-                GroupBoxMonHoc_Ngay.IsEnabled = false;
-            }
-        }
-
         //khong the dang ky double 1 lop cho 1 sinh vien
         bool CheckTrungLopHocPhan(int ID_LOPHOCPHAN)
         {
@@ -778,54 +727,72 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
+                #region Kiểm tra thong tin nhập vào là mã sinh viên
                 lstIDLopHocPhanDK.Clear();
                 LstMonHocCheckTrung.Clear();
                 if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo","", CTICON.Information, CTBUTTON.OK);
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên để thực hiện các thao tác tiếp theo!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
                 }
                 int idsinhvien = DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
                 if (idsinhvien == 0)
                 {
-                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!"+"\n"+"Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
+                    CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
-                }
+                } 
+                #endregion
                 this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
                 DataTable thongtin = DangKyHocPhan.GetThongTinSinhVien(idsinhvien);
-
                 this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = thongtin.Rows[0]["ID_HE_DAOTAO"];
-
-                iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
-                 iGridDataSoureHPDK.Columns.Add("CHK");
-                this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
-
-                LoadGridLopHocPhan();
-                if (iGridDataSoureHPDK.Rows.Count > 0)
+                DataTable ThamSoDotDangKyHocPhan =DangKyHocPhan.GetThamSoDangDotDangKy(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
+                if (ThamSoDotDangKyHocPhan == null || ThamSoDotDangKyHocPhan.Rows.Count == 0)
                 {
-                    foreach (DataRow r in iGridDataSoureHPDK.Copy().Rows)
-                    {
-                        lstIDLopHocPhanDK.Add(Convert.ToInt32(r["ID_LOPHOCPHAN"]));
-                        LstMonHocCheckTrung.Add(r["MA_MONHOC"].ToString());
-                    }
+                    CTMessagebox.Show("Hiện tai chưa có đợt đăng ký học phần nào.", "Thongo báo", "", CTICON.Information,
+                        CTBUTTON.OK);
+                    return;
                 }
-                if (lstIDLopHocPhanDK.Count > 0)
+                else
                 {
-                    for (int i = 0; i < lstIDLopHocPhanDK.Count; i++)
+                    
+                    this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
+                    #region
+                    iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
+                    iGridDataSoureHPDK.Columns.Add("CHK");
+                    this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
+
+                    LoadGridLopHocPhan();
+                    SetComBoboxKhoa();
+                    SetComBoThu();
+
+                    if (iGridDataSoureHPDK.Rows.Count > 0)
                     {
-                        int temp = lstIDLopHocPhanDK[i];
-                        for (int j = 0; j < iGridDataSoureHP.Rows.Count; j++)
+                        foreach (DataRow r in iGridDataSoureHPDK.Copy().Rows)
                         {
-                            if (temp == Convert.ToInt32(iGridDataSoureHP.Rows[j]["ID_LOPHOCPHAN"].ToString()))
+                            lstIDLopHocPhanDK.Add(Convert.ToInt32(r["ID_LOPHOCPHAN"]));
+                            LstMonHocCheckTrung.Add(r["MA_MONHOC"].ToString());
+                        }
+                    }
+                    if (lstIDLopHocPhanDK.Count > 0)
+                    {
+                        for (int i = 0; i < lstIDLopHocPhanDK.Count; i++)
+                        {
+                            int temp = lstIDLopHocPhanDK[i];
+                            for (int j = 0; j < iGridDataSoureHP.Rows.Count; j++)
                             {
-                                iGridDataSoureHP.Rows[j]["CHK"] = "True";
+                                if (temp == Convert.ToInt32(iGridDataSoureHP.Rows[j]["ID_LOPHOCPHAN"].ToString()))
+                                {
+                                    iGridDataSoureHP.Rows[j]["CHK"] = "True";
+                                }
                             }
                         }
                     }
+                    #endregion
+                    grdLopHP.ItemsSource = iGridDataSoureHP;
                 }
-               grdLopHP.ItemsSource = iGridDataSoureHP;
+              
             }
             catch (Exception err)
             {
@@ -1151,56 +1118,6 @@ namespace DATN.TTS.TVMH
             #endregion
         }
 
-        #region 
-        private void RbdCheckAll_OnChecked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                GroupBoxKhoaNganh.IsEnabled = false;
-                GroupBoxMonHoc_Ngay.IsEnabled = false;
-                cboHDT.ItemsSource = null;
-                cboLopHoc.ItemsSource = null;
-                cboMonHoc.ItemsSource = null;
-                //cboNganh.ItemsSource = null;
-                cboThu.ItemsSource = null;
-                CboKhoa.ItemsSource = null;
-
-                iGridDataSoureHP = DangKyHocPhan.GetLopHP();
-                iGridDataSoureHP.Columns.Add("CHK");
-                grdLopHP.ItemsSource = iGridDataSoureHP;
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-
-        private void RdbCheck_OnChecked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                GroupBoxKhoaNganh.IsEnabled = true;
-                GroupBoxMonHoc_Ngay.IsEnabled = true;
-                SetComboHDT();
-                SetComboMonHoc();
-                SetComBoThu();
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-
         private void CboMonHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             try
@@ -1209,11 +1126,7 @@ namespace DATN.TTS.TVMH
                 if (this.iDataSoure.Rows[0]["ID_MONHOC"].ToString() != string.Empty)
                 {
                     idMonHoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_MONHOC"].ToString());
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
-                }
-                else
-                {
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
+                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
                 }
                 iGridDataSoureHP.Columns.Add("CHK");
                 grdLopHP.ItemsSource = iGridDataSoureHP;
@@ -1236,11 +1149,11 @@ namespace DATN.TTS.TVMH
                 if (this.iDataSoure.Rows[0]["THU"].ToString() != string.Empty)
                 {
                     idthu = Convert.ToInt32(this.iDataSoure.Rows[0]["THU"].ToString());
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
+                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
                 }
                 else
                 {
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
+                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
                 }
                 iGridDataSoureHP.Columns.Add("CHK");
                 grdLopHP.ItemsSource = iGridDataSoureHP;
@@ -1263,14 +1176,8 @@ namespace DATN.TTS.TVMH
                 if (this.iDataSoure.Rows[0]["ID_LOPHOC"].ToString() != string.Empty)
                 {
                     idLopHoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_LOPHOC"].ToString());
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
+                    SetComboMonHoc(idLopHoc);
                 }
-                else
-                {
-                    iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
-                }
-                iGridDataSoureHP.Columns.Add("CHK");
-                grdLopHP.ItemsSource = iGridDataSoureHP;
             }
             catch (Exception err)
             {
@@ -1304,7 +1211,115 @@ namespace DATN.TTS.TVMH
             {
                 throw err;
             }
-        } 
+        }
+        
+        #region Bỏ
+        //void SetComboHDT()
+        //{
+        //    try
+        //    {
+        //        DataTable dt = client.GetAllHDT();
+        //        //cboHDT.ItemsSource = dt;
+        //        if (dt.Rows.Count > 0)
+        //            this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        throw err;
+        //    }
+        //} 
+
+        //void EnableGroupBox()
+        //{
+        //    if (RbdCheckAll.IsChecked == true)
+        //    {
+        //        GroupBoxKhoaNganh.IsEnabled = false;
+        //        GroupBoxMonHoc_Ngay.IsEnabled = false;
+        //    }
+        //}
+
+        private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                cboLopHoc.ItemsSource = null;
+                //cboNganh.ItemsSource = null;
+                CboKhoa.ItemsSource = null;
+
+                if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() != string.Empty)
+                {
+                    int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
+                    idHedaoTao = pid;
+                    DataTable dt = client.GetAllKhoaHoc(pid);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", dt, SelectionTypeEnum.Native);
+                        //ComboBoxUtil.InsertItem(CboKhoa, "-----------------Tất cả--------------------", "0", 0, false);
+                        this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
+                    }
+                    //iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
+                    iGridDataSoureHP.Columns.Add("CHK");
+                    grdLopHP.ItemsSource = iGridDataSoureHP;
+                }
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        private void RbdCheckAll_OnChecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                GroupBoxKhoaNganh.IsEnabled = false;
+                GroupBoxMonHoc_Ngay.IsEnabled = false;
+                //cboHDT.ItemsSource = null;
+                cboLopHoc.ItemsSource = null;
+                cboMonHoc.ItemsSource = null;
+                //cboNganh.ItemsSource = null;
+                cboThu.ItemsSource = null;
+                CboKhoa.ItemsSource = null;
+
+                iGridDataSoureHP = DangKyHocPhan.GetLopHP();
+                iGridDataSoureHP.Columns.Add("CHK");
+                grdLopHP.ItemsSource = iGridDataSoureHP;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void RdbCheck_OnChecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                GroupBoxKhoaNganh.IsEnabled = true;
+                GroupBoxMonHoc_Ngay.IsEnabled = true;
+                //SetComboHDT();
+                //SetComboMonHoc();
+                SetComBoThu();
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
         #endregion
-    }
+   }
 }

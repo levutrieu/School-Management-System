@@ -28,19 +28,19 @@
                 <RowDefinition Height="26"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Text="Nhập mã sinh viên" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:TextEdit Grid.Row="0" Grid.Column="2" Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Grid.Column="0" Text="Nhập mã sinh viên" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:TextEdit Grid.Row="0" Grid.Column="1" Width="200" HorizontalAlignment="Left"
+                          Name="txtMASV" Style="{StaticResource TextEditStyle}" EditValue="{Binding MA_SINHVIEN, UpdateSourceTrigger=PropertyChanged}" />
             
-            <Button Grid.Row="0" Grid.Column="3" Name="btnXemHocPhanDK"
+            <Button Grid.Row="0" Grid.Column="2" Name="btnXemHocPhanDK" HorizontalAlignment="Left"
                     Content="Xem học phần đã đăng ký" Style="{StaticResource Button_Style_2}" Click="BtnXemHocPhanDK_OnClick"/>
             
-            <StackPanel Grid.Row="0" Grid.Column="4"  VerticalAlignment="Center">
+            <!--<StackPanel Grid.Row="0" Grid.Column="4"  VerticalAlignment="Center">
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -51,7 +51,7 @@
                     <dxe:CheckEdit Style="{StaticResource CheckBoxStyle}"  Grid.Column="1"  Content="Không điều kiện" Name="RbdCheckAll" Checked="RbdCheckAll_OnChecked"/>
                     <dxe:CheckEdit Style="{StaticResource CheckBoxStyle}" Grid.Column="2"  Content="Lọc theo điều kiện" Name="rdbCheck" Checked="RdbCheck_OnChecked"/>
                 </Grid>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -74,13 +74,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="0.6*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+                    <!--<TextBlock Grid.Row="0" Grid.Column="1" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
                     <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
                               EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboHDT_OnEditValueChanged"
-                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>
+                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>-->
 
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="4" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
                               EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC"
                               EditValueChanged="CboKhoa_OnEditValueChanged"/>
 
