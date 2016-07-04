@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -161,7 +162,7 @@ namespace DATN.TTS.BUS
                 sv.MA_SINHVIEN = r["MA_SINHVIEN"].ToString();
                 sv.TEN_SINHVIEN = r["TEN_SINHVIEN"].ToString();
                 sv.PATH_ANH = r["PATH_ANH"].ToString();
-                sv.GIOITINH = Convert.ToBoolean(r["GIOITINH"]);
+                sv.GIOITINH = (r["GIOITINH"] == DBNull.Value)? false : Convert.ToBoolean(r["GIOITINH"]);
                 sv.DIENTHOAI = r["DIENTHOAI"].ToString();
                 sv.DIENTHOAI_GD = r["DIENTHOAI_GD"].ToString();
                 sv.DIACHI = r["DIACHI"].ToString();
@@ -172,10 +173,10 @@ namespace DATN.TTS.BUS
                 sv.NGAYSINH = DateTime.Parse(r["NGAYSINH"].ToString());
                 sv.NOISINH = r["NOISINH"].ToString();
                 sv.THONGTIN_NGOAITRU = r["THONGTIN_NGOAITRU"].ToString();
-                sv.IS_DOANVIEN = Convert.ToBoolean(r["IS_DOANVIEN"].ToString());
-                sv.NGAY_VAODOAN = DateTime.Parse(r["NGAY_VAODOAN"].ToString());
-                sv.NGAY_VAOTRUONG = DateTime.Parse(r["NGAY_VAOTRUONG"].ToString());
-                sv.NGAY_RATRUONG = DateTime.Parse(r["NGAY_RATRUONG"].ToString());
+                sv.IS_DOANVIEN =(r["IS_DOANVIEN"] == DBNull.Value) ? false : Convert.ToBoolean(r["IS_DOANVIEN"].ToString());
+                sv.NGAY_VAODOAN =(r["NGAY_VAODOAN"] == DBNull.Value)? (DateTime?)null: Convert.ToDateTime(r["NGAY_VAODOAN"].ToString());
+                sv.NGAY_VAOTRUONG =(r["NGAY_VAOTRUONG"] == DBNull.Value)? (DateTime?)null:DateTime.Parse(r["NGAY_VAOTRUONG"].ToString());
+                sv.NGAY_RATRUONG = (r["NGAY_RATRUONG"] == DBNull.Value)?(DateTime?)null: DateTime.Parse(r["NGAY_RATRUONG"].ToString());
 
                 sv.IS_DELETE = 0;
                 sv.UPDATE_USER = r["USER"].ToString();
@@ -239,6 +240,21 @@ namespace DATN.TTS.BUS
             {
                 return 0;
             }
+        }
+
+        public bool KiemTraXoaSinhVien(int idsinhvien)
+        {
+            var kiemtra = (from sv in db.tbL_SINHVIENs
+                join diem in db.tbl_DIEM_SINHVIENs on sv.ID_SINHVIEN equals diem.ID_SINHVIEN
+                join hpdk in db.tbl_HP_DANGKies on sv.ID_SINHVIEN equals hpdk.ID_SINHVIEN
+                where (sv.IS_DELETE != 1 || sv.IS_DELETE == null) &&
+                      (diem.IS_DELETE != 1 || diem.ID_SINHVIEN == null)
+                      && (hpdk.IS_DELETE != 1 || hpdk.IS_DELETE == null)
+                      && sv.ID_SINHVIEN == idsinhvien
+                select sv).ToArray();
+            if (kiemtra.Count() > 0)
+                return false;
+            return true;
         }
     }
 }
