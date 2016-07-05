@@ -27,7 +27,7 @@ using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 using DevExpress.XtraSpreadsheet.Commands.Internal;
 using DevExpress.XtraSpreadsheet.Model;
-
+using Excel = Microsoft.Office.Interop.Excel;
 namespace DATN.TTS.TVMH
 {
     /// <summary>
@@ -39,20 +39,25 @@ namespace DATN.TTS.TVMH
         private DataTable iGridDataSoureHP = null;
         private DataTable iGridDataSoureHPDK = null;
         List<int> lstIDLopHocPhanDK = new List<int>();// get cac lop da dang ky
-        List<string>LstMonHocCheckTrung = new List<string>();// get ma mon hoc da dang ky
+        List<string> LstMonHocCheckTrung = new List<string>();// get ma mon hoc da dang ky
         bus_LapKeHoachDaoTaoKhoa client = new bus_LapKeHoachDaoTaoKhoa();
         bus_DangKyHocPhan DangKyHocPhan = new bus_DangKyHocPhan();
 
         private int idthu;
-        private int idHedaoTao;
         private int idLopHoc = 0;
-        private int idMonHoc;
-        private int idkhoanganh;
-        private int idkhoahoc;
+        private int idnganh=0;
+        private int idkhoanganh=0;
+        private int idkhoahoc=0;
+        private int idmonhoc = 0;
         public static string Masinhvien = "";
         public static DataTable iDataID3 = null;
         public static DataTable iDataC45 = null;
-
+        private string _MaSinhVien = "";
+        private string _SinhVien = "";
+        private string _Lop = "";
+        private string _Nganh = "";
+        private string _HeDaoTao = "";
+        private string _KhoaHoc = "";
         public frm_DangKyHocPhan()
         {
             InitializeComponent();
@@ -65,67 +70,16 @@ namespace DATN.TTS.TVMH
             InitGrid_HPDangKy();
         }
 
-        private DataTable GetNgayHoc()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("THU", typeof(Decimal));
-            dt.Columns.Add("NGAY", typeof(string));
-            DataRow dr = dt.NewRow();
-            dr["THU"] = 0;
-            dr["NGAY"] = "--------------------------------------Tất cả----------------------------------------";
-            dt.Rows.Add(dr);
-            for (int i = 2; i <= 8; i++)
-            {
-                DataRow r = dt.NewRow();
-                r["THU"] = i;
-                if (i == 8)
-                {
-                    r["NGAY"] = "Chủ nhật";
-                }
-                else
-                {
-                    r["NGAY"] = "Thứ" + " " + i;
-                }
-                dt.Rows.Add(r);
-                dt.AcceptChanges();
-            }
-            return dt;
-        }
-
-        private void SetComBoThu()
-        {
-            cboThu.ItemsSource = GetNgayHoc();
-            this.iDataSoure.Rows[0]["THU"] = cboThu.GetKeyValue(0);
-        }
-
-        private void SetComboMonHoc(int idlophoc)
-        {
-            try
-            {
-                DataTable dt = DangKyHocPhan.GetMonHoc(idlophoc);
-                if (dt.Rows.Count > 0)
-                {
-                    ComboBoxUtil.SetComboBoxEdit(cboMonHoc, "TEN_MONHOC", "ID_MONHOC", dt, SelectionTypeEnum.Native);
-                    ComboBoxUtil.InsertItem(cboMonHoc, "--------------------------------Tất cả-----------------------------------", "0", 0, false);
-                    this.iDataSoure.Rows[0]["ID_MONHOC"] = cboMonHoc.GetKeyValue(0);
-                }
-            }
-            catch (Exception ex)
-            {
-                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
-            }
-        }
-
         private DataTable TableSchemaBinding()
         {
             try
             {
                 DataTable dt = null;
-                Dictionary<string, Type>dic = new Dictionary<string, Type>();
+                Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 dic.Add("THU", typeof(Decimal));
                 dic.Add("NGAY", typeof(string));
                 dic.Add("USER", typeof(string));
-                dic.Add("ID_HE_DAOTAO",typeof(int));
+                dic.Add("ID_HE_DAOTAO", typeof(int));
                 dic.Add("ID_KHOAHOC", typeof(int));
                 dic.Add("ID_NGANH", typeof(int));
                 dic.Add("ID_LOPHOC", typeof(int));
@@ -147,7 +101,7 @@ namespace DATN.TTS.TVMH
             try
             {
                 DataTable dt = new DataTable();
-                Dictionary<string, Type> dic =new Dictionary<string, Type>();
+                Dictionary<string, Type> dic = new Dictionary<string, Type>();
                 dic.Add("ID_DANGKY", typeof(Decimal));
                 dic.Add("MA_MONHOC", typeof(string));
                 dic.Add("TEN_MONHOC", typeof(string));
@@ -177,11 +131,8 @@ namespace DATN.TTS.TVMH
             try
             {
                 GridColumn col;
-
-                //col = new GridColumn() { CellTemplate = (DataTemplate)this.Resources["chkcheck"] };
                 col = new GridColumn();
                 col.FieldName = "CHK";
-                //col.Binding = new Binding("CHK") { Mode = BindingMode.TwoWay };
                 col.Header = "DK";
                 col.Width = 40;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
@@ -200,7 +151,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -209,7 +160,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
 
@@ -219,7 +170,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -228,7 +179,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -237,7 +188,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -246,7 +197,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
@@ -255,7 +206,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grdLopHP.Columns.Add(col);
 
                 #endregion
@@ -268,7 +219,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -276,12 +226,22 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "TEN_LOP_HOCPHAN";
                 col.Header = "Tên học phần";
-                col.Width = 200;
+                col.Width = 140;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 grdLopHP.Columns.Add(col);
+
+                //col = new GridColumn();
+                //col.FieldName = "TEN_LOP";
+                //col.Header = "Lớp QL";
+                //col.Width = 80;
+                //col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                //col.AllowEditing = DefaultBoolean.False;
+                //col.Visible = false;
+                //col.EditSettings = new TextEditSettings();
+                //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                //grdLopHP.Columns.Add(col);
 
                 #endregion
 
@@ -289,11 +249,10 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "MA_MONHOC";
                 col.Header = "Mã môn học";
-                col.Width = 100;
+                col.Width = 80;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                
+                col.Visible = false;
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -305,17 +264,15 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
                 col.FieldName = "SO_TC";
-                col.Header = "Số TC";
-                col.Width = 60;
+                col.Header = "STC";
+                col.Width = 35;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -323,11 +280,10 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "SOLUONG";
                 col.Header = "Sỉ số";
-                col.Width = 60;
+                col.Width = 35;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -335,11 +291,10 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "SOSVDKY";
                 col.Header = "Đã DK";
-                col.Width = 60;
+                col.Width = 35;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -347,71 +302,35 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "TEN_GIANGVIEN";
                 col.Header = "Giảng viên";
-                col.Width = 120;
+                col.Width = 90;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
-                col.FieldName = "THU";
-                col.Header = "Thứ";
-                col.Width = 50;
+                col.FieldName = "THOIKHOABIEU";
+                col.Header = "Thời khóa biểu";
+                col.Width = 150;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
-                col.EditSettings = new TextEditSettings();
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdLopHP.Columns.Add(col);
-
-                col = new GridColumn();
-                col.FieldName = "TIET_BD";
-                col.Header = "Tiết BD";
-                col.Width = 50;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                
-                col.EditSettings = new TextEditSettings();
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdLopHP.Columns.Add(col);
-
-                col = new GridColumn();
-                col.FieldName = "SO_TIET";
-                col.Header = "Số tiết";
-                col.Width = 50;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                
-                col.EditSettings = new TextEditSettings();
-                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
-                grdLopHP.Columns.Add(col);
-
-                col = new GridColumn();
-                col.FieldName = "TEN_PHONG";
-                col.Header = "Phòng";
-                col.Width = 100;
-                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-                col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                
-                col.EditSettings = new TextEditSettings();
+                TextEditSettings txtTKB = new TextEditSettings();
+                txtTKB.TextWrapping = TextWrapping.Wrap;
+                col.EditSettings = txtTKB;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
 
                 col = new GridColumn();
                 col.FieldName = "TUAN_BD";
                 col.Header = "Tuần BD";
-                col.Width = 70;
+                col.Width = 35;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -419,11 +338,10 @@ namespace DATN.TTS.TVMH
                 col = new GridColumn();
                 col.FieldName = "TUAN_KT";
                 col.Header = "Tuần KT";
-                col.Width = 70;
+                col.Width = 35;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grdLopHP.Columns.Add(col);
@@ -447,7 +365,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -457,7 +375,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = false;
-                
+
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -516,7 +434,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -528,7 +446,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -540,7 +458,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -553,7 +471,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 //col.EditSettings = new TextEditSettings();
                 //col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -565,7 +483,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -577,7 +495,7 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                
+
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
@@ -593,7 +511,7 @@ namespace DATN.TTS.TVMH
         {
             try
             {
-                iGridDataSoureHP = DangKyHocPhan.GetLopHP();
+                iGridDataSoureHP = DangKyHocPhan.GetDanhSachLopHocPhan(idkhoahoc, idnganh);
                 iGridDataSoureHP.Columns.Add("CHK");
                 foreach (DataRow row in iGridDataSoureHP.Rows)
                 {
@@ -610,57 +528,50 @@ namespace DATN.TTS.TVMH
         void SetComBoboxKhoa()
         {
             int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
-            idHedaoTao = pid;
             DataTable dt = client.GetAllKhoaHoc(pid);
             if (dt.Rows.Count > 0)
             {
                 ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", dt, SelectionTypeEnum.Native);
-                //ComboBoxUtil.InsertItem(CboKhoa, "-----------------Tất cả--------------------", "0", 0, false);
-                //this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
             }
         }
 
-        private void CboKhoa_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        void SetComBoNganh(int idkhoahoc)
+        {
+            DataTable dt = DangKyHocPhan.GetNganhWhereKhoaHoc(idkhoahoc);
+            if (dt.Rows.Count > 0)
+            {
+                ComboBoxUtil.SetComboBoxEdit(cboNganh,"TEN_NGANH" ,"ID_NGANH", dt, SelectionTypeEnum.Native);
+                //ComboBoxUtil.InsertItem(cboNganh, "-------------------------------------------------Tất cả--------------------------------------------", "0", 0, false);
+                this.iDataSoure.Rows[0]["ID_NGANH"] = cboNganh.GetKeyValue(0);
+            }
+        }
+
+        //void SetComBoLophoc(int _idkhoahoc, int _idnganh)
+        //{
+        //    DataTable dt = DangKyHocPhan.GetLopHoc(_idkhoahoc, _idnganh);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ComboBoxUtil.SetComboBoxEdit(cboLopHoc,"TEN_LOP", "ID_LOPHOC", dt, SelectionTypeEnum.Native);
+        //        ComboBoxUtil.InsertItem(cboLopHoc,"---------------------------------------------Tất cả-------------------------------------------","0",0, false);
+        //        this.iDataSoure.Rows[0]["ID_LOPHOC"] = cboLopHoc.GetKeyValue(0);
+        //    }
+        //}
+
+        private void SetComboMonHoc(int idkhoahoc, int idnganh)
         {
             try
             {
-                Mouse.OverrideCursor = Cursors.Wait;
-                cboLopHoc.ItemsSource = null;
-                if (this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString() != string.Empty)
+                DataTable dt = DangKyHocPhan.GetMonHoc(idkhoahoc, idnganh);
+                if (dt.Rows.Count > 0)
                 {
-                    idkhoahoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString());
-                    DataTable dt = DangKyHocPhan.GetDSLopHocWhereKhoaHoc(idkhoahoc);
-                    if (dt.Rows.Count > 0)
-                    {
-                        ComboBoxUtil.SetComboBoxEdit(cboLopHoc, "TEN_LOP", "ID_LOPHOC", dt, SelectionTypeEnum.Native);
-                        //ComboBoxUtil.InsertItem(cboLopHoc, "-------------------------------------------Tất cả-------------------------------------", "0", 0, false);
-                        this.iDataSoure.Rows[0]["ID_LOPHOC"] = cboLopHoc.GetKeyValue(0);
-                    }
+                    ComboBoxUtil.SetComboBoxEdit(cboMonHoc, "TEN_MONHOC", "ID_MONHOC", dt, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboMonHoc, "---------------------------------------------Tất cả-------------------------------------------", "0", 0, false);
+                    this.iDataSoure.Rows[0]["ID_MONHOC"] = cboMonHoc.GetKeyValue(0);
                 }
-                
-                #region Bo
-                //cboNganh.ItemsSource = null;
-                //if (this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString() != string.Empty)
-                //{
-                //    int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString());
-                //    idkhoahoc = pid;
-                //    DataTable dt = client.GetAllKhoaNganh(pid);
-                //    if (dt.Rows.Count > 0)
-                //    {
-                //        ComboBoxUtil.SetComboBoxEdit(cboNganh, "TEN_NGANH", "ID_NGANH", dt, SelectionTypeEnum.Native);
-                //        ComboBoxUtil.InsertItem(cboNganh,"---------------------Tất cả--------------------","0",0,false);
-                //        this.iDataSoure.Rows[0]["ID_NGANH"] = cboNganh.GetKeyValue(0);
-                //    }
-                //} 
-                #endregion
             }
             catch (Exception ex)
             {
                 CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -672,11 +583,11 @@ namespace DATN.TTS.TVMH
                 if (iGridDataSoureHP != null && iGridDataSoureHP.Rows.Count > 0)
                 {
                     DataRow[] xDataSearch = (from x in
-                        iGridDataSoureHP.AsEnumerable()
-                            .Where(
-                                d =>
-                                    d.Field<int>("ISBATBUOC") == 0)
-                        select x).ToArray();
+                                                 iGridDataSoureHP.AsEnumerable()
+                                                     .Where(
+                                                         d =>
+                                                             d.Field<int>("ISBATBUOC") == 0)
+                                             select x).ToArray();
                     if (xDataSearch.Count() > 0)
                     {
                         iDataID3 = xDataSearch.CopyToDataTable();
@@ -730,7 +641,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        //khong the dang ky double 1 lop cho 1 sinh vien
         bool CheckTrungLopHocPhan(int ID_LOPHOCPHAN)
         {
             int count = 0;
@@ -762,57 +672,52 @@ namespace DATN.TTS.TVMH
                     CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
                     txtMASV.Focus();
                     return;
-                } 
+                }
                 #endregion
                 this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
                 DataTable thongtin = DangKyHocPhan.GetThongTinSinhVien(idsinhvien);
+                _MaSinhVien = thongtin.Rows[0]["MA_SINHVIEN"].ToString();
+                _SinhVien = thongtin.Rows[0]["TEN_SINHVIEN"].ToString();
+                _Nganh = thongtin.Rows[0]["TEN_NGANH"].ToString();
+                _KhoaHoc = thongtin.Rows[0]["TEN_KHOAHOC"].ToString();
+                _Lop = thongtin.Rows[0]["TEN_LOP"].ToString();
+                _HeDaoTao = thongtin.Rows[0]["TEN_HE_DAOTAO"].ToString();
                 this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = thongtin.Rows[0]["ID_HE_DAOTAO"];
-                DataTable ThamSoDotDangKyHocPhan =DangKyHocPhan.GetThamSoDangDotDangKy(Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString()));
-                //if (ThamSoDotDangKyHocPhan == null || ThamSoDotDangKyHocPhan.Rows.Count == 0)
-                //{
-                //    CTMessagebox.Show("Hiện tai chưa có đợt đăng ký học phần nào.", "Thongo báo", "", CTICON.Information,
-                //        CTBUTTON.OK);
-                //    return;
-                //}
-                //else
+                this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
+                this.iDataSoure.Rows[0]["ID_NGANH"] = thongtin.Rows[0]["ID_NGANH"];
+                #region
+                iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
+                iGridDataSoureHPDK.Columns.Add("CHK");
+                this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
+
+                LoadGridLopHocPhan();
+                SetComBoboxKhoa();
+
+                if (iGridDataSoureHPDK.Rows.Count > 0)
                 {
-                    
-                    this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
-                    #region
-                    iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
-                    iGridDataSoureHPDK.Columns.Add("CHK");
-                    this.grDanhSachDK.ItemsSource = iGridDataSoureHPDK;
-
-                    LoadGridLopHocPhan();
-                    SetComBoboxKhoa();
-                    SetComBoThu();
-
-                    if (iGridDataSoureHPDK.Rows.Count > 0)
+                    foreach (DataRow r in iGridDataSoureHPDK.Copy().Rows)
                     {
-                        foreach (DataRow r in iGridDataSoureHPDK.Copy().Rows)
-                        {
-                            lstIDLopHocPhanDK.Add(Convert.ToInt32(r["ID_LOPHOCPHAN"]));
-                            LstMonHocCheckTrung.Add(r["MA_MONHOC"].ToString());
-                        }
+                        lstIDLopHocPhanDK.Add(Convert.ToInt32(r["ID_LOPHOCPHAN"]));
+                        LstMonHocCheckTrung.Add(r["MA_MONHOC"].ToString());
                     }
-                    if (lstIDLopHocPhanDK.Count > 0)
+                }
+                if (lstIDLopHocPhanDK.Count > 0)
+                {
+                    for (int i = 0; i < lstIDLopHocPhanDK.Count; i++)
                     {
-                        for (int i = 0; i < lstIDLopHocPhanDK.Count; i++)
+                        int temp = lstIDLopHocPhanDK[i];
+                        for (int j = 0; j < iGridDataSoureHP.Rows.Count; j++)
                         {
-                            int temp = lstIDLopHocPhanDK[i];
-                            for (int j = 0; j < iGridDataSoureHP.Rows.Count; j++)
+                            if (temp == Convert.ToInt32(iGridDataSoureHP.Rows[j]["ID_LOPHOCPHAN"].ToString()))
                             {
-                                if (temp == Convert.ToInt32(iGridDataSoureHP.Rows[j]["ID_LOPHOCPHAN"].ToString()))
-                                {
-                                    iGridDataSoureHP.Rows[j]["CHK"] = "True";
-                                }
+                                iGridDataSoureHP.Rows[j]["CHK"] = "True";
                             }
                         }
                     }
-                    #endregion
-                    grdLopHP.ItemsSource = iGridDataSoureHP;
                 }
-              
+                #endregion
+                grdLopHP.ItemsSource = iGridDataSoureHP;
+
             }
             catch (Exception ex)
             {
@@ -831,13 +736,13 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Wait;
                 if (this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Vui lòng nhập mã sinh viên. Và bấm xem học phần đã đăng ký."+"\n"+"Rồi thực hiện đăng đăng ký học phần", "Thông báo", "",CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Vui lòng nhập mã sinh viên. Và bấm xem học phần đã đăng ký." + "\n" + "Rồi thực hiện đăng đăng ký học phần", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                     txtMASV.Focus();
                     return;
                 }
                 if (this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString() == "0" || this.iDataSoure.Rows[0]["ID_SINHVIEN"].ToString() == string.Empty)
                 {
-                    CTMessagebox.Show("Không tìm thấy sinh viên có mã này trong hệ thống."+"\n"+"Vui lòng kiểm tra lại.!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
+                    CTMessagebox.Show("Không tìm thấy sinh viên có mã này trong hệ thống." + "\n" + "Vui lòng kiểm tra lại.!", "Thông báo", "", CTICON.Information, CTBUTTON.YesNo);
                     txtMASV.Focus();
                     return;
                 }
@@ -894,12 +799,12 @@ namespace DATN.TTS.TVMH
                 if (iGridDataSoureHPDK.Rows.Count > 0)
                 {
                     DataTable dt = null;
-                    DataRow[]check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).ToArray();
+                    DataRow[] check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") == "True") select temp).ToArray();
                     if (check.Count() > 0)
                     {
                         dt = check.CopyToDataTable();
                     }
-                    if (dt != null&&dt.Rows.Count > 0)
+                    if (dt != null && dt.Rows.Count > 0)
                     {
 
                         bool res = DangKyHocPhan.Insert_DangKyHuy(dt.Copy(), UserCommon.UserName);
@@ -925,7 +830,6 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        //Check nếu uncheck trên grid
         DataTable UncheckGrid(int idlophocphan, DataTable dtTable)
         {
             DataTable dt = dtTable.Clone();
@@ -959,7 +863,6 @@ namespace DATN.TTS.TVMH
         }
 
         private void GrdViewLopHP_OnCellValueChanged(object sender, CellValueChangedEventArgs e)
-        
         {
             #region CheckGrid
             try
@@ -991,7 +894,7 @@ namespace DATN.TTS.TVMH
                                         grdLopHP.ItemsSource = iGridDataSoureHP;
                                         return;
                                     }
-                                } 
+                                }
                                 #endregion
                                 DataRow r = iGridDataSoureHPDK.NewRow();
                                 r["ID_DANGKY"] = 0;
@@ -1050,7 +953,8 @@ namespace DATN.TTS.TVMH
                                         int xxx = Convert.ToInt32(dt.Rows[0]["ID_LOPHOCPHAN"].ToString());
                                         var tempdata =
                                             (from tempz in iGridDataSoureHPDK.AsEnumerable()
-                                                    .Where(t => t.Field<int>("ID_LOPHOCPHAN") != xxx)select tempz).ToArray();
+                                                    .Where(t => t.Field<int>("ID_LOPHOCPHAN") != xxx)
+                                             select tempz).ToArray();
                                         if (tempdata.Count() > 0)
                                         {
                                             iGridDataSoureHPDK = tempdata.CopyToDataTable();
@@ -1148,18 +1052,20 @@ namespace DATN.TTS.TVMH
             #endregion
         }
 
-        private void CboMonHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        private void CboKhoa_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (this.iDataSoure.Rows[0]["ID_MONHOC"].ToString() != string.Empty)
+                cboNganh.ItemsSource = null;
+                cboMonHoc.ItemsSource = null;
+                if (this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString() != string.Empty)
                 {
-                    idMonHoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_MONHOC"].ToString());
-                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
+                    idkhoahoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString());
+                    SetComBoNganh(idkhoahoc);
+                    CboNganh_OnEditValueChanged(null, null);
+                    LoadGridLopHocPhan();
                 }
-                iGridDataSoureHP.Columns.Add("CHK");
-                grdLopHP.ItemsSource = iGridDataSoureHP;
             }
             catch (Exception ex)
             {
@@ -1171,22 +1077,63 @@ namespace DATN.TTS.TVMH
             }
         }
 
-        private void CboThu_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        private void CboNganh_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                if (this.iDataSoure.Rows[0]["THU"].ToString() != string.Empty)
+                cboMonHoc.ItemsSource = null;
+                if (this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString() != string.Empty &&
+                    this.iDataSoure.Rows[0]["ID_NGANH"].ToString() != string.Empty)
                 {
-                    idthu = Convert.ToInt32(this.iDataSoure.Rows[0]["THU"].ToString());
-                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
+                    idkhoahoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_KHOAHOC"].ToString());
+                    idnganh = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_NGANH"].ToString());
                 }
-                else
+                SetComboMonHoc(idkhoahoc, idnganh);
+                LoadGridLopHocPhan();
+            }
+            catch (Exception ex)
+            {
+                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void CboMonHoc_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (this.iDataSoure.Rows[0]["ID_MONHOC"].ToString() != string.Empty)
                 {
-                    iGridDataSoureHP = DangKyHocPhan.GetDanhSach(idMonHoc, idthu);
+                    if (iGridDataSoureHP != null && iGridDataSoureHP.Rows.Count > 0)
+                    {
+                        idmonhoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_MONHOC"].ToString());
+                        if (iGridDataSoureHP.Rows.Count > 0)
+                        {
+                            if (idmonhoc != 0)
+                            {
+                                var temp =
+                                    (from data in
+                                        iGridDataSoureHP.AsEnumerable()
+                                            .Where(t => t.Field<int>("ID_MONHOC") == idmonhoc)
+                                        select data).ToList();
+                                if (temp.Count > 0)
+                                {
+                                    DataTable dt = temp.CopyToDataTable();
+                                    grdLopHP.ItemsSource = dt;
+                                }
+                            }
+                            else
+                            {
+                                grdLopHP.ItemsSource = iGridDataSoureHP;
+                            }
+                        }
+                    }
                 }
-                iGridDataSoureHP.Columns.Add("CHK");
-                grdLopHP.ItemsSource = iGridDataSoureHP;
             }
             catch (Exception ex)
             {
@@ -1206,7 +1153,6 @@ namespace DATN.TTS.TVMH
                 if (this.iDataSoure.Rows[0]["ID_LOPHOC"].ToString() != string.Empty)
                 {
                     idLopHoc = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_LOPHOC"].ToString());
-                    SetComboMonHoc(idLopHoc);
                 }
             }
             catch (Exception ex)
@@ -1218,138 +1164,267 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-
+        
         private void BtnXuatPhieu_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (File.Exists(@"D:\DataExport") == false)
-                {
-                    Directory.CreateDirectory(@"D:\DataExport");
-                }
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
-                DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
-                options.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Value;
-                options.ExportMode = DevExpress.XtraPrinting.XlsExportMode.SingleFile;
-                //((TableView)grDanhSachDK.View).ExportToXls(@"D:\DataExport\DanhSachDangKy.xls", options);
-                ((TableView)grDanhSachDK.View).ExportToXlsx(@"D:\DataExport\DanhSachDangKy.xlsx");
-                sw.Stop();
-                CTMessagebox.Show("File đã được lưu trên D:DataExport");
+                Mouse.OverrideCursor = Cursors.Wait;
+                XuatThoiKhoaBieu();
             }
             catch (Exception ex)
             {
                 CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
             }
-        }
-        
-        #region Bỏ
-        //void SetComboHDT()
-        //{
-        //    try
-        //    {
-        //        DataTable dt = client.GetAllHDT();
-        //        //cboHDT.ItemsSource = dt;
-        //        if (dt.Rows.Count > 0)
-        //            this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = cboHDT.GetKeyValue(0);
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-        //} 
-
-        //void EnableGroupBox()
-        //{
-        //    if (RbdCheckAll.IsChecked == true)
-        //    {
-        //        GroupBoxKhoaNganh.IsEnabled = false;
-        //        GroupBoxMonHoc_Ngay.IsEnabled = false;
-        //    }
-        //}
-
-        private void CboHDT_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
-        {
-            try
+            finally
             {
-                Mouse.OverrideCursor = Cursors.Wait;
-                cboLopHoc.ItemsSource = null;
-                //cboNganh.ItemsSource = null;
-                CboKhoa.ItemsSource = null;
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
 
-                if (this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString() != string.Empty)
+        void XuatThoiKhoaBieu()
+        {
+            Excel.Application excels = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Workbooks workbook = null;
+            Excel.Workbook oBook = null;
+            Excel.Worksheet worksheet = null;
+            Excel.Borders boders = null;
+            System.Drawing.Color background = System.Drawing.Color.FromArgb(0, 176, 240);
+            excels.Application.SheetsInNewWorkbook = 1;
+            workbook = excels.Workbooks;
+            oBook = (Excel.Workbook)(excels.Workbooks.Add(Type.Missing));
+            worksheet = oBook.Worksheets[1];
+            worksheet.Name = "ThoiKhoaBieu";
+            worksheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+            Excel.Range headRange = worksheet.get_Range("B1", "D1");
+
+            #region Title
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.ColumnWidth = 35;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "BỘ CÔNG THƯƠNG";
+            headRange.Font.Size = 11;
+
+            headRange = worksheet.get_Range("B2", "D2");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 35;
+            headRange.ColumnWidth = 43;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP THỰC PHẨM";
+            headRange.Font.Size = 10;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("E1", "K1");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
+            headRange.Font.Size = 11;
+
+            headRange = worksheet.get_Range("E2", "K2");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Độc lập - Tự do - Hạnh phúc";
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+
+            headRange = worksheet.get_Range("E4", "H4");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "PHIẾU ĐĂNG KÝ MÔN HỌC";
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("C5", "D5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "MSSV:  " + _MaSinhVien;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("E5", "F5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Sinh viên:  " + _SinhVien;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("G5", "H5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 30;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Lớp:   " + _Lop;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("I5", "J5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Hệ đào tạo:   " + _HeDaoTao;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("D6", "E6");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Khóa học:   " + _KhoaHoc;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("G6", "I6");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Ngành học:   " + _Nganh;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+            #endregion
+
+            #region Header
+
+            worksheet.Range["B8:K9"].Interior.Color = background;
+            headRange = worksheet.get_Range("B8", "K9");
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+
+            headRange = worksheet.get_Range("B8", "B9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 3;
+            headRange.Value = "STT";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("C8", "C9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Mã môn học";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("D8", "D9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Tên môn học";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("E8", "E9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Mã học phần";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("F8", "F9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Tên học phần";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("G8", "G9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "STC";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("H8", "H9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 25;
+            headRange.Value = "Học phí/TC";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("I8", "I9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Học phí";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("J8", "J9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Ngày đăng ký";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("K8", "K9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Ghi chú";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            #endregion
+
+            #region design table
+
+            headRange = worksheet.get_Range("A1", "Z6");
+            headRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headRange.VerticalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("A5", "Z6");
+            headRange.WrapText = true;
+            //headRange.Font.Size = 10;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("K6", "X6");
+            headRange.Font.Bold = false;
+
+            #endregion
+
+            #region
+            if (iGridDataSoureHPDK != null && iGridDataSoureHPDK.Rows.Count > 0)
+            {
+                int row = 0;
+                int col = 0;
+                for (int i = 0; i < iGridDataSoureHPDK.Rows.Count; i++)
                 {
-                    int pid = Convert.ToInt32(this.iDataSoure.Rows[0]["ID_HE_DAOTAO"].ToString());
-                    idHedaoTao = pid;
-                    DataTable dt = client.GetAllKhoaHoc(pid);
-                    if (dt.Rows.Count > 0)
+                    worksheet.Cells[(i + 10), 2] = i + 1;
+                    row = i + 10;
+                    for (int j = 0; j < iGridDataSoureHPDK.Columns.Count - 7; j++)
                     {
-                        ComboBoxUtil.SetComboBoxEdit(CboKhoa, "TEN_KHOAHOC", "ID_KHOAHOC", dt, SelectionTypeEnum.Native);
-                        //ComboBoxUtil.InsertItem(CboKhoa, "-----------------Tất cả--------------------", "0", 0, false);
-                        this.iDataSoure.Rows[0]["ID_KHOAHOC"] = CboKhoa.GetKeyValue(0);
+                        worksheet.Cells[(i + 10), (j + 3)] = iGridDataSoureHPDK.Rows[i][j];
+                        if ((i + 10) < (iGridDataSoureHPDK.Rows.Count + 9))
+                        {
+                            headRange = worksheet.get_Range("B" + row, "K" + row);
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
                     }
-                    //iGridDataSoureHP = DangKyHocPhan.GetLopHocPhan(idHedaoTao, idMonHoc, idthu, idLopHoc);
-                    iGridDataSoureHP.Columns.Add("CHK");
-                    grdLopHP.ItemsSource = iGridDataSoureHP;
+                }
+                if (row != 0)
+                {
+                    headRange = worksheet.get_Range("B10", "K" + row);
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
                 }
             }
-            catch (Exception ex)
-            {
-                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-        private void RbdCheckAll_OnChecked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                GroupBoxKhoaNganh.IsEnabled = false;
-                GroupBoxMonHoc_Ngay.IsEnabled = false;
-                //cboHDT.ItemsSource = null;
-                cboLopHoc.ItemsSource = null;
-                cboMonHoc.ItemsSource = null;
-                //cboNganh.ItemsSource = null;
-                cboThu.ItemsSource = null;
-                CboKhoa.ItemsSource = null;
-
-                iGridDataSoureHP = DangKyHocPhan.GetLopHP();
-                iGridDataSoureHP.Columns.Add("CHK");
-                grdLopHP.ItemsSource = iGridDataSoureHP;
-            }
-            catch (Exception ex)
-            {
-                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            #endregion
+            excels.Application.Visible = true;
         }
 
-        private void RdbCheck_OnChecked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
-                GroupBoxKhoaNganh.IsEnabled = true;
-                GroupBoxMonHoc_Ngay.IsEnabled = true;
-                //SetComboHDT();
-                //SetComboMonHoc();
-                SetComBoThu();
-            }
-            catch (Exception ex)
-            {
-                CTMessagebox.Show("Lỗi", "Lỗi", ex.Message, CTICON.Error, CTBUTTON.OK);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-        #endregion
-   }
+     }
 }

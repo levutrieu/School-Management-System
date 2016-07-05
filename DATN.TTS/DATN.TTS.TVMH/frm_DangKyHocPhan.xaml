@@ -64,34 +64,22 @@
                         <RowDefinition Height="28"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="0.6*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="0.6*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="0.6*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="0.6*"/>
                     </Grid.ColumnDefinitions>
-                    <!--<TextBlock Grid.Row="0" Grid.Column="1" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
-                              EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboHDT_OnEditValueChanged"
-                              ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>-->
-
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Khóa:" Style="{StaticResource TextBlockStyle}"/>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1"  Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
                               EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC"
                               EditValueChanged="CboKhoa_OnEditValueChanged"/>
 
-                    <!--<TextBlock Grid.Row="0" Grid.Column="5" Text="Ngành:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Ngành:" Style="{StaticResource TextBlockStyle}"/>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
                               EditValue="{Binding ID_NGANH, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_NGANH" DisplayMember="TEN_NGANH"
-                              EditValueChanged="CboNganh_OnEditValueChanged"/>-->
+                              EditValueChanged="CboNganh_OnEditValueChanged"/>
                     
-                    <TextBlock Grid.Row="0" Grid.Column="5" Text="Lớp học:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboLopHoc" EditValueChanged="CboLopHoc_OnEditValueChanged"
-                              EditValue="{Binding ID_LOPHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_LOPHOC" DisplayMember="TEN_LOP"/>
+                    
                 </Grid>
             </GroupBox>
             
@@ -110,9 +98,9 @@
                     <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboMonHoc"
                               EditValue="{Binding ID_MONHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_MONHOC" DisplayMember="TEN_MONHOC"
                               EditValueChanged="CboMonHoc_OnEditValueChanged"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Lọc theo ngày học:" Style="{StaticResource TextBlockStyle}"/>
-                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboThu" EditValueChanged="CboThu_OnEditValueChanged"
-                              EditValue="{Binding THU, UpdateSourceTrigger=PropertyChanged}" ValueMember="THU" DisplayMember="NGAY"/>
+                    <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="Lớp học:" Style="{StaticResource TextBlockStyle}"/>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="cboLopHoc" EditValueChanged="CboLopHoc_OnEditValueChanged"
+                              EditValue="{Binding ID_LOPHOC, UpdateSourceTrigger=PropertyChanged}" ValueMember="ID_LOPHOC" DisplayMember="TEN_LOP"/>-->
                 </Grid>
                 </GroupBox>
         </Grid>
