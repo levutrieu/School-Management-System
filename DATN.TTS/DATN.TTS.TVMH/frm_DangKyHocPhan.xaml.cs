@@ -149,10 +149,11 @@ namespace DATN.TTS.TVMH
                 DataTable dt = new DataTable();
                 Dictionary<string, Type> dic =new Dictionary<string, Type>();
                 dic.Add("ID_DANGKY", typeof(Decimal));
-                dic.Add("MA_LOP_HOCPHAN", typeof(string));
                 dic.Add("MA_MONHOC", typeof(string));
                 dic.Add("TEN_MONHOC", typeof(string));
                 dic.Add("ID_LOPHOCPHAN", typeof(int));
+                dic.Add("MA_LOP_HOCPHAN", typeof(string));
+                dic.Add("TEN_LOP_HOCPHAN", typeof(string));
                 dic.Add("ID_THAMSO", typeof(Decimal));
                 dic.Add("ID_SINHVIEN", typeof(Decimal));
                 dic.Add("NGAY_DANGKY", typeof(DateTime));
@@ -465,8 +466,7 @@ namespace DATN.TTS.TVMH
                 col.Width = 90;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
-                col.Visible = true;
-                
+                col.Visible = false;
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -476,7 +476,6 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
                 col.EditSettings = new TextEditSettings();
                 col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
                 grDanhSachDK.Columns.Add(col);
@@ -488,7 +487,26 @@ namespace DATN.TTS.TVMH
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.False;
                 col.Visible = true;
-                
+                grDanhSachDK.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "MA_LOP_HOCPHAN";
+                col.Header = "Mã học phần";
+                col.Width = 150;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
+                col.EditSettings = new TextEditSettings();
+                col.EditSettings.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                grDanhSachDK.Columns.Add(col);
+
+                col = new GridColumn();
+                col.FieldName = "TEN_LOP_HOCPHAN";
+                col.Header = "Tên học phần";
+                col.Width = 250;
+                col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
+                col.AllowEditing = DefaultBoolean.False;
+                col.Visible = true;
                 grDanhSachDK.Columns.Add(col);
 
                 col = new GridColumn();
@@ -962,6 +980,7 @@ namespace DATN.TTS.TVMH
                             if (res)
                             {
 
+                                #region Check trung học phần
                                 foreach (DataRow dr in iGridDataSoureHPDK.Rows)
                                 {
                                     string temp = iGridDataSoureHP.Rows[index]["MA_MONHOC"].ToString().Trim();
@@ -972,12 +991,17 @@ namespace DATN.TTS.TVMH
                                         grdLopHP.ItemsSource = iGridDataSoureHP;
                                         return;
                                     }
-                                }
+                                } 
+                                #endregion
                                 DataRow r = iGridDataSoureHPDK.NewRow();
                                 r["ID_DANGKY"] = 0;
                                 r["MA_MONHOC"] = iGridDataSoureHP.Rows[index]["MA_MONHOC"];
                                 r["TEN_MONHOC"] = iGridDataSoureHP.Rows[index]["TEN_MONHOC"];
                                 r["ID_LOPHOCPHAN"] = iGridDataSoureHP.Rows[index]["ID_LOPHOCPHAN"];
+
+                                r["MA_LOP_HOCPHAN"] = iGridDataSoureHP.Rows[index]["MA_LOP_HOCPHAN"];
+                                r["TEN_LOP_HOCPHAN"] = iGridDataSoureHP.Rows[index]["TEN_LOP_HOCPHAN"];
+
                                 r["ID_THAMSO"] = 0;
                                 r["ID_SINHVIEN"] = this.iDataSoure.Rows[0]["ID_SINHVIEN"];
                                 r["NGAY_DANGKY"] = System.DateTime.Now;
@@ -1086,6 +1110,10 @@ namespace DATN.TTS.TVMH
                             r["MA_MONHOC"] = iGridDataSoureHP.Rows[index]["MA_MONHOC"];
                             r["TEN_MONHOC"] = iGridDataSoureHP.Rows[index]["TEN_MONHOC"];
                             r["ID_LOPHOCPHAN"] = iGridDataSoureHP.Rows[index]["ID_LOPHOCPHAN"];
+
+                            r["MA_LOP_HOCPHAN"] = iGridDataSoureHP.Rows[index]["MA_LOP_HOCPHAN"];
+                            r["TEN_LOP_HOCPHAN"] = iGridDataSoureHP.Rows[index]["TEN_LOP_HOCPHAN"];
+
                             r["ID_THAMSO"] = 0;
                             r["ID_SINHVIEN"] = this.iDataSoure.Rows[0]["ID_SINHVIEN"];
                             r["NGAY_DANGKY"] = System.DateTime.Now;
