@@ -25,7 +25,7 @@ using DevExpress.Xpf.Grid;
 using DevExpress.XtraSpreadsheet;
 using Color = System.Drawing.Color;
 using Range = DevExpress.Spreadsheet.Range;
-
+using Excel = Microsoft.Office.Interop.Excel;
 namespace DATN.TTS.TVMH
 {
     /// <summary>
@@ -41,6 +41,7 @@ namespace DATN.TTS.TVMH
         DateTime ngaytem;
         private string datetemp = "";
         private int id_hocky_htai = 0;
+        private DataTable iDataSource = null;
 
         public frm_ThoiKhoaBieuSinhVien()
         {
@@ -676,7 +677,12 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-
+        private string _MaSinhVien = "";
+        private string _SinhVien = "";
+        private string _Lop = "";
+        private string _Nganh = "";
+        private string _HeDaoTao = "";
+        private string _KhoaHoc = "";
         private void BtnIN_TKB_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -692,6 +698,251 @@ namespace DATN.TTS.TVMH
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
+        }
+
+        void XuatThoiKhoaBieu()
+        {
+            Excel.Application excels = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Workbooks workbook = null;
+            Excel.Workbook oBook = null;
+            Excel.Worksheet worksheet = null;
+            Excel.Borders boders = null;
+            System.Drawing.Color background = System.Drawing.Color.FromArgb(0, 176, 240);
+            excels.Application.SheetsInNewWorkbook = 1;
+            workbook = excels.Workbooks;
+            oBook = (Excel.Workbook)(excels.Workbooks.Add(Type.Missing));
+            worksheet = oBook.Worksheets[1];
+            worksheet.Name = "ThoiKhoaBieu";
+            worksheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+            Excel.Range headRange = worksheet.get_Range("B1", "D1");
+
+            #region Title
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.ColumnWidth = 35;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "BỘ CÔNG THƯƠNG";
+            headRange.Font.Size = 11;
+
+            headRange = worksheet.get_Range("B2", "D2");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 35;
+            headRange.ColumnWidth = 43;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP THỰC PHẨM";
+            headRange.Font.Size = 10;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("E1", "K1");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
+            headRange.Font.Size = 11;
+
+            headRange = worksheet.get_Range("E2", "K2");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Độc lập - Tự do - Hạnh phúc";
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+
+            headRange = worksheet.get_Range("E4", "H4");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "PHIẾU ĐĂNG KÝ MÔN HỌC";
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("C5", "D5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "MSSV:  " + _MaSinhVien;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("E5", "F5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Sinh viên:  " + _SinhVien;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("G5", "H5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            //headRange.ColumnWidth = 30;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Lớp:   " + _Lop;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("I5", "J5");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Hệ đào tạo:   " + _HeDaoTao;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("D6", "E6");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Khóa học:   " + _KhoaHoc;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("G6", "I6");
+            headRange.MergeCells = true;
+            headRange.Resize.RowHeight = 18;
+            headRange.ColumnWidth = 25;
+            headRange.Font.Name = "Times New Roman";
+            headRange.Value = "Ngành học:   " + _Nganh;
+            headRange.Font.Size = 11;
+            headRange.Font.Bold = true;
+            #endregion
+
+            #region Header
+
+            worksheet.Range["B8:K9"].Interior.Color = background;
+            headRange = worksheet.get_Range("B8", "K9");
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            headRange.Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+
+            headRange = worksheet.get_Range("B8", "B9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 3;
+            headRange.Value = "STT";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("C8", "C9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Mã môn học";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("D8", "D9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Tên môn học";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("E8", "E9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Mã học phần";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("F8", "F9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Tên học phần";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("G8", "G9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "STC";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("H8", "H9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 25;
+            headRange.Value = "Học phí/TC";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("I8", "I9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Học phí";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("J8", "J9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 20;
+            headRange.Value = "Ngày đăng ký";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("K8", "K9");
+            headRange.MergeCells = true;
+            headRange.ColumnWidth = 15;
+            headRange.Value = "Ghi chú";
+            headRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            headRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            #endregion
+
+            #region design table
+
+            headRange = worksheet.get_Range("A1", "Z6");
+            headRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headRange.VerticalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            headRange = worksheet.get_Range("A5", "Z6");
+            headRange.WrapText = true;
+            //headRange.Font.Size = 10;
+            headRange.Font.Bold = true;
+
+            headRange = worksheet.get_Range("K6", "X6");
+            headRange.Font.Bold = false;
+
+            #endregion
+
+            #region
+            DataTable dt = new DataTable();
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                int row = 0;
+                int col = 0;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    worksheet.Cells[(i + 10), 2] = i + 1;
+                    row = i + 10;
+                    for (int j = 0; j < dt.Columns.Count - 7; j++)
+                    {
+                        worksheet.Cells[(i + 10), (j + 3)] = dt.Rows[i][j];
+                        if ((i + 10) < (dt.Rows.Count + 9))
+                        {
+                            headRange = worksheet.get_Range("B" + row, "K" + row);
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                            headRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
+                    }
+                }
+                if (row != 0)
+                {
+                    headRange = worksheet.get_Range("B10", "K" + row);
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                    headRange.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                }
+            }
+            #endregion
+            excels.Application.Visible = true;
         }
     }
 }
