@@ -174,6 +174,8 @@ namespace DATN.TTS.BUS
                                dkhp.ID_THAMSO,
                                mh.MA_MONHOC,
                                mh.TEN_MONHOC,
+                               hp.MA_LOP_HOCPHAN,
+                               hp.TEN_LOP_HOCPHAN,
                                dkhp.NGAY_DANGKY,
                                dkhp.GIO_DANGKY,
                                mh.SO_TC,
