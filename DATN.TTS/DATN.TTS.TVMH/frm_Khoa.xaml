@@ -61,7 +61,7 @@
                             <dxe:TextEdit Grid.Row="0" Grid.Column="4" Name="txtTenKhoa" Style="{StaticResource TextEditStyle}" EditValue="{Binding TEN_KHOA}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="Điện thoại:" Style="{StaticResource TextBlockStyle}"/>
-                            <dxe:TextEdit Grid.Row="0" Grid.Column="6" Name="txtDT" EditValue="{Binding DIENTHOAI}" Style="{StaticResource TextEditStyle}" MaskType="Numeric"/>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="6" Name="txtDT" EditValue="{Binding DIENTHOAI}" Style="{StaticResource TextEditStyle}" MaskType="Numeric" Mask="#############"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="7" Text="Mail:" Style="{StaticResource TextBlockStyle}"/>
                             <dxe:TextEdit Grid.Row="0" Grid.Column="8" Name="txtMail" EditValue="{Binding EMAIL}" Style="{StaticResource TextEditStyle}"/>

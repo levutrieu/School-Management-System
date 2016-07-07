@@ -348,5 +348,21 @@ namespace DATN.TTS.TVMH
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
+
+        private void CheckEdit_OnChecked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow r in iGridDataSoure.Rows)
+            {
+                r["CHK"] = "True";
+            }
+        }
+
+        private void CheckEdit_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow r in iGridDataSoure.Rows)
+            {
+                r["CHK"] = "False";
+            }
+        }
     }
 }

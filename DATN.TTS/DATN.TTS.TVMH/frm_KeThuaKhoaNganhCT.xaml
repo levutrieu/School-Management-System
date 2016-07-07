@@ -10,11 +10,16 @@
         ShowInTaskbar="False"
         Icon="Images/user.ico"
         SizeToContent="Height">
+    <Window.Resources>
+        <DataTemplate x:Key="ReadOnlyHeaderTemplate">
+            <dxe:CheckEdit Name="checkAll" IsReadOnly="{Binding Column.CHK, Mode=TwoWay}" Checked="CheckAll_OnChecked"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="28"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="400"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -25,6 +30,10 @@
             </StackPanel>
         </Border>
         <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="25"/>
+                <RowDefinition  Height="25"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0.4*"/>
@@ -33,20 +42,23 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0.7*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:ComboBoxEdit Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Hệ đào tạo:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxEditStyle}" Name="cboHDT"
                               EditValue="{Binding ID_HE_DAOTAO, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboHDT_OnEditValueChanged"
                               ValueMember="ID_HE_DAOTAO" DisplayMember="TEN_HE_DAOTAO" AutoComplete="True"/>
 
-            <TextBlock Grid.Column="2" Text="Chọn khóa:" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:ComboBoxEdit Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Chọn khóa:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxEditStyle}" Name="CboKhoa"
                               EditValue="{Binding ID_KHOAHOC, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboKhoa_OnEditValueChanged"
                               ValueMember="ID_KHOAHOC" DisplayMember="TEN_KHOAHOC" AutoComplete="True"/>
 
-            <TextBlock Grid.Column="4" Text="Chọn ngành:" Style="{StaticResource TextBlockStyle}"/>
-            <dxe:ComboBoxEdit Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
+            <TextBlock Grid.Row="0" Grid.Column="4" Text="Chọn ngành:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="5" Style="{StaticResource ComboBoxEditStyle}" Name="cboNganh"
                               EditValue="{Binding ID_NGANH, UpdateSourceTrigger=PropertyChanged}" EditValueChanged="CboNganh_OnEditValueChanged"
                               ValueMember="ID_NGANH" DisplayMember="TEN_NGANH" AutoComplete="True"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Chọn tất cả:" Style="{StaticResource TextBlockStyle}"/>
+            <dxe:CheckEdit Grid.Row="1" Grid.Column="1" Style="{StaticResource CheckBoxStyle}" HorizontalAlignment="Left" 
+                           Checked="CheckEdit_OnChecked" Unchecked="CheckEdit_OnUnchecked"/>
         </Grid>
         <Grid Grid.Row="3" Grid.RowSpan="2">
             <dxg:GridControl AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grdKhoaNganhCT"

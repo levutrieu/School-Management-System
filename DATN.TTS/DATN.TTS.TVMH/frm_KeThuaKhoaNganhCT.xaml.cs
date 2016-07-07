@@ -72,13 +72,13 @@ namespace DATN.TTS.TVMH
             {
                 GridColumn col;
                 col = new GridColumn();
-                col.FieldName = "CHK";
+                //col.FieldName = "CHK";
                 col.Header = "Chọn";
                 col.Width = 100;
                 col.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
                 col.AllowEditing = DefaultBoolean.True;
                 col.Visible = true;
-                
+                col.HeaderCustomizationAreaTemplate = (DataTemplate)this.Resources["ReadOnlyHeaderTemplate"];
                 col.EditSettings = new CheckEditSettings();
                 col.UnboundType = UnboundColumnType.Boolean;
                 col.EditSettings.HorizontalContentAlignment =
@@ -431,6 +431,27 @@ namespace DATN.TTS.TVMH
             finally
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void CheckEdit_OnChecked(object sender, RoutedEventArgs e)
+        {
+         
+        }
+
+        private void CheckEdit_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow r in iGridDataSoure.Rows)
+            {
+                r["CHK"] = "False";
+            }
+        }
+
+        private void CheckAll_OnChecked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow r in iGridDataSoure.Rows)
+            {
+                r["CHK"] = "True";
             }
         }
     }
