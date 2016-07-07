@@ -724,9 +724,10 @@ namespace DATN.TTS.TVMH
 
                     #endregion
 
+                     
                     #region Tao tree
 
-                    for (int i = 0; i < iDataXet.Rows.Count; i++)
+                  for (int i = 0; i < iDataXet.Rows.Count; i++)
                     {
                         for (int j = 0; j < 4; j++)
                         {
@@ -769,6 +770,7 @@ namespace DATN.TTS.TVMH
                     for (int i = 0; i < Examples.Count; i++)
                     {
                         int check = 0;
+                     
                         foreach (double value in ds_tmp)
                         {
                             if (Examples[i][Examples[i].Count - 1] == value)

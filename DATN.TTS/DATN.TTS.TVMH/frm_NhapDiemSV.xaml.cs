@@ -1292,10 +1292,19 @@ namespace DATN.TTS.TVMH
                 DataTable dtExcel = exceldata(filename);
                 dtExcel.Columns.Add("ID_SINHVIEN", typeof(decimal));
                 dtExcel.Columns.Add("ID_LOPHOCPHAN", typeof(decimal));
+                dtExcel.Columns.Add("MA_LOP_HOCPHAN", typeof (string));
+                dtExcel.Columns.Add("ID_DANGKY", typeof(int));
+                foreach (DataRow r in dtExcel.Rows)
+                {
+                    r["MA_LOP_HOCPHAN"] = r["f_mamhhtd"].ToString().Trim() +"-"+r["f_hockythu"].ToString().Trim() + "-12-1".Trim();
+                }
+
+                DataTable dt =dtExcel.AsEnumerable().GroupBy(t => t.Field<string>("MA_LOP_HOCPHAN")).Select(t => t.FirstOrDefault()).CopyToDataTable();
 
                 DataTable dtSV = sv.GetAllSinhVien();
                 DataTable dtDiemSV = diem.GetAll_DiemSV();
                 DataTable dtlhp = lhp.Getall_lopHocPhan();
+                DataTable hocphandangky = diem.GetAllHP_DangKy();
                 //if (dtDiemSV.Rows.Count == 0)
                 //{
                     //dtDiemSV.Columns.Add("ID_SINHVIEN", typeof(int));
@@ -1304,18 +1313,29 @@ namespace DATN.TTS.TVMH
                 DataTable dtNewInsert = dtExcel.Clone();
                 foreach (DataRow dr in dtExcel.Rows)
                 {
-                    string id_sinhvien =
-                        dtSV.Select("MA_SINHVIEN = '" + dr["f_masv"].ToString() + "'")[0]["ID_SINHVIEN"].ToString();
-                    string id_lhp = dtlhp.Select("MA_LOP_HOCPHAN = '" + dr["f_mamhhtd"].ToString() + "'")[0]["ID_LOPHOCPHAN"].ToString();
-                    if (IsCheck(dtDiemSV, id_sinhvien, id_lhp))
+                    string id_sinhvien =dtSV.Select("MA_SINHVIEN = '" + dr["f_masv"].ToString() + "'")[0]["ID_SINHVIEN"].ToString();
+                    DataRow[] r = dtlhp.Select("MA_LOP_HOCPHAN = '" + dr["MA_LOP_HOCPHAN"].ToString() + "'");
+                    if (r.Count() > 0)
                     {
-                        dr["ID_SINHVIEN"] = Convert.ToDecimal(id_sinhvien);
-                        dr["ID_LOPHOCPHAN"] = Convert.ToDecimal(id_lhp);
-                        dtNewInsert.ImportRow(dr);
-                        DataRow m = dtDiemSV.NewRow();
-                        m["ID_SINHVIEN"] = Convert.ToInt32(dr["ID_SINHVIEN"].ToString());
-                        m["ID_LOPHOCPHAN"] = Convert.ToInt32(dr["f_mamhhtd"].ToString());
-                        dtDiemSV.Rows.Add(m);
+                        string id_lhp = dtlhp.Select("MA_LOP_HOCPHAN = '" + dr["MA_LOP_HOCPHAN"].ToString() + "'")[0]["ID_LOPHOCPHAN"].ToString();
+                        DataRow[] xx = hocphandangky.Select("ID_LOPHOCPHAN =" + id_lhp.ToString().Trim() + "and ID_SINHVIEN =" + id_sinhvien.ToString().Trim());
+                        if (xx.Count() > 0)
+                        {
+                            string id_dangky =
+                                hocphandangky.Select("ID_LOPHOCPHAN =" + id_lhp.ToString().Trim() + "and ID_SINHVIEN =" +
+                                                     id_sinhvien.ToString().Trim())[0]["ID_DANGKY"].ToString();
+                            if (IsCheck(dtDiemSV, id_sinhvien, id_lhp))
+                            {
+                                dr["ID_SINHVIEN"] = Convert.ToDecimal(id_sinhvien);
+                                dr["ID_LOPHOCPHAN"] = Convert.ToDecimal(id_lhp);
+                                dr["ID_DANGKY"] = Convert.ToInt32(id_dangky);
+                                dtNewInsert.ImportRow(dr);
+                                DataRow m = dtDiemSV.NewRow();
+                                m["ID_SINHVIEN"] = Convert.ToInt32(dr["ID_SINHVIEN"].ToString());
+                                m["ID_LOPHOCPHAN"] = Convert.ToInt32(dr["ID_LOPHOCPHAN"].ToString());
+                                dtDiemSV.Rows.Add(m);
+                            }
+                        }
                     }
                 }
                 int isInsert = 0;
@@ -1349,7 +1369,7 @@ namespace DATN.TTS.TVMH
             return true;
         }
 
-        public DataTable exceldata(string filePath)
+        DataTable exceldata(string filePath)
         {
             DataTable dtexcel = new DataTable();
             bool hasHeaders = false;
@@ -1367,7 +1387,7 @@ namespace DATN.TTS.TVMH
                 string sheet = schemaRow["TABLE_NAME"].ToString();
                 if (!sheet.EndsWith("_"))
                 {
-                    string query = "SELECT f_mamhhtd,f_masv,f_diembt,f_diem1,f_diem2,f_diemtk1,f_diemch1,f_diemstk1 FROM [" + sheet + "] where f_mamhhtd in ('1200022-1-11-1','1201023-1-11-1', '1201023-1-11-2','1200001-1-11-1','1201002-1-11-1','18200013-1-11-1','19200004-1-11-1','1200003-1-11-1','19200001-1-11-1','18200001-1-11-1','1200006-2-11-1')";
+                    string query = "SELECT f_mamhhtd, f_namhoc0, f_namthu,f_hockythu ,f_masv,f_diembt,f_diem1,f_diem2,f_diemtk1,f_diemch1,f_diemstk1 FROM [" + sheet + "] where f_namthu = 1 and (f_hockythu = 1 or f_hockythu = 2)";
                     OleDbDataAdapter daexcel = new OleDbDataAdapter(query, conn);
                     dtexcel.Locale = CultureInfo.CurrentCulture;
                     daexcel.Fill(dtexcel);

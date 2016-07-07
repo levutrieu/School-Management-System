@@ -100,7 +100,6 @@ namespace DATN.TTS.TVMH
                 xcolumn.Visible = true;
                 xcolumn.Width = 10;
                 xcolumn.EditSettings = new CheckEditSettings();
-
                 grdUI.Columns.Add(xcolumn);
 
                 xcolumn = new GridColumn();
