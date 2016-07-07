@@ -85,6 +85,14 @@ namespace DATN.TTS.BUS
             }
         }
 
+        public DataTable GetAllHP_DangKy()
+        {
+            DataTable dt = null;
+            var hodk = from dk in db.tbl_HP_DANGKies select dk;
+            dt = TableUtil.LinqToDataTable(hodk);
+            return dt;
+        }
+
         public int InsertObject_Excel(DataTable idatasource, string pUser)
         {
             try
@@ -147,6 +155,7 @@ namespace DATN.TTS.BUS
                         DIEM_TONG = diemtk,
                         DIEM_HE4 = diemhe4,
                         DIEM_CHU = dr["f_diemch1"].ToString(),
+                        ID_DANGKY =  Convert.ToInt32(dr["ID_DANGKY"].ToString()),
                         CREATE_USER = pUser,
                         CREATE_TIME = DateTime.Now,
                     };
@@ -343,7 +352,7 @@ namespace DATN.TTS.BUS
                                         DIEM_TONG = (double?)diem.DIEM_TONG,
                                         DIEM_CHU = diem.DIEM_CHU,
                                         DIEM_HE4 = (double?)diem.DIEM_HE4,
-                                        hp.CACH_TINHDIEM
+                                        mh.CACH_TINHDIEM
                                     };
 
                 dt = TableUtil.LinqToDataTable(danhsachsvien);

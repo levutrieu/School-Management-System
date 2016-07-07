@@ -20,7 +20,7 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = new DataTable();
                 var lop = from l in db.tbl_LOPHOCs
-                    where l.IS_DELETE == 0
+                    where (l.IS_DELETE != 1 || l.IS_DELETE == null)
                     select new
                     {
                         l.ID_LOPHOC,
