@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -141,6 +142,61 @@ namespace DATN.TTS.BUS
             }
         }
 
+        //int GetThamSo()
+        //{
+        //    int res = 0;
+        //    var thamso = from 
+        //}
+        public DataTable GetALLSinhVien()
+        {
+            DataTable dt = null;
+            var sv = from svien in db.tbL_SINHVIENs select new {svien.ID_SINHVIEN, svien.MA_SINHVIEN};
+            dt = TableUtil.LinqToDataTable(sv);
+            return dt;
+        }
+
+        public bool Insert_HocPhanDK_All(DataTable iDataSoure, string pUser, int pID_SINHVIEN)
+        {
+            try
+            {
+                int count = 0;
+                foreach (DataRow r in iDataSoure.Rows)
+                {
+                    if (r["ID_DANGKY"].ToString().Equals("0"))
+                    {
+                        tbl_HP_DANGKY dkhp = new tbl_HP_DANGKY();
+                        dkhp.ID_THAMSO = 1;
+                        dkhp.ID_SINHVIEN = pID_SINHVIEN;
+                        dkhp.ID_LOPHOCPHAN = Convert.ToInt32(r["ID_LOPHOCPHAN"].ToString());
+                        dkhp.NGAY_DANGKY = DateTime.Now;
+                        dkhp.GIO_DANGKY = DateTime.Now.ToString("HH:mm:ss");
+                        dkhp.DON_GIA = Convert.ToDouble(r["DON_GIA"].ToString());
+                        dkhp.THANH_TIEN = Convert.ToDouble(r["THANH_TIEN"].ToString());
+                        dkhp.CREATE_USER = pUser;
+                        dkhp.SO_TC = Convert.ToInt32(r["SO_TC"].ToString());
+                        dkhp.CREATE_TIME = DateTime.Now;
+                        dkhp.IS_DELETE = 0;
+
+                        db.tbl_HP_DANGKies.InsertOnSubmit(dkhp);
+                        db.SubmitChanges();
+                        count++;
+                    }
+
+                }
+
+                if (count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+
         public bool Insert_HocPhanDK(DataTable iDataSoure, string pUser)
         {
             try
@@ -188,7 +244,7 @@ namespace DATN.TTS.BUS
             {
                 int id = 0;
                 var tbLSinhvien = (from idsv in db.tbL_SINHVIENs
-                                   where (idsv.IS_DELETE != 1 || idsv.IS_DELETE == null) && idsv.MA_SINHVIEN == pMASINHVIEN
+                                   where (idsv.IS_DELETE != 1 || idsv.IS_DELETE == null) && idsv.MA_SINHVIEN.Trim() == pMASINHVIEN
                                    select idsv).FirstOrDefault();
                 if (tbLSinhvien != null)
                 {
