@@ -37,7 +37,7 @@ namespace DATN.TTS.TVMH
             InitializeComponent();
             this.iDataSoure = TableSchemaBinding();
             this.DataContext = iDataSoure;
-            this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120021";
+            //this.iDataSoure.Rows[0]["MA_SINHVIEN"] = "2001120021";
             InitDiem();
         }
 
@@ -468,7 +468,7 @@ namespace DATN.TTS.TVMH
                     txtMASV.Focus();
                     return;
                 }
-                int idsinhvien = client.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
+                int idsinhvien = client.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString().Trim());
                 if (idsinhvien == 0)
                 {
                     CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!",
