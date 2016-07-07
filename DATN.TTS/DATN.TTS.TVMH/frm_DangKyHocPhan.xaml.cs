@@ -666,7 +666,7 @@ namespace DATN.TTS.TVMH
                     txtMASV.Focus();
                     return;
                 }
-                int idsinhvien = DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString());
+                int idsinhvien = DangKyHocPhan.GetIDSinhVien(this.iDataSoure.Rows[0]["MA_SINHVIEN"].ToString().Trim());
                 if (idsinhvien == 0)
                 {
                     CTMessagebox.Show("Không tìm thấy sinh viên này trong hệ thống!!" + "\n" + "Vui lòng thử lại.!!", "Thông báo", "", CTICON.Information, CTBUTTON.OK);
@@ -676,15 +676,18 @@ namespace DATN.TTS.TVMH
                 #endregion
                 this.iDataSoure.Rows[0]["ID_SINHVIEN"] = idsinhvien;
                 DataTable thongtin = DangKyHocPhan.GetThongTinSinhVien(idsinhvien);
-                _MaSinhVien = thongtin.Rows[0]["MA_SINHVIEN"].ToString();
-                _SinhVien = thongtin.Rows[0]["TEN_SINHVIEN"].ToString();
-                _Nganh = thongtin.Rows[0]["TEN_NGANH"].ToString();
-                _KhoaHoc = thongtin.Rows[0]["TEN_KHOAHOC"].ToString();
-                _Lop = thongtin.Rows[0]["TEN_LOP"].ToString();
-                _HeDaoTao = thongtin.Rows[0]["TEN_HE_DAOTAO"].ToString();
-                this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = thongtin.Rows[0]["ID_HE_DAOTAO"];
-                this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
-                this.iDataSoure.Rows[0]["ID_NGANH"] = thongtin.Rows[0]["ID_NGANH"];
+                if (thongtin.Rows.Count > 0)
+                {
+                    _MaSinhVien = thongtin.Rows[0]["MA_SINHVIEN"].ToString();
+                    _SinhVien = thongtin.Rows[0]["TEN_SINHVIEN"].ToString();
+                    _Nganh = thongtin.Rows[0]["TEN_NGANH"].ToString();
+                    _KhoaHoc = thongtin.Rows[0]["TEN_KHOAHOC"].ToString();
+                    _Lop = thongtin.Rows[0]["TEN_LOP"].ToString();
+                    _HeDaoTao = thongtin.Rows[0]["TEN_HE_DAOTAO"].ToString();
+                    this.iDataSoure.Rows[0]["ID_HE_DAOTAO"] = thongtin.Rows[0]["ID_HE_DAOTAO"];
+                    this.iDataSoure.Rows[0]["ID_KHOAHOC"] = thongtin.Rows[0]["ID_KHOAHOC"];
+                    this.iDataSoure.Rows[0]["ID_NGANH"] = thongtin.Rows[0]["ID_NGANH"];
+                }
                 #region
                 iGridDataSoureHPDK = DangKyHocPhan.GetLopHPDK(idsinhvien);
                 iGridDataSoureHPDK.Columns.Add("CHK");
@@ -1170,7 +1173,26 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                XuatThoiKhoaBieu();
+                DataTable hocdk = null;
+                DataRow[] check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).ToArray();
+                if (check.Count() > 0)
+                {
+                    hocdk = check.CopyToDataTable();
+                }
+                DataTable dt = DangKyHocPhan.GetALLSinhVien();
+                foreach (DataRow r in dt.Rows)
+                {
+                    bool res = DangKyHocPhan.Insert_HocPhanDK_All(hocdk.Copy(), r["MA_SINHVIEN"].ToString(), Convert.ToInt32(r["ID_SINHVIEN"].ToString()));
+                    if (res)
+                    {
+                        CTMessagebox.Show("Thanh cong");
+                    }
+                    else
+                    {
+                        CTMessagebox.Show("Loi");
+                    }
+                }
+                //XuatThoiKhoaBieu();
             }
             catch (Exception ex)
             {
