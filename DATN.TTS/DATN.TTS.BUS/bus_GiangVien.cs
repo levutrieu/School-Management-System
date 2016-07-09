@@ -43,9 +43,10 @@ namespace DATN.TTS.BUS
             try
             {
                 DataTable dt = new DataTable();
-                var gv = from g in db.tbl_GIANGVIENs where g.IS_DELETE == 0
-                    join k in db.tbl_KHOAs on g.ID_KHOA equals k.ID_KHOA where k.IS_DELETE == 0
-                    join cv in db.tbl_CHUCVUs on g.ID_CHUCVU equals cv.ID_CHUCVU where cv.IS_DELETE == 0
+                var gv = from g in db.tbl_GIANGVIENs
+                    //join k in db.tbl_KHOAs on g.ID_KHOA equals k.ID_KHOA where (k.IS_DELETE != 1 || k.IS_DELETE== null)
+                         join cv in db.tbl_CHUCVUs on g.ID_CHUCVU equals cv.ID_CHUCVU
+                         where (cv.IS_DELETE != 1 || cv.IS_DELETE == null) && ( g.IS_DELETE != 1 || g.IS_DELETE == null)
                     select new
                     {
                         g.ID_GIANGVIEN,
@@ -68,7 +69,7 @@ namespace DATN.TTS.BUS
                         g.DIENTHOAI,
                         g.EMAIL,
                         g.GHICHU,
-                        k.TEN_KHOA,
+                        //k.TEN_KHOA,
                         cv.TEN_CHUCVU
                     };
                 dt = TableUtil.LinqToDataTable(gv);
