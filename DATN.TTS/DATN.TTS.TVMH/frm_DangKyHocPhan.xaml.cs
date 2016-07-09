@@ -598,7 +598,8 @@ namespace DATN.TTS.TVMH
                         iDataID3 = iGridDataSoureHP.Clone();
                     }
                 }
-                frm_ID3 frm = new frm_ID3();
+                //frm_ID3 frm = new frm_ID3();
+                TestID3 frm = new TestID3();
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
             }
@@ -631,7 +632,8 @@ namespace DATN.TTS.TVMH
                         iDataID3 = iGridDataSoureHP.Clone();
                     }
                 }
-                frm_C45 frm = new frm_C45();
+                //frm_C45 frm = new frm_C45();
+                TestC45 frm = new TestC45();
                 frm.Owner = Window.GetWindow(this);
                 frm.ShowDialog();
             }
