@@ -118,7 +118,7 @@ namespace DATN.TTS.TVMH
             {
                 result = Math.Round((double)((bt * 0.2) + (gk * 0.3) + (ck * 0.5)), 2);
             }
-            if (cachtinh == "0-30-70")
+            if (cachtinh == "30-70")
             {
                 result = Math.Round((double)((gk * 0.3) + (ck * 0.7)), 2);
             }
@@ -712,7 +712,7 @@ namespace DATN.TTS.TVMH
                     }
                     this.iGridDataSource.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
                 }
-                if (cachtinh == "0-30-70")
+                if (cachtinh == "30-70")
                 {
                     if (Convert.ToDouble(r["DIEM_GK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_GK"].ToString()) > 10)
                     {
@@ -1215,7 +1215,7 @@ namespace DATN.TTS.TVMH
                     }
                     this.iGridDataSoureTheoSV.Rows[index]["DIEM_HE4"] = QuiDiemChu(r["DIEM_CHU"].ToString());
                 }
-                if (cachtinh == "0-30-70")
+                if (cachtinh == "30-70")
                 {
                     if (Convert.ToDouble(r["DIEM_GK"].ToString()) < 0 || Convert.ToDouble(r["DIEM_GK"].ToString()) > 10)
                     {
