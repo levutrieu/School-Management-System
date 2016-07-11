@@ -603,6 +603,7 @@ namespace DATN.TTS.BUS
                             equals new {ID_KHOAHOC_NGANH = kn.ID_KHOAHOC_NGANH}
                         join kh in db.tbl_KHOAHOCs on new {ID_KHOAHOC = Convert.ToInt32(kn.ID_KHOAHOC)} equals
                             new {ID_KHOAHOC = kh.ID_KHOAHOC}
+                        join hkht in db.tbl_NAMHOC_HKY_HTAIs on hp.ID_NAMHOC_HKY_HTAI equals hkht.ID_NAMHOC_HKY_HTAI
                         where
                             (dk.IS_DELETE != 1 ||
                              dk.IS_DELETE == null) &&
@@ -618,6 +619,7 @@ namespace DATN.TTS.BUS
                              kn.IS_DELETE == null) &&
                             (kh.IS_DELETE != 1 ||
                              kh.IS_DELETE == null) &&
+                             hkht.IS_HIENTAI == 1 &&
                             dk.ID_SINHVIEN == idsinhvien
                         select new
                         {
