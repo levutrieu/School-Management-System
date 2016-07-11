@@ -1175,25 +1175,25 @@ namespace DATN.TTS.TVMH
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                //DataTable hocdk = null;
-                //DataRow[] check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).ToArray();
-                //if (check.Count() > 0)
-                //{
-                //    hocdk = check.CopyToDataTable();
-                //}
-                //DataTable dt = DangKyHocPhan.GetALLSinhVien();
-                //foreach (DataRow r in dt.Rows)
-                //{
-                //    bool res = DangKyHocPhan.Insert_HocPhanDK_All(hocdk.Copy(), r["MA_SINHVIEN"].ToString(), Convert.ToInt32(r["ID_SINHVIEN"].ToString()));
-                //    if (res)
-                //    {
-                //        CTMessagebox.Show("Thanh cong");
-                //    }
-                //    else
-                //    {
-                //        CTMessagebox.Show("Loi");
-                //    }
-                //}
+                DataTable hocdk = null;
+                DataRow[] check = (from temp in iGridDataSoureHPDK.AsEnumerable().Where(t => t.Field<string>("CHK") != "True") select temp).ToArray();
+                if (check.Count() > 0)
+                {
+                    hocdk = check.CopyToDataTable();
+                }
+                DataTable dt = DangKyHocPhan.GetALLSinhVien();
+                foreach (DataRow r in dt.Rows)
+                {
+                    bool res = DangKyHocPhan.Insert_HocPhanDK_All(hocdk.Copy(), r["MA_SINHVIEN"].ToString(), Convert.ToInt32(r["ID_SINHVIEN"].ToString()));
+                    if (!res)
+                    //{
+                    //    CTMessagebox.Show("Thanh cong");
+                    //}
+                    //else
+                    {
+                        CTMessagebox.Show("Loi");
+                    }
+                }
                 XuatThoiKhoaBieu();
             }
             catch (Exception ex)
