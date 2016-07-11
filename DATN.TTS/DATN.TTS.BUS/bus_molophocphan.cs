@@ -493,9 +493,12 @@ namespace DATN.TTS.BUS
         public DataTable Getall_lopHocPhan()
         {
             var query = from d in db.tbl_LOP_HOCPHANs
+                        join hkht in db.tbl_NAMHOC_HKY_HTAIs on d.ID_NAMHOC_HKY_HTAI equals hkht.ID_NAMHOC_HKY_HTAI
                         where
-                          d.IS_DELETE != 1 ||
-                          d.IS_DELETE == null
+                         (d.IS_DELETE != 1 ||d.IS_DELETE == null)&&
+                         (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null)
+                         && hkht.IS_HIENTAI ==1
+
                         select new
                         {
                             d.ID_LOPHOCPHAN,
