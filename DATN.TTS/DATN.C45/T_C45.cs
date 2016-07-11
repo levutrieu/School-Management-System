@@ -63,6 +63,8 @@ namespace DATN.C45
             Attribute BestAttribute = GetBestAttribute(Examples, Attribute, bestat);
             int LocationBA = Attributes.IndexOf(BestAttribute);
             TreeNode Root = new TreeNode(BestAttribute);
+            Attribute.Remove(BestAttribute);
+            List<Attribute> tmp_Attribute = Attribute;
             for (int i = 0; i < BestAttribute.Value.Count; i++)
             {
                 List<List<double>> Examplesvi = new List<List<double>>();
@@ -74,14 +76,16 @@ namespace DATN.C45
                 if (Examplesvi.Count == 0)
                 {
                     Solution += "\n Các thuộc tính rỗng => Trả về nút gốc có giá trị phổ biến nhất ";
-                    return new TreeNode(new Attribute(GetMostCommonValue(Examples)));
+                    //return new TreeNode(new Attribute(GetMostCommonValue(Examples)));
+                    Root.AddNode( new TreeNode(new Attribute(GetMostCommonValue(Examples))));
                 }
                 else
                 {
                     Solution += "\n";
-                    Attribute.Remove(BestAttribute);
+                    //Attribute.Remove(BestAttribute);
                     Root.AddNode(ID3(Examplesvi, Attribute, BestAttribute.Value[i].ToString())); //diem
                 }
+                Attribute = tmp_Attribute;
             }
             return Root;
         }
