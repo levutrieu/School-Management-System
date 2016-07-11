@@ -150,7 +150,7 @@ namespace DATN.TTS.BUS
         public DataTable GetALLSinhVien()
         {
             DataTable dt = null;
-            var sv = from svien in db.tbL_SINHVIENs select new {svien.ID_SINHVIEN, svien.MA_SINHVIEN};
+            var sv = from svien in db.tbL_SINHVIENs where svien.ID_LOPHOC == 1 select new { svien.ID_SINHVIEN, svien.MA_SINHVIEN };
             dt = TableUtil.LinqToDataTable(sv);
             return dt;
         }
@@ -194,6 +194,27 @@ namespace DATN.TTS.BUS
             {
                 throw err;
             }
+        }
+
+        public int Insert_DangKy_Import(int idlophocphan, int pID_SINHVIEN, string pUser)
+        {
+            tbl_HP_DANGKY dkhp = new tbl_HP_DANGKY();
+            dkhp.ID_THAMSO = 1;
+            dkhp.ID_SINHVIEN = pID_SINHVIEN;
+            dkhp.ID_LOPHOCPHAN = idlophocphan;
+            dkhp.NGAY_DANGKY = DateTime.Now;
+            dkhp.GIO_DANGKY = DateTime.Now.ToString("HH:mm:ss");
+            //dkhp.DON_GIA = Convert.ToDouble(r["DON_GIA"].ToString());
+            //dkhp.THANH_TIEN = Convert.ToDouble(r["THANH_TIEN"].ToString());
+            dkhp.CREATE_USER = pUser;
+            //dkhp.SO_TC = Convert.ToInt32(r["SO_TC"].ToString());
+            dkhp.CREATE_TIME = DateTime.Now;
+            dkhp.IS_DELETE = 0;
+
+            db.tbl_HP_DANGKies.InsertOnSubmit(dkhp);
+            db.SubmitChanges();
+
+            return dkhp.ID_DANGKY;
         }
 
 
@@ -374,7 +395,7 @@ namespace DATN.TTS.BUS
             {
                 throw err;
             }
-        } 
+        }
 
         public int GetSSDK(int ID_LOPHOCPHAN)
         {
@@ -684,34 +705,34 @@ namespace DATN.TTS.BUS
             {
                 DataTable dt = null;
                 var dotdangkyhocphan = from dotDKHP in db.tbl_HP_DOTDKs
-                    join hkht in db.tbl_NAMHOC_HKY_HTAIs on
-                        new {ID_NAMHOC_HKY_HTAI = Convert.ToInt32(dotDKHP.ID_NAMHOC_HKY_HTAI)} equals
-                        new {ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI}
-                    join nhht in db.tbl_NAMHOC_HIENTAIs on
-                        new {ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI)} equals
-                        new {ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI}
-                    where
-                        (dotDKHP.ISDELETE != 1 ||
-                         dotDKHP.ISDELETE == null) &&
-                        (hkht.IS_DELETE != 1 ||
-                         hkht.IS_DELETE == null) &&
-                        hkht.IS_HIENTAI == 1 &&
-                        (nhht.IS_DELETE != 1 ||
-                         nhht.IS_DELETE == null) &&
-                        nhht.IS_HIENTAI == 1 &&
-                        Convert.ToDateTime(DateTime.Now) >= Convert.ToDateTime(dotDKHP.NGAY_BDAU) &&
-                        Convert.ToDateTime(DateTime.Now) <= Convert.ToDateTime(dotDKHP.NGAY_KTHUC) &&
-                        dotDKHP.ID_HE_DAOTAO == id_hedaotao
-                    select new
-                    {
-                        dotDKHP.ID_DOTDK,
-                        dotDKHP.ID_NAMHOC_HKY_HTAI,
-                        dotDKHP.ID_HE_DAOTAO,
-                        dotDKHP.MA_DOT_DK,
-                        dotDKHP.TEN_DOT_DK,
-                        dotDKHP.NGAY_BDAU,
-                        dotDKHP.NGAY_KTHUC
-                    };
+                                       join hkht in db.tbl_NAMHOC_HKY_HTAIs on
+                                           new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(dotDKHP.ID_NAMHOC_HKY_HTAI) } equals
+                                           new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
+                                       join nhht in db.tbl_NAMHOC_HIENTAIs on
+                                           new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals
+                                           new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
+                                       where
+                                           (dotDKHP.ISDELETE != 1 ||
+                                            dotDKHP.ISDELETE == null) &&
+                                           (hkht.IS_DELETE != 1 ||
+                                            hkht.IS_DELETE == null) &&
+                                           hkht.IS_HIENTAI == 1 &&
+                                           (nhht.IS_DELETE != 1 ||
+                                            nhht.IS_DELETE == null) &&
+                                           nhht.IS_HIENTAI == 1 &&
+                                           Convert.ToDateTime(DateTime.Now) >= Convert.ToDateTime(dotDKHP.NGAY_BDAU) &&
+                                           Convert.ToDateTime(DateTime.Now) <= Convert.ToDateTime(dotDKHP.NGAY_KTHUC) &&
+                                           dotDKHP.ID_HE_DAOTAO == id_hedaotao
+                                       select new
+                                       {
+                                           dotDKHP.ID_DOTDK,
+                                           dotDKHP.ID_NAMHOC_HKY_HTAI,
+                                           dotDKHP.ID_HE_DAOTAO,
+                                           dotDKHP.MA_DOT_DK,
+                                           dotDKHP.TEN_DOT_DK,
+                                           dotDKHP.NGAY_BDAU,
+                                           dotDKHP.NGAY_KTHUC
+                                       };
                 dt = TableUtil.LinqToDataTable(dotdangkyhocphan);
                 return dt;
             }
@@ -743,64 +764,64 @@ namespace DATN.TTS.BUS
             return dt;
         }
 
-         DataTable GetDanhSachLopHocPhan_1(int idkhoahoc)
+        DataTable GetDanhSachLopHocPhan_1(int idkhoahoc)
         {
             try
             {
                 DataTable dt = null;
                 var danhsachlophocphan = from hp in db.tbl_LOP_HOCPHANs
-                    join mh in db.tbl_MONHOCs on new {ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC)} equals
-                        new {ID_MONHOC = mh.ID_MONHOC}
-                    join knct in db.tbl_KHOAHOC_NGANH_CTIETs on
-                        new {ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET)} equals
-                        new {ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET}
-                    join hkht in db.tbl_NAMHOC_HKY_HTAIs on
-                        new {ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI)} equals
-                        new {ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI}
-                    join nhht in db.tbl_NAMHOC_HIENTAIs on
-                        new {ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI)} equals
-                        new {ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI}
-                    join kn in db.tbl_KHOAHOC_NGANHs on knct.ID_KHOAHOC_NGANH equals kn.ID_KHOAHOC_NGANH
-                    //join l in db.tbl_LOPHOCs on hp.ID_LOPHOC  equals l.ID_LOPHOC
-                    where
-                        kn.ID_KHOAHOC == idkhoahoc &&
-                        (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
-                        (mh.IS_DELETE != 1 || mh.IS_DELETE == null) &&
-                        (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
-                        (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null) &&
-                        (nhht.IS_DELETE != 1 ||nhht.IS_DELETE == null) &&
-                        hkht.IS_HIENTAI == 1 && nhht.IS_HIENTAI == 1 &&
-                        (kn.IS_DELETE != 1 || kn.IS_DELETE == null)&&
-                        //(l.IS_DELETE != 1 || l.IS_DELETE == null) &&
-                        (from hpct in db.tbl_LOP_HOCPHAN_CTs
-                            where hpct.IS_DELETE != 1 || hpct.IS_DELETE == null
-                            select new
-                            {
-                                hpct.ID_LOPHOCPHAN
-                            }).Contains(new {ID_LOPHOCPHAN = (System.Int32?) hp.ID_LOPHOCPHAN})
-                    select new
-                    {
-                        hp.ID_LOPHOCPHAN,
-                        ID_KHOAHOC_NGANH_CTIET = (int?) hp.ID_KHOAHOC_NGANH_CTIET,
-                        ID_NAMHOC_HKY_HTAI = (int?) hp.ID_NAMHOC_HKY_HTAI,
-                        hp.ID_HEDAOTAO,
-                        ID_MONHOC = (int?) hp.ID_MONHOC,
-                        mh.ISBATBUOC,
-                        hp.ID_LOPHOC,
-                        //l.TEN_LOP,
-                        hp.ID_GIANGVIEN,
-                        hp.MA_LOP_HOCPHAN,
-                        hp.TEN_LOP_HOCPHAN,
-                        mh.MA_MONHOC,
-                        mh.TEN_MONHOC,
-                        mh.SO_TC,
-                        mh.IS_LYTHUYET,
-                        hp.SOLUONG,
-                        hp.TUAN_BD,
-                        hp.TUAN_KT,
-                        SOSVDKY = (int?) db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
-                        TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString()
-                    };
+                                         join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals
+                                             new { ID_MONHOC = mh.ID_MONHOC }
+                                         join knct in db.tbl_KHOAHOC_NGANH_CTIETs on
+                                             new { ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET) } equals
+                                             new { ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET }
+                                         join hkht in db.tbl_NAMHOC_HKY_HTAIs on
+                                             new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals
+                                             new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
+                                         join nhht in db.tbl_NAMHOC_HIENTAIs on
+                                             new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals
+                                             new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
+                                         join kn in db.tbl_KHOAHOC_NGANHs on knct.ID_KHOAHOC_NGANH equals kn.ID_KHOAHOC_NGANH
+                                         //join l in db.tbl_LOPHOCs on hp.ID_LOPHOC  equals l.ID_LOPHOC
+                                         where
+                                             kn.ID_KHOAHOC == idkhoahoc &&
+                                             (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
+                                             (mh.IS_DELETE != 1 || mh.IS_DELETE == null) &&
+                                             (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
+                                             (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null) &&
+                                             (nhht.IS_DELETE != 1 || nhht.IS_DELETE == null) &&
+                                             hkht.IS_HIENTAI == 1 && nhht.IS_HIENTAI == 1 &&
+                                             (kn.IS_DELETE != 1 || kn.IS_DELETE == null) &&
+                                             //(l.IS_DELETE != 1 || l.IS_DELETE == null) &&
+                                             (from hpct in db.tbl_LOP_HOCPHAN_CTs
+                                              where hpct.IS_DELETE != 1 || hpct.IS_DELETE == null
+                                              select new
+                                              {
+                                                  hpct.ID_LOPHOCPHAN
+                                              }).Contains(new { ID_LOPHOCPHAN = (System.Int32?)hp.ID_LOPHOCPHAN })
+                                         select new
+                                         {
+                                             hp.ID_LOPHOCPHAN,
+                                             ID_KHOAHOC_NGANH_CTIET = (int?)hp.ID_KHOAHOC_NGANH_CTIET,
+                                             ID_NAMHOC_HKY_HTAI = (int?)hp.ID_NAMHOC_HKY_HTAI,
+                                             hp.ID_HEDAOTAO,
+                                             ID_MONHOC = (int?)hp.ID_MONHOC,
+                                             mh.ISBATBUOC,
+                                             hp.ID_LOPHOC,
+                                             //l.TEN_LOP,
+                                             hp.ID_GIANGVIEN,
+                                             hp.MA_LOP_HOCPHAN,
+                                             hp.TEN_LOP_HOCPHAN,
+                                             mh.MA_MONHOC,
+                                             mh.TEN_MONHOC,
+                                             mh.SO_TC,
+                                             mh.IS_LYTHUYET,
+                                             hp.SOLUONG,
+                                             hp.TUAN_BD,
+                                             hp.TUAN_KT,
+                                             SOSVDKY = (int?)db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                                             TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString()
+                                         };
                 dt = TableUtil.LinqToDataTable(danhsachlophocphan);
                 dt.Columns.Add("THOIKHOABIEU");
                 if (dt.Rows.Count > 0)
@@ -819,7 +840,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-         DataTable GetDanhSachLopHocPhan_2(int idnganh)
+        DataTable GetDanhSachLopHocPhan_2(int idnganh)
         {
             try
             {
@@ -895,7 +916,7 @@ namespace DATN.TTS.BUS
             }
         }
 
-         DataTable GetDanhSachLopHocPhan_3()
+        DataTable GetDanhSachLopHocPhan_3()
         {
             try
             {
@@ -970,103 +991,103 @@ namespace DATN.TTS.BUS
             }
         }
 
-         DataTable GetDanhSachLopHocPhan_4(int idkhoahoc, int idnganh)
-         {
-             try
-             {
-                 DataTable dt = null;
-                 var danhsachlophocphan = from hp in db.tbl_LOP_HOCPHANs
-                                          join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals
-                                              new { ID_MONHOC = mh.ID_MONHOC }
-                                          join knct in db.tbl_KHOAHOC_NGANH_CTIETs on
-                                              new { ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET) } equals
-                                              new { ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET }
-                                          join hkht in db.tbl_NAMHOC_HKY_HTAIs on
-                                              new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals
-                                              new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
-                                          join nhht in db.tbl_NAMHOC_HIENTAIs on
-                                              new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals
-                                              new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
-                                          join kn in db.tbl_KHOAHOC_NGANHs on knct.ID_KHOAHOC_NGANH equals kn.ID_KHOAHOC_NGANH
-                                          //join l in db.tbl_LOPHOCs on hp.ID_LOPHOC  equals l.ID_LOPHOC
-                                          where
-                                              kn.ID_KHOAHOC == idkhoahoc && kn.ID_NGANH == idnganh &&
-                                              (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
-                                              (mh.IS_DELETE != 1 || mh.IS_DELETE == null) &&
-                                              (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
-                                              (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null) &&
-                                              (nhht.IS_DELETE != 1 || nhht.IS_DELETE == null) &&
-                                              hkht.IS_HIENTAI == 1 && nhht.IS_HIENTAI == 1 &&
-                                              (kn.IS_DELETE != 1 || kn.IS_DELETE == null) &&
-                                              //(l.IS_DELETE != 1 || l.IS_DELETE == null) &&
-                                              (from hpct in db.tbl_LOP_HOCPHAN_CTs
-                                               where hpct.IS_DELETE != 1 || hpct.IS_DELETE == null
-                                               select new
-                                               {
-                                                   hpct.ID_LOPHOCPHAN
-                                               }).Contains(new { ID_LOPHOCPHAN = (System.Int32?)hp.ID_LOPHOCPHAN })
-                                          select new
-                                          {
-                                              hp.ID_LOPHOCPHAN,
-                                              ID_KHOAHOC_NGANH_CTIET = (int?)hp.ID_KHOAHOC_NGANH_CTIET,
-                                              ID_NAMHOC_HKY_HTAI = (int?)hp.ID_NAMHOC_HKY_HTAI,
-                                              hp.ID_HEDAOTAO,
-                                              ID_MONHOC = (int?)hp.ID_MONHOC,
-                                              mh.ISBATBUOC,
-                                              hp.ID_LOPHOC,
-                                              //l.TEN_LOP,
-                                              hp.ID_GIANGVIEN,
-                                              hp.MA_LOP_HOCPHAN,
-                                              hp.TEN_LOP_HOCPHAN,
-                                              mh.MA_MONHOC,
-                                              mh.TEN_MONHOC,
-                                              mh.SO_TC,
-                                              mh.IS_LYTHUYET,
-                                              hp.SOLUONG,
-                                              hp.TUAN_BD,
-                                              hp.TUAN_KT,
-                                              SOSVDKY = (int?)db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
-                                              TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString()
-                                          };
-                 dt = TableUtil.LinqToDataTable(danhsachlophocphan);
-                 dt.Columns.Add("THOIKHOABIEU");
-                 if (dt.Rows.Count > 0)
-                 {
-                     foreach (DataRow r in dt.Rows)
-                     {
-                         int idlophocphan = Convert.ToInt32(r["ID_LOPHOCPHAN"].ToString());
-                         r["THOIKHOABIEU"] = GetChiTietLopHocPhan(idlophocphan);
-                     }
-                 }
-                 return dt;
-             }
-             catch (Exception err)
-             {
-                 throw err;
-             }
-         }
+        DataTable GetDanhSachLopHocPhan_4(int idkhoahoc, int idnganh)
+        {
+            try
+            {
+                DataTable dt = null;
+                var danhsachlophocphan = from hp in db.tbl_LOP_HOCPHANs
+                                         join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(hp.ID_MONHOC) } equals
+                                             new { ID_MONHOC = mh.ID_MONHOC }
+                                         join knct in db.tbl_KHOAHOC_NGANH_CTIETs on
+                                             new { ID_KHOAHOC_NGANH_CTIET = Convert.ToInt32(hp.ID_KHOAHOC_NGANH_CTIET) } equals
+                                             new { ID_KHOAHOC_NGANH_CTIET = knct.ID_KHOAHOC_NGANH_CTIET }
+                                         join hkht in db.tbl_NAMHOC_HKY_HTAIs on
+                                             new { ID_NAMHOC_HKY_HTAI = Convert.ToInt32(hp.ID_NAMHOC_HKY_HTAI) } equals
+                                             new { ID_NAMHOC_HKY_HTAI = hkht.ID_NAMHOC_HKY_HTAI }
+                                         join nhht in db.tbl_NAMHOC_HIENTAIs on
+                                             new { ID_NAMHOC_HIENTAI = Convert.ToInt32(hkht.ID_NAMHOC_HIENTAI) } equals
+                                             new { ID_NAMHOC_HIENTAI = nhht.ID_NAMHOC_HIENTAI }
+                                         join kn in db.tbl_KHOAHOC_NGANHs on knct.ID_KHOAHOC_NGANH equals kn.ID_KHOAHOC_NGANH
+                                         //join l in db.tbl_LOPHOCs on hp.ID_LOPHOC  equals l.ID_LOPHOC
+                                         where
+                                             kn.ID_KHOAHOC == idkhoahoc && kn.ID_NGANH == idnganh &&
+                                             (hp.IS_DELETE != 1 || hp.IS_DELETE == null) &&
+                                             (mh.IS_DELETE != 1 || mh.IS_DELETE == null) &&
+                                             (knct.IS_DELETE != 1 || knct.IS_DELETE == null) &&
+                                             (hkht.IS_DELETE != 1 || hkht.IS_DELETE == null) &&
+                                             (nhht.IS_DELETE != 1 || nhht.IS_DELETE == null) &&
+                                             hkht.IS_HIENTAI == 1 && nhht.IS_HIENTAI == 1 &&
+                                             (kn.IS_DELETE != 1 || kn.IS_DELETE == null) &&
+                                             //(l.IS_DELETE != 1 || l.IS_DELETE == null) &&
+                                             (from hpct in db.tbl_LOP_HOCPHAN_CTs
+                                              where hpct.IS_DELETE != 1 || hpct.IS_DELETE == null
+                                              select new
+                                              {
+                                                  hpct.ID_LOPHOCPHAN
+                                              }).Contains(new { ID_LOPHOCPHAN = (System.Int32?)hp.ID_LOPHOCPHAN })
+                                         select new
+                                         {
+                                             hp.ID_LOPHOCPHAN,
+                                             ID_KHOAHOC_NGANH_CTIET = (int?)hp.ID_KHOAHOC_NGANH_CTIET,
+                                             ID_NAMHOC_HKY_HTAI = (int?)hp.ID_NAMHOC_HKY_HTAI,
+                                             hp.ID_HEDAOTAO,
+                                             ID_MONHOC = (int?)hp.ID_MONHOC,
+                                             mh.ISBATBUOC,
+                                             hp.ID_LOPHOC,
+                                             //l.TEN_LOP,
+                                             hp.ID_GIANGVIEN,
+                                             hp.MA_LOP_HOCPHAN,
+                                             hp.TEN_LOP_HOCPHAN,
+                                             mh.MA_MONHOC,
+                                             mh.TEN_MONHOC,
+                                             mh.SO_TC,
+                                             mh.IS_LYTHUYET,
+                                             hp.SOLUONG,
+                                             hp.TUAN_BD,
+                                             hp.TUAN_KT,
+                                             SOSVDKY = (int?)db.SoSVDaDangKy(hp.ID_LOPHOCPHAN),
+                                             TEN_GIANGVIEN = (from gv in db.tbl_GIANGVIENs where gv.ID_GIANGVIEN == hp.ID_GIANGVIEN && (gv.IS_DELETE != 1 || gv.IS_DELETE == null) select new { gv.TEN_GIANGVIEN }).FirstOrDefault().TEN_GIANGVIEN.ToString()
+                                         };
+                dt = TableUtil.LinqToDataTable(danhsachlophocphan);
+                dt.Columns.Add("THOIKHOABIEU");
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        int idlophocphan = Convert.ToInt32(r["ID_LOPHOCPHAN"].ToString());
+                        r["THOIKHOABIEU"] = GetChiTietLopHocPhan(idlophocphan);
+                    }
+                }
+                return dt;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
 
         string GetChiTietLopHocPhan(int id_lophocphan)
         {
-            string ketqua="";
+            string ketqua = "";
             try
             {
                 DataTable dt = null;
                 var dslophocphanchitiet = from hpct in db.tbl_LOP_HOCPHAN_CTs
-                                            join p in db.tbl_PHONGHOCs on hpct.ID_PHONG equals p.ID_PHONG
-                                            where (hpct.IS_DELETE != 1 || hpct.IS_DELETE == null) &&
-                                                  (p.IS_DELETE != 1 || p.IS_DELETE == null) &&
-                                                  hpct.ID_LOPHOCPHAN == id_lophocphan
-                                            select new
-                                            {
-                                                THOIKHOABIEU = "Thứ:" + hpct.THU.ToString() +",\tTiết: " + hpct.TIET_BD.ToString()+" đến " + hpct.TIET_KT.ToString() + "\tPhòng: " +p.MA_PHONG.ToString()
-                                            };
+                                          join p in db.tbl_PHONGHOCs on hpct.ID_PHONG equals p.ID_PHONG
+                                          where (hpct.IS_DELETE != 1 || hpct.IS_DELETE == null) &&
+                                                (p.IS_DELETE != 1 || p.IS_DELETE == null) &&
+                                                hpct.ID_LOPHOCPHAN == id_lophocphan
+                                          select new
+                                          {
+                                              THOIKHOABIEU = "Thứ:" + hpct.THU.ToString() + ",\tTiết: " + hpct.TIET_BD.ToString() + " đến " + hpct.TIET_KT.ToString() + "\tPhòng: " + p.MA_PHONG.ToString()
+                                          };
                 dt = TableUtil.LinqToDataTable(dslophocphanchitiet);
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow r in dt.Rows)
                     {
-                        ketqua =ketqua +"\n" + r["THOIKHOABIEU"].ToString()+"\n";
+                        ketqua = ketqua + "\n" + r["THOIKHOABIEU"].ToString() + "\n";
                     }
                 }
                 return ketqua;
@@ -1081,23 +1102,23 @@ namespace DATN.TTS.BUS
         {
             DataTable dt = null;
             var nganh = from kn in db.tbl_KHOAHOC_NGANHs
-                join kh in db.tbl_KHOAHOCs on new {ID_KHOAHOC = Convert.ToInt32(kn.ID_KHOAHOC)} equals
-                    new {ID_KHOAHOC = kh.ID_KHOAHOC}
-                join ng in db.tbl_NGANHs on new {ID_NGANH = Convert.ToInt32(kn.ID_NGANH)} equals
-                    new {ID_NGANH = ng.ID_NGANH}
-                where
-                    (kn.IS_DELETE != 1 ||
-                     kn.IS_DELETE == null) &&
-                    (kh.IS_DELETE != 1 ||
-                     kh.IS_DELETE == null) &&
-                    (ng.IS_DELETE != 1 ||
-                     ng.IS_DELETE == null) &&
-                    kn.ID_KHOAHOC == idkhoahoc
-                select new
-                {
-                    ID_NGANH = (int?) kn.ID_NGANH,
-                    ng.TEN_NGANH
-                };
+                        join kh in db.tbl_KHOAHOCs on new { ID_KHOAHOC = Convert.ToInt32(kn.ID_KHOAHOC) } equals
+                            new { ID_KHOAHOC = kh.ID_KHOAHOC }
+                        join ng in db.tbl_NGANHs on new { ID_NGANH = Convert.ToInt32(kn.ID_NGANH) } equals
+                            new { ID_NGANH = ng.ID_NGANH }
+                        where
+                            (kn.IS_DELETE != 1 ||
+                             kn.IS_DELETE == null) &&
+                            (kh.IS_DELETE != 1 ||
+                             kh.IS_DELETE == null) &&
+                            (ng.IS_DELETE != 1 ||
+                             ng.IS_DELETE == null) &&
+                            kn.ID_KHOAHOC == idkhoahoc
+                        select new
+                        {
+                            ID_NGANH = (int?)kn.ID_NGANH,
+                            ng.TEN_NGANH
+                        };
             dt = TableUtil.LinqToDataTable(nganh);
             return dt;
         }
