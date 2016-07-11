@@ -1031,7 +1031,7 @@ namespace DATN.TTS.TVMH
                                 dr["DIEM_GK"] = (r["DIEM_GK"].ToString() == "" ? "0.0" : r["DIEM_GK"].ToString());
                                 dr["DIEM_CK"] = (r["DIEM_CK"].ToString() == "" ? "0.0" : r["DIEM_CK"].ToString());
                             }
-                            if (cachtinhdiem == "0-30-70")
+                            if (cachtinhdiem == "30-70")
                             {
                                 grddiemsv.Columns["DIEM_BT"].AllowEditing = DefaultBoolean.False;
                                 grddiemsv.Columns["DIEM_GK"].AllowEditing = DefaultBoolean.True;
