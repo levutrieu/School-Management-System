@@ -484,6 +484,113 @@ namespace DATN.TTS.TVMH
         {
             try
             {
+
+                #region Du lieu test
+
+
+                //DataTable xdt = new DataTable();
+                //xdt.Columns.Add("Outlook", typeof(double));
+                //xdt.Columns.Add("Temperature", typeof(double));
+                //xdt.Columns.Add("Humidity", typeof(double));
+                //xdt.Columns.Add("Wind", typeof(double));
+                //xdt.Columns.Add("Playtennis", typeof(double));
+
+                //DataRow dr;
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 10;
+                //dr["Temperature"] = 10;
+                //dr["Humidity"] = 10;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 0;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 5;
+                //dr["Temperature"] = 10;
+                //dr["Humidity"] = 10;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 4;
+                //dr["Temperature"] = 5;
+                //dr["Humidity"] = 10;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 4;
+                //dr["Temperature"] = 4;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 0;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 4;
+                //dr["Temperature"] = 4;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 5;
+                //dr["Playtennis"] = 0;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 5;
+                //dr["Temperature"] = 4;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 5;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 10;
+                //dr["Temperature"] = 4;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 4;
+                //dr["Temperature"] = 5;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 10;
+                //dr["Temperature"] = 5;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 5;
+                //dr["Playtennis"] = 10;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 5;
+                //dr["Temperature"] = 10;
+                //dr["Humidity"] = 5;
+                //dr["Wind"] = 10;
+                //dr["Playtennis"] = 0;
+                //xdt.Rows.Add(dr);
+
+                //dr = xdt.NewRow();
+                //dr["Outlook"] = 4;
+                //dr["Temperature"] = 5;
+                //dr["Humidity"] = 10;
+                //dr["Wind"] = 5;
+                //dr["Playtennis"] = 0;
+                //xdt.Rows.Add(dr);
+
+                //iData_DiemMau = xdt;
+
+
+                #endregion
+
                 #region Thuc hien thuat toan cho tung mon hoc
 
                 DataTable iGridDataSource = iData_DiemMau;
