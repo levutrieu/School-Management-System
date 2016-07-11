@@ -581,7 +581,7 @@ namespace DATN.TTS.BUS
                                            DIEM_TONG = (double?)diem.DIEM_TONG,
                                            DIEM_CHU = diem.DIEM_CHU,
                                            DIEM_HE4 = (double?)diem.DIEM_HE4,
-                                           hp.CACH_TINHDIEM
+                                           mh.CACH_TINHDIEM
                                        };
                     dt = TableUtil.LinqToDataTable(danhsachdiem);
                 }
