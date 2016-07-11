@@ -198,9 +198,15 @@ namespace DATN.TTS.BUS
             {
                 DataTable dtRes = null;
                 var query = from Tbl_KHOAHOC_NGANH_CTIET in db.tbl_KHOAHOC_NGANH_CTIETs
+                            join mh in db.tbl_MONHOCs on new { ID_MONHOC = Convert.ToInt32(Tbl_KHOAHOC_NGANH_CTIET.ID_MONHOC) } equals
+                                           new { ID_MONHOC = mh.ID_MONHOC } into kh_join
+                            from mh in kh_join.DefaultIfEmpty()
                             where
                               Tbl_KHOAHOC_NGANH_CTIET.ID_KHOAHOC_NGANH == pID_KHOAHOC_NGANH &&
-                              Convert.ToInt64(Tbl_KHOAHOC_NGANH_CTIET.HOCKY) == pHOCKY - 1
+                              Convert.ToInt64(Tbl_KHOAHOC_NGANH_CTIET.HOCKY) == pHOCKY - 1 &&
+                              mh.ISBATBUOC == 1 &&
+                              mh.IS_TINHDIEM == 1 &&
+                              (Tbl_KHOAHOC_NGANH_CTIET.IS_DELETE !=1 || Tbl_KHOAHOC_NGANH_CTIET.IS_DELETE == null)
                             select new
                             {
                                 Tbl_KHOAHOC_NGANH_CTIET.ID_MONHOC
