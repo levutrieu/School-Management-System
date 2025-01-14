@@ -1,4 +1,5 @@
 Đồ án tốt nghiệp năm 2016
+
 Đề tài: Sử dụng thuật toán cây quyết định C4.5 và ID3 để dự đoán điểm số của sinh viên
 - Sử dụng Windows Presentation Foundation (WPF) và ASP.NET MVC
 - Database SQL Server
